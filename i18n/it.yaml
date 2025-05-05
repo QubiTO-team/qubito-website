@@ -1,0 +1,105 @@
+global:
+  language: "IT"
+
+article:
+  article: "Articolo"
+  articles: "Articoli"
+  anchor_label: "Ancora"
+  date: "{{ .Date }}"
+  date_updated: "Aggiornato: {{ .Date }}"
+  draft: "Bozza"
+  edit_title: "Modifica i contenuti"
+  reading_time:
+    one: "{{ .Count }} minuto"
+    other: "{{ .Count }} minuti"
+  reading_time_title: "Tempo di lettura"
+  table_of_contents: "Indice dei contenuti"
+  word_count:
+    one: "{{ .Count }} parola"
+    other: "{{ .Count }} parole"
+  part_of_series: "This article is part of a series."
+  part: "Part"
+  this_article: "This Article"
+  related_articles: "Related"
+
+author:
+  byline_title: "Autore"
+
+code:
+  copy: "Copia"
+  copied: "Copiato"
+
+error:
+  404_title: "Pagina non trovata :confused:"
+  404_error: "Errore 404"
+  404_description: "Sembra che la pagina che hai richiesto non esista."
+
+footer:
+  dark_appearance: "Passa all'aspetto scuro"
+  light_appearance: "Passa all'aspetto chiaro"
+  powered_by: "Creato con {{ .Hugo }} &amp; {{ .Theme }}"
+
+list:
+  externalurl_title: "Link a sito esterno"
+  no_articles: "Non ci sono ancora articoli da elencare"
+
+nav:
+  scroll_to_top_title: "Torna in cima"
+  skip_to_main: "Salta al contenuto principale"
+
+search:
+  open_button_title: "Cerca (/)"
+  close_button_title: "Chiudi (Esc)"
+  input_placeholder: "Cerca"
+
+sharing:
+  email: "Invia tramite email"
+  facebook: "Condividi su Facebook"
+  linkedin: "Condividi su LinkedIn"
+  pinterest: "Pinna su Pinterest"
+  reddit: "Invia a Reddit"
+  twitter: "Tweetta su Twitter"
+
+shortcode:
+  recent_articles: "Recenti"
+
+recent:
+  show_more: "Mostra di Più"
+
+tags:
+  tags: "Etichette"
+  tag: "Etichetta"
+  no_tags: "Nessun tag"
+  no_tags_description: "Non ci sono tag qui."
+  no_tags_description_2: "Puoi aggiungere tag a questo articolo."
+  no_tags_description_3: "Puoi anche aggiungere tag a questo articolo."
+
+categories:
+  categories: "Categorie"
+  category: "Categoria"
+  no_categories: "Nessuna categoria"
+  no_categories_description: "Non ci sono categorie qui."
+  no_categories_description_2: "Puoi aggiungere categorie a questo articolo."
+  no_categories_description_3: "Puoi anche aggiungere categorie a questo articolo."
+
+series:
+  series: "Serie"
+  no_series: "Nessuna serie"
+  no_series_description: "Non ci sono serie qui."
+  no_series_description_2: "Puoi aggiungere una serie a questo articolo."
+  no_series_description_3: "Puoi anche aggiungere una serie a questo articolo."
+
+authors:
+  authors: "Autori"
+  no_authors: "Nessun autore"
+  no_authors_description: "Non ci sono autori qui."
+  no_authors_description_2: "Puoi aggiungere un autore a questo articolo."
+  no_authors_description_3: "Puoi anche aggiungere un autore a questo articolo."
+
+articles:
+  article: "Articolo"
+  articles: "Articoli"
+  no_articles: "Nessun articolo"
+  no_articles_description: "Non ci sono articoli qui."
+  no_articles_description_2: "Puoi aggiungere un articolo a questa pagina."
+  no_articles_description_3: "Puoi anche aggiungere un articolo a questa pagina."
