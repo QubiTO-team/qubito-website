@@ -57,7 +57,7 @@ showWordCount = true
 showZenMode = true
 
 [list]
-showHero = false
+showHero = true
 layoutBackgroundBlur = true
 layoutBackgroundHeaderSpace = true
 showBreadcrumbs = false
@@ -65,10 +65,10 @@ showSummary = false
 showViews = false
 showLikes = false
 showTableOfContents = false
-showCards = false
+showCards = true
 orderByWeight = false
 groupByYear = true
-cardView = false
+cardView = true
 cardViewScreenWidth = false
 constrainItemsWidth = false
 
@@ -83,6 +83,8 @@ showViews = false
 showLikes = false
 showTableOfContents = false
 cardView = true
+showCards = true
+cardViewScreenWidth = false
 
 [term]
 showHero = false
@@ -91,7 +93,7 @@ showViews = false
 showLikes = false
 showTableOfContents = true
 groupByYear = false
-cardView = false
+showCards = true
 cardViewScreenWidth = false
 
 [firebase]

@@ -22,3 +22,5 @@ contacts and Team page (check for more content)
         [ ] Figure out what and how to animate
         [...] check footer in homepage (maybe create custom one for all the website)
         [ ] Update sponsor section (check sponsors.md)
+        [ ] add a param to the timeline item which specifies the importance is_important (copy timelineItem and add the feature)
+        
