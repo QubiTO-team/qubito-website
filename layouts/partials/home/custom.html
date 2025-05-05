@@ -10,6 +10,25 @@
 
 <script>
   document.addEventListener("DOMContentLoaded", function () {
+    const baseDelay = 0; // Starting delay for the first item
+    const delayIncrement = 1800; // Delay between each keyword animation in ms
+
+    document.querySelectorAll(".typeit-keywords").forEach((el, index) => {
+      new TypeIt(el, {
+        speed: 100,
+        lifeLike: true,
+        startDelay: baseDelay + index * delayIncrement,
+        breakLines: false,
+        waitUntilVisible: true,
+        loop: false,
+        cursor: false,
+      }).go();
+    });
+  });
+</script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
     const elements = document.querySelectorAll(".animate-on-scroll");
 
     const observer = new IntersectionObserver(
@@ -76,15 +95,14 @@
   >
     <div class="overview-section middle-screen">
       <div class="overview-left">
-        <h1 class="overview-title">
-          {{ with site.GetPage "snippets/titleTypeIt" }} {{ .Content }} {{ end
-          }}
-        </h1>
+        <h1 class="overview-title">{{ .Params.overviewTitle }}</h1>
         <p class="overview-description">{{ .Params.overviewDescription }}</p>
       </div>
       <div class="overview-keywords">
         {{ range .Params.overviewKeywords }}
-        <span class="keyword">{{ . }}</span>
+        <span class="keyword">
+          <p class="typeit-keywords">{{ . }}</p>
+        </span>
         {{ end }}
       </div>
     </div>
