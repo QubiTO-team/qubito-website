@@ -16,7 +16,7 @@ contacts and Team page (check for more content)
     [ ] Look [/6]
         [ ] Decide final colors of the team and a palette of colors
         [x] Slow down typing animation
-        [ ] QubiTO logo in the homepage is misaligned (and too small)
+        [x] QubiTO logo in the homepage is misaligned (and too small)
         [ ] Create a vector background and adapt it to work either in dark and light mode (maybe a wavefunction that we can animate later on?)
         [x] Make article content wider wrt the side bar
         [ ] Figure out what and how to animate
