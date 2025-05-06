@@ -1,0 +1,97 @@
+[[main]]
+none = "none"
+
+# [[main]]
+# name = "Contacts"
+# url = "/contacts/"
+# # pre = "newspaper"
+# pageRef = "contacts"
+# identifier = "370333fzPk"
+# weight = 5
+
+[[main]]
+name = "Articles"
+# pre = "newspaper"
+pageRef = "articles"
+identifier = "3703knfzPk"
+weight = 10
+
+# [[main]]
+# name = "Tags"
+# # pre = "tags"
+# pageRef = "tags"
+# identifier = "Tj5XqIBEPW"
+# weight = 20
+
+# [[main]]
+# name = "Authors"
+# # pre = "users"
+# pageRef = "authors"
+# identifier = "Tj5GqJREPW"
+# weight = 30
+
+# # [[main]]
+# # name = "Series"
+# # # pre = "book"
+# # pageRef = "series"
+# # identifier = "Ij5DqJREPW"
+# # weight = 40
+
+# [[main]]
+# name = "Categories"
+# # pre = "folder"
+# pageRef = "categories"
+# identifier = "Ij5DqJRRIEF"
+# weight = 50
+
+[[footer]]
+none = "none"
+
+[[footer]]
+# name = "LinkedIn"
+url = "https://www.linkedin.com/company/qubito-student-team-politecnico-di-torino/"
+pre = "linkedin"
+identifier = "IjSDSJREPW"
+weight = 1
+
+# [[footer]]
+# # name = "Twitter"
+# url = "https://twitter.com/qubito_team"
+# pre = "twitter"
+# identifier = "aS3gqJREPW"
+# weight = 2
+
+# [[footer]]
+# # name = "GitHub"
+# url = ""    
+# pre = "github"
+# identifier = "Ig4sDJREPW"
+# weight = 3
+
+# [[footer]]
+# # name = "YouTube"
+# url = "https://www.youtube.com/@qubito"
+# pre = "youtube"
+# identifier = "Ij5RSDREPW"
+# weight = 4
+
+[[footer]]
+# name = "Instagram"
+url = "https://www.instagram.com/qubitoteam_polito/"
+pre = "instagram"
+identifier = "Ij5DqGDFCS"
+weight = 5
+
+# [[footer]]
+# # name = "Telegram"
+# url = "https://t.me/qubito_org"
+# pre = "telegram"
+# identifier = "Ij5AqEWRPW"
+# weight = 6
+
+# [[footer]]
+# # name = "Discord"
+# url = "https://discord.gg/4q2k7v3"
+# pre = "discord"
+# identifier = "Ij5DqJREPW"
+# weight = 7

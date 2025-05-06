@@ -1,0 +1,37 @@
+<div class="fixed inset-x-0 pl-[24px] pr-[24px]" style="z-index: 100">
+  <div
+    id="menu-blur"
+    class="absolute opacity-0 inset-x-0 top-0 h-full single_hero_background nozoom backdrop-blur-2xl shadow-2xl"
+  ></div>
+  <div class="relative max-w-[64rem] ml-auto mr-auto">
+    {{ partial "partials/header/basic.html" . }}
+  </div>
+</div>
+<script>
+  let lastScrollTop = 0;
+  const header = document.querySelector("div.fixed");
+  const background_blur = document.getElementById("menu-blur");
+
+  window.addEventListener("scroll", function () {
+    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+
+    // Background blur opacity (optional effect)
+    background_blur.style.opacity = Math.min(scrollTop / 300, 1);
+
+    // Scroll direction logic
+    if (scrollTop > lastScrollTop && scrollTop > 50) {
+      // Scrolling down
+      header.style.transform = "translateY(-100%)";
+    } else {
+      // Scrolling up
+      header.style.transform = "translateY(0)";
+    }
+
+    lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
+  });
+</script>
+<style>
+  .fixed {
+    transition: transform 0.3s ease-in-out;
+  }
+</style>
