@@ -80,6 +80,7 @@ secondaryLogo = "websiteLogo.svg"
 description = "QubiTO è una comunità aperta a chiunque condivida la nostra passione per la scienza e la tecnologia quantistica. Che tu sia un fisico, un ingegnere, uno sviluppatore, un designer o semplicemente una mente curiosa, con noi troverai uno spazio dove le tue idee potranno evolversi. Facciamo ricerca, partecipiamo a hackathon e ci spingiamo oltre i confini dell’innovazione quantistica — insieme."
 contentDir = "content"
 mainSections = ["articoli","contatti"]
+copyright = "©2025 QubiTO. All rights reserved."
 
 [languages.it.taxonomies]
 tag = "tags"
@@ -103,7 +104,7 @@ secondaryLogo = "websiteLogo.svg"
 description = "QubiTO is an open community for anyone who shares our passion for quantum science and technology. Whether you are a physicist, engineer, developer, designer, or simply a curious mind, you will find a space with us where your ideas can evolve. We conduct research, participate in hackathons, and push the boundaries of quantum innovation — together."
 contentDir = "content"
 mainSections = ["articles","contacts","team"]
-
+copyright = "©2025 QubiTO. All rights reserved."
 
 [languages.en.taxonomies]
 tag = "tags"

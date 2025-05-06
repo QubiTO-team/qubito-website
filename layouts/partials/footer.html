@@ -1,8 +1,13 @@
-<footer id="site-footer" class="py-10 print:hidden">
+<footer
+  id="site-footer"
+  class="py-10 print:hidden"
+  style="align-items: center; justify-content: center"
+>
   {{/* Footer menu */}} {{ if .Site.Params.footer.showMenu | default true }} {{
   if .Site.Menus.footer }}
   <nav
     class="flex flex-row pb-4 text-base font-medium text-neutral-500 dark:text-neutral-400"
+    style="align-items: center; justify-content: center"
   >
     <ul class="flex flex-col list-none sm:flex-row">
       {{ range .Site.Menus.footer }}

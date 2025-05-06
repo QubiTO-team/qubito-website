@@ -65,10 +65,17 @@
       {{- partial "scroll-to-top.html" . -}}
       {{ end }}
     </main>
-    {{- partial "footer.html" . -}}
-    {{ if .Site.Params.enableSearch | default false }}
-    {{- partial "search.html" . -}}
-    {{ end }}
+    <div class="{{ if .IsHome }}    
+      px-6 sm:px-14 md:px-24 max-w-7xl
+    {{ else }}
+      p-0 m-0
+    {{ end }}"
+     style="align-self:center; display: flex; flex:1;">
+      {{- partial "footer.html" . -}}
+      {{ if .Site.Params.enableSearch | default false }}
+      {{- partial "search.html" . -}}
+      {{ end }}
+    </div>
   </div>
 </body>
 {{ if .Site.Params.buymeacoffee.globalWidget | default false }}
