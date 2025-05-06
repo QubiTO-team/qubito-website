@@ -9,7 +9,7 @@ overviewKeywords:
   - "Sostenibilità"
   - "Comunità"
 whoWeAreTitle: "Chi Siamo"
-whoWeAreDescription: "Siamo un team di professionisti dedicati, impegnati a creare un impatto significativo."
+whoWeAreDescription: "QubiTo nasce nel 2023 sulla scia dell’entusiasmo di studenti e professori del Politecnico di Torino verso la fisica quantistica e le sue contemporanee, promettenti prospettive tecnologiche. Insieme, uniti dalla passione per tale dinamismo, ricerchiamo e divulghiamo gli aspetti di questo affascinante mondo nelle sue innumerevoli declinazioni e sfruttiamo le nostre conoscenze e competenze partecipando in squadra ad hackaton internazionali. Con l’inaugurazione del primo quantum computer del Politecnico Spark IQM inizieremo infine ad applicare il nostro bagaglio di conoscenze teoriche nella realizzazione di progetti pratici!"
 whoWeAreImage: "/images/whoweare.jpg"
 activitiesTitle: "Cosa Facciamo"
 activitiesDescription: "Ecco alcune delle entusiasmanti attività a cui il nostro team ha partecipato."
