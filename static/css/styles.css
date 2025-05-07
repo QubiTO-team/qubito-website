@@ -125,6 +125,8 @@
 .keyword {
   background-color: rgba(var(--color-neutral-200), 1);
   padding: 0.25rem 0.75rem;
+  width: 110px;
+  text-align: center;;
   border-radius: 9999px;
   font-size: 0.875rem;
   &:is(.dark *) {
