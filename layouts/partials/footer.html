@@ -1,15 +1,14 @@
-<footer
-  id="site-footer"
-  class="py-10 print:hidden"
-  style="align-items: center; justify-content: center"
->
+<footer id="site-footer" class="py-10 print:hidden">
   {{/* Footer menu */}} {{ if .Site.Params.footer.showMenu | default true }} {{
   if .Site.Menus.footer }}
   <nav
     class="flex flex-row pb-4 text-base font-medium text-neutral-500 dark:text-neutral-400"
-    style="align-items: center; justify-content: center"
+    style="align-self: center; display: flex; flex: 1; justify-content: center"
   >
-    <ul class="flex flex-col list-none sm:flex-row">
+    <ul
+      class="flex flex-col list-none sm:flex-row"
+      style="justify-content: center; align-items: center"
+    >
       {{ range .Site.Menus.footer }}
       <li
         class="flex mb-1 ltr:text-right rtl:text-left sm:mb-0 ltr:sm:mr-7 ltr:sm:last:mr-0 rtl:sm:ml-7 rtl:sm:last:ml-0"
@@ -27,6 +26,28 @@
         </a>
       </li>
       {{ end }}
+
+      <div style="margin-right: 1.75rem">
+        {{ partial "translations.html" . }}
+      </div>
+      {{ if .Site.Params.githubEditPath }} {{ if .File }}
+      <div
+        class="text-sm text-neutral-600 dark:text-neutral-600 align-self-center"
+      >
+        <a
+          href="{{ .Site.Params.githubEditPath }}{{ .File.Path }}"
+          target="_blank"
+          rel="noopener"
+          class="flex items-center bg-neutral-100 dark:bg-neutral-100 hover:text-primary-600 dark:hover:text-primary-400"
+          style="padding: 0.5rem; border-radius: 0.5rem"
+        >
+          <div style="margin-right: 0.4rem">
+            {{ partial "icon.html" "github" }}
+          </div>
+          {{ .Site.Language.Params.githubEditText }}
+        </a>
+      </div>
+      {{ end }} {{ end }}
     </ul>
   </nav>
   {{ end }} {{ end }}
@@ -41,20 +62,7 @@
     {{ end }} {{/* Theme attribution */}} {{ if
     .Site.Params.footer.showThemeAttribution | default true }}
     <p class="text-xs text-neutral-500 dark:text-neutral-400">
-      {{ $hugo := printf `<a
-        class="hover:underline hover:decoration-primary-400 hover:text-primary-500"
-        href="https://gohugo.io/"
-        target="_blank"
-        rel="noopener noreferrer"
-        >Hugo</a
-      >` }} {{ $blowfish := printf `<a
-        class="hover:underline hover:decoration-primary-400 hover:text-primary-500"
-        href="https://blowfish.page/"
-        target="_blank"
-        rel="noopener noreferrer"
-        >Blowfish</a
-      >` }} {{ i18n "footer.powered_by" (dict "Hugo" $hugo "Theme" $blowfish) |
-      safeHTML }}
+      {{- with .Site.Params.creator }} {{ . | markdownify }} {{- end }}
     </p>
     {{ end }}
   </div>

@@ -8,6 +8,8 @@ disableImageOptimization = false
 disableTextInHeader = true
 giteaDefaultServer = "https://git.fsfe.org"
 forgejoDefaultServer = "https://v8.next.forgejo.org"
+highlightCurrentMenuArea = true
+githubEditPath = "https://github.com/QubiTO-team/qubito-website/edit/main/content/"
 
 [header]
 layout = "fixed"
@@ -16,7 +18,7 @@ HasChildren = true
 [footer]
 showMenu = true
 showCopyright = true
-showThemeAttribution = false
+showThemeAttribution = true
 showAppearanceSwitcher = true
 showScrollToTop = true
 

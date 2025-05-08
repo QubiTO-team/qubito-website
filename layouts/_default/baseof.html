@@ -69,8 +69,7 @@
       px-6 sm:px-14 md:px-24 max-w-7xl
     {{ else }}
       p-0 m-0
-    {{ end }}"
-     style="align-self:center; display: flex; flex:1;">
+    {{ end }}">
       {{- partial "footer.html" . -}}
       {{ if .Site.Params.enableSearch | default false }}
       {{- partial "search.html" . -}}

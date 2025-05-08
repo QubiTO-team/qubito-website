@@ -5,7 +5,7 @@ contacts and Team page (check for more content)
     [ ] Features [/6]
         [x] Increase max width of article contents
         [ ] Recent articles todo add more details on this
-        [ ] Find what to write in the footer
+        [...] Find what to write in the footer
             - Polito logo
             - Languages
             - Social media links (also github?)
@@ -23,9 +23,6 @@ contacts and Team page (check for more content)
         [...] check footer in homepage (maybe create custom one for all the website) + add polito logo
         [ ] Update sponsor section (check sponsors.md)
         -after-adding-content[ ] add a param to the timeline item which specifies the importance is_important (copy timelineItem and add the feature)
-        
-
-
 
         Qubito in big in the middle 
         plus the =qubit+torino with Typeit and mono font family
@@ -41,4 +38,4 @@ for background colored sections on the homepage add the background image and mak
 
 make the articles images smaller
 
-remove the contacts page and keep everything on the homepage
+remove the contacts page and keep everything on the homepagec
