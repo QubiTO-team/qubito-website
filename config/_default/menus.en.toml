@@ -1,14 +1,6 @@
 [[main]]
 none = "none"
 
-# [[main]]
-# name = "Contacts"
-# url = "/contacts/"
-# # pre = "newspaper"
-# pageRef = "contacts"
-# identifier = "370333fzPk"
-# weight = 5
-
 [[main]]
 name = "Articles"
 # pre = "newspaper"

@@ -24,14 +24,14 @@ showScrollToTop = true
 
 [homepage]
 layout = "custom"
-showRecent = false
-showRecentItems = 5
-showMoreLink = false
-showMoreLinkDest = "/posts/"
-cardView = false
+showRecent = true
+showRecentItems = 4
+showMoreLink = true
+showMoreLinkDest = "/articles/"
+cardView = true
 cardViewScreenWidth = false
+constrainItemsWidth = false
 layoutBackgroundBlur = true
-# homepageImage = "iceland.jpg"
 
 [article]
 showDate = true

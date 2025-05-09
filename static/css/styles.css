@@ -242,3 +242,10 @@
   margin-bottom: 2rem;
   z-index: 4;
 }
+
+.recent-articles-section {
+  display: flex;
+  flex-direction: column;
+  padding: 2rem 1rem;
+  z-index: 3;
+}
