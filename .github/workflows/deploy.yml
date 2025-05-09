@@ -44,3 +44,27 @@ jobs:
           git add -A
           git commit -m "Deploy from qubito-website:${{ github.ref_name }}" || true
           git push --force origin ${{ github.ref_name }}
+        
+      # - name: Upload with SSH key over SFTP (only on main)
+      #   if: github.ref_name == 'main'
+      #   run: |
+      #     echo "Starting VPN connection..."
+      #     echo "${{ secrets.VPN_CONFIG }}" > vpn.conf
+      #     echo "${{ secrets.VPN_CREDENTIALS }}" > vpn.auth
+
+      #     sudo apt-get update
+      #     sudo apt-get install -y openvpn openssh-client
+
+      #     sudo openvpn --config vpn.conf --auth-user-pass vpn.auth --daemon
+      #     sleep 15  # Wait for VPN connection
+
+      #     echo "Setting up SSH for SFTP..."
+      #     mkdir -p ~/.ssh
+      #     echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+      #     chmod 600 ~/.ssh/id_rsa
+
+      #     # Optional: Disable strict host key checking
+      #     echo -e "Host *\n\tStrictHostKeyChecking no\n" > ~/.ssh/config
+
+      #     echo "Uploading via SFTP..."
+      #     scp -r ../public/* ${{ secrets.SFTP_USER }}@${{ secrets.SFTP_HOST }}:/remote/path/
