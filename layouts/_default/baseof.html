@@ -42,9 +42,7 @@
       "nav.skip_to_main" }}</a>
   </div>
   <div class='contents {{ if .IsHome }}    
-      px-6 sm:px-14 md:px-24 max-w-7xl
-    {{ else }}
-      p-0 m-0
+      w-full px-6 sm:px-14 md:px-24 max-w-7xl mx-auto
     {{ end }}
 '
   >
@@ -66,9 +64,7 @@
       {{ end }}
     </main>
     <div class="{{ if .IsHome }}    
-      px-6 sm:px-14 md:px-24 max-w-7xl
-    {{ else }}
-      p-0 m-0
+      w-full px-6 sm:px-14 md:px-24 max-w-7xl mx-auto
     {{ end }}">
       {{- partial "footer.html" . -}}
       {{ if .Site.Params.enableSearch | default false }}
