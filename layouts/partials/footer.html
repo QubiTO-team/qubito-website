@@ -1,71 +1,114 @@
-<footer id="site-footer" class="py-10 print:hidden">
-  {{/* Footer menu */}} {{ if .Site.Params.footer.showMenu | default true }} {{
-  if .Site.Menus.footer }}
-  <nav
-    class="flex flex-row pb-4 text-base font-medium text-neutral-500 dark:text-neutral-400"
-    style="align-self: center; display: flex; flex: 1; justify-content: center"
-  >
-    <ul
-      class="flex flex-col list-none sm:flex-row"
-      style="justify-content: center; align-items: center"
-    >
-      {{ range .Site.Menus.footer }}
-      <li
-        class="flex mb-1 ltr:text-right rtl:text-left sm:mb-0 ltr:sm:mr-7 ltr:sm:last:mr-0 rtl:sm:ml-7 rtl:sm:last:ml-0"
-      >
-        <a
-          class="decoration-primary-500 hover:underline hover:decoration-2 hover:underline-offset-2 flex items-center"
-          href="{{ .URL }}"
-          title="{{ .Title }}"
-        >
-          {{ if .Pre }}
-          <span {{ if and .Pre .Name}} class="mr-1" {{ end }}>
-            {{ partial "icon.html" .Pre }}
-          </span>
-          {{ end }} {{ .Name | markdownify }}
-        </a>
-      </li>
-      {{ end }}
+<div class="flex flex-col items-center justify-between sm:flex-row"></div>
+  <div class="flex flex-col items-center">
+    <!-- Logo Section -->
+    <div class="mb-4">
+      <a href="https://www.polito.it/" target="_blank" rel="noopener">
+        <img src="{{ "images/polito_logo_blu.png" | relURL }}" alt="Politecnico
+        Logo" class="h-auto dark:hidden nozoom" style="max-height: 8rem; width:
+        auto;" /> <img src="{{ "images/polito_logo_white.png" | relURL }}"
+        alt="Politecnico Logo" class="h-auto hidden dark:flex nozoom"
+        style="max-height: 8rem; width: auto;" />
+      </a>
+    </div>
 
-      <div style="margin-right: 1.75rem">
-        {{ partial "translations.html" . }}
-      </div>
-      {{ if .Site.Params.githubEditPath }} {{ if .File }}
-      <div
-        class="text-sm text-neutral-600 dark:text-neutral-600 align-self-center"
+    <!-- Footer Content -->
+    <div class="w-full sm:w-auto">
+      {{/* Footer menu */}} {{ if .Site.Params.footer.showMenu | default true }}
+      {{ if .Site.Menus.footer }}
+      <nav
+        class="flex flex-row pb-4 text-base font-medium text-neutral-500 dark:text-neutral-400"
+        style="
+          align-self: center;
+          display: flex;
+          flex: 1;
+          justify-content: center;
+        "
       >
-        <a
-          href="{{ .Site.Params.githubEditPath }}{{ .File.Path }}"
-          target="_blank"
-          rel="noopener"
-          class="flex items-center bg-neutral-100 dark:bg-neutral-100 hover:text-primary-600 dark:hover:text-primary-400"
-          style="padding: 0.5rem; border-radius: 0.5rem"
+        <ul
+          class="flex flex-col list-none sm:flex-row"
+          style="justify-content: center; align-items: center"
         >
-          <div style="margin-right: 0.4rem">
-            {{ partial "icon.html" "github" }}
-          </div>
-          {{ .Site.Language.Params.githubEditText }}
-        </a>
+          {{ range .Site.Menus.footer }}
+          <li
+            class="flex mb-1 ltr:text-right rtl:text-left sm:mb-0 ltr:sm:mr-7 ltr:sm:last:mr-0 rtl:sm:ml-7 rtl:sm:last:ml-0 lg:mr-4"
+          >
+            <a
+              class="decoration-primary-500 hover:underline hover:decoration-2 hover:underline-offset-2 flex items-center"
+              href="{{ .URL }}"
+              title="{{ .Title }}"
+            >
+              {{ if .Pre }}
+              <span {{ if and .Pre .Name}} class="mr-1" {{ end }}>
+                {{ partial "icon.html" .Pre }}
+              </span>
+              {{ end }} {{ .Name | markdownify }}
+            </a>
+          </li>
+          {{ end }}
+
+          <li
+            class="flex mb-1 ltr:text-right rtl:text-left sm:mb-0 ltr:sm:mr-7 ltr:sm:last:mr-0 rtl:sm:ml-7 rtl:sm:last:ml-0 lg:mr-4"
+          >
+            {{ partial "translations.html" . }}
+        </li>
+          {{ if .Site.Params.githubEditPath }} {{ if .File }}
+          <li
+            class="text-sm text-neutral-600 dark:text-neutral-600 flex justify-center items-center"
+          >
+            <a
+              href="{{ .Site.Params.githubEditPath }}{{ .File.Path }}"
+              target="_blank"
+              rel="noopener"
+              class="flex items-center bg-neutral-100 dark:bg-neutral-100 hover:text-primary-600 dark:hover:text-primary-400"
+              style="padding: 0.5rem; border-radius: 0.5rem"
+            >
+              <div style="margin-right: 0.4rem">
+                {{ partial "icon.html" "github" }}
+              </div>
+              {{ .Site.Language.Params.githubEditText }}
+            </a>
+          </li>
+          {{ end }} {{ end }}
+        </ul>
+      </nav>
+      {{ end }} {{ end }}
+      <div class="flex flex-col sm:flex-row items-center justify-between">
+        {{/* Copyright */}} 
+        {{ if .Site.Params.footer.showCopyright | default true }}
+        <p class="text-sm text-neutral-500 dark:text-neutral-400 sm:mr-4 md:mr-6">
+          {{- with replace .Site.Params.copyright "{ year }" now.Year }} 
+          {{ . | markdownify }} 
+          {{- else }} 
+          &copy; {{ now.Format "2006" }} {{ .Site.Params.Author.name | markdownify }} 
+          {{- end }}
+        </p>
+        {{ end }} 
+
+        {{/* Theme attribution */}} 
+        {{ if .Site.Params.footer.showThemeAttribution | default true }}
+        <p class="text-xs text-neutral-500 dark:text-neutral-400 sm:mt-0 mt-2 sm:ml-4 md:ml-6">
+          {{- with .Site.Params.creator }} 
+          {{ . | markdownify }} 
+          {{- end }}
+        </p>
+        {{ end }}
       </div>
-      {{ end }} {{ end }} {{/* todo add polito logo */}}
-    </ul>
-  </nav>
-  {{ end }} {{ end }}
-  <div class="flex items-center justify-between">
-    {{/* Copyright */}} {{ if .Site.Params.footer.showCopyright | default true
-    }}
-    <p class="text-sm text-neutral-500 dark:text-neutral-400">
-      {{- with replace .Site.Params.copyright "{ year }" now.Year }} {{ . |
-      markdownify }} {{- else }} &copy; {{ now.Format "2006" }} {{
-      .Site.Params.Author.name | markdownify }} {{- end }}
-    </p>
-    {{ end }} {{/* Theme attribution */}} {{ if
-    .Site.Params.footer.showThemeAttribution | default true }}
-    <p class="text-xs text-neutral-500 dark:text-neutral-400">
-      {{- with .Site.Params.creator }} {{ . | markdownify }} {{- end }}
-    </p>
-    {{ end }}
+      <style>
+        @media (max-width: 640px) {
+          .flex-col.sm\:flex-row {
+        flex-direction: column !important;
+        margin-bottom: 1rem; /* Add margin-bottom for mobile view */
+          }
+        }
+        @media (min-width: 641px) {
+          .flex-col.sm\:flex-row {
+        flex-direction: row !important;
+          }
+        }
+      </style>
+    </div>
   </div>
+
   <script>
     {{ if not .Site.Params.disableImageZoom | default true }}
     mediumZoom(document.querySelectorAll("img:not(.nozoom)"), {

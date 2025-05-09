@@ -45,9 +45,6 @@ weight = 10
 # weight = 50
 
 [[footer]]
-none = "none"
-
-[[footer]]
 # name = "LinkedIn"
 url = "https://www.linkedin.com/company/qubito-student-team-politecnico-di-torino/"
 pre = "linkedin"

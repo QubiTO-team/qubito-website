@@ -47,8 +47,6 @@ weight = 10
 # weight = 50
 
 
-[[footer]]
-none = "none"
 
 [[footer]]
 # name = "LinkedIn"
