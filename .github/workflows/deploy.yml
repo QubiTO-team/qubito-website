@@ -25,17 +25,16 @@ jobs:
       - name: Build site
         run: hugo --minify
 
-      - name: Checkout gh-pages branch
+      - name: Checkout GitHub Pages repository
         uses: actions/checkout@v3
         with:
-          repository: ${{ github.repository }}
-          ref: gh-pages
+          repository: qubito-team/qubito-team.github.io
           token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
-          path: gh-pages
+          path: github-pages
 
-      - name: Sync built files to gh-pages branch
+      - name: Sync built files to GitHub Pages repo
         run: |
-          cd gh-pages
+          cd github-pages
           rm -rf ./*
           cp -r ../public/* ./
           touch .nojekyll
@@ -43,4 +42,6 @@ jobs:
           git config user.email "${{ github.actor }}@users.noreply.github.com"
           git add .
           git commit -m "Deploy from qubito-website:${{ github.ref_name }}" || echo "No changes"
-          git push origin gh-pages
+          
+          BRANCH_NAME=${GITHUB_REF##*/}
+          git push origin $BRANCH_NAME
