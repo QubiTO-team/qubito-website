@@ -3,7 +3,7 @@
 # https://blowfish.page/docs/getting-started/
 
 theme = "blowfish" # UNCOMMENT THIS LINE
-baseURL = "http://localhost:1313/"
+baseURL = "https://qubito-team.github.io/"
 defaultContentLanguage = "it"
 defaultContentLanguageInSubdir = false
 
