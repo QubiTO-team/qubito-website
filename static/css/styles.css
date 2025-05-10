@@ -29,10 +29,12 @@
 }
 
 .overview-section {
+  justify-content: center;
   display: flex;
-  flex-direction: column;
+  flex-direction: column; /* Stack content vertically */
   padding: 2rem 1rem;
   z-index: 3;
+  height: 100vh;
 }
 
 .overview-activities-section {
@@ -44,13 +46,6 @@
 }
 
 @media (min-width: 768px) {
-  .overview-section {
-    height: 100vh;
-    flex-direction: row;
-    padding-left: 4rem;
-    padding-right: 4rem;
-  }
-
   .overview-activities-section {
     padding-left: 4rem;
     padding-right: 4rem;
@@ -68,27 +63,43 @@
   margin: 50px 0px;
 }
 
-@media (min-width: 768px) {
-  .overview-left {
-    margin:0;
-    width: 70%;
-    align-items: flex-start;
-    text-align: left;
-  }
-}
-
 .overview-title {
   margin: 50px 0px;
   line-height: 3.5rem;
   font-size: 3rem; /* text-3xl */
   font-weight: bold;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 }
 
 @media (min-width: 768px) {
   .overview-title {
-    line-height: 3.5rem;
-    font-size: 3rem; /* text-5xl */
+    flex-direction: row;
+    align-items: center;
   }
+}
+
+.overview-title-div {
+  display: flex;
+  flex-direction: column; /* Stack vertically by default */
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+@media (min-width: 768px) {
+  .overview-title-div {
+    flex-direction: row; /* Align side by side on larger screens */
+    align-items: center;
+    gap: 1rem;
+  }
+}
+
+.overview-subtitle {
+  font-size: 1.5rem; /* Increased font size */
+  font-weight: normal;
+  color: inherit; /* Match the color of the title */
+  font-family: "Courier New", Courier, monospace; /* Monospace font family */
 }
 
 .overview-description {
@@ -110,16 +121,10 @@
   justify-content: center;
   align-items: center;
   gap: 0.5rem;
-  margin-top: 1.5rem;
-}
-
-@media (min-width: 768px) {
-  .overview-keywords {
-  flex-direction: column;
-    gap: 2rem;
-    width: 30%;
-    margin-top: 0;
-  }
+  margin-top: 2rem; /* Add spacing from the content above */
+  order: 2; /* Ensure it is always below other content */
+  flex-direction: row;
+  width: 100%;
 }
 
 .keyword {

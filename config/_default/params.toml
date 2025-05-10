@@ -56,7 +56,7 @@ showTableOfContents = true
 showTaxonomies = true
 showAuthorsBadges = true
 showWordCount = true
-showZenMode = true
+showZenMode = false
 
 [list]
 showHero = true

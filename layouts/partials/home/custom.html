@@ -10,20 +10,7 @@
 
 <script>
   document.addEventListener("DOMContentLoaded", function () {
-    const baseDelay = 0; // Starting delay for the first item
-    const delayIncrement = 1800; // Delay between each keyword animation in ms
-
-    document.querySelectorAll(".typeit-keywords").forEach((el, index) => {
-      new TypeIt(el, {
-        speed: 100,
-        lifeLike: true,
-        startDelay: baseDelay + index * delayIncrement,
-        breakLines: false,
-        waitUntilVisible: true,
-        loop: false,
-        cursor: false,
-      }).go();
-    });
+    // Removed TypeIt functionality for keywords
   });
 </script>
 
@@ -81,6 +68,20 @@
   window.addEventListener("resize", updateScrollButtons);
 </script>
 
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    // Initialize TypeIt for the overview subtitle
+    new TypeIt(".overview-subtitle", {
+      speed: 100,
+      lifeLike: true,
+      breakLines: false,
+      waitUntilVisible: true,
+      loop: false,
+      cursor: true,
+    }).go();
+  });
+</script>
+
 <div>
   <section
     class="darkable-section"
@@ -95,13 +96,16 @@
   >
     <div class="overview-section middle-screen">
       <div class="overview-left">
-        <h1 class="overview-title">{{ .Params.overviewTitle }}</h1>
+        <div class="overview-title-div">
+          <h1 class="overview-title">{{ .Params.overviewTitle }}</h1>
+          <div class="overview-subtitle">{{ .Params.overviewSubtitle }}</div>
+        </div>
         <p class="overview-description">{{ .Params.overviewDescription }}</p>
       </div>
       <div class="overview-keywords">
         {{ range .Params.overviewKeywords }}
         <span class="keyword">
-          <p class="typeit-keywords">{{ . }}</p>
+          <p>{{ . }}</p>
         </span>
         {{ end }}
       </div>
@@ -165,7 +169,6 @@
     </div>
   </section>
   */}}
-
   <section class="py-16 px-4 bg-gray-50 dark:bg-gray-800">
     <div class="max-w-6xl mx-auto">
       <!-- Header -->
@@ -173,12 +176,10 @@
         <h2
           class="text-3xl md:text-4xl font-bold mb-4 text-gray-900 dark:text-white"
         >
-          Get in Touch with Us!
+          {{ .Params.contactTitle }}
         </h2>
         <p class="text-lg text-gray-600 dark:text-gray-300">
-          If you want to support us in our mission or join us on our journey,
-          please don't hesitate to reach out. We are always grateful for the
-          help and encouragement from our community.
+          {{ .Params.contactDescription }}
         </p>
       </div>
 
@@ -187,56 +188,63 @@
         <!-- Email -->
         <div class="p-6 bg-white dark:bg-gray-700 rounded-lg shadow-md">
           <h3 class="text-xl font-semibold mb-4 text-gray-900 dark:text-white">
-            Contact Information
+            {{ .Params.contactInfoTitle }}
           </h3>
           <a
-            href="mailto:qubito@polito.it"
+            href="mailto:{{ .Params.contactEmail }}"
             class="inline-block px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors duration-200"
           >
-            Email: qubito@polito.it
+            {{ .Params.contactEmailLabel }}: {{ .Params.contactEmail }}
           </a>
         </div>
 
         <!-- Social Media -->
         <div class="p-6 bg-white dark:bg-gray-700 rounded-lg shadow-md">
           <h3 class="text-xl font-semibold mb-4 text-gray-900 dark:text-white">
-            Social Media
+            {{ .Params.socialMediaTitle }}
           </h3>
           <div class="space-y-2">
+            {{ range .Params.socialMediaLinks }}
             <a
-              href="https://www.instagram.com/qubitoteam_polito/"
+              href="{{ .url }}"
               class="text-blue-600 dark:text-blue-400 hover:underline block"
-              >Instagram</a
+              >{{ .name }}</a
             >
-            <a
-              href="https://www.linkedin.com/company/qubito-student-team-politecnico-di-torino/"
-              class="text-blue-600 dark:text-blue-400 hover:underline block"
-              >LinkedIn</a
-            >
+            {{ end }}
           </div>
         </div>
 
         <!-- Partners -->
         <div class="p-6 bg-white dark:bg-gray-700 rounded-lg shadow-md">
           <h3 class="text-xl font-semibold mb-4 text-gray-900 dark:text-white">
-            Our Partners
+            {{ .Params.partnersTitle }}
           </h3>
           <p class="font-medium text-gray-600 dark:text-gray-300">
-            Main Partner:
+            {{ .Params.mainPartnerLabel }}:
           </p>
-          <p class="text-gray-600 dark:text-gray-300">Politecnico di Torino</p>
+          <p class="text-gray-600 dark:text-gray-300">
+            {{ .Params.mainPartnerName }}
+          </p>
         </div>
+      </div>
+
+      <!-- Follow us Message -->
+      <div class="text-center mb-12">
+        <h3 class="text-2xl font-bold mb-4 text-gray-900 dark:text-white">
+          {{ .Params.followUsTitle }}
+        </h3>
+        <p class="text-gray-600 dark:text-gray-300">
+          {{ .Params.followUsDescription }}
+        </p>
       </div>
 
       <!-- Footer Message -->
       <div class="text-center">
         <h3 class="text-2xl font-bold mb-4 text-gray-900 dark:text-white">
-          We Appreciate Your Support!
+          {{ .Params.supportTitle }}
         </h3>
         <p class="text-gray-600 dark:text-gray-300">
-          Whether you have questions, suggestions, or just want to say hello,
-          your input means the world to us. Thank you for being a part of our
-          journey!
+          {{ .Params.supportDescription }}
         </p>
       </div>
     </div>

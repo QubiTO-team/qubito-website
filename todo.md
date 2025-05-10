@@ -21,10 +21,10 @@ contacts and Team page (check for more content)
         [x] Make article content wider wrt the side bar
         -skip[ ] Figure out what and how to animate
         [x] check footer in homepage (maybe create custom one for all the website) + add polito logo
-        [ ] Update sponsor section (check sponsors.md)
+        [...] Update sponsor section (check sponsors.md)
         -after-adding-content[ ] add a param to the timeline item which specifies the importance is_important (copy timelineItem and add the feature)
 
-        []OVERVIEW DESIGN Qubito in big in the middle 
+        [...]OVERVIEW DESIGN Qubito in big in the middle 
             plus the =qubit+torino with Typeit and mono font family
 
             And a short overview description
@@ -38,4 +38,4 @@ contacts and Team page (check for more content)
 
         [] make the articles images smaller
 
-        [x] remove the contacts page and keep everything on the homepagec
+        [x] remove the contacts page and keep everything on the homepage
