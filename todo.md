@@ -35,3 +35,5 @@ contacts and Team page (check for more content)
         [] make the articles images smaller
 
         [x] remove the contacts page and keep everything on the homepage
+
+        [...] fix issue with languages of activities

@@ -1,0 +1,13 @@
+{{ $recentActivities := 4 }} {{ $lang := .Site.Language.Lang }} {{
+$activitiesFile := printf "content/activities/data/index%s.yaml" (cond (eq $lang
+"en") ".en" "") }} {{ $activitiesContent := readFile $activitiesFile | default
+"" }} {{ $allActivities := slice }} {{ if $activitiesContent }} {{
+$allActivities = $activitiesContent | unmarshal }} {{ end }} {{
+$activitiesToShow := $allActivities }} {{ if .ishome }} {{ $activitiesToShow =
+first $recentActivities $allActivities }} {{ end }} {{ if gt (len
+$activitiesToShow) 0 }} {{ partial "timeline" (dict "items" $activitiesToShow)
+}} {{ range $activitiesToShow }} {{ partial "timelineItem" (dict "icon" .icon
+"header" .header "badge" .badge "description" .description "image" .image "link"
+.link) }} {{ end }} {{ else }}
+<p>No recent activities found.</p>
+{{ end }}

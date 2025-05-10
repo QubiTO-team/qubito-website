@@ -160,8 +160,8 @@
         <h1 class="overview-title">{{ .Params.activitiesTitle }}</h1>
         <p class="overview-description">{{ .Params.activitiesDescription }}</p>
       </div>
-      {{ with site.GetPage "snippets/homepageTimeline" }} {{ .Content }} {{ end
-      }}
+
+      {{ partial "recent-activities.html" (dict "context" . "ishome" true) }}
     </div>
 
     <div class="activities-button">

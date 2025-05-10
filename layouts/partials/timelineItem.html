@@ -1,0 +1,45 @@
+{{ $icon := .icon | default "check" }} {{ $header := .header }} {{ $badge :=
+.badge }} {{ $description := .description }} {{ $image := .image }} {{ $link :=
+.link }}
+<li>
+  <div class="flex flex-start">
+    <div
+      class="bg-primary-500 dark:bg-primary-300 text-neutral-50 dark:text-neutral-700 min-w-[30px] h-8 text-2xl flex items-center justify-center rounded-full -ml-12 mt-5"
+    >
+      {{ partial "icon" $icon }}
+    </div>
+    <div
+      class="block p-6 rounded-lg shadow-2xl min-w-full ml-6 mb-10 break-words bg-neutral dark:bg-neutral-800"
+    >
+      <div class="flex justify-between">
+        {{ if $header }}
+        <h2 class="mt-0">{{ $header }}</h2>
+        {{ end }} {{ if $badge }}
+        <h3 class="">{{ $badge }}</h3>
+        {{ end }}
+      </div>
+      {{ if $description }}
+      <p>{{ $description }}</p>
+      {{ end }} {{ if $image }}
+      <div style="display: flex; justify-content: center; margin-top: 1rem">
+        <img
+          src="{{ $image }}"
+          alt="{{ $header }}"
+          style="
+            max-width: 100%;
+            max-height: 200px;
+            object-fit: contain;
+            border-radius: 12px;
+          "
+        />
+      </div>
+      {{ end }} {{ if $link }}
+      <p style="margin-top: 0.5rem">
+        <a href="{{ $link.url }}" class="btn" target="_blank"
+          >{{ $link.text }}</a
+        >
+      </p>
+      {{ end }}
+    </div>
+  </div>
+</li>

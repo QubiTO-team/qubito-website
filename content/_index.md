@@ -35,5 +35,4 @@ followUsTitle: "Seguici"
 followUsDescription: "Rimani aggiornato sui nostri ultimi progetti ed eventi seguendoci sui social media!"
 supportTitle: "Il tuo aiuto è molto importante per noi!"
 supportDescription: "Che tu abbia domande, suggerimenti o semplicemente voglia salutarci, il tuo contributo è prezioso per noi. Grazie per essere con noi in questa avventura!"
-
 ---

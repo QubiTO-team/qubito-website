@@ -1,0 +1,50 @@
+- icon: "🚀"
+  header: "test del Progetto"
+  badge: "Maggio 2023"
+  description: "test riuscito del nostro prodotto principale con una risposta entusiasta dai primi utilizzatori."
+  image: "/images/whoweare.jpg"
+  link:
+    url: "https://example.com/project-launch"
+    text: "Scopri di più"
+
+- icon: "🎓"
+  header: "Formazione del Team"
+  badge: "Luglio 2023"
+  description: "Sessioni intensive di formazione per tutto il team su nuove tecnologie e metodologie."
+
+- icon: "🏆"
+  header: "Premio di Settore"
+  badge: "Settembre 2023"
+  description: "Ricevuto il premio 'Innovazione dell'Anno' alla Tech Excellence Conference."
+  image: "/images/whoweare.jpg"
+  link:
+    url: "https://example.com/award-details"
+    text: "Scopri di più"
+
+- icon: "🌍"
+  header: "Espansione Globale"
+  badge: "Novembre 2023"
+  description: "Apertura di nuovi uffici in tre continenti, segnando la nostra presenza globale."
+  image: "/images/whoweare.jpg"
+
+- icon: "💡"
+  header: "Aggiornamento Prodotto"
+  badge: "Febbraio 2024"
+  description: "Rilasciata la versione 2.0 del nostro prodotto con nuove funzionalità e miglioramenti prestazionali."
+  link:
+    url: "https://example.com/product-update"
+    text: "Scopri di più"
+
+- icon: "📈"
+  header: "Crescita Record"
+  badge: "Marzo 2024"
+  description: "Abbiamo raggiunto un nuovo record di crescita con oltre 1 milione di utenti attivi."
+
+- icon: "🤝"
+  header: "Partnership Strategica"
+  badge: "Aprile 2024"
+  description: "Annunciata una partnership strategica con un leader del settore per espandere il nostro mercato."
+  image: "/images/partnership.jpg"
+  link:
+    url: "https://example.com/partnership-details"
+    text: "Scopri di più"
