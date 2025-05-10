@@ -82,6 +82,21 @@
   });
 </script>
 
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const scrollIndicator = document.querySelector(".scroll-down-indicator");
+
+    window.addEventListener("scroll", function () {
+      if (window.scrollY > 100) {
+        // Adjust threshold to 100px
+        scrollIndicator.classList.add("hidden");
+      } else {
+        scrollIndicator.classList.remove("hidden");
+      }
+    });
+  });
+</script>
+
 <div>
   <section
     class="darkable-section"
@@ -109,6 +124,9 @@
         </span>
         {{ end }}
       </div>
+    </div>
+    <div class="scroll-down-indicator">
+      <span>&#x2193;</span>
     </div>
   </section>
 
@@ -152,7 +170,7 @@
     </div>
   </section>
 
-  <section class="recent-articles-section">
+  <section class="recent-articles-section middle-screen">
     {{ partial "recent-articles/main.html" . }}
   </section>
   <!-- Sponsors Section -->

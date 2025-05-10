@@ -254,3 +254,44 @@
   padding: 2rem 1rem;
   z-index: 3;
 }
+
+.scroll-down-indicator {
+  position: absolute;
+  bottom: 50px; /* Raised higher */
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 2.5rem; /* Slightly larger for better visibility */
+  color: inherit; /* Inherit colors from the theme */
+  animation: float 2s infinite;
+  z-index: 5;
+  display: flex;
+  justify-content: center;
+  align-items: center; /* Center the arrow vertically */
+}
+
+.scroll-down-indicator span {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center; /* Center the arrow horizontally and vertically */
+}
+
+.scroll-down-indicator::before {
+  content: none;
+}
+
+.scroll-down-indicator.hidden {
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(20px); /* Add a downward movement */
+  transition: opacity 0.5s ease, visibility 0.5s ease, transform 0.5s ease;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translate(-50%, 0);
+  }
+  50% {
+    transform: translate(-50%, 10px);
+  }
+}

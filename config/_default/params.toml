@@ -25,7 +25,7 @@ showScrollToTop = true
 [homepage]
 layout = "custom"
 showRecent = true
-showRecentItems = 4
+showRecentItems = 5
 showMoreLink = true
 showMoreLinkDest = "/articles/"
 cardView = true

@@ -4,7 +4,7 @@ contacts and Team page (check for more content)
 [ ] Finalize homepage [/3]
     [ ] Features [/6]
         [x] Increase max width of article contents
-        [...] Recent articles todo add more details on this fix bug to show the articles
+        [x] Recent articles todo add more details on this fix bug to show the articles
         [x] Find what to write in the footer
             - Polito logo
             - Languages
@@ -24,13 +24,9 @@ contacts and Team page (check for more content)
         [...] Update sponsor section (check sponsors.md)
         -after-adding-content[ ] add a param to the timeline item which specifies the importance is_important (copy timelineItem and add the feature)
 
-        [...]OVERVIEW DESIGN Qubito in big in the middle 
+        [???]OVERVIEW DESIGN Qubito in big in the middle 
             plus the =qubit+torino with Typeit and mono font family
-
             And a short overview description
-
-
-
             in the end an animated arrow to scroll down
 
 
