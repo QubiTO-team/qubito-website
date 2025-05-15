@@ -66,7 +66,7 @@
 .overview-title {
   margin: 50px 0px;
   line-height: 3.5rem;
-  font-size: 3rem; /* text-3xl */
+  font-size: 5rem; /* text-3xl */
   font-weight: bold;
   display: flex;
   flex-direction: column;
@@ -82,21 +82,21 @@
 
 .overview-title-div {
   display: flex;
-  flex-direction: column; /* Stack vertically by default */
+  flex-direction: column-reverse; /* Stack vertically by default */
   gap: 0.5rem;
   margin-bottom: 1rem;
 }
 
 @media (min-width: 768px) {
   .overview-title-div {
-    flex-direction: row; /* Align side by side on larger screens */
+    flex-direction: row-reverse; /* Align side by side on larger screens */
     align-items: center;
     gap: 1rem;
   }
 }
 
 .overview-subtitle {
-  font-size: 1.5rem; /* Increased font size */
+  font-size: 2.5rem; /* Increased font size */
   font-weight: normal;
   color: inherit; /* Match the color of the title */
   font-family: "Courier New", Courier, monospace; /* Monospace font family */
