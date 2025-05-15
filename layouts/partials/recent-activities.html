@@ -1,13 +1,14 @@
-{{ $recentActivities := 4 }} {{ $lang := .Site.Language.Lang }} {{
-$activitiesFile := printf "content/activities/data/index%s.yaml" (cond (eq $lang
-"en") ".en" "") }} {{ $activitiesContent := readFile $activitiesFile | default
-"" }} {{ $allActivities := slice }} {{ if $activitiesContent }} {{
+{{ $recentActivities := 4 }} {{ $translations := .AllTranslations }} {{
+$activitiesFile := "content/activities/data/index.yaml" }} {{ $path :=
+$activitiesFile }} {{ if eq .Site.Language.Lang "it" }} {{ $path =
+$activitiesFile }} {{ else }} {{ $path = printf "%s.%s.yaml" (strings.TrimSuffix
+".yaml" $activitiesFile) .Site.Language.Lang }} {{ end }} {{ $activitiesContent
+:= "" }} {{ if fileExists $path }} {{ $activitiesContent = readFile $path }} {{
+end }} {{ $allActivities := slice }} {{ if $activitiesContent }} {{
 $allActivities = $activitiesContent | unmarshal }} {{ end }} {{
 $activitiesToShow := $allActivities }} {{ if .ishome }} {{ $activitiesToShow =
 first $recentActivities $allActivities }} {{ end }} {{ if gt (len
 $activitiesToShow) 0 }} {{ partial "timeline" (dict "items" $activitiesToShow)
 }} {{ range $activitiesToShow }} {{ partial "timelineItem" (dict "icon" .icon
-"header" .header "badge" .badge "description" .description "image" .image "link"
-.link) }} {{ end }} {{ else }}
-<p>No recent activities found.</p>
-{{ end }}
+"header" .header "badge" .badge "description" .description "link" .link "images"
+.images "isMainActivity" .isMainActivity) }} {{ end }} {{ end }}

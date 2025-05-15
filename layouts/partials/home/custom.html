@@ -163,7 +163,7 @@
         <p class="overview-description">{{ .Params.activitiesDescription }}</p>
       </div>
 
-      {{ partial "recent-activities.html" (dict "context" . "ishome" true) }}
+      {{ partial "recent-activities.html" (dict "Site" .Site "ishome" true) }}
     </div>
 
     <div class="activities-button">
