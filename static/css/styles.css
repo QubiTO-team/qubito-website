@@ -47,8 +47,8 @@
 
 @media (min-width: 768px) {
   .overview-activities-section {
-    padding-left: 4rem;
-    padding-right: 4rem;
+    padding-left: 3rem;
+    padding-right: 3rem;
   }
 }
 
@@ -104,13 +104,13 @@
 
 .overview-description {
     /* line-height: 2.5rem; */
-    font-size: 1.125rem;; /* text-5xl */
+    font-size: 1.25rem;; /* text-5xl */
     margin-bottom: 2rem;
 }
 
 @media (min-width: 768px) {
   .overview-description {
-    font-size: 1.125rem;
+    font-size: 1.25rem;
   }
 }
 
