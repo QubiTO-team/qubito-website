@@ -1,248 +1,3 @@
-<style>
-  /* .darkable-section {
-    background-image: url("{{ .Params.overviewBackgroundImageLight }}");
-  }
-
-  .dark .darkable-section {
-    background-image: url("{{ .Params.overviewBackgroundImage }}");
-  } */
-  @keyframes move {
-    100% {
-        transform: translate3d(0, 0, 1px) rotate(360deg);
-    }
-}
-
-.background {
-    position: fixed;
-    width: 100vw;
-    height: 100vh;
-    top: 0;
-    left: 0;
-    background: #060506;
-    overflow: hidden;
-}
-
-.background span {
-    width: 32vmin;
-    height: 32vmin;
-    border-radius: 32vmin;
-    backface-visibility: hidden;
-    position: absolute;
-    animation: move;
-    animation-duration: 19;
-    animation-timing-function: linear;
-    animation-iteration-count: infinite;
-}
-
-
-.background span:nth-child(0) {
-    color: #370f36;
-    top: 31%;
-    left: 62%;
-    animation-duration: 224s;
-    animation-delay: -218s;
-    transform-origin: -17vw 25vh;
-    box-shadow: 64vmin 0 8.559773483869664vmin currentColor;
-}
-.background span:nth-child(1) {
-    color: #2c0c2b;
-    top: 65%;
-    left: 48%;
-    animation-duration: 174s;
-    animation-delay: -43s;
-    transform-origin: -14vw 21vh;
-    box-shadow: -64vmin 0 8.501443020284277vmin currentColor;
-}
-.background span:nth-child(2) {
-    color: #2c0c2b;
-    top: 51%;
-    left: 74%;
-    animation-duration: 64s;
-    animation-delay: -255s;
-    transform-origin: 11vw -16vh;
-    box-shadow: -64vmin 0 8.632772593275591vmin currentColor;
-}
-.background span:nth-child(3) {
-    color: #2c0c2b;
-    top: 16%;
-    left: 1%;
-    animation-duration: 300s;
-    animation-delay: -247s;
-    transform-origin: -17vw 10vh;
-    box-shadow: -64vmin 0 8.003932031925109vmin currentColor;
-}
-.background span:nth-child(4) {
-    color: #2c0c2b;
-    top: 45%;
-    left: 5%;
-    animation-duration: 252s;
-    animation-delay: -247s;
-    transform-origin: 19vw 14vh;
-    box-shadow: -64vmin 0 8.709489622401803vmin currentColor;
-}
-.background span:nth-child(5) {
-    color: #2c0c2b;
-    top: 77%;
-    left: 88%;
-    animation-duration: 142s;
-    animation-delay: -153s;
-    transform-origin: -10vw 16vh;
-    box-shadow: -64vmin 0 8.144082365796178vmin currentColor;
-}
-.background span:nth-child(6) {
-    color: #461345;
-    top: 63%;
-    left: 77%;
-    animation-duration: 84s;
-    animation-delay: -49s;
-    transform-origin: 1vw -22vh;
-    box-shadow: -64vmin 0 8.133191495316188vmin currentColor;
-}
-.background span:nth-child(7) {
-    color: #2c0c2b;
-    top: 38%;
-    left: 32%;
-    animation-duration: 280s;
-    animation-delay: -9s;
-    transform-origin: -6vw 18vh;
-    box-shadow: 64vmin 0 8.84138963290963vmin currentColor;
-}
-.background span:nth-child(8) {
-    color: #2c0c2b;
-    top: 61%;
-    left: 89%;
-    animation-duration: 306s;
-    animation-delay: -73s;
-    transform-origin: -16vw 25vh;
-    box-shadow: -64vmin 0 8.202195954376581vmin currentColor;
-}
-.background span:nth-child(9) {
-    color: #2c0c2b;
-    top: 32%;
-    left: 60%;
-    animation-duration: 21s;
-    animation-delay: -73s;
-    transform-origin: 4vw 14vh;
-    box-shadow: 64vmin 0 8.77569021787335vmin currentColor;
-}
-.background span:nth-child(10) {
-    color: #370f36;
-    top: 60%;
-    left: 89%;
-    animation-duration: 265s;
-    animation-delay: -226s;
-    transform-origin: 2vw 12vh;
-    box-shadow: -64vmin 0 8.843000271450697vmin currentColor;
-}
-.background span:nth-child(11) {
-    color: #2c0c2b;
-    top: 61%;
-    left: 95%;
-    animation-duration: 44s;
-    animation-delay: -65s;
-    transform-origin: 18vw -1vh;
-    box-shadow: 64vmin 0 8.698994353337175vmin currentColor;
-}
-.background span:nth-child(12) {
-    color: #461345;
-    top: 52%;
-    left: 100%;
-    animation-duration: 312s;
-    animation-delay: -280s;
-    transform-origin: 25vw 12vh;
-    box-shadow: -64vmin 0 8.085497853262748vmin currentColor;
-}
-.background span:nth-child(13) {
-    color: #2c0c2b;
-    top: 69%;
-    left: 14%;
-    animation-duration: 156s;
-    animation-delay: -60s;
-    transform-origin: 9vw 12vh;
-    box-shadow: 64vmin 0 8.251838591617883vmin currentColor;
-}
-.background span:nth-child(14) {
-    color: #461345;
-    top: 11%;
-    left: 49%;
-    animation-duration: 30s;
-    animation-delay: -114s;
-    transform-origin: 10vw -17vh;
-    box-shadow: -64vmin 0 8.440170433093579vmin currentColor;
-}
-.background span:nth-child(15) {
-    color: #2c0c2b;
-    top: 30%;
-    left: 95%;
-    animation-duration: 223s;
-    animation-delay: -138s;
-    transform-origin: 15vw 25vh;
-    box-shadow: -64vmin 0 8.264403335378844vmin currentColor;
-}
-.background span:nth-child(16) {
-    color: #370f36;
-    top: 50%;
-    left: 32%;
-    animation-duration: 213s;
-    animation-delay: -131s;
-    transform-origin: -23vw 2vh;
-    box-shadow: -64vmin 0 8.263409154465448vmin currentColor;
-}
-.background span:nth-child(17) {
-    color: #461345;
-    top: 29%;
-    left: 33%;
-    animation-duration: 188s;
-    animation-delay: -204s;
-    transform-origin: 25vw -11vh;
-    box-shadow: -64vmin 0 8.825560514852777vmin currentColor;
-}
-.background span:nth-child(18) {
-    color: #370f36;
-    top: 59%;
-    left: 96%;
-    animation-duration: 255s;
-    animation-delay: -280s;
-    transform-origin: -21vw -24vh;
-    box-shadow: -64vmin 0 8.398191047250089vmin currentColor;
-}
-.background span:nth-child(19) {
-    color: #2c0c2b;
-    top: 64%;
-    left: 82%;
-    animation-duration: 201s;
-    animation-delay: -256s;
-    transform-origin: 9vw -23vh;
-    box-shadow: -64vmin 0 8.694030193830663vmin currentColor;
-}
-
-</style>
-
-<div class="background">
-   <span></span>
-   <span></span>
-   <span></span>
-   <span></span>
-   <span></span>
-   <span></span>
-   <span></span>
-   <span></span>
-   <span></span>
-   <span></span>
-   <span></span>
-   <span></span>
-   <span></span>
-   <span></span>
-   <span></span>
-   <span></span>
-   <span></span>
-   <span></span>
-   <span></span>
-   <span></span>
-</div>
-
-
-
 <script>
   document.addEventListener("DOMContentLoaded", function () {
     // Removed TypeIt functionality for keywords
@@ -334,6 +89,27 @@
 </script>
 
 <div>
+  <div class="background">
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
   <section
     class="darkable-section"
     style="
@@ -399,7 +175,7 @@
         <p class="overview-description">{{ .Params.activitiesDescription }}</p>
       </div>
 
-      {{ partial "recent-activities.html" (dict "context" . "ishome" true) }}
+      {{ partial "recent-activities.html" (dict "Site" .Site "ishome" true) }}
     </div>
 
     <div class="activities-button">
