@@ -58,7 +58,7 @@ Questo è un primo passo, ma ci piacerebbe vedere qualcosa di un po' più rappre
 
 Prima di vedere come disegnare i circuiti, analizziamo brevemente il codice sopra:
 
-Le prime due righe con `from ... import ...` servono per importare librerie Python che contengono le funzioni e le classi necessarie nel seguito. Non preoccuparti troppo dei dettagli per ora, ricorda solo di includere ciò che è necessario prima di eseguire il codice.
+Le prime due righe con `from ... import ...` servono per importare librerie Python che contengono le funzioni e le classi necessarie in seguito. Non preoccuparti troppo dei dettagli per ora, ricorda solo di includere ciò che è necessario prima di eseguire il codice.
 
 A questo punto possiamo iniziare con la creazione del circuito stesso; come primo passo creiamo un **registro** quantistico e uno classico. I registri sono *collezioni* di bit o qubit; se non hai esperienza con i computer classici, puoi vederli come un modo per raggruppare (q)bit che hanno un significato simile. Per fare un esempio, se stai cercando di creare un circuito che somma due numeri a 3 cifre `A` e `B`, potresti creare un registro `regA` con tre bit per memorizzare le cifre di `A` e fare lo stesso per `B`; in questo modo è più facile ricordare il significato di ciascun bit. Sebbene i registri siano utili quando si creano circuiti complessi, possono creare confusione con circuiti molto semplici come quelli in questo articolo; per questo motivo non li utilizzerò molto in seguito.
 
@@ -156,7 +156,7 @@ qc.x(0)
 qc.x(1)
 ```
 
-Poi abbiamo una AND tra `A` e `B`; ricordati che la Toffoli (`ccx`) si comporta come una AND quando `C` (il target) è inizializzato a $ | o \rangle $, quindi possiamo aggiungerlo come segue:
+Poi abbiamo una AND tra `A` e `B`; ricordati che la Toffoli (`ccx`) si comporta come una AND quando `C` (il target) è inizializzato a $ | 0 \rangle $, quindi possiamo aggiungerlo come segue:
 
 ```py
 qc.ccx(0, 1, 2)
@@ -168,13 +168,15 @@ Infine, dobbiamo negare l'output (il primo NOT nella formula); poiché `C` è l'
 qc.x(2)
 ```
 
-Sembra che siamo a posto, vediamo come appare il circuito risultante a questo punto:
+Sembrerebbe di aver finito, vediamo come appare il circuito risultante a questo punto:
 
 ![partial or circuit](images/orPartial.png)
 
 Questo circuito fornisce i risultati corretti **ma ha un problema importante**: cambia i valori dei suoi input! Guarda i primi 2 qubit, sono soggetti a una porta `x` e quindi il loro valore all'inizio è diverso da quello alla fine. Questo comportamento presenta dei problemi poiché ci impedisce di riutilizzare i valori originali di `A` e `B`.
 
-Fortunatamente, risolvere il problema è molto semplice; dobbiamo solo applicare l'operazione inversa della porta `x`, che è... la stessa porta `x`! (Negare una quantità  due volte è come non fare nulla o, più formalmente, \(X \cdot X = \mathbb{I}\))
+Fortunatamente, risolvere il problema è molto semplice; dobbiamo solo applicare l'operazione inversa della porta `x`, che è... 
+
+la porta `x` stessa! (Negare una quantità  due volte è come non fare nulla o, più formalmente, $ X \cdot X = \mathbb{I} $)
 
 Quindi, per risolvere il problema, basta aggiungere queste due righe:
 
@@ -202,11 +204,12 @@ def OR() -> QuantumCircuit:
     qc.barrier()
     return qc
 ```
+
 In questo modo, quando avremo bisogno di utilizzare la porta OR in Qiskit, dovremo semplicemente chiamare questa funzione.
 
 Nota che ho anche aggiunto due `barrier` all'inizio e alla fine della porta; le barriere non sono porte, ma sono semplicemente "linee verticali" che rendono più facile delimitare visivamente le cose quando si disegna il circuito (vedi il disegno sopra).
 
-Nota poi l'annotazione `-> QuantumCircuit` nella prima riga, questo è il modo in cui è possibile specificare il tipo dell'oggetto che sarà restituito dalla funzione in Python; non è obbligatorio aggiungerlo (infatti, se non lo metti, non cambierà nulla nell'esecuzione del codice), ma consente al tuo IDE (ad esempio, VSCode) di offrirti suggerimenti utili mentre scrivi il codice.
+Nota poi l'annotazione `-> QuantumCircuit` nella prima riga, questo è il modo in cui è possibile specificare il tipo dell'oggetto restituito dalla funzione in Python; non è obbligatorio aggiungerlo (infatti, se non lo metti, non cambierà nulla nell'esecuzione del codice), ma consente al tuo IDE (ad esempio, VSCode) di offrirti suggerimenti utili mentre scrivi il codice.
 
 ## Comporre circuiti
 
@@ -227,7 +230,7 @@ Disegnando il circuito otteniamo:
 
 ### Bonus tip
 
-Quando si lavora con circuiti complessi, è facile "perdersi" tra decine e decine di gate. Per ridurre la complessità di un circuito quando lo disegnamo, possiamo utilizzare il metodo `to_instruction`, che disegnerà il nostro sotto-circuito come una semplice scatola:
+Quando si lavora con circuiti complessi, è facile "perdersi" tra decine e decine di gate. Per ridurre la complessità del disegno, possiamo utilizzare il metodo `to_instruction`, che disegnerà il nostro sotto-circuito come una semplice scatola:
 
 ```py
 box_OR = OR().to_instruction(label='OR')
@@ -262,7 +265,7 @@ Ora siamo abbastanza bravi a creare circuiti, ma finora non ne abbiamo eseguito 
 + <https://qiskit.github.io/qiskit-aer/tutorials/1_aersimulator.html>
 + <https://docs.quantum.ibm.com/guides/simulate-with-qiskit-aer>
 
-Prima di continuare importa le librerie necessarie (in aggiunta a quelle importate all'inizio)
+Prima di continuare, importa le librerie necessarie (in aggiunta a quelle importate all'inizio)
 
 ```py
 from qiskit import transpile
