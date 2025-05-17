@@ -4,7 +4,7 @@ weight: 14
 date: 2025-05-17
 summary: "Using techniques like repetition codes and the 9-qubit Shor code, quantum error correction enables reliable quantum computing by protecting qubits from bit-flip errors, phase-flip errors, and arbitrary errors."
 tags: ["QEC", "Qiskit"]
-authors: ["Mattia Placi", "Leonardo Niccolai", "Edoardo", "Walid Bou Ezz"]
+authors: ["Mattia Placi", "Leonardo Niccolai", "Edoardo Frulla", "Walid Bou Ezz"]
 slug: "quantum-error-correction"  
 translationKey: "correcting-quantum-errors"
 ---
