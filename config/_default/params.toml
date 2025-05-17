@@ -57,6 +57,11 @@ showTaxonomies = true
 showAuthorsBadges = true
 showWordCount = true
 showZenMode = false
+hideFeatureImage = true
+showDescription = true
+showCategory = true
+draft = false
+
 
 [list]
 showHero = true
