@@ -1,19 +1,11 @@
 ---
 title: "Introduzione a Qiskit"
 weight: 13
-draft: false
 date: 2025-05-16
-hideFeatureImage: true
-showDescription: true
 description: "Qiskit: partire da zero e arrivare a simulare un circuito"
 summary: "Questa breve guida spiega le basi di Qiskit, quanto serve per creare gate personalizzati e come eseguire la simulazione ideale di un circuito"
 tags: ["Python", "Qiskit"]
-# series: ["Introduzione alla Correzione degli Errori Quantistici-IT"]
-# series_order: 1
-showAuthor: true
-showCategory: true
 authors: ["Giacomo Bertelli"]
-# categories: ["Correzione degli Errori Quantistici"]
 slug: "introduzione-a-qiskit"
 translationKey: "qiskit-introduction"
 ---
