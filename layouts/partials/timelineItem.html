@@ -1,0 +1,47 @@
+{{ $icon := .icon | default "check" }} {{ $header := .header }} {{ $badge :=
+.badge }} {{ $description := .description }} {{ $images := .images }} {{ $link
+:= .link }}
+
+<li class="list-none">
+  <div class="flex flex-start">
+    <div
+      class="bg-primary-500 dark:bg-primary-300 text-neutral-50 dark:text-neutral-700 min-w-[30px] h-8 text-2xl flex items-center justify-center rounded-full -ml-12 mt-5"
+    >
+      {{ if $icon }}
+      <span class="text-base">{{ $icon }}</span>
+      {{ end }}
+      <span class="text-base">{{ partial "icon" $icon }}</span>
+    </div>
+    <div
+      class="block p-6 rounded-lg shadow-2xl min-w-full ml-6 mb-10 break-words bg-neutral dark:bg-neutral-800"
+    >
+      <div class="flex justify-between">
+        {{ if $header }}
+        <h2 class="mt-0">{{ $header }}</h2>
+        {{ end }} {{ if $badge }}
+        <h3 class="">{{ $badge }}</h3>
+        {{ end }}
+      </div>
+      {{ if $description }}
+      <p>{{ $description }}</p>
+      {{ if $link }}
+      <p style="margin-top: 0.5rem">
+        <a href="{{ $link.url }}" class="btn" target="_blank"
+          >{{ $link.text }}</a
+        >
+      </p>
+      {{ end }} {{ end }} {{ if $images }}
+      <div class="flex justify-center items-center flex-wrap gap-4 mt-4">
+        {{ range $images }}
+        <img
+          src="{{ . }}"
+          alt="Image from {{ $header }}"
+          style="max-width: min(400px, 80vw); max-height: 400px"
+          class="rounded-xl"
+        />
+        {{ end }}
+      </div>
+      {{ end }}
+    </div>
+  </div>
+</li>

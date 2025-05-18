@@ -1,0 +1,14 @@
+{{ $recentActivities := 4 }} {{ $translations := .AllTranslations }} {{
+$activitiesFile := "content/activities/data/index.yaml" }} {{ $path :=
+$activitiesFile }} {{ if eq .Site.Language.Lang "it" }} {{ $path =
+$activitiesFile }} {{ else }} {{ $path = printf "%s.%s.yaml" (strings.TrimSuffix
+".yaml" $activitiesFile) .Site.Language.Lang }} {{ end }} {{ $activitiesContent
+:= "" }} {{ if fileExists $path }} {{ $activitiesContent = readFile $path }} {{
+end }} {{ $allActivities := slice }} {{ if $activitiesContent }} {{
+$allActivities = $activitiesContent | unmarshal }} {{ end }} {{
+$activitiesToShow := $allActivities }} {{ if .ishome }} {{ $activitiesToShow =
+first $recentActivities $allActivities }} {{ end }} {{ if gt (len
+$activitiesToShow) 0 }} {{ partial "timeline" (dict "items" $activitiesToShow)
+}} {{ range $activitiesToShow }} {{ partial "timelineItem" (dict "icon" .icon
+"header" .header "badge" .badge "description" .description "link" .link "images"
+.images "isMainActivity" .isMainActivity) }} {{ end }} {{ end }}

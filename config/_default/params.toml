@@ -24,14 +24,14 @@ showScrollToTop = true
 
 [homepage]
 layout = "custom"
-showRecent = false
+showRecent = true
 showRecentItems = 5
-showMoreLink = false
-showMoreLinkDest = "/posts/"
-cardView = false
+showMoreLink = true
+showMoreLinkDest = "/articles/"
+cardView = true
 cardViewScreenWidth = false
+constrainItemsWidth = false
 layoutBackgroundBlur = true
-# homepageImage = "iceland.jpg"
 
 [article]
 showDate = true
@@ -56,7 +56,12 @@ showTableOfContents = true
 showTaxonomies = true
 showAuthorsBadges = true
 showWordCount = true
-showZenMode = true
+showZenMode = false
+hideFeatureImage = true
+showDescription = true
+showCategory = true
+draft = false
+
 
 [list]
 showHero = true

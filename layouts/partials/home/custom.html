@@ -1,29 +1,6 @@
-<style>
-  .darkable-section {
-    background-image: url("{{ .Params.overviewBackgroundImageLight }}");
-  }
-
-  .dark .darkable-section {
-    background-image: url("{{ .Params.overviewBackgroundImage }}");
-  }
-</style>
-
 <script>
   document.addEventListener("DOMContentLoaded", function () {
-    const baseDelay = 0; // Starting delay for the first item
-    const delayIncrement = 1800; // Delay between each keyword animation in ms
-
-    document.querySelectorAll(".typeit-keywords").forEach((el, index) => {
-      new TypeIt(el, {
-        speed: 100,
-        lifeLike: true,
-        startDelay: baseDelay + index * delayIncrement,
-        breakLines: false,
-        waitUntilVisible: true,
-        loop: false,
-        cursor: false,
-      }).go();
-    });
+    // Removed TypeIt functionality for keywords
   });
 </script>
 
@@ -81,7 +58,69 @@
   window.addEventListener("resize", updateScrollButtons);
 </script>
 
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    // Initialize TypeIt for the overview subtitle
+    new TypeIt(".overview-title", {
+      speed: 200,
+      startDelay: 400,
+      lifeLike: true,
+      breakLines: false,
+      waitUntilVisible: true,
+      loop: false,
+      cursor: true,
+      afterComplete: function (instance) {
+      instance.destroy();
+  }
+    })
+    .type('q', {delay: 200})
+    .delete(1, {pause: 100})
+    .move(-2, {delay: 300})
+    .type('Qubito', {delay: 300})
+    .delete(2, {pause: 200})
+    .type('TO', {delay: 100})
+    .pause(400)
+    .go();
+  });
+</script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const scrollIndicator = document.querySelector(".scroll-down-indicator");
+
+    window.addEventListener("scroll", function () {
+      if (window.scrollY > 100) {
+        // Adjust threshold to 100px
+        scrollIndicator.classList.add("hidden");
+      } else {
+        scrollIndicator.classList.remove("hidden");
+      }
+    });
+  });
+</script>
+
 <div>
+  <div class="background">
+    <!-- <span></span>
+    <span></span>
+    <span></span>
+    <span></span> -->
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
   <section
     class="darkable-section"
     style="
@@ -95,16 +134,25 @@
   >
     <div class="overview-section middle-screen">
       <div class="overview-left">
-        <h1 class="overview-title">{{ .Params.overviewTitle }}</h1>
+        <div class="overview-title-div">
+          <h1 class="overview-title"></h1>
+          <div class="overview-subtitle">=</div>
+          <div class="overview-subtitle">{{ .Params.overviewSubtitle }}</div>
+        </div>
         <p class="overview-description">{{ .Params.overviewDescription }}</p>
       </div>
+      {{/*
       <div class="overview-keywords">
         {{ range .Params.overviewKeywords }}
         <span class="keyword">
-          <p class="typeit-keywords">{{ . }}</p>
+          <p>{{ . }}</p>
         </span>
         {{ end }}
       </div>
+      */}}
+    </div>
+    <div class="scroll-down-indicator">
+      <span>&#x2193;</span>
     </div>
   </section>
 
@@ -133,13 +181,14 @@
       background-attachment: fixed; /* This keeps the background fixed while scrolling */
     "
   >
-    <div class="overview-activities-section middle-screen">
+    <div class="overview-activities-section middle-screen"
+    style="margin: auto 20%;">
       <div class="overview-left">
         <h1 class="overview-title">{{ .Params.activitiesTitle }}</h1>
         <p class="overview-description">{{ .Params.activitiesDescription }}</p>
       </div>
-      {{ with site.GetPage "snippets/homepageTimeline" }} {{ .Content }} {{ end
-      }}
+
+      {{ partial "recent-activities.html" (dict "Site" .Site "ishome" true) }}
     </div>
 
     <div class="activities-button">
@@ -148,7 +197,11 @@
     </div>
   </section>
 
+  <section class="recent-articles-section middle-screen">
+    {{ partial "recent-articles/main.html" . }}
+  </section>
   <!-- Sponsors Section -->
+  {{/*
   <section class="whoweare-section">
     <div class="whoweare-content">
       <h2>{{ .Params.sponsorsTitle }}</h2>
@@ -158,6 +211,26 @@
     </div>
     <div class="whoweare-image-container animate-on-scroll">
       <img src="{{ .Params.sponsors }}" alt="Who We Are" />
+    </div>
+  </section>
+  */}}
+  <section class="py-16 px-4 bg-gray-50 dark:bg-gray-800">
+    <div class="max-w-6xl mx-auto">
+      <!-- Header -->
+      <div class="text-center mb-12">
+        <h2
+          class="text-3xl md:text-4xl font-bold mb-8 text-gray-900 dark:text-white"
+        >
+          {{ .Params.contactTitle }}
+        </h2>
+        <p class="text-lg text-gray-600 dark:text-gray-300">
+          {{ .Params.contactDescription }}
+        </p>
+        <div class="mt-8">
+          {{ with site.GetPage "snippets/contactsButton" }} {{ .Content }} {{ end }}
+        </div>
+      </div>
+
     </div>
   </section>
 </div>
