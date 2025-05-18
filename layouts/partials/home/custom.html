@@ -62,14 +62,25 @@
   document.addEventListener("DOMContentLoaded", function () {
     // Initialize TypeIt for the overview subtitle
     new TypeIt(".overview-title", {
-      speed: 300,
+      speed: 200,
       startDelay: 400,
       lifeLike: true,
       breakLines: false,
       waitUntilVisible: true,
       loop: false,
       cursor: true,
-    }).go();
+      afterComplete: function (instance) {
+      instance.destroy();
+  }
+    })
+    .type('q', {delay: 200})
+    .delete(1, {pause: 100})
+    .move(-2, {delay: 300})
+    .type('Qubito', {delay: 300})
+    .delete(2, {pause: 200})
+    .type('TO', {delay: 100})
+    .pause(400)
+    .go();
   });
 </script>
 
@@ -124,7 +135,8 @@
     <div class="overview-section middle-screen">
       <div class="overview-left">
         <div class="overview-title-div">
-          <h1 class="overview-title">{{ .Params.overviewTitle }}</h1>
+          <h1 class="overview-title"></h1>
+          <div class="overview-subtitle">=</div>
           <div class="overview-subtitle">{{ .Params.overviewSubtitle }}</div>
         </div>
         <p class="overview-description">{{ .Params.overviewDescription }}</p>
