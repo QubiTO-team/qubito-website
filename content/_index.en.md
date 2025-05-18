@@ -9,7 +9,7 @@ overviewKeywords:
   - "Divulgation"
   - "Competition"
 whoWeAreTitle: "Who We Are"
-whoWeAreDescription: "We are a team of dedicated professionals committed to creating meaningful impact."
+whoWeAreDescription: "QubiTo was founded in 2023, inspired by the enthusiasm of students and professors of Politecnico di Torino for quantum physics and its promising technological prospects. Together, united by a passion for this dynamism, we research and disseminate the aspects of this fascinating world in its countless variations. We leverage our knowledge and skills by participating as a team in international hackathons. With the inauguration of the first quantum computer at our University, Spark IQM, we will finally begin to apply our theoretical knowledge in the realization of practical projects!"
 whoWeAreImage: "/images/whoweare.jpg"
 activitiesTitle: "What We Do"
 activitiesDescription: "Here are some of the exciting activities our team has been a part of."
