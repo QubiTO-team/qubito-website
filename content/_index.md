@@ -2,8 +2,7 @@
 overviewBackgroundImage: "/images/overview-bg.png"
 overviewBackgroundImageLight: "/images/overview-bg-light.png"
 logo: "/images/logo.png"
-overviewTitle: "QubiTO"
-overviewSubtitle: "Qubit + Torino ="
+overviewSubtitle: "Qubit + Torino"
 overviewDescription: "Il primo team studentesco di quantum computing in Italia!"
 overviewKeywords:
   - "Ricerca"
