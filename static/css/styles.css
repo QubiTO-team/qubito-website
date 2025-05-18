@@ -65,12 +65,12 @@
 
 .overview-title {
   margin: 20px 0px;
-  /* line-height: 3.5rem; */
+  line-height: 1em;
   font-size: 5rem; /* text-3xl */
   font-weight: bold;
   /* display: flex; */
   /* flex-direction: column; */
-  /* gap: 0.5rem; */
+  gap: 0.5rem;
 }
 
 @media (min-width: 768px) {
