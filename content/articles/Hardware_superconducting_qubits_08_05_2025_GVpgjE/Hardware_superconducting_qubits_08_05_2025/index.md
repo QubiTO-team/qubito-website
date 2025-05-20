@@ -322,7 +322,7 @@ l'hamiltoniana di Jaynes - Cummings può essere approssimata a:
 
 $$
 \begin{aligned}
-\hat H_{disp} = (\omega_r + \chi \hat \sigma _z) \hat a^\dagger \hat a + \frac{\omega_{q}}{2}\hat \sigma_z
+\hat H_{disp} = (\omega_r + \chi \hat \sigma_z) \hat a^\dagger \hat a + \frac{\omega_{q}}{2}\hat \sigma_z
 \end{aligned}
 $$
 con $\chi \approx \frac{g^2}{\Delta} $.
