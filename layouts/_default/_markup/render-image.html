@@ -1,0 +1,58 @@
+<style>
+  /* Default: show light, hide dark */
+  .image-light {
+    display: block;
+  }
+  .image-dark {
+    display: none;
+  }
+
+  /* When .dark is present on <html> or any parent */
+  .dark .image-light {
+    display: none;
+  }
+  .dark .image-dark {
+    display: block;
+  }
+</style>
+
+{{- $src := .Destination -}} {{- $alt := .Text -}} {{- $title := .Title -}} {{-
+$ext := path.Ext $src | lower -}} {{ if eq $ext ".svg" }}
+<img
+  src="{{ $src | safeURL }}"
+  alt="{{ $alt }}"
+  {{
+  with
+  $title
+  }}title="{{ . }}"
+  {{
+  end
+  }}
+/>
+{{ else }} {{- $darkSrc := replaceRE "(?i)(\\.[^./]+)$" "-dark$1" $src -}}
+
+<img
+  src="{{ $src | safeURL }}"
+  class="image-light"
+  alt="{{ $alt }}"
+  {{
+  with
+  $title
+  }}title="{{ . }}"
+  {{
+  end
+  }}
+/>
+<img
+  src="{{ $darkSrc | safeURL }}"
+  class="image-dark"
+  alt="{{ $alt }} (dark)"
+  {{
+  with
+  $title
+  }}title="{{ . }}"
+  {{
+  end
+  }}
+/>
+{{ end }}
