@@ -5,4 +5,4 @@ _build:
   list: never
   publishResources: false
 ---
-{{< button  href="/team" >}}Learn More{{< /button >}}
+{{< button href="team" >}}Learn More{{< /button >}}

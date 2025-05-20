@@ -19,22 +19,12 @@
   }
 </style>
 
-{{- $src := .Destination -}} {{- $alt := .Text -}} {{- $title := .Title -}} {{-
-$ext := path.Ext $src | lower -}} {{ if eq $ext ".svg" }}
-<img
-  src="{{ $src | safeURL }}"
-  alt="{{ $alt }}"
-  {{
-  with
-  $title
-  }}title="{{ . }}"
-  {{
-  end
-  }}
-/>
-{{ else }} {{- $darkSrc := $src -}} {{- $darkPath := replaceRE
-"(?i)(\\.[^./]+)$" "-dark$1" $src -}} {{- with .Page.Resources.GetMatch
-$darkPath -}} {{- $darkSrc = .RelPermalink -}}
+{{ $page := .Page }} {{ $resOwner := cond (gt (len $page.Resources) 0) $page
+(index $page.Translations 0) }} {{ $src := $resOwner.Resources.GetMatch
+.Destination }}{{- $alt := .Text -}} {{- $title := .Title -}} {{- $ext :=
+path.Ext $src | lower -}} {{- $darkSrc := $src -}} {{- $darkPath := replaceRE
+"(?i)(\\.[^./]+)$" "-dark$1" .Destination -}} {{- $darkRes :=
+$resOwner.Resources.GetMatch $darkPath -}} {{- if $darkRes -}}
 
 <img
   src="{{ $src | safeURL }}"
@@ -75,4 +65,4 @@ $darkPath -}} {{- $darkSrc = .RelPermalink -}}
   end
   }}
 />
-{{- end -}} {{ end }}
+{{ end }}

@@ -5,4 +5,4 @@ _build:
   list: never
   publishResources: false
 ---
-{{< button  href="activities" >}}Check all Activities{{< /button >}}
+{{< button  href="contacts" >}}Stay in touch{{< /button >}}
