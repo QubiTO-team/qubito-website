@@ -5,7 +5,7 @@ none = "none"
 name = "Articoli"
 url = "/articles/"
 # pre = "newspaper"
-pageRef = "atricles"
+pageRef = "articles"
 identifier = "3703knfzPk"
 weight = 10
 
