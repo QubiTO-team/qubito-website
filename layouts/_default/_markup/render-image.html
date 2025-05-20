@@ -29,8 +29,9 @@ $ext := path.Ext $src | lower -}} {{ if eq $ext ".svg" }}
   end
   }}
 />
-{{ else }} {{- $darkSrc := replaceRE "(?i)(\\.[^./]+)$" "-dark$1" $src -}}
-
+{{ else }} {{- $darkSrc := $src -}} {{- $darkPath := replaceRE
+"(?i)(\\.[^./]+)$" "-dark$1" $src -}} {{- with .Page.Resources.GetMatch
+$darkPath -}} {{- $darkSrc = .RelPermalink -}} {{- else -}} {{- end -}}
 <img
   src="{{ $src | safeURL }}"
   class="image-light"

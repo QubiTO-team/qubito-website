@@ -130,7 +130,7 @@ one correct bit. Since those have an empty intersection, we end up with
 
 </div>
 
-![Binary Symmetric Error](./images/binary-symmetric-error.png)
+![Binary Symmetric Error](images/binary-symmetric-error.png)
 
 As can be seen in Fig.
 <a href="#fig:enter-label" data-reference-type="ref"
