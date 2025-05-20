@@ -3,10 +3,38 @@ none = "none"
 
 [[main]]
 name = "Articles"
+url = "/articles/"
 # pre = "newspaper"
 pageRef = "articles"
 identifier = "3703knfzPk"
 weight = 10
+
+
+[[main]]
+name = "Activities"
+url = "/activities/"
+# pre = "tags"
+pageRef = "activities"
+identifier = "Tj5XqSIFH"
+weight = 11
+
+
+[[main]]
+name = "Who We Are"
+url = "/team/"
+# pre = "tags"
+pageRef = "team"
+identifier = "Tj5XqISJOS"
+weight = 12
+
+
+[[main]]
+name = "Contacts"
+url = "/contacts/"
+# pre = "tags"
+pageRef = "contacts"
+identifier = "Tj5XqDRSSD"
+weight = 13
 
 # [[main]]
 # name = "Tags"

@@ -9,6 +9,31 @@ pageRef = "articles"
 identifier = "3703knfzPk"
 weight = 10
 
+[[main]]
+name = "Attività"
+url = "/activities/"
+# pre = "tags"
+pageRef = "activities"
+identifier = "Tj5XqSIFH"
+weight = 11
+
+
+[[main]]
+name = "Chi Siamo"
+url = "/team/"
+# pre = "tags"
+pageRef = "team"
+identifier = "Tj5XqISJOS"
+weight = 12
+
+
+[[main]]
+name = "Contatti"
+url = "/contacts/"
+# pre = "tags"
+pageRef = "contacts"
+identifier = "Tj5XqDRSSD"
+weight = 13
 # [[main]]
 # name = "Etichette"
 # # pre = "tags"

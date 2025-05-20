@@ -70,17 +70,17 @@
       loop: false,
       cursor: true,
       afterComplete: function (instance) {
-      instance.destroy();
-  }
+        instance.destroy();
+      },
     })
-    .type('q', {delay: 200})
-    .delete(1, {pause: 100})
-    .move(-2, {delay: 300})
-    .type('Qubito', {delay: 300})
-    .delete(2, {pause: 200})
-    .type('TO', {delay: 100})
-    .pause(400)
-    .go();
+      .type("q", { delay: 200 })
+      .delete(1, { pause: 100 })
+      .move(-2, { delay: 300 })
+      .type("Qubito", { delay: 300 })
+      .delete(2, { pause: 200 })
+      .type("TO", { delay: 100 })
+      .pause(400)
+      .go();
   });
 </script>
 
@@ -181,14 +181,18 @@
       background-attachment: fixed; /* This keeps the background fixed while scrolling */
     "
   >
-    <div class="overview-activities-section middle-screen"
-    style="margin: auto 20%;">
+    <div
+      class="overview-activities-section middle-screen"
+      style="margin: auto 20%"
+    >
       <div class="overview-left">
         <h1 class="overview-title">{{ .Params.activitiesTitle }}</h1>
         <p class="overview-description">{{ .Params.activitiesDescription }}</p>
       </div>
-
-      {{ partial "recent-activities.html" (dict "Site" .Site "ishome" true) }}
+      <div class="prose dark:prose-invert">
+        {{ partial "recent-activities.html" (dict "Site" .Site "Page" . "ishome"
+        true) }}
+      </div>
     </div>
 
     <div class="activities-button">
@@ -227,10 +231,10 @@
           {{ .Params.contactDescription }}
         </p>
         <div class="mt-8">
-          {{ with site.GetPage "snippets/contactsButton" }} {{ .Content }} {{ end }}
+          {{ with site.GetPage "snippets/contactsButton" }} {{ .Content }} {{
+          end }}
         </div>
       </div>
-
     </div>
   </section>
 </div>
