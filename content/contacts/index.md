@@ -22,12 +22,10 @@ Informazioni di Contatto
 
 
 {{< typeit 
-tag=h3
+tag=h4
 lifelike=true
 startdelay=1000
->}}qubito@polito.it
-{{< /typeit >}}
-
+>}}qubito@polito.it{{< /typeit >}}
 
 ## I nostri partner
 

@@ -73,12 +73,13 @@
         instance.destroy();
       },
     })
-      .type("q", { delay: 200 })
-      .delete(1, { pause: 100 })
-      .move(-2, { delay: 300 })
-      .type("Qubito", { delay: 300 })
+      .type("qubito", { delay: 700 })
+      .move(-5)
+      .delete(1)
+      .type("Q")
+      .move(5, {delay: 100})
       .delete(2, { pause: 200 })
-      .type("TO", { delay: 100 })
+      .type("TO", { delay: 500 })
       .pause(400)
       .go();
   });
