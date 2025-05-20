@@ -1,18 +1,21 @@
 <style>
-  /* Default: show light, hide dark */
-  .image-light {
-    display: block;
-  }
-  .image-dark {
+  /* When .dark is present on <html> or any parent */
+
+  .image-found-dark {
     display: none;
   }
-
-  /* When .dark is present on <html> or any parent */
-  .dark .image-light {
+  .image-found-light {
+    display: block;
+  }
+  .dark .image-found-dark {
+    display: block;
+  }
+  .dark .image-found-light {
     display: none;
   }
   .dark .image-dark {
     display: block;
+    filter: invert(1) hue-rotate(180deg);
   }
 </style>
 
@@ -31,10 +34,11 @@ $ext := path.Ext $src | lower -}} {{ if eq $ext ".svg" }}
 />
 {{ else }} {{- $darkSrc := $src -}} {{- $darkPath := replaceRE
 "(?i)(\\.[^./]+)$" "-dark$1" $src -}} {{- with .Page.Resources.GetMatch
-$darkPath -}} {{- $darkSrc = .RelPermalink -}} {{- else -}} {{- end -}}
+$darkPath -}} {{- $darkSrc = .RelPermalink -}}
+
 <img
   src="{{ $src | safeURL }}"
-  class="image-light"
+  class="image-found-light"
   alt="{{ $alt }}"
   {{
   with
@@ -44,10 +48,11 @@ $darkPath -}} {{- $darkSrc = .RelPermalink -}} {{- else -}} {{- end -}}
   end
   }}
 />
+
 <img
   src="{{ $darkSrc | safeURL }}"
-  class="image-dark"
-  alt="{{ $alt }} (dark)"
+  class="image-found-dark"
+  alt="{{ $alt }}"
   {{
   with
   $title
@@ -56,4 +61,18 @@ $darkPath -}} {{- $darkSrc = .RelPermalink -}} {{- else -}} {{- end -}}
   end
   }}
 />
-{{ end }}
+{{- else -}}
+
+<img
+  src="{{ $darkSrc | safeURL }}"
+  class="image-dark"
+  alt="{{ $alt }}"
+  {{
+  with
+  $title
+  }}title="{{ . }}"
+  {{
+  end
+  }}
+/>
+{{- end -}} {{ end }}
