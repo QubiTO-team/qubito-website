@@ -5,4 +5,4 @@ _build:
   list: never
   publishResources: false
 ---
-{{< button  href="/contacts" >}}Rimani in contatto{{< /button >}}
+{{< button  href="/contacts" >}}Contattaci{{< /button >}}

@@ -1,3 +1,73 @@
+- icon: "🚀"
+  header: "Salone dell'Orientamento"
+  badge: "2025"
+  description: "Seconda partecipazione al Salone dell'Orientamento, incontrando nuovi studenti interessati alla fisica quantistica."
+  isMainActivity: false
+
+- icon: "🔢"
+  header: "Pi Greco Day"
+  badge: "2025"
+  description: "Celebrazione del Pi Greco Day con prospettiva quantistica, esplorando il ruolo di π nella fisica teorica e nella meccanica quantistica."
+  isMainActivity: false
+
+- icon: "💡"
+  header: "Pushquantum Hackathon"
+  badge: "2024"
+  description: "Partecipazione all'hackathon internazionale presso il TUM Entrepreneurship Research Institute di Monaco di Baviera."
+  isMainActivity: true
+  images:
+    - "/images/past-activities/pushquantum-hackathon-2024.jpg"
+
+- icon: "🧠"
+  header: "Hackathon interno"
+  badge: "Autunno 2025"
+  description: "Secondo hackathon interno focalizzato su Quantum Optimisation e Quantum Machine Learning, con progetti originali ed esplorazione di nuovi orizzonti applicativi."
+  isMainActivity: true
+  images:
+    - "/images/past-activities/hackathon-interno-2025.jpg"
+
+- icon: "🎤"
+  header: "DevFestAlps 2024"
+  badge: "2024"
+  description: "Seconda partecipazione al Google DevFestAlps con un nuovo talk, condividendo la nostra passione per il quantum computing."
+  isMainActivity: true
+  images:
+    - "/images/past-activities/dev-fest-alps-2024.jpg"
+
+- icon: "🌍"
+  header: "ETH Quantum Hackathon 2024"
+  badge: "2024"
+  description: "Il nostro primo hackathon internazionale all'ETH di Zurigo. Abbiamo lavorato intensamente per 24 ore su diverse challenge proposte da startup e aziende."
+  isMainActivity: true
+  images:
+    - "/images/past-activities/eth-quantum-hackathon-2024.jpg"
+
+- icon: "🎓"
+  header: "Salone dell'Orientamento 2024"
+  badge: "2024"
+  description: "Durante l'annuale Salone dell'Orientamento del Politecnico, ci siamo presentati a futuri studenti curiosi e interessati al mondo quantistico."
+  isMainActivity: false
+  images:
+    - "/images/past-activities/salone-dell-orientamento-2024.jpg"
+
+- icon: "✨"
+  header: "Esplorando le Opportunità Quantistiche"
+  badge: "2023"
+  description: "Il nostro primo grande evento di divulgazione al Politecnico di Torino in collaborazione con BeQuantum. Un grande successo con oltre 200 partecipanti in sala."
+  isMainActivity: true
+  images:
+    - "/images/past-activities/esplorando-le-opportunita-quantistiche-1.jpg"
+    - "/images/past-activities/esplorando-le-opportunita-quantistiche-2.jpg"
+
+- icon: "🎤"
+  header: "DevFestAlps 2023"
+  badge: "2023"
+  description: "Sul palco del Google DevFestAlps presso il Toolbox Coworking a Torino, abbiamo presentato il nostro lavoro sull'algoritmo di Grover e gli oracoli quantistici."
+  isMainActivity: true
+  images:
+    - "/images/past-activities/dev-fest-alps-2023-1.jpg"
+    - "/images/past-activities/dev-fest-alps-2023-2.jpg"
+
 - icon: "🔍"
   header: "Hackathon interno"
   badge: "Autunno 2023"
@@ -9,72 +79,3 @@
   images: 
     - "/images/past-activities/hackathon-interno-2023.png"
 
-- icon: "🎤"
-  header: "DevFestAlps 2023"
-  badge: "2023"
-  description: "Sul palco del Google DevFestAlps presso il Toolbox Coworking a Torino, abbiamo presentato il nostro lavoro sull'algoritmo di Grover e gli oracoli quantistici."
-  isMainActivity: true
-  images:
-    - "/images/past-activities/dev-fest-alps-2023-1.jpg"
-    - "/images/past-activities/dev-fest-alps-2023-2.jpg"
-
-- icon: "✨"
-  header: "Esplorando le Opportunità Quantistiche"
-  badge: "2023"
-  description: "Il nostro primo grande evento di divulgazione al Politecnico di Torino in collaborazione con BeQuantum. Un grande successo con oltre 200 partecipanti in sala."
-  isMainActivity: true
-  images:
-    - "/images/past-activities/esplorando-le-opportunita-quantistiche-1.jpg"
-    - "/images/past-activities/esplorando-le-opportunita-quantistiche-2.jpg"
-
-- icon: "🎓"
-  header: "Salone dell'Orientamento 2024"
-  badge: "2024"
-  description: "Durante l'annuale Salone dell'Orientamento del Politecnico, ci siamo presentati a futuri studenti curiosi e interessati al mondo quantistico."
-  isMainActivity: true
-  images:
-    - "/images/past-activities/salone-dell-orientamento-2024.jpg"
-
-- icon: "🌍"
-  header: "ETH Quantum Hackathon 2024"
-  badge: "2024"
-  description: "Il nostro primo hackathon internazionale all'ETH di Zurigo. Abbiamo lavorato intensamente per 24 ore su diverse challenge proposte da startup e aziende."
-  isMainActivity: true
-  images:
-    - "/images/past-activities/eth-quantum-hackathon-2024.jpg"
-
-- icon: "🎤"
-  header: "DevFestAlps 2024"
-  badge: "2024"
-  description: "Seconda partecipazione al Google DevFestAlps con un nuovo talk, condividendo la nostra passione per il quantum computing."
-  isMainActivity: true
-  images:
-    - "/images/past-activities/dev-fest-alps-2024.jpg"
-
-- icon: "🧠"
-  header: "Hackathon interno"
-  badge: "Autunno 2025"
-  description: "Secondo hackathon interno focalizzato su Quantum Optimisation e Quantum Machine Learning, con progetti originali ed esplorazione di nuovi orizzonti applicativi."
-  isMainActivity: true
-  images:
-    - "/images/past-activities/hackathon-interno-2025.jpg"
-
-- icon: "💡"
-  header: "Pushquantum Hackathon"
-  badge: "2024"
-  description: "Partecipazione all'hackathon internazionale presso il TUM Entrepreneurship Research Institute di Monaco di Baviera."
-  isMainActivity: true
-  images:
-    - "/images/past-activities/pushquantum-hackathon-2024.jpg"
-
-- icon: "🔢"
-  header: "Pi Greco Day"
-  badge: "2025"
-  description: "Celebrazione del Pi Greco Day con prospettiva quantistica, esplorando il ruolo di π nella fisica teorica e nella meccanica quantistica."
-  isMainActivity: true
-
-- icon: "🚀"
-  header: "Salone dell'Orientamento"
-  badge: "2025"
-  description: "Seconda partecipazione al Salone dell'Orientamento, incontrando nuovi studenti interessati alla fisica quantistica."
-  isMainActivity: true
