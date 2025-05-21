@@ -407,5 +407,4 @@ Con questo articolo vi abbiamo spiegato:
 + cos'è un **qubit transmon**;
 + come **manipolare il qubit** in un computer quantistico superconduttivo.
 
-Se questo articolo vi è piaciuto, condividetelo con i vostri amici quantistici! O anche con il vostro cane, il vostro gatto, il vostro cavallo...
-
+Se questo articolo ti è piaciuto, condividilo con altri appassionati di Quantum! 

@@ -440,5 +440,4 @@ So, with this article, we explained you:
 + what is a **transmon qubit**;
 + the **first building stages** of a superconductive quantum computer.
 
-If you liked this article, please share with your Quantum fellows! Or even with your dog, your cat...
-
+If you liked this article, please share it with other Quantum-enthusiasts!
