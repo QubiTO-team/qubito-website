@@ -1,7 +1,7 @@
 {{- $disableImageOptimization := .Page.Site.Params.disableImageOptimization |
 default false }} {{- $url := urls.Parse .Destination }} {{- $altText := .Text }}
 {{- $caption := .Title }} {{- if findRE "^https?" $url.Scheme }}
-<figure>
+<figure {{ with $caption }} id="{{ anchorize . }}" {{ end }}>
   <img
     class="my-0 rounded-md"
     loading="lazy"
@@ -39,7 +39,7 @@ else if resources.GetMatch ($url.String) }} {{- $resource = resources.Get
 {{- $darkPath := replaceRE "(?i)(\\.[^./]+)$" "-dark$1" .Name }} {{- $darkRes :=
 $.Page.Resources.GetMatch $darkPath }}
 
-<figure>
+<figure {{ with $caption }} id="{{ anchorize . }}" {{ end }}>
   {{- if $darkRes }}
   <img
     src="{{ .RelPermalink }}"
