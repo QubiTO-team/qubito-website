@@ -16,7 +16,7 @@ translationKey: "team-page"
 
 <h1 style="text-align: center;">Chi siamo</h1>
 
-QubiTo nasce nel 2023 sulla scia dell'entusiasmo di studenti e professori del Politecnico di Torino verso la fisica quantistica e le sue contemporanee, promettenti prospettive tecnologiche. 
+QubiTO nasce nel 2023 sulla scia dell'entusiasmo di studenti e professori del Politecnico di Torino verso la fisica quantistica e le sue contemporanee, promettenti prospettive tecnologiche. 
 Insieme, uniti dalla passione per tale dinamismo, ricerchiamo e divulghiamo gli aspetti di questo affascinante mondo nelle sue innumerevoli declinazioni e sfruttiamo le nostre conoscenze e competenze partecipando in squadra ad hackaton internazionali. 
 
 

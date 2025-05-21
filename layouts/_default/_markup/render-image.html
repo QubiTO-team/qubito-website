@@ -1,6 +1,23 @@
-<style>
-  /* When .dark is present on <html> or any parent */
+{{- $disableImageOptimization := .Page.Site.Params.disableImageOptimization |
+default false }} {{- $url := urls.Parse .Destination }} {{- $altText := .Text }}
+{{- $caption := .Title }} {{- if findRE "^https?" $url.Scheme }}
+<figure>
+  <img
+    class="my-0 rounded-md"
+    loading="lazy"
+    src="{{ $url.String }}"
+    alt="{{ $altText }}"
+  />
+  {{ with $caption }}
+  <figcaption>{{ . | markdownify }}</figcaption>
+  {{ end }}
+</figure>
+{{- else }} {{- $resource := "" }} {{- if $.Page.Resources.GetMatch
+($url.String) }} {{- $resource = $.Page.Resources.GetMatch ($url.String) }} {{-
+else if resources.GetMatch ($url.String) }} {{- $resource = resources.Get
+($url.String) }} {{- end }} {{- with $resource }}
 
+<style>
   .image-found-dark {
     display: none;
   }
@@ -19,50 +36,66 @@
   }
 </style>
 
-{{ $page := .Page }} {{ $resOwner := cond (gt (len $page.Resources) 0) $page
-(index $page.Translations 0) }} {{ $src := $resOwner.Resources.GetMatch
-.Destination }}{{- $alt := .Text -}} {{- $title := .Title -}} {{- $ext :=
-path.Ext $src | lower -}} {{- $darkSrc := $src -}} {{- $darkPath := replaceRE
-"(?i)(\\.[^./]+)$" "-dark$1" .Destination -}} {{- $darkRes :=
-$resOwner.Resources.GetMatch $darkPath -}} {{- if $darkRes -}}
+{{- $darkPath := replaceRE "(?i)(\\.[^./]+)$" "-dark$1" .Name }} {{- $darkRes :=
+$.Page.Resources.GetMatch $darkPath }}
 
-<img
-  src="{{ $src | safeURL }}"
-  class="image-found-light"
-  alt="{{ $alt }}"
-  {{
-  with
-  $title
-  }}title="{{ . }}"
-  {{
-  end
-  }}
-/>
+<figure>
+  {{- if $darkRes }}
+  <img
+    src="{{ .RelPermalink }}"
+    class="my-0 rounded-md image-found-light"
+    alt="{{ $altText }}"
+    loading="lazy"
+    {{
+    with
+    $caption
+    }}title="{{ . }}"
+    {{
+    end
+    }}
+  />
+  <img
+    src="{{ $darkRes.RelPermalink }}"
+    class="my-0 rounded-md image-found-dark"
+    alt="{{ $altText }}"
+    loading="lazy"
+    {{
+    with
+    $caption
+    }}title="{{ . }}"
+    {{
+    end
+    }}
+  />
+  {{- else }}
+  <img
+    src="{{ .RelPermalink }}"
+    class="my-0 rounded-md image-dark"
+    alt="{{ $altText }}"
+    loading="lazy"
+    {{
+    with
+    $caption
+    }}title="{{ . }}"
+    {{
+    end
+    }}
+  />
+  {{- end }} {{ with $caption }}
+  <figcaption>{{ . | markdownify }}</figcaption>
+  {{ end }}
+</figure>
 
-<img
-  src="{{ $darkSrc | safeURL }}"
-  class="image-found-dark"
-  alt="{{ $alt }}"
-  {{
-  with
-  $title
-  }}title="{{ . }}"
-  {{
-  end
-  }}
-/>
-{{- else -}}
-
-<img
-  src="{{ $darkSrc | safeURL }}"
-  class="image-dark"
-  alt="{{ $alt }}"
-  {{
-  with
-  $title
-  }}title="{{ . }}"
-  {{
-  end
-  }}
-/>
-{{ end }}
+{{- else }}
+<figure>
+  <img
+    class="my-0 rounded-md"
+    loading="lazy"
+    src="{{ $url.String }}"
+    alt="{{ $altText }}"
+  />
+  {{ with $caption }}
+  <figcaption>{{ . | markdownify }}</figcaption>
+  {{ end }}
+</figure>
+{{- end }} {{- end }}

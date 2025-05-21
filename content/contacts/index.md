@@ -12,6 +12,7 @@ showHeadingAnchors: false
 showZenMode: false
 title: "Contatti"
 translationKey: "contacts-page"
+showTableOfContents: false
 ---
 # Mettiti in Contatto con Noi!
 
@@ -19,23 +20,29 @@ Se desideri supportarci nella nostra missione o unirti a noi nel nostro percorso
 
 Informazioni di Contatto
 
-Email: qubito@polito.it
 
-Social Media: 
-
-+ [Instagram](https://www.instagram.com/qubitoteam_polito/)
-+ [Linkedin](https://www.linkedin.com/company/qubito-student-team-politecnico-di-torino/)
+{{< typeit 
+tag=h4
+lifelike=true
+startdelay=1000
+>}}qubito@polito.it{{< /typeit >}}
 
 ## I nostri partner
 
 ### Partner principale
 
 Politecnico di Torino
+{{< figure
+    src="polito_logo_white.png"
+    alt="Polito logo"
+    >}}
 
 # Seguici
 
 Rimani aggiornato sui nostri ultimi progetti ed eventi seguendoci sui social media!
 
++ [Instagram {{<icon "instagram" >}}](https://www.instagram.com/qubitoteam_polito/)
++ [Linkedin {{<icon "linkedin" >}}](https://www.linkedin.com/company/qubito-student-team-politecnico-di-torino/)
 
 ## Il tuo aiuto è molto importante per noi!
 Che tu abbia domande, suggerimenti o semplicemente voglia salutarci, il tuo contributo è prezioso per noi. Grazie per essere con noi in questa avventura!

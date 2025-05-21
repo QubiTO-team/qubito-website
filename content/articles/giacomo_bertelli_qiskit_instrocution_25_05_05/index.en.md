@@ -1,15 +1,10 @@
 ---
 title: "Introduction to Qiskit"
 weight: 13
-draft: false
 date: 2025-05-16
-hideFeatureImage: true
-showDescription: true
 description: "Qiskit: simulating a circuit starting from zero"
 summary: "This short guide explains the basics of Qiskit, how to create a quantum circuit with custom gates and how to run an ideal simulation"
 tags: ["Python", "Qiskit"]
-showAuthor: true
-showCategory: true
 authors: ["Giacomo Bertelli"]
 slug: "introduction-to-qiskit"
 translationKey: "qiskit-introduction"
