@@ -11,85 +11,47 @@ translationKey: "correcting-quantum-errors"
 
 # Classical Repetition Codes
 
-Noise is a fundamental challenge in information processing systems. Many
-classical systems are able to avoid noise completely, while others must
-make use of error-correcting codes to protect against the effects of
-noise. The key idea is redundancy: by encoding messages with extra
-information, errors can be detected and corrected even if part of the
-data is corrupted. Repetition codes are extremely basic examples of
-error correcting codes.
+Noise is a fundamental challenge in information processing systems. Many classical systems are able to avoid noise completely, while others must make use of error-correcting codes to protect against the effects of noise. The key idea is redundancy: by encoding messages with extra information, errors can be detected and corrected even if part of the data is corrupted. Repetition codes are extremely basic examples of error correcting codes.
 
 ## Encoding and Decoding Procedures
 
-The core idea is to protect a bit against errors by repeating it
-multiple times. Consider the 3-bit repetition code, where a single bit
-is encoded as three identical bits.
+The core idea is to protect a bit against errors by repeating it multiple times. Consider the 3-bit repetition code, where a single bit is encoded as three identical bits.
 ``` math
 \begin{aligned}
         0 &\mapsto 000\\
         1 &\mapsto 111  
     \end{aligned}
 ```
-In the absence of errors, the original bit can be trivially decoded.
-However, even if one bit flips, the original value can still be
-recovered by majority voting: the decoder outputs whichever value
-appears more frequently.
+In the absence of errors, the original bit can be trivially decoded. However, even if one bit flips, the original value can still be recovered by majority voting: the decoder outputs whichever value appears more frequently.
 ``` math
 abc \mapsto majority(a,b,c)
 ```
 This corrects single-bit errors reliably.
 
-Of course, if 2 or 3 bits of the encoding flip, then the decoding won’t
-work properly and the wrong bit will be recovered, but if at most 1 of
-the 3 bits flips, the decoding will be correct. This shows a central
-concept in error correction: the trade-off between redundancy and
-robustness.
+Of course, if 2 or 3 bits of the encoding flip, then the decoding won’t work properly and the wrong bit will be recovered, but if at most 1 of the 3 bits flips, the decoding will be correct. This shows a central concept in error correction: the trade-off between redundancy and robustness.
 
 ## Error Analysis in Binary Symmetric Channels
 
-As an example, suppose we wish to communicate a single bit to a
-hypothetical receiver through a classical noisy channel. The effect of
-the noise in the channel is to flip a transmitted bit with probability
-$`p`$, while with probability $`1-p`$ the bit is transmitted correctly.
-Such a channel is known as a *binary symmetric channel*, it flips each
-bit sent through it independently.
+As an example, suppose we wish to communicate a single bit to a hypothetical receiver through a classical noisy channel. The effect of the noise in the channel is to flip a transmitted bit with probability $p$, while with probability $1-p$ the bit is transmitted correctly. Such a channel is known as a *binary symmetric channel*, it flips each bit sent through it independently.
 
-In this context, if we choose not to use any error correcting code and
-simply send whatever bit through the channel, the receiver will receive
-the wrong bit with probability $`p`$.
+In this context, if we choose not to use any error correcting code and simply send whatever bit through the channel, the receiver will receive the wrong bit with probability $p$.
 
-On the other hand, if we first use the 3-bit repetition code to encode
-the bit and then send each of the resulting three bits through the
-channel, each one of them will flip indipendently with probability
-$`p`$. The receiver will decode correctly only if at most one bit flips
-during the communication. So the probability of an error after the
-decoding corresponds to the probability that either two or each of the
-three bits flip during transmission. The total probability of an error
-is therefore
+On the other hand, if we first use the 3-bit repetition code to encode the bit and then send each of the resulting three bits through the channel, each one of them will flip indipendently with probability $p$. The receiver will decode correctly only if at most one bit flips during the communication. So the probability of an error after the decoding corresponds to the probability that either two or each of the three bits flip during transmission. The total probability of an error is therefore
 ``` math
 3p^2(1-p)+p^3 = 3p^2-2p^3.
 ```
 
-<div class="tcolorbox">
-
-<span class="mark">Proposed addition by Edo</span>  
 This can be obtained using probability theory. Suppose we denote with
 ``` math
 p(X_1 \cap X_2 \cap X_3)
 ```
-the probability that when we obtain the 3-digit bit string, we obtain
-the result $`X_i`$ for the $`i`$-th bit, where the outcome can be
-$`C_i`$ for correct detection and $`W_i`$ for a wrong one.
+the probability that when we obtain the 3-digit bit string, we obtain the result $`X_i`$ for the $`i`$-th bit, where the outcome can be $`C_i`$ for correct detection and $`W_i`$ for a wrong one.
 
-Let’s consider the case where all three bits are wrong. Since the three
-events are independent (we assumed this at the beginning), the theory
-tells us that the probability of the intersection of the events is the
-product of the probabilities of the single events,
+Let’s consider the case where all three bits are wrong. Since the three events are independent (we assumed this at the beginning), the theory tells us that the probability of the intersection of the events is the product of the probabilities of the single events,
 ``` math
 p(W_1 \cap W_2 \cap W_3) = p(W_1) p(W_2) p(W_3) = p^3\,.
 ```
-Analyzing the other case, we see that one possible scenario is the
-following:
+Analyzing the other case, we see that one possible scenario is the following:
 ``` math
 p(C_1 \cap W_2 \cap W_3) = p(C_1) p(W_2) p(W_3) = (1-p)p^2\,.
 ```
@@ -106,9 +68,7 @@ The final expression for the event of only one correct bit is
 p\big((C_1 \cap W_2 \cap W_3) \cup (W_1 \cap C_2 \cap W_3) \cup (W_1 \cap W_2 \cap C_3)\big)\,.
 ```
 
-Since the three composite events considered have an empty intersection
-(a bit cannot be simultaneously correct and wrong), the theory tells us
-that we can simply sum the single probabilities,
+Since the three composite events considered have an empty intersection (a bit cannot be simultaneously correct and wrong), the theory tells us that we can simply sum the single probabilities,
 ``` math
 \begin{aligned}
     p& \big((C_1 \cap W_2 \cap W_3) \cup (W_1 \cap C_2 \cap W_3) \cup (W_1 \cap W_2 \cap C_3)\big) = \\
@@ -118,8 +78,7 @@ that we can simply sum the single probabilities,
 \end{aligned}
 ```
 
-Finally, we have to consider the composite event of all errors or only
-one correct bit. Since those have an empty intersection, we end up with
+Finally, we have to consider the composite event of all errors or only one correct bit. Since those have an empty intersection, we end up with
 ``` math
 \begin{aligned}
     p&\Big( \big( (C_1 \cap W_2 \cap W_3) \cup (W_1 \cap C_2 \cap W_3) \cup (W_1 \cap W_2 \cap C_3)\big) \cup (W_1 \cap W_2 \cap W_3) \Big) = \\ 
@@ -128,76 +87,31 @@ one correct bit. Since those have an empty intersection, we end up with
 \end{aligned}
 ```
 
-</div>
+![](images/binary-symmetric-error.png "Binary Symmetric Error")
 
-<figure id="fig:enter-label">
-<img src="images/binary-symmetric-error.png" style="width:70.0%" />
-<figcaption>Binary Symmetric Error</figcaption>
-</figure>
-
-As can be seen in Fig.
-<a href="#fig:enter-label" data-reference-type="ref"
-data-reference="fig:enter-label">1</a>, when the error probability $`p`$
-is less than $`1/2`$, the repetition code effectively reduces the chance
-of the receiver obtaining an incorrect bit. Conversely, if $`p`$ exceeds
-$`1/2`$, the code amplifies the likelihood of decoding errors rather
-than correcting them.
-
+As can be seen in [above figure](#binary-), when the error probability $p$ is less than $1/2$, the repetition code effectively reduces the chance of the receiver obtaining an incorrect bit. Conversely, if $p$ exceeds $1/2$, the code amplifies the likelihood of decoding errors rather than correcting them. 
 # Quantum Repetition Codes for Qubits
 
 The 3-bit repetition code can be used also for qubit error correction.
 
 ## Encoding Quantum States
 
-To create a 3-qubit repeated entangled state, we can use the circuit
-shown in Fig. <a href="#fig:3qubit" data-reference-type="ref"
-data-reference="fig:3qubit">2</a>. Thanks to this circuit we can encode
-the generic state $`\alpha \ket{0}+ \beta \ket{1}`$ into the state
-$`\alpha \ket{000}+ \beta \ket{111}`$, thanks to the action of the
-controlled NOT (CNOT) gates.
+To create a 3-qubit repeated entangled state, we can use the circuit shown in Fig. <a href="#fig:3qubit" data-reference-type="ref" data-reference="fig:3qubit">2</a>. Thanks to this circuit we can encode the generic state $\alpha \ket{0}+ \beta \ket{1}$ into the state $\alpha \ket{000}+ \beta \ket{111}$, thanks to the action of the controlled NOT (CNOT) gates.
 
 <figure id="fig:3qubit">
-<div class="quantikz">
-<p>&amp;&amp;&amp;<br />
-&amp;&amp;&amp;<br />
-&amp;&amp;&amp;<br />
-</p>
-</div>
+<img src="images/encoding_quantum_states.png" style="width:70.0%" />
 <figcaption>3-qubit bit flip code circuit diagram.</figcaption>
 </figure>
 
-Notice that this encoding is different from the repetition of the same
-state three times $`\ket{\psi}\otimes\ket{\psi}\otimes\ket{\psi}`$,
-which would be impossible due to the no cloning theorem.
+Notice that this encoding is different from the repetition of the same state three times $\ket{\psi}\otimes\ket{\psi}\otimes\ket{\psi}$, which would be impossible due to the no cloning theorem.
 
 ## Detecting and Correcting Bit-Flip Errors
 
-The first type of error we can correct with repetition qubits is the bit
-flip. This sort of error is represented as an $`X`$ gate. If one of the
-three qubits, say the middle one, undergoes this type of error, the
-final state of the system would be
-$`\alpha \ket{010}+ \beta \ket{101}`$. In order to detect this bit flip
-we could measure the state, but this would destroy the superposition.
+The first type of error we can correct with repetition qubits is the bit flip. This sort of error is represented as an $`X`$ gate. If one of the three qubits, say the middle one, undergoes this type of error, the final state of the system would be $`\alpha \ket{010}+ \beta \ket{101}`$. In order to detect this bit flip we could measure the state, but this would destroy the superposition.
+ 
+How can we try to understand which of the three qubits flipped without measuring directly the state? The correct way to do this is add a new piece to our system. This should be a system that start decoupled from our system, enter in contact with the main state and get influenced by it in a predictable way, but end up again in a decoupled state at the end. When i speak about decoupled i really refer, in a formal way, to what is called a separable state. The main property of a separable state is that if we measure one of the separated portion of our system we don’t perturb the rest. So we can exploit this property to deduce, measuring the new system, which of the three bits flipped ( assuming we have only a single flip). Then we can apply the inverse $`X`$ gate, so $`X`$ itself, to the wrong qubit to get again the initial state.
 
-<div class="tcolorbox">
-
-<span class="mark">Proposed addition by Edo</span>  
-How can we try to understand which of the three qubits flipped without
-measuring directly the state? The correct way to do this is add a new
-piece to our system. This should be a system that start decoupled from
-our system, enter in contact with the main state and get influenced by
-it in a predictable way, but end up again in a decoupled state at the
-end. When i speak about decoupled i really refer, in a formal way, to
-what is called a separable state. The main property of a separable state
-is that if we measure one of the separated portion of our system we
-don’t perturb the rest. So we can exploit this property to deduce,
-measuring the new system, which of the three bits flipped ( assuming we
-have only a single flip). Then we can apply the inverse $`X`$ gate, so
-$`X`$ itself, to the wrong qubit to get again the initial state.
-
-This cleared, and recalling that with $`n`$ qubit we can obtain $`2^n`$
-different measurements, we need only 2 qubits that can index the
-$`2^2 = 4`$ different outcomes:
+This cleared, and recalling that with $`n`$ qubit we can obtain $`2^n`$ different measurements, we need only 2 qubits that can index the $`2^2 = 4`$ different outcomes:
 
 - 00 if we have no errors;
 
@@ -207,36 +121,22 @@ $`2^2 = 4`$ different outcomes:
 
 - 11 if the bit with error is the second one.
 
-Now, let’s see how can we design a circuit that is respecting all the
-premises. Consider our starting state as
+Now, let’s see how can we design a circuit that is respecting all the premises. Consider our starting state as
 ``` math
 \alpha \ket{000} + \beta \ket{111}.
 ```
-For example, if an error occurs on the first qubit, we end up with the
-state
+For example, if an error occurs on the first qubit, we end up with the state
 ``` math
 \alpha \ket{100} + \beta \ket{011}.
 ```
-Now, we can try to use some gates, such as C-NOTs, to make this change
-affect the bottom two qubits. We can do this as shown in the following
-figure.
+Now, we can try to use some gates, such as C-NOTs, to make this change affect the bottom two qubits. We can do this as shown in the following figure.
 
-<div class="center">
+<figure id="fig:bitflip1">
+<img src="images/bitflip1.png" style="width:70.0%" />
+<figcaption>3-qubit bit flip code circuit diagram.</figcaption>
+</figure>
 
-<div class="quantikz">
-
-&&&&&  
-&&& &&  
-&&&&&  
-&&&&&  
-&&&&&  
-
-</div>
-
-</div>
-
-Applying that CNOT, denoted as $`\text{CX}_{i \to j}`$, meaning that the
-control qubit is the $`i`$-th one, we end up with
+Applying that CNOT, denoted as $`\text{CX}_{i \to j}`$, meaning that the control qubit is the $`i`$-th one, we end up with
 ``` math
 \begin{gathered}
 \text{CX}_{1 \to 4}  \big( (\alpha \ket{100} +\beta \ket{011} ) \otimes \ket{00} \big) = \\
@@ -244,40 +144,21 @@ control qubit is the $`i`$-th one, we end up with
 =  \alpha \ket{100} \otimes \ket{10} + \beta \ket{011} \otimes \ket{00}
 \end{gathered}
 ```
-where we exploited linearity in the second step. We notice that the CNOT
-acted only on the first part of our superposition state. This is not a
-state we want to obtain in the end because it is not separable, so we
-cannot put it in a form like
+where we exploited linearity in the second step. We notice that the CNOT acted only on the first part of our superposition state. This is not a state we want to obtain in the end because it is not separable, so we cannot put it in a form like
 ``` math
 \begin{gathered}
 (\alpha \ket{100}+  \beta \ket{011} ) \otimes \ket{10}
 \end{gathered}
 ```
-That is the state we would like to obtain since we want to measure the
-last two qubits and obtain the string $`10`$, which tells us that the
-error occurred on the first qubit, all without perturbing our original
-state (the first three qubits).
+That is the state we would like to obtain since we want to measure the last two qubits and obtain the string $`10`$, which tells us that the error occurred on the first qubit, all without perturbing our original state (the first three qubits).
 
-So we need to modify the second part of the state, the one linked to the
-coefficient $`\beta`$, to end up with
-$`\beta \ket{011} \otimes \ket{10}`$. How can we do this? Since the
-$`\alpha`$ term has the first qubit set to $`1`$, we can apply a CNOT to
-the second or the third qubit without modifying that part of the state.
-So we can apply the CNOT to the second one, for example.
+So we need to modify the second part of the state, the one linked to the coefficient $`\beta`$, to end up with $`\beta \ket{011} \otimes \ket{10}`$. How can we do this? Since the $`\alpha`$ term has the first qubit set to $`1`$, we can apply a CNOT to the second or the third qubit without modifying that part of the state. So we can apply the CNOT to the second one, for example.
 
-<div class="center">
+<figure id="fig:3qubit">
+<img src="images/biflip2.png" style="width:70.0%" />
+<figcaption>3-qubit bit flip code circuit diagram.</figcaption>
+</figure>
 
-<div class="quantikz">
-
-&&&&&&&&  
-&& & & & &&&  
-&&& & & &&&  
-&&&&& & &&  
-&&&&& & &&  
-
-</div>
-
-</div>
 
 In this way, we can obtain, by applying the gate:
 ``` math
@@ -290,22 +171,12 @@ In this way, we can obtain, by applying the gate:
 ```
 that is the state we want to get.
 
-<div class="center">
+<figure id="fig:3qubit">
+<img src="images/bitflip3.png" style="width:70.0%" />
+<figcaption>3-qubit bit flip code circuit diagram.</figcaption>
+</figure>
 
-<div class="quantikz">
-
-&&& &&&  
-&& & & & &  
-&&& & & &  
-&&&&& &  
-&&&&& &  
-
-</div>
-
-</div>
-
-If we now consider an error on the third qubit, resulting in a state
-like
+If we now consider an error on the third qubit, resulting in a state like
 ``` math
 \alpha \ket{001} + \beta \ket{110},
 ```
@@ -318,85 +189,36 @@ we see that our circuit is not working correctly. In fact,
 =  \big( \alpha \ket{001}  + \beta \ket{110} \big) \otimes \ket{00}.
 \end{gathered}
 ```
-Notice that in this case, the CNOT acting on the first term of the
-superposition (the $`\alpha`$ term) does nothing, while the second term
-results in two consecutive flips that cancel each other out. So here,
-the action of the gates is equivalent to the identity. We end up with no
-information about the error. We can correct this situation by adding
-CNOTs; like in the previous situation, we need to add two of them to
-create a separable state.
+Notice that in this case, the CNOT acting on the first term of the superposition (the $`\alpha`$ term) does nothing, while the second term results in two consecutive flips that cancel each other out. So here, the action of the gates is equivalent to the identity. We end up with no information about the error. We can correct this situation by adding CNOTs; like in the previous situation, we need to add two of them to create a separable state.
 
-<div class="center">
+<figure id="fig:3qubit">
+<img src="images/bitflip4.png" style="width:70.0%" />
+<figcaption>3-qubit bit flip code circuit diagram.</figcaption>
+</figure>
 
-<div class="quantikz">
 
-&&&&&&&&&  
-&&&&&&&&&  
-&&& &&&&&&  
-&&&&&&&&&  
-&&&&&&&&&  
+In this way, we end up with the result $`01`$ if we have an error on the third bit. Remember that the first two CNOTs act like the identity in this situation.
 
-</div>
+If we return to the previous case, the one with the error on the first qubit, we see that the situation is symmetric: the two gates we added at the end act like the identity, while the first two act as we described previously; everything still works. Moreover, this circuit acts on the no-error state as the identity.
 
-</div>
+<figure id="fig:3qubit">
+<img src="images/bitflip5.png" style="width:70.0%" />
+<figcaption>3-qubit bit flip code circuit diagram.</figcaption>
+</figure>
 
-In this way, we end up with the result $`01`$ if we have an error on the
-third bit. Remember that the first two CNOTs act like the identity in
-this situation.
-
-If we return to the previous case, the one with the error on the first
-qubit, we see that the situation is symmetric: the two gates we added at
-the end act like the identity, while the first two act as we described
-previously; everything still works. Moreover, this circuit acts on the
-no-error state as the identity.
-
-<div class="center">
-
-<div class="quantikz">
-
-&&&&&&&&&  
-&&&&&&&&&  
-&&& &&&&&&  
-&&&&&&&&&  
-&&&&&&&&&  
-
-</div>
-
-</div>
-
-The last case we need to investigate is the error on the central qubit.
-We want, in this case, to obtain the result $`11`$. Let’s see what
-happens with the current circuit. We notice that the first and the last
-CNOTs act only on the $`\beta`$ part of the superposition. The middle
-ones, instead, act only on the $`\alpha`$ part. If we check, we end up
-with the separable state of the desired type:
+The last case we need to investigate is the error on the central qubit. We want, in this case, to obtain the result $`11`$. Let’s see what happens with the current circuit. We notice that the first and the last CNOTs act only on the $`\beta`$ part of the superposition. The middle ones, instead, act only on the $`\alpha`$ part. If we check, we end up with the separable state of the desired type:
 ``` math
 \big( \alpha\ket{010}+\beta\ket{101} \big) \otimes \ket{11}.
 ```
 
-</div>
+To prevent that we can add two ancilla qubits, which will be measured to reveal if and on which qubit the error happened. This is easily done by adding four extra CNOT gates, see Fig.
 
-To prevent that we can add two ancilla qubits, which will be measured to
-reveal if and on which qubit the error happened. This is easily done by
-adding four extra CNOT gates, see Fig.
-<a href="#fig:3bitrepflip" data-reference-type="ref"
-data-reference="fig:3bitrepflip">3</a>.
-
-<figure id="fig:3bitrepflip">
-<div class="quantikz">
-<p>&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;<br />
-&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;<br />
-&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;<br />
-&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;<br />
-&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;<br />
-</p>
-</div>
-<figcaption></figcaption>
+<figure id="fig:3qubit">
+<img src="images/bitflip6.png" style="width:70.0%" />
+<figcaption>3-qubit bit flip code circuit diagram.</figcaption>
 </figure>
 
-We can easily compute the measurement outcomes (*syndromes*) for all the
-states obtained from at most one bit-flip, they are listed in the
-following table.
+We can easily compute the measurement outcomes (*syndromes*) for all the states obtained from at most one bit-flip, they are listed in the following table.
 
 |                 State                 | Syndrome |
 |:-------------------------------------:|:--------:|
@@ -405,68 +227,40 @@ following table.
 | $`\alpha \ket{010}+ \beta \ket{101}`$ |    11    |
 | $`\alpha \ket{001}+ \beta \ket{110}`$ |    01    |
 
-It is important to underline that perfect bit-flip errors are just a
-simple model of a much more complex phenomenon, here we easily assumed
-one flip represented by a unitary operator. We will discuss about non
-unitary errors by the end of the article.
+It is important to underline that perfect bit-flip errors are just a simple model of a much more complex phenomenon, here we easily assumed one flip represented by a unitary operator. We will discuss about non unitary errors by the end of the article.
 
 ## Handling Phase-Flip Errors
 
-Another fundamental type of errors we have to worry about are phase-flip
-errors, modeled as $`Z`$ gates. Applying a $`Z`$ gate to any of the
-three qubits of the previous encoding we obtain
+Another fundamental type of errors we have to worry about are phase-flip errors, modeled as $`Z`$ gates. Applying a $`Z`$ gate to any of the three qubits of the previous encoding we obtain
 ``` math
 (\mathbb{I}\otimes Z \otimes \mathbb{I})(\alpha \ket{000}+ \beta \ket{111})=\alpha \ket{000}- \beta \ket{111}.
 ```
-It turns out that phase-flips on any of the three qubits have the same
-effect on the whole final state, leading to a total phase flip for an
-odd number of $`Z`$ gates applied. Unfortunately our previous error
-correction circuit is not able to detect phase-flip errors, the output
-in the ancilla qubits will be $`00`$ anyway, not detecting any error.
+It turns out that phase-flips on any of the three qubits have the same effect on the whole final state, leading to a total phase flip for an odd number of $`Z`$ gates applied. Unfortunately our previous error correction circuit is not able to detect phase-flip errors, the output in the ancilla qubits will be $`00`$ anyway, not detecting any error.
 
 ## Modified Repetition Code for Phase-Flip Mitigation
 
-In order to detect phase flip errors, we must modify the encoded state
-$`\alpha \ket{000}+ \beta \ket{111}`$ by applying three Hadamard gates,
-reaching then the state $`\alpha \ket{+++}+ \beta \ket{---}`$. This is
-done by the circuit in Fig.
+In order to detect phase flip errors, we must modify the encoded state $`\alpha \ket{000}+ \beta \ket{111}`$ by applying three Hadamard gates, reaching then the state $`\alpha \ket{+++}+ \beta \ket{---}`$. This is done by the circuit in Fig.
 <a href="#fig:3qubit_phase" data-reference-type="ref"
 data-reference="fig:3qubit_phase">4</a>.
 
-<figure id="fig:3qubit_phase">
-<div class="quantikz">
-<p>&amp;&amp;&amp;&amp;<br />
-&amp;&amp;&amp;&amp;<br />
-&amp;&amp;&amp;&amp;<br />
-</p>
-</div>
-<figcaption>3-qubit phase flip code circuit diagram.</figcaption>
+<figure id="fig:3qubit">
+<img src="images/3-qubitphaseflip.png" style="width:70.0%" />
+<figcaption>3-qubit bit flip code circuit diagram.</figcaption>
 </figure>
 
-After this encoding, a phase-flip error will transform a $`\ket{+}`$
-state in a $`\ket{-}`$ and viceversa. So adding two ancilla qubits in
-$`\ket{+}`$ state, we will be able to reproduce a circuit analogous to
-the one done for bit-flips, represented in Fig.
+After this encoding, a phase-flip error will transform a $`\ket{+}`$ state in a $`\ket{-}`$ and viceversa. So adding two ancilla qubits in $`\ket{+}`$ state, we will be able to reproduce a circuit analogous to the one done for bit-flips, represented in Fig.
 <a href="#fig:3qubit_phase_corr" data-reference-type="ref"
 data-reference="fig:3qubit_phase_corr">5</a>.
 
-<figure id="fig:3qubit_phase_corr">
-<div class="quantikz">
-<p>&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;<br />
-&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;<br />
-&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;<br />
-&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;<br />
-&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;<br />
-</p>
-</div>
-<figcaption></figcaption>
+<figure id="fig:3qubit">
+<img src="images/phase_flip_error.png" style="width:70.0%" />
+<figcaption>3-qubit bit flip code circuit diagram.</figcaption>
 </figure>
 
-As before the measured syndorme will tell us if and where the error
-occurred.
 
-Correcting phase-flip errors force us to a change of basis, done by
-means of Hadamard gates.
+As before the measured syndorme will tell us if and where the error occurred.
+
+Correcting phase-flip errors force us to a change of basis, done by means of Hadamard gates.
 
 # The 9-Qubit Shor Code
 
