@@ -10,12 +10,25 @@ showLikes: false
 showReadingTime: false
 showHeadingAnchors: false
 showZenMode: false
-title: "Chi Siamo"
+title: ""
 translationKey: "team-page"
 ---
+
+<h1 style="text-align: center;">Chi siamo</h1>
+
 QubiTo nasce nel 2023 sulla scia dell'entusiasmo di studenti e professori del Politecnico di Torino verso la fisica quantistica e le sue contemporanee, promettenti prospettive tecnologiche. 
 Insieme, uniti dalla passione per tale dinamismo, ricerchiamo e divulghiamo gli aspetti di questo affascinante mondo nelle sue innumerevoli declinazioni e sfruttiamo le nostre conoscenze e competenze partecipando in squadra ad hackaton internazionali. 
+
+
+
 Con l'inaugurazione del primo quantum computer del Politecnico Spark IQM inizieremo infine ad applicare il nostro bagaglio di conoscenze teoriche nella realizzazione di progetti pratici!
+
+<img src="./Spark-Hero-Image.png" 
+style="width: 50%; 
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+      width: 50%;">
 
 Il nostro team è attualmente composto da cinque divisioni che si occupano di approfondimenti interni al team stesso, relativi ad aree tecnologiche definite, per la maggior parte orientate alla computazione quantistica:
 
