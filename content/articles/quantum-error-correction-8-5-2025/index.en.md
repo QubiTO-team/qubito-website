@@ -129,19 +129,23 @@ Now, we can try to use some gates, such as C-NOTs, to make this change affect th
 
 ![Correcting an error on the first qubit](images/bitflip1.png "Correcting an error on the first qubit")
 
-Applying that CNOT, denoted as $\text{CX}_{i \to j}$, meaning that the control qubit is the $i$-th one, we end up with
+Applying that CNOT, denoted as $\{CX}_{i \to j}$, meaning that the control qubit is the $i$-th one, we end up with
+
 $$
-\begin{gathered}
-\text{CX}_{1 \to 4}  \big( (\alpha \ket{100} +\beta \ket{011} ) \otimes \ket{00} \big) = \cr
-= \text{CX}_{1 \to 4}  (\alpha \ket{100} \otimes \ket{00} ) + \text{CX}_{1 \to 4}  (\beta \ket{011} \otimes \ket{00}) = \cr
-=  \alpha \ket{100} \otimes \ket{10} + \beta \ket{011} \otimes \ket{00}
-\end{gathered}
+\begin{aligned}
+  \CX{1}{4} \left( (\alpha \ket{100} + \beta \ket{011}) \otimes \ket{00} \right) = \cr
+  = \CX{1}{4} (\alpha \ket{100} \otimes \ket{00}) + \CX{1}{4} (\beta \ket{011} \otimes \ket{00}) = \cr
+  = \alpha \ket{100} \otimes \ket{10} + \beta \ket{011} \otimes \ket{00}
+\end{aligned}
 $$
+
+
+
 where we exploited linearity in the second step. We notice that the CNOT acted only on the first part of our superposition state. This is not a state we want to obtain in the end because it is not separable, so we cannot put it in a form like
 $$
-\begin{gathered}
+\begin{aligned}
 (\alpha \ket{100}+  \beta \ket{011} ) \otimes \ket{10}
-\end{gathered}
+\end{aligned}
 $$
 That is the state we would like to obtain since we want to measure the last two qubits and obtain the string $10$, which tells us that the error occurred on the first qubit, all without perturbing our original state (the first three qubits).
 
@@ -151,13 +155,14 @@ So we need to modify the second part of the state, the one linked to the coeffic
 
 In this way, we can obtain, by applying the gate:
 $$
-\begin{gathered}
-    \text{CX}_{2 \to 4}  \big( \alpha \ket{100} \otimes \ket{10} + \beta \ket{011} \otimes \ket{00} \big) = \cr
-                    = \text{CX}_{2 \to 4}  (\alpha \ket{100} \otimes \ket{10}) + \text{CX}_{2 \to 4}  (\beta \ket{011} \otimes \ket{00}) = \cr
-                    =  \alpha \ket{100} \otimes \ket{10} + \beta \ket{011} \otimes \ket{10} = \cr
-                    =  \big( \alpha \ket{100}  + \beta \ket{011} \big)\otimes \ket{10} 
-\end{gathered}
+\begin{aligned}
+    \CX{2}{4} \big( \alpha \ket{100} \otimes \ket{10} + \beta \ket{011} \otimes \ket{00} \big) = \cr
+    = \CX{2}{4} (\alpha \ket{100} \otimes \ket{10}) + \CX{2}{4} (\beta \ket{011} \otimes \ket{00}) = \cr
+    = \alpha \ket{100} \otimes \ket{10} + \beta \ket{011} \otimes \ket{10} = \cr
+    = \big( \alpha \ket{100} + \beta \ket{011} \big) \otimes \ket{10}
+\end{aligned}
 $$
+
 that is the state we want to get.
 
 ![Error on the third qubit](images/bitflip3.png "Error on the third qubit")
@@ -168,13 +173,15 @@ $$
 $$
 we see that our circuit is not working correctly. In fact,
 $$
-\begin{gathered}
-\text{CX}_{2 \to 4} \text{CX}_{1 \to 4}  \big( (\alpha \ket{001} + \beta \ket{110} ) \otimes \ket{00} \big) = \cr
-= \text{CX}_{2 \to 4} \text{CX}_{1 \to 4}  (\alpha \ket{001} \otimes \ket{00} ) + \text{CX}_{2 \to 4} \text{CX}_{1 \to 4}  (\beta \ket{110} \otimes \ket{00}) = \cr
-=  \alpha \ket{001} \otimes \ket{00} + \beta \ket{110} \otimes \ket{00} = \cr
-=  \big( \alpha \ket{001}  + \beta \ket{110} \big) \otimes \ket{00}.
-\end{gathered}
+\begin{aligned}
+\CX{2}{4} \CX{1}{4} \big( (\alpha \ket{001} + \beta \ket{110}) \otimes \ket{00} \big) = \cr
+= \CX{2}{4} \CX{1}{4} (\alpha \ket{001} \otimes \ket{00}) + \CX{2}{4} \CX{1}{4} (\beta \ket{110} \otimes \ket{00}) = \cr
+= \alpha \ket{001} \otimes \ket{00} + \beta \ket{110} \otimes \ket{00} = \cr
+= \big( \alpha \ket{001} + \beta \ket{110} \big) \otimes \ket{00}.
+\end{aligned}
 $$
+
+
 Notice that in this case, the CNOT acting on the first term of the superposition (the $\alpha$ term) does nothing, while the second term results in two consecutive flips that cancel each other out. So here, the action of the gates is equivalent to the identity. We end up with no information about the error. We can correct this situation by adding CNOTs; like in the previous situation, we need to add two of them to create a separable state as shown [here](#error-corrected-on-the-third-qubit).
 
 ![Error corrected on the third qubit](images/bitflip4.png "Error corrected on the third qubit")
@@ -212,8 +219,8 @@ It turns out that phase-flips on any of the three qubits have the same effect on
 
 ## Modified Repetition Code for Phase-Flip Mitigation
 
-In order to detect phase flip errors, we must modify the encoded state $\alpha \ket{000}+ \beta \ket{111}$ by applying three Hadamard gates, reaching then the state $\alpha \ket{+++}+ \beta \ket{---}$. This is done by the circuit in the [figure below](#3-qubit-phase-correcting-diagram---first-part).
-![3 qubit phase correcting diagram - first part](images/3-qubitphaseflip.png "3 qubit phase correcting diagram - first part")
+In order to detect phase flip errors, we must modify the encoded state $\alpha \ket{000}+ \beta \ket{111}$ by applying three Hadamard gates, reaching then the state $\alpha \ket{+++}+ \beta \ket{---}$. This is done by the circuit in the [figure below](#3-qubit-phase-correcting-diagram-first-part).
+![3 qubit phase correcting diagram - first part](images/3-qubitphaseflip.png "3 qubit phase correcting diagram - first part|3-qubit-phase-correcting-diagram-first-part")
 
 
 After this encoding, a phase-flip error will transform a $\ket{+}$ state in a $\ket{-}$ and viceversa. So adding two ancilla qubits in $\ket{+}$ state, we will be able to reproduce a circuit analogous to the one done for bit-flips, represented in the [diagram](#3-qubit-complete-phase-correcting-diagram).
@@ -314,7 +321,7 @@ As we can see in [the above figure](#shor_performance) the threshold for the 9-q
 
 # Error Discretization in Quantum Systems
 
-The 9-qubit Shor code corrects arbitrary quantum errors—not just $X$ or $Z$ errors—by leveraging its ability to correct $X$ and $Z$ errors separately. This works because any possible single-qubit error can be decomposed into a combination of $X$, $Z$, or both (a property known as the *discretization of errors*). Since the code detects and corrects $X$ and $Z$ errors independently, it inherently handles all other errors as well. Thus, no additional mechanisms are needed: correcting $X$ and $Z$ suffices to protect against arbitrary quantum noise. First we focus on Unitary Errors.
+The 9-qubit Shor code corrects arbitrary quantum errors-not just $X$ or $Z$ errors-by leveraging its ability to correct $X$ and $Z$ errors separately. This works because any possible single-qubit error can be decomposed into a combination of $X$, $Z$, or both (a property known as the *discretization of errors*). Since the code detects and corrects $X$ and $Z$ errors independently, it inherently handles all other errors as well. Thus, no additional mechanisms are needed: correcting $X$ and $Z$ suffices to protect against arbitrary quantum noise. First we focus on Unitary Errors.
 
 ## Modeling Unitary Qubit Errors
 
@@ -328,6 +335,7 @@ When an error $U_k$ occurs on the $k$-th qubit, the corrupted state becomes a su
 
 The 9-qubit Shor code corrects arbitrary unitary errors through error discretization. For multi-qubit errors, we formally represent operations using tensor products with identity matrices. Using Qiskit’s qubit numbering $(Q_8,Q_7,...,Q_0)$, single-qubit operations extend to the 9-qubit space as:
 
+<div id="operator-definitions">
 $$
 \begin{aligned}
 X_0 &= I^{\otimes 8} \otimes X = I\otimes I\otimes I\otimes I\otimes I\otimes I\otimes I\otimes I\otimes X\cr
@@ -335,13 +343,14 @@ Z_4 &= I^{\otimes 4} \otimes Z \otimes I^{\otimes 4}=I\otimes I\otimes I\otimes 
 U_7 &= I \otimes U \otimes I^{\otimes 7} =I\otimes U\otimes I\otimes I\otimes I\otimes I\otimes I\otimes I\otimes I
 \end{aligned}
 $$
+</div>
 
 where $I^{\otimes n}$ denotes an $n$-fold tensor product of identity matrices. An arbitrary unitary error $U_k$ on qubit $k$ decomposes into Pauli operators as:
 $$
 U_k = \alpha I^{\otimes 9} + \beta X_k + \gamma Y_k + \delta Z_k
 $$
 
-with $X_k$, $Z_k$ defined similarly to <a href="#eq:errors" data-reference-type="ref" data-reference="eq:errors">[eq:errors]</a>, and $Y_k = iX_kZ_k$. For multiple errors, the formalism extends naturally:
+with $X_k$, $Z_k$ defined similarly to [the previous operator definitions](#operator-definitions), and $Y_k = iX_kZ_k$. For multiple errors, the formalism extends naturally:
 $$
 U_{j,k} = (I^{\otimes (8-j)} \otimes U_j \otimes I^{\otimes j}) \cdot (I^{\otimes (8-k)} \otimes U_k \otimes I^{\otimes k})
 $$
@@ -353,16 +362,16 @@ $$
 where
 $$
 \begin{aligned}
-\xi &= |\alpha|^2 \ket{I \text{ syndrome}}\bra{I \text{ syndrome}}\cr
-      &+ |\beta|^2 \ket{X_k \text{ syndrome}}\bra{X_k \text{ syndrome}}\cr
-      &+ |\gamma|^2 \ket{X_kZ_k \text{ syndrome}}\bra{X_kZ_k \text{ syndrome}}\cr
-      &+ |\delta|^2 \ket{Z_k \text{ syndrome}}\bra{Z_k \text{ syndrome}}.
+\xi &= |\alpha|^2 \ket{I \{ syndrome}}\bra{I \{ syndrome}}\cr
+      &+ |\beta|^2 \ket{X_k \{ syndrome}}\bra{X_k \{ syndrome}}\cr
+      &+ |\gamma|^2 \ket{X_kZ_k \{ syndrome}}\bra{X_kZ_k \{ syndrome}}\cr
+      &+ |\delta|^2 \ket{Z_k \{ syndrome}}\bra{Z_k \{ syndrome}}.
 \end{aligned}
 $$
 
 ## General Arbitrary Qubit Errors
 
-We now examine arbitrary (not necessarily unitary) errors on qubits. Specifically, we model the error using a general quantum channel $\Phi$, which could represent various noise processes—such as dephasing, depolarization, reset operations, or even unconventional, less-studied channels.
+We now examine arbitrary (not necessarily unitary) errors on qubits. Specifically, we model the error using a general quantum channel $\Phi$, which could represent various noise processes-such as dephasing, depolarization, reset operations, or even unconventional, less-studied channels.
 
 To analyze $\Phi$, we first express it in terms of Kraus operators:
 $$
@@ -388,10 +397,10 @@ $$
 where $\xi$ now incorporates contributions from all Kraus terms:
 $$
 \begin{aligned}
-\xi &= \sum_j \Big( |\alpha_j|^2 \ket{I \text{ syndrome}}\bra{I \text{ syndrome}} \cr
-&\quad + |\beta_j|^2 \ket{X_k \text{ syndrome}}\bra{X_k \text{ syndrome}} \cr
-&\quad + |\gamma_j|^2 \ket{X_kZ_k \text{ syndrome}}\bra{X_kZ_k \text{ syndrome}} \cr
-&\quad + |\delta_j|^2 \ket{Z_k \text{ syndrome}}\bra{Z_k \text{ syndrome}} \Big).
+\xi &= \sum_j \Big( |\alpha_j|^2 \ket{I \{ syndrome}}\bra{I \{ syndrome}} \cr
+&\quad + |\beta_j|^2 \ket{X_k \{ syndrome}}\bra{X_k \{ syndrome}} \cr
+&\quad + |\gamma_j|^2 \ket{X_kZ_k \{ syndrome}}\bra{X_kZ_k \{ syndrome}} \cr
+&\quad + |\delta_j|^2 \ket{Z_k \{ syndrome}}\bra{Z_k \{ syndrome}} \Big).
 \end{aligned}
 $$
 
@@ -401,7 +410,7 @@ While the explicit derivation involves more terms, the underlying principle rema
 
 The discretization of errors naturally extends to more general quantum error-correcting codes, including those capable of detecting and correcting errors across multiple qubits. In such scenarios, multi-qubit errors can be represented as tensor products of Pauli matrices:
 $$
-E = \bigotimes_{k=1}^n P_k \quad \text{where} \quad P_k \in \{I, X, Y, Z\},
+E = \bigotimes_{k=1}^n P_k \quad \{where} \quad P_k \in \{I, X, Y, Z\},
 $$
 and distinct syndromes identify corresponding Pauli corrections that may need to be applied to multiple qubits simultaneously, rather than just a single qubit.
 
