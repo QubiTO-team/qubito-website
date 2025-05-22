@@ -129,11 +129,11 @@ Now, we can try to use some gates, such as C-NOTs, to make this change affect th
 
 ![Correcting an error on the first qubit](images/bitflip1.png "Correcting an error on the first qubit")
 
-Applying that CNOT, denoted as $\text{CX}_{i \to j}$, meaning that the control qubit is the $i$-th one, we end up with
+Applying that CNOT, denoted as $ \text{CX} _ {i \to j} $ , meaning that the control qubit is the $i$-th one, we end up with
 $$
 \begin{gathered}
-\text{CX}_{1 \to 4}  \big( (\alpha \ket{100} +\beta \ket{011} ) \otimes \ket{00} \big) = \cr
-= \text{CX}_{1 \to 4}  (\alpha \ket{100} \otimes \ket{00} ) + \text{CX}_{1 \to 4}  (\beta \ket{011} \otimes \ket{00}) = \cr
+\text{CX} _ {1 \to 4}  \big( (\alpha \ket{100} +\beta \ket{011} ) \otimes \ket{00} \big) = \cr
+= \text{CX} _ {1 \to 4}  (\alpha \ket{100} \otimes \ket{00} ) + \text{CX} _ {1 \to 4}  (\beta \ket{011} \otimes \ket{00}) = \cr
 =  \alpha \ket{100} \otimes \ket{10} + \beta \ket{011} \otimes \ket{00}
 \end{gathered}
 $$
@@ -152,8 +152,8 @@ So we need to modify the second part of the state, the one linked to the coeffic
 In this way, we can obtain, by applying the gate:
 $$
 \begin{gathered}
-    \text{CX}_{2 \to 4}  \big( \alpha \ket{100} \otimes \ket{10} + \beta \ket{011} \otimes \ket{00} \big) = \cr
-                    = \text{CX}_{2 \to 4}  (\alpha \ket{100} \otimes \ket{10}) + \text{CX}_{2 \to 4}  (\beta \ket{011} \otimes \ket{00}) = \cr
+    \text{CX} _ {2 \to 4}  \big( \alpha \ket{100} \otimes \ket{10} + \beta \ket{011} \otimes \ket{00} \big) = \cr
+                    = \text{CX} _ {2 \to 4}  (\alpha \ket{100} \otimes \ket{10}) + \text{CX} _ {2 \to 4}  (\beta \ket{011} \otimes \ket{00}) = \cr
                     =  \alpha \ket{100} \otimes \ket{10} + \beta \ket{011} \otimes \ket{10} = \cr
                     =  \big( \alpha \ket{100}  + \beta \ket{011} \big)\otimes \ket{10} 
 \end{gathered}
@@ -169,8 +169,8 @@ $$
 we see that our circuit is not working correctly. In fact,
 $$
 \begin{gathered}
-\text{CX}_{2 \to 4} \text{CX}_{1 \to 4}  \big( (\alpha \ket{001} + \beta \ket{110} ) \otimes \ket{00} \big) = \cr
-= \text{CX}_{2 \to 4} \text{CX}_{1 \to 4}  (\alpha \ket{001} \otimes \ket{00} ) + \text{CX}_{2 \to 4} \text{CX}_{1 \to 4}  (\beta \ket{110} \otimes \ket{00}) = \cr
+\text{CX} _ {2 \to 4} \text{CX} _ {1 \to 4}  \big( (\alpha \ket{001} + \beta \ket{110} ) \otimes \ket{00} \big) = \cr
+= \text{CX} _ {2 \to 4} \text{CX} _ {1 \to 4}  (\alpha \ket{001} \otimes \ket{00} ) + \text{CX} _ {2 \to 4} \text{CX} _ {1 \to 4}  (\beta \ket{110} \otimes \ket{00}) = \cr
 =  \alpha \ket{001} \otimes \ket{00} + \beta \ket{110} \otimes \ket{00} = \cr
 =  \big( \alpha \ket{001}  + \beta \ket{110} \big) \otimes \ket{00}.
 \end{gathered}
@@ -246,7 +246,7 @@ $$
 
 ## Error Propagation and CNOT Gate Operations
 
-Now before going and see how errors affect our encoding, we must stop to introduce some important relationships and equivalences regarding $`X`$ and $`Z`$ errors. The following equivalences can be verified calculating the matrix multiplications or by writing down the truth tables for [X gates](#x-gates-and-cnot-gates-relationships) and [X gates](#z-gates-and-cnot-gates-relationships) with the CNOT. 
+Now before going and see how errors affect our encoding, we must stop to introduce some important relationships and equivalences regarding $X$ and $Z$ errors. The following equivalences can be verified calculating the matrix multiplications or by writing down the truth tables for [X gates](#x-gates-and-cnot-gates-relationships) and [X gates](#z-gates-and-cnot-gates-relationships) with the CNOT. 
 ![X gates and CNOT gates relationships](images/x-gates.png "X gates and CNOT gates relationships")
 ![Z gates and CNOT gates relationships](images/z-gates.png "Z gates and CNOT gates relationships")
 
@@ -258,14 +258,14 @@ Considering a bit-flip error affecting our circuit, we can focus on each of the 
 
 Since the code designed to correct phase-flips is not affected directly by the errors, showing the capabilities of the Shor code to detect this kind of errors will be more difficult given our order of encoding. 
 
-Supposing a $`Z`$ error affecting one of the 9 qubits, we can use the equivalences introduced before to show that it is equivalent to one phase-flip error occurring prior the inner encoding, as seen [below](#phasefliperrorfigure).
+Supposing a $Z$ error affecting one of the 9 qubits, we can use the equivalences introduced before to show that it is equivalent to one phase-flip error occurring prior the inner encoding, as seen [below](#phasefliperrorfigure).
 
 ![Phase-Flip Error Equivalence in Shor Code](images/phase-flip_error_equivalence.png "Phase-Flip Error Equivalence in Shor Code|phasefliperrorfigure")
 
 
-So a $`Z`$ error occurring in any of the three qubits within a block has the same effect on the final state of a $`Z`$ error occurring before the inner code.
+So a $Z$ error occurring in any of the three qubits within a block has the same effect on the final state of a $Z$ error occurring before the inner code.
 
-What we can do to deal with phase-flip errors is to model the $`Z`$ error as happening before the inner code; so decode the former to go back to the first stage of encoding. Now our original qubit is just encoded using the repetition code for phase-flips. In this way we can just use two ancilla qubits as before to check the correctness of our state, and then encode again each of the three qubits with the bit-flip code. The syndrome will detect the block in which the phase flip occurred, see [figure below](#shor_correct_z).
+What we can do to deal with phase-flip errors is to model the $Z$ error as happening before the inner code; so decode the former to go back to the first stage of encoding. Now our original qubit is just encoded using the repetition code for phase-flips. In this way we can just use two ancilla qubits as before to check the correctness of our state, and then encode again each of the three qubits with the bit-flip code. The syndrome will detect the block in which the phase flip occurred, see [figure below](#shor_correct_z).
 
 ![Shor Correct Z](images/shor_correct_z.png "Shor Correct Z|shor_correct_z")
 
@@ -275,26 +275,26 @@ In the end we can simplify the previous circuit using four CNOT gates less, as i
 
 ## Simultaneous Bit and Phase-Flip Error Correction
 
-We’ve just seen how both $`X`$ and $`Z`$ errors can be detected and corrected using the Shor code. Let’s now consider the scenario in which both a bit-flip and a phase-flip error happen simultaneously, possibly on the same qubit; we’ll see that the Shor code is able to handle this scenario without further modifications.
+We’ve just seen how both $X$ and $Z$ errors can be detected and corrected using the Shor code. Let’s now consider the scenario in which both a bit-flip and a phase-flip error happen simultaneously, possibly on the same qubit; we’ll see that the Shor code is able to handle this scenario without further modifications.
 
-Since $`X`$ and $`Z`$ errors matrices anticommute:
+Since $X$ and $Z$ errors matrices anticommute:
 $$
 XZ = \begin{pmatrix}0&1\cr1&0\end{pmatrix} \begin{pmatrix}1&0\cr0&-1\end{pmatrix}=
 \begin{pmatrix}0&-1\cr1&0\end{pmatrix}=-\begin{pmatrix}1&0\cr0&-1\end{pmatrix}\begin{pmatrix}0&1\cr1&0\end{pmatrix}=-ZX
 $$
-inverting them just causes an irrilevant global phase factor of $`-1`$. So, no matter in which order the errors occur, we are always able to propagate the $`Z`$ error prior to the inner code. At this point it is important to notice that the procedures to detect and eventually correct bit-flip and phase-flip errors can be performed indipendently introducing enough ancilla qubits, so we can simply first apply the procedure to detect the $`X`$ error, and then apply the procedure to detect the $`Z`$ error to finally recover the correct initial state. To be precise it is not important at all the order in which the procedures are performed, since $`X`$ gates on any of the nine qubits of the encoding commute with all the gates of the simplified circuit to correct phase-flip errors ([The Simplified Shor figure above](#shor_correct_z_simplified)); so also inverting the order of the procedures will correctly detect both the errors.
+inverting them just causes an irrilevant global phase factor of $-1$. So, no matter in which order the errors occur, we are always able to propagate the $Z$ error prior to the inner code. At this point it is important to notice that the procedures to detect and eventually correct bit-flip and phase-flip errors can be performed indipendently introducing enough ancilla qubits, so we can simply first apply the procedure to detect the $X$ error, and then apply the procedure to detect the $Z$ error to finally recover the correct initial state. To be precise it is not important at all the order in which the procedures are performed, since $X$ gates on any of the nine qubits of the encoding commute with all the gates of the simplified circuit to correct phase-flip errors ([The Simplified Shor figure above](#shor_correct_z_simplified)); so also inverting the order of the procedures will correctly detect both the errors.
 
 ## Robustness Against Random Errors
 
 Before considering arbitrary quantum errors, let’s analyze the performance of the 9-qubit Shor code when random errors rapresented by Pauli matrices occur on the qubits.
 
-Let’s consider a simple noise model where each qubit experiences an error with probability $`p`$, the errors occur indipendently. To keep things simple we analyze the worst case scenario
+Let’s consider a simple noise model where each qubit experiences an error with probability $p$, the errors occur indipendently. To keep things simple we analyze the worst case scenario
 
-Consider a scenario where errors strike qubits independently with probability $`p`$, analogous to the binary symmetric channel in classical systems. For simplicity, assume no correlations between errors. While distinct probabilities could be assigned to $`X`$, $`Y`$, and $`Z`$ errors, we focus on the worst-case scenario for the Shor code: $`Y`$ errors. Since $`Y`$ errors are equivalent to simultaneous $`X`$ and $`Z`$ errors up to a global phase factor, them represents both bit-flip and phase-flip errors.
+Consider a scenario where errors strike qubits independently with probability $p$, analogous to the binary symmetric channel in classical systems. For simplicity, assume no correlations between errors. While distinct probabilities could be assigned to $X$, $Y$, and $Z$ errors, we focus on the worst-case scenario for the Shor code: $Y$ errors. Since $Y$ errors are equivalent to simultaneous $X$ and $Z$ errors up to a global phase factor, them represents both bit-flip and phase-flip errors.
 
-Suppose we encode a logical qubit using the Shor code, whether we get an advantage or not depends on the error probability $`p`$. Similar to the classical 3-bit repetition code, which becomes disadvantageous when $`p>1/2`$, also for the Shor code we can find such a threshold and quantify its performance.
+Suppose we encode a logical qubit using the Shor code, whether we get an advantage or not depends on the error probability $p$. Similar to the classical 3-bit repetition code, which becomes disadvantageous when $p>1/2$, also for the Shor code we can find such a threshold and quantify its performance.
 
-The 9-qubit Shor code is able to correct any Pauli error on a single qubit, including so $`Y`$ errors, but it fails if more then one $`Y`$ error occur on different qubits. Since in our scenario we focus on $`Y`$ errors, the code is reliable and protects our logical qubit as long as at most one of the physical qubits is affected by an error, which happens with probability
+The 9-qubit Shor code is able to correct any Pauli error on a single qubit, including so $Y$ errors, but it fails if more then one $Y$ error occur on different qubits. Since in our scenario we focus on $Y$ errors, the code is reliable and protects our logical qubit as long as at most one of the physical qubits is affected by an error, which happens with probability
 $$
 (1-p)^9 + 9p(1-p)^8.
 $$
@@ -303,30 +303,30 @@ $$
 1-(1-p)^9-9p(1-p)^8.
 $$
 
-Is not sure that the happening of more then one Pauli error lead to wrong decoding of the original qubit state, but for the sake of this analysis we consider this scenario as a failure. We say in this case a logical error affected our logical qubit. On the other hand, if we do not use the code our single physical qubit suffers logical errors with probability $`p`$, so the code gives a real advantage only for $`p`$ such that
+Is not sure that the happening of more then one Pauli error lead to wrong decoding of the original qubit state, but for the sake of this analysis we consider this scenario as a failure. We say in this case a logical error affected our logical qubit. On the other hand, if we do not use the code our single physical qubit suffers logical errors with probability $p$, so the code gives a real advantage only for $p$ such that
 $$
 1-(1-p)^9-9p(1-p)^8<p.
 $$
 
 ![Shor Performance Threshold](images/shor-threshold.png "Shor Performance Threshold|shor_performance" )
 
-As we can see in [the above figure](#shor_performance) the threshold for the 9-qubit Shor code is about $`0.0323`$. If $`p`$ is smaller of the former value, the code is helping, it has diminished the likelihood of an error to occur, but if $`p`$ is greater then the threshold, we should not use the code since it would worsen the robustness to noise of our system w.r.t a single physical qubit.
+As we can see in [the above figure](#shor_performance) the threshold for the 9-qubit Shor code is about $0.0323$. If $p$ is smaller of the former value, the code is helping, it has diminished the likelihood of an error to occur, but if $p$ is greater then the threshold, we should not use the code since it would worsen the robustness to noise of our system w.r.t a single physical qubit.
 
 # Error Discretization in Quantum Systems
 
-The 9-qubit Shor code corrects arbitrary quantum errors—not just $`X`$ or $`Z`$ errors—by leveraging its ability to correct $`X`$ and $`Z`$ errors separately. This works because any possible single-qubit error can be decomposed into a combination of $`X`$, $`Z`$, or both (a property known as the *discretization of errors*). Since the code detects and corrects $`X`$ and $`Z`$ errors independently, it inherently handles all other errors as well. Thus, no additional mechanisms are needed: correcting $`X`$ and $`Z`$ suffices to protect against arbitrary quantum noise. First we focus on Unitary Errors.
+The 9-qubit Shor code corrects arbitrary quantum errors—not just $X$ or $Z$ errors—by leveraging its ability to correct $X$ and $Z$ errors separately. This works because any possible single-qubit error can be decomposed into a combination of $X$, $Z$, or both (a property known as the *discretization of errors*). Since the code detects and corrects $X$ and $Z$ errors independently, it inherently handles all other errors as well. Thus, no additional mechanisms are needed: correcting $X$ and $Z$ suffices to protect against arbitrary quantum noise. First we focus on Unitary Errors.
 
 ## Modeling Unitary Qubit Errors
 
-The 9-qubit Shor code can correct *any* single-qubit unitary error, even those that are not close to the identity (e.g., small rotations or arbitrary unitary operations). While it may seem challenging to correct infinitely many possible errors, the key insight is that any single-qubit unitary $`U`$ can be decomposed into a linear combination of Pauli operators:
+The 9-qubit Shor code can correct *any* single-qubit unitary error, even those that are not close to the identity (e.g., small rotations or arbitrary unitary operations). While it may seem challenging to correct infinitely many possible errors, the key insight is that any single-qubit unitary $U$ can be decomposed into a linear combination of Pauli operators:
 $$
 U = \alpha I + \beta X + \gamma Y + \delta Z
 $$
-where $`Y = iXZ`$.
+where $Y = iXZ$.
 
-When an error $`U_k`$ occurs on the $`k`$-th qubit, the corrupted state becomes a superposition of the original state and states with $`X_k`$, $`Z_k`$, or $`X_kZ_k`$ errors. During error detection, the syndrome measurements probabilistically collapse this superposition into one of the Pauli error cases (or no error), with probabilities $`|\alpha|^2`$, $`|\beta|^2`$, $`|\gamma|^2`$, and $`|\delta|^2`$. The syndrome reveals which error occurred, allowing its correction. Remarkably, this process works even for tiny errors, as the syndrome measurements discretize the error into a Pauli operation, which the code is designed to fix. After correction, the system returns to the original encoded state, effectively removing the entropy introduced by the error. This demonstrates the *discretization of errors*: arbitrary unitary errors are reduced to correctable Pauli errors through syndrome measurement.
+When an error $U_k$ occurs on the $k$-th qubit, the corrupted state becomes a superposition of the original state and states with $X_k$, $Z_k$, or $X_kZ_k$ errors. During error detection, the syndrome measurements probabilistically collapse this superposition into one of the Pauli error cases (or no error), with probabilities $|\alpha|^2$, $|\beta|^2$, $|\gamma|^2$, and $|\delta|^2$. The syndrome reveals which error occurred, allowing its correction. Remarkably, this process works even for tiny errors, as the syndrome measurements discretize the error into a Pauli operation, which the code is designed to fix. After correction, the system returns to the original encoded state, effectively removing the entropy introduced by the error. This demonstrates the *discretization of errors*: arbitrary unitary errors are reduced to correctable Pauli errors through syndrome measurement.
 
-The 9-qubit Shor code corrects arbitrary unitary errors through error discretization. For multi-qubit errors, we formally represent operations using tensor products with identity matrices. Using Qiskit’s qubit numbering $`(Q_8,Q_7,...,Q_0)`$, single-qubit operations extend to the 9-qubit space as:
+The 9-qubit Shor code corrects arbitrary unitary errors through error discretization. For multi-qubit errors, we formally represent operations using tensor products with identity matrices. Using Qiskit’s qubit numbering $(Q_8,Q_7,...,Q_0)$, single-qubit operations extend to the 9-qubit space as:
 
 $$
 \begin{aligned}
@@ -336,17 +336,17 @@ U_7 &= I \otimes U \otimes I^{\otimes 7} =I\otimes U\otimes I\otimes I\otimes I\
 \end{aligned}
 $$
 
-where $`I^{\otimes n}`$ denotes an $`n`$-fold tensor product of identity matrices. An arbitrary unitary error $`U_k`$ on qubit $`k`$ decomposes into Pauli operators as:
+where $I^{\otimes n}$ denotes an $n$-fold tensor product of identity matrices. An arbitrary unitary error $U_k$ on qubit $k$ decomposes into Pauli operators as:
 $$
 U_k = \alpha I^{\otimes 9} + \beta X_k + \gamma Y_k + \delta Z_k
 $$
 
-with $`X_k`$, $`Z_k`$ defined similarly to <a href="#eq:errors" data-reference-type="ref" data-reference="eq:errors">[eq:errors]</a>, and $`Y_k = iX_kZ_k`$. For multiple errors, the formalism extends naturally:
+with $X_k$, $Z_k$ defined similarly to <a href="#eq:errors" data-reference-type="ref" data-reference="eq:errors">[eq:errors]</a>, and $Y_k = iX_kZ_k$. For multiple errors, the formalism extends naturally:
 $$
 U_{j,k} = (I^{\otimes (8-j)} \otimes U_j \otimes I^{\otimes j}) \cdot (I^{\otimes (8-k)} \otimes U_k \otimes I^{\otimes k})
 $$
 
-The syndrome measurement projects these continuous errors onto discrete Pauli operators. For example, a two-qubit error $`U_{2,5}`$ would collapse to one of $`I`$, $`X_2`$, $`Z_5`$, $`X_2Z_5`$, etc., with probabilities determined by the decomposition coefficients. The tensor product structure ensures correct identification of affected qubits through the syndrome pattern.
+The syndrome measurement projects these continuous errors onto discrete Pauli operators. For example, a two-qubit error $U_{2,5}$ would collapse to one of $I$, $X_2$, $Z_5$, $X_2Z_5$, etc., with probabilities determined by the decomposition coefficients. The tensor product structure ensures correct identification of affected qubits through the syndrome pattern.
 $$
 \xi \otimes \ket{\psi}\bra{\psi}
 $$
@@ -362,17 +362,17 @@ $$
 
 ## General Arbitrary Qubit Errors
 
-We now examine arbitrary (not necessarily unitary) errors on qubits. Specifically, we model the error using a general quantum channel $`\Phi`$, which could represent various noise processes—such as dephasing, depolarization, reset operations, or even unconventional, less-studied channels.
+We now examine arbitrary (not necessarily unitary) errors on qubits. Specifically, we model the error using a general quantum channel $\Phi$, which could represent various noise processes—such as dephasing, depolarization, reset operations, or even unconventional, less-studied channels.
 
-To analyze $`\Phi`$, we first express it in terms of Kraus operators:
+To analyze $\Phi$, we first express it in terms of Kraus operators:
 $$
 \Phi(\sigma) = \sum_j A_j \sigma A_j^\dagger,
 $$
-where each $`A_j`$ is a $`2 \times 2`$ matrix. Since the Pauli matrices form a basis for such operators, we expand each $`A_j`$ as:
+where each $A_j$ is a $2 \times 2$ matrix. Since the Pauli matrices form a basis for such operators, we expand each $A_j$ as:
 $$
 A_j = \alpha_j I + \beta_j X + \gamma_j Y + \delta_j Z.
 $$
-This decomposition allows us to rewrite the action of $`\Phi`$ on a target qubit $`k`$ in terms of Pauli errors:
+This decomposition allows us to rewrite the action of $\Phi$ on a target qubit $k$ in terms of Pauli errors:
 $$
 \begin{aligned}
 \Phi_k \big( \ket{\psi}\bra{\psi} \big) &= \sum_j \big( \alpha_j I_k + \beta_j X_k + \gamma_j Y_k + \delta_j Z_k \big) \ket{\psi}\bra{\psi} \cr
@@ -385,7 +385,7 @@ Upon measuring the error syndrome and applying the appropriate correction, the r
 $$
 \xi \otimes \ket{\psi}\bra{\psi},
 $$
-where $`\xi`$ now incorporates contributions from all Kraus terms:
+where $\xi$ now incorporates contributions from all Kraus terms:
 $$
 \begin{aligned}
 \xi &= \sum_j \Big( |\alpha_j|^2 \ket{I \text{ syndrome}}\bra{I \text{ syndrome}} \cr
