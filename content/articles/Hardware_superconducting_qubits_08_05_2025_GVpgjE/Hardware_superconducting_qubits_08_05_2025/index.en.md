@@ -33,7 +33,7 @@ In the pursuit of robust and scalable quantum computing technologies, supercondu
 ### Lossless Conduction and Meissner Effect
 Superconductivity is a state in which a material exhibits zero electrical resistance below a critical temperature $T_c$. This lossless conduction is not simply an extension of ideal conductivity, but rather a manifestation of a new quantum phase of matter. Additionally, superconductors expel magnetic fields from their interior (the Meissner effect), a distinctive trait that sets them apart from perfect conductors.
 
-![alt text](image-18-1.png)
+![alt text](images/image-18-1.png)
 
 ### Critical Quantities
 A superconducting material transits to its normal (resistive) state when subjected to:
@@ -51,7 +51,7 @@ $$
 
 
 
-![alt text](image-20-1.png)
+![alt text](images/image-20-1.png)
 
 and according to Ampère's Law, this critical field relates to the maximum current sustainable by the material, wich is:
 *$I_c = 2 \pi R H_c$*
@@ -76,7 +76,7 @@ This wavefunction is extended to the entire superconductor and its phase *$\phi$
 A **Josephson Junction** (**JJ**) consists of two superconductors separated by a thin insulating layer. Due to the tunnel effect of the macroscopic wavefunction, a supercurrent can flow through this insulator, a phenomenon known as the Josephson effect.
 
 
-![alt text](image-19-1.png)
+![alt text](images/image-19-1.png)
 
  Importantly, it's not individual Cooper pairs but the macroscopic wavefunctions that interfere and allow for the current:
 *$ I = I_c \cdot \sin(\phi) $*
@@ -162,7 +162,7 @@ Having in mind the objective of building a qubit out of superconducting circuitr
 
 ### LC circuit
 
-![alt text](image.png)
+![alt text](images/image.png)
 
 This simple LC circuit is made by a parallel of an inductor and a capacitor. It acts as an electrical resonator storing energy by oscillating at the circuit's resonant frequency.
 The energy is divided between the charge inside the capacitor and the magnetic field formed inside the inductor by the passing current and can be described by the following Hamiltonian:
@@ -177,7 +177,7 @@ $$
 
 Due to the quadratic form of the energy, the potential landscape inside such a circuit is parabolic. 
 
-![alt text](image-2.png)
+![alt text](images/image-2.png)
 
 By applying the circuit quantization procedure one obtaines the Hamiltonian of the **quantum harmonic oscillator** with discrete allowed energies arising in the potential profile. The Hamiltonian of the quantum harmonic oscillator can be rewritten through the creation and annhilition operators formalism as:
 
@@ -200,7 +200,7 @@ $k = {2 \pi n}/L$
 
 with L being the resonator lenght and $n = 1, 2, 3...$
 
-![alt text](image-4.png)
+![alt text](images/image-4.png)
 
 The Hamiltonian can be again be written in terms of creation and annihilation operators which create and annihilate a wave with wavevector $k$:
 
@@ -230,7 +230,7 @@ It is also fundamental to avoid thermal fluctuations with energies higher than t
 ### Charge Qubits
 Let's take now the LC circuit described above and let's replace the linear inductor with a Josephson junction. What we will get is the first form of superconducting qubit we can regard, also called a *charge qubit*.
 
-![alt text](image-6.png)
+![alt text](images/image-6.png)
 
 The charge qubit is simply made by a Josephson junction shunted by a capacitor. The core difference with respect to a normal LC circuit is the **non-linear behavior** of the junction. The capacitor connecting the source to the junction symbolizes the capacitive coupling of the qubit to an arbitrary voltage source.
 The sinusoidal characteristic of the junction current gives rise to an anharmonic profile in its potential:
@@ -247,7 +247,7 @@ where $\hat{n}$ is the **number operator** which is directly linked to the creat
 
 The quadratic behavior of the energy now lies entirely in the number operator while the **non-linear potential** of the junction gives rise to anharmonic jumps inside its profile.
 
-![alt text](image-8.png)
+![alt text](images/image-8.png)
 
 Thanks to the anharmonicity of the potential, the descrete energy transitions accessible in a quantum framework are now uneven allowing to **address two states independently**.
 
@@ -270,7 +270,7 @@ The main consequence of charge noise is to change the transition frequencies mak
 
 In order to mitigate the influence of this kind of noise the Josephson energy must overcome the charging energy. Implementing a Superconducting Quantum Interference Device (SQUID) to tune $E_j$ or enlarging the capacitor area to lower $E_c$ are valid ways to control the $E_j/E_c$ ratio.
 
-![alt text](image-11.png)
+![alt text](images/image-11.png)
 
 The image above shows the ratio between the energy levels with respect to the ground state energy as a function of noise charge. It is evident that with low values of $E_j/E_c$ small variations of $n_g$ lead to catastrophical change in energy differences.
 When $E_j/E_c$ is in the $20-80$ range the qubit is said to be in **transmon regime** and sensitivity to charge fluctuations is almost completely supressed. Notice that also the anharmonicity in the transition is lowered with higher values of $E_j/E_c$ but in a slower way so that the qubit is still regardable as a quantum anharmonic oscillator.
@@ -311,13 +311,13 @@ A notorious example in physics is the **Fabry - Perot cavity**, used for buildin
 Let's do the same for our transmon qubit: if we put it inside a resonator made of **superconducting transmission lines**, we'll be able to control or measure it.
 
 
-![alt text](image-12-1.png)
+![alt text](images/image-12-1.png)
 
 
 To prove this, let's examine the equivalent circuit of this system, to derive its hamiltonian. The technique of studying quantum systems by analyzing its equivalent circuit is called Circuit Quantum Electrodynamics (QED).
 
 
-![alt text](image-13-1.png)
+![alt text](images/image-13-1.png)
 
 The derivation of this circuit is straightforward: 
 + the resonator is represented by an harmonic oscillator (LC circuit)
@@ -369,7 +369,7 @@ This has two direct consequences:
 
 This means that the qubit state affects the system around it.
 
-![alt text](image-14-1.png)
+![alt text](images/image-14-1.png)
 
 As we can appreciate from this image, $\omega_q$ and $\omega_r$ are distant from each other! It seems like measurement and control are two very different things...
 
@@ -378,11 +378,11 @@ It's time to use this system!
 + **measurement**: probe the resonator at frequency $\omega_r$; depending on the qubit state, the transmission frequency will be at $\omega_r + \chi$ or $\omega_r - \chi$
 
 
-![alt text](image-15-1.png)
+![alt text](images/image-15-1.png)
 
 + **control**: probe the resonator at $\omega_q$ with the waveform you need to rotate the state of the qubit
 
-![alt text](image-16-1.png)
+![alt text](images/image-16-1.png)
 
 ## Qubit control
 
@@ -394,11 +394,11 @@ A signal (a general waveform, like a sinusoidal wafe) can be decomposed into two
 + an **In-Phase (I)** signal, which will have zero phase
 + a **Quadrature (Q)** signal, with $\frac{\pi}{2}$ phase
 
-![alt text](<I_Q time components.png>)
+![alt text](images/I_Q-time-components.png)
 
 A fixed - frequency signal can also be represented as a dot in a complex plane, whose axis label the I and Q components that constitute it.
 
-![alt text](<I_Q complex components.png>)
+![alt text](images/I_Q-complex-components.png)
 
 Using again the QED technique, we derive the hamiltonian of the **driving voltage** and controlled qubit system:
 
@@ -418,7 +418,7 @@ where:
 The main idea is to modulate I and Q components of the driving signal in order to select a qubit x or y rotation.
 
 
-![alt text](image-17-1.png)
+![alt text](images/image-17-1.png)
 
 So we mainly have two cases:
 
@@ -440,5 +440,4 @@ So, with this article, we explained you:
 + what is a **transmon qubit**;
 + the **first building stages** of a superconductive quantum computer.
 
-If you liked this article, please share with your Quantum fellows! Or even with your dog, your cat...
-
+If you liked this article, please share it with other Quantum-enthusiasts!

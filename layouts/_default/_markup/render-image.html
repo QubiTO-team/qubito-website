@@ -1,7 +1,12 @@
 {{- $disableImageOptimization := .Page.Site.Params.disableImageOptimization |
 default false }} {{- $url := urls.Parse .Destination }} {{- $altText := .Text }}
-{{- $caption := .Title }} {{- if findRE "^https?" $url.Scheme }}
-<figure>
+{{- $titleParts := slice }} {{- if .Title }} {{- $titleParts = split .Title "|"
+}} {{- end }} {{- $caption := "" }} {{- $figId := "" }} {{- if ge (len
+$titleParts) 1 }} {{- $caption = index $titleParts 0 }} {{- end }} {{- if ge
+(len $titleParts) 2 }} {{- $caption = trim (index $titleParts 0) " \t\n\r" }}
+{{- $figId = trim (index $titleParts 1) " \t\n\r" }} {{- else if $caption }} {{-
+$figId = anchorize $caption }} {{- end }} {{- if findRE "^https?" $url.Scheme }}
+<figure {{ with $caption }} id="{{ anchorize . }}" {{ end }}>
   <img
     class="my-0 rounded-md"
     loading="lazy"
@@ -39,7 +44,7 @@ else if resources.GetMatch ($url.String) }} {{- $resource = resources.Get
 {{- $darkPath := replaceRE "(?i)(\\.[^./]+)$" "-dark$1" .Name }} {{- $darkRes :=
 $.Page.Resources.GetMatch $darkPath }}
 
-<figure>
+<figure {{ if $figId }} id="{{ $figId }}" {{ end }}>
   {{- if $darkRes }}
   <img
     src="{{ .RelPermalink }}"
@@ -87,7 +92,7 @@ $.Page.Resources.GetMatch $darkPath }}
 </figure>
 
 {{- else }}
-<figure>
+<figure {{ if $figId }} id="{{ $figId }}" {{ end }}>
   <img
     class="my-0 rounded-md"
     loading="lazy"

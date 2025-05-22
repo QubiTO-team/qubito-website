@@ -1,0 +1,3 @@
+
+[markup.goldmark.renderer]
+  unsafe = true  # Allows raw LaTeX in Markdown

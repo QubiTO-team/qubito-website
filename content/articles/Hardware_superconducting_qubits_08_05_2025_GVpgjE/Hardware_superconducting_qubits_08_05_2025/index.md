@@ -362,11 +362,11 @@ Un segnale (una forma d'onda generica, come una sinusoide) può essere scomposto
 + un segnale **in fase (I)**, che avrà fase zero
 + un segnale **in quadratura (Q)**, con fase pari a $\frac{\pi}{2}$.
 
-![alt text](images/<I_Q time components.png>)
+![alt text](images/I_Q-time-components.png)
 
 Un segnale a frequenza fissa può anche essere rappresentato come un punto in un piano complesso, i cui assi indicano le componenti I e Q che lo costituiscono:
 
-![alt text](images/<I_Q complex components.png>)
+![alt text](images/I_Q-complex-components.png)
 
 
 Utilizzando nuovamente la tecnica QED, si ricava l'hamiltoniana della **tensione di pilotaggio** e del sistema di qubit controllati:
@@ -407,5 +407,4 @@ Con questo articolo vi abbiamo spiegato:
 + cos'è un **qubit transmon**;
 + come **manipolare il qubit** in un computer quantistico superconduttivo.
 
-Se questo articolo vi è piaciuto, condividetelo con i vostri amici quantistici! O anche con il vostro cane, il vostro gatto, il vostro cavallo...
-
+Se questo articolo ti è piaciuto, condividilo con altri appassionati di Quantum! 

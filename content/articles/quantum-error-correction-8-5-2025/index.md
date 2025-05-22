@@ -1,969 +1,410 @@
 ---
-title: "Quantum Error Correction"
+title: "Correzione Degli Errori Quantistici"
 weight: 14
 date: 2025-05-17
-summary: "Using techniques like repetition codes and the 9-qubit Shor code, quantum error correction enables reliable quantum computing by protecting qubits from bit-flip errors, phase-flip errors, and arbitrary errors."
+summary: "Utilizzando tecniche come i codici di ripetizione e il codice Shor a 9 qubit, la correzione degli errori quantistici consente un calcolo quantistico affidabile proteggendo i qubit da errori di inversione di bit, di fase ed errori arbitrari."
 tags: ["QEC", "Qiskit"]
 authors: ["Mattia Placi", "Leonardo Niccolai", "Edoardo Frulla", "Walid Bou Ezz"]
-slug: "quantum-error-correction"  
+slug: "correzione-degli-errori-quantistici"  
 translationKey: "correcting-quantum-errors"
 ---
+# Codici di ripetizione classici
 
-# Classical Repetition Codes
+Il rumore è una sfida fondamentale nei sistemi di elaborazione delle informazioni. Molti sistemi classici sono in grado di evitarlo completamente, mentre altri devono utilizzare codici di correzione degli errori per proteggersi dagli effetti del rumore. L'idea chiave è la ridondanza: codificando i messaggi con informazioni aggiuntive, gli errori possono essere rilevati e corretti anche se parte dei dati è corrotta. I codici a ripetizione sono esempi estremamente basilari di codici a correzione d'errore.
 
-Noise is a fundamental challenge in information processing systems. Many
-classical systems are able to avoid noise completely, while others must
-make use of error-correcting codes to protect against the effects of
-noise. The key idea is redundancy: by encoding messages with extra
-information, errors can be detected and corrected even if part of the
-data is corrupted. Repetition codes are extremely basic examples of
-error correcting codes.
+## Procedure di codifica e decodifica
 
-## Encoding and Decoding Procedures
+L'idea fondamentale è proteggere un bit dagli errori ripetendolo più volte. Si consideri il codice a ripetizione a 3 bit, in cui un singolo bit viene codificato come tre bit identici.
 
-The core idea is to protect a bit against errors by repeating it
-multiple times. Consider the 3-bit repetition code, where a single bit
-is encoded as three identical bits.
-``` math
+$$
 \begin{aligned}
-        0 &\mapsto 000\\
-        1 &\mapsto 111  
-    \end{aligned}
-```
-In the absence of errors, the original bit can be trivially decoded.
-However, even if one bit flips, the original value can still be
-recovered by majority voting: the decoder outputs whichever value
-appears more frequently.
-``` math
+    0 &\mapsto 000 \cr
+    1 &\mapsto 111 
+\end{aligned}
+$$
+In assenza di errori, il bit originale può essere decodificato in modo banale. Tuttavia, anche se un bit si inverte, il valore originale può comunque essere recuperato tramite votazione a maggioranza: il decodificatore restituisce il valore che appare più frequentemente.
+$$
 abc \mapsto majority(a,b,c)
-```
-This corrects single-bit errors reliably.
+$$
+Questo corregge in modo affidabile gli errori a singolo bit.
 
-Of course, if 2 or 3 bits of the encoding flip, then the decoding won’t
-work properly and the wrong bit will be recovered, but if at most 1 of
-the 3 bits flips, the decoding will be correct. This shows a central
-concept in error correction: the trade-off between redundancy and
-robustness.
+Naturalmente, se 2 o 3 bit della codifica si invertono, la decodifica non funzionerà correttamente e verrà recuperato il bit errato, ma se al massimo 1 dei 3 bit si inverte, la decodifica sarà corretta. Questo dimostra un concetto centrale nella correzione degli errori: il compromesso tra ridondanza e robustezza.
+## Analisi degli errori nei canali binari simmetrici
 
-## Error Analysis in Binary Symmetric Channels
+Ad esempio, supponiamo di voler comunicare un singolo bit a un ipotetico ricevitore attraverso un canale classico rumoroso. L'effetto del rumore nel canale è quello di invertire un bit trasmesso con probabilità $p$, mentre con probabilità $1-p$ il bit viene trasmesso correttamente. Un canale di questo tipo è noto come *canale binario simmetrico*, in quanto inverte ogni bit inviato in modo indipendente.
 
-As an example, suppose we wish to communicate a single bit to a
-hypothetical receiver through a classical noisy channel. The effect of
-the noise in the channel is to flip a transmitted bit with probability
-$`p`$, while with probability $`1-p`$ the bit is transmitted correctly.
-Such a channel is known as a *binary symmetric channel*, it flips each
-bit sent through it independently.
+In questo contesto, se scegliamo di non utilizzare alcun codice di correzione degli errori e semplicemente inviamo un bit qualsiasi attraverso il canale, il ricevitore riceverà il bit errato con probabilità $p$.
 
-In this context, if we choose not to use any error correcting code and
-simply send whatever bit through the channel, the receiver will receive
-the wrong bit with probability $`p`$.
-
-On the other hand, if we first use the 3-bit repetition code to encode
-the bit and then send each of the resulting three bits through the
-channel, each one of them will flip indipendently with probability
-$`p`$. The receiver will decode correctly only if at most one bit flips
-during the communication. So the probability of an error after the
-decoding corresponds to the probability that either two or each of the
-three bits flip during transmission. The total probability of an error
-is therefore
-``` math
+D'altra parte, se prima utilizziamo il codice di ripetizione a 3 bit per codificare il bit e poi inviamo ciascuno dei tre bit risultanti attraverso il canale, ognuno di essi si invertirà indipendentemente con probabilità $p$. Il ricevitore decodificherà correttamente solo se al massimo un bit si inverte durante la comunicazione. Quindi la probabilità di un errore dopo la decodifica corrisponde alla probabilità che due o ciascuno dei tre bit si invertano durante la trasmissione. La probabilità totale di un errore è quindi
+$$
 3p^2(1-p)+p^3 = 3p^2-2p^3.
-```
+$$
 
-<div class="tcolorbox">
-
-<span class="mark">Proposed addition by Edo</span>  
-This can be obtained using probability theory. Suppose we denote with
-``` math
+Questo può essere ottenuto utilizzando la teoria della probabilità. Supponiamo di indicare con
+$$
 p(X_1 \cap X_2 \cap X_3)
-```
-the probability that when we obtain the 3-digit bit string, we obtain
-the result $`X_i`$ for the $`i`$-th bit, where the outcome can be
-$`C_i`$ for correct detection and $`W_i`$ for a wrong one.
+$$
+la probabilità che, quando otteniamo la stringa di bit a 3 cifre, otteniamo il risultato $X_i$ per l'$i$-esimo bit, dove il risultato può essere $C_i$ per un rilevamento corretto e $W_i$ per uno errato.
 
-Let’s consider the case where all three bits are wrong. Since the three
-events are independent (we assumed this at the beginning), the theory
-tells us that the probability of the intersection of the events is the
-product of the probabilities of the single events,
-``` math
-p(W_1 \cap W_2 \cap W_3) = p(W_1) p(W_2) p(W_3) = p^3\,.
-```
-Analyzing the other case, we see that one possible scenario is the
-following:
-``` math
-p(C_1 \cap W_2 \cap W_3) = p(C_1) p(W_2) p(W_3) = (1-p)p^2\,.
-```
-But this can also occur (with the same calculation):
-``` math
-p(W_1 \cap C_2 \cap W_3) = (1-p)p^2\,,
-```
-and
-``` math
-p(W_1 \cap W_2 \cap C_3) = (1-p)p^2\,.
-```
-The final expression for the event of only one correct bit is
-``` math
-p\big((C_1 \cap W_2 \cap W_3) \cup (W_1 \cap C_2 \cap W_3) \cup (W_1 \cap W_2 \cap C_3)\big)\,.
-```
+Consideriamo il caso in cui tutti e tre i bit siano errati. Poiché i tre eventi sono indipendenti (lo abbiamo ipotizzato all'inizio), la teoria ci dice che la probabilità dell'intersezione degli eventi è il prodotto delle probabilità dei singoli eventi,
+$$
+p(W_1 \cap W_2 \cap W_3) = p(W_1) p(W_2) p(W_3) = p^3\.
+$$
+Analizzando l'altro caso, vediamo che uno scenario possibile è il seguente:
+$$
+p(C_1 \cap W_2 \cap W_3) = p(C_1) p(W_2) p(W_3) = (1-p)p^2\. $$
+Ma questo può anche verificarsi (con lo stesso calcolo):
+$$
+p(W_1 \cap C_2 \cap W_3) = (1-p)p^2\,
+$$
+e
+$$
+p(W_1 \cap W_2 \cap C_3) = (1-p)p^2\.
+$$
+L'espressione finale per l'evento di un solo bit corretto è
+$$
+p\big((C_1 \cap W_2 \cap W_3) \cup (W_1 \cap C_2 \cap W_3) \cup (W_1 \cap W_2 \cap C_3)\big)\. $$
 
-Since the three composite events considered have an empty intersection
-(a bit cannot be simultaneously correct and wrong), the theory tells us
-that we can simply sum the single probabilities,
-``` math
+Poiché i tre eventi composti considerati hanno un'intersezione vuota (un bit non può essere contemporaneamente corretto e sbagliato), la teoria ci dice che possiamo semplicemente sommare le singole probabilità,
+$$
 \begin{aligned}
-    p& \big((C_1 \cap W_2 \cap W_3) \cup (W_1 \cap C_2 \cap W_3) \cup (W_1 \cap W_2 \cap C_3)\big) = \\
-    &= p(C_1 \cap W_2 \cap W_3) + p(W_1 \cap C_2 \cap W_3) + p(W_1 \cap W_2 \cap C_3) = \\
-    &=3(1-p)p^2\,.
-    
+p& \big((C_1 \cap W_2 \cap W_3) \cup (W_1 \cap C_2 \cap W_3) \cup (W_1 \cap W_2 \cap C_3)\big) = \cr
+&= p(C_1 \cap W_2 \cap W_3) + p(W_1 \cap C_2 \cap W_3) + p(W_1 \cap W_2 \cap C_3) = \cr
+&=3(1-p)p^2\.
 \end{aligned}
-```
+$$
 
-Finally, we have to consider the composite event of all errors or only
-one correct bit. Since those have an empty intersection, we end up with
-``` math
+Infine, dobbiamo considerare l'evento composto di tutti gli errori o di un solo bit corretto. Poiché questi hanno un'intersezione vuota, otteniamo
+$$
 \begin{aligned}
-    p&\Big( \big( (C_1 \cap W_2 \cap W_3) \cup (W_1 \cap C_2 \cap W_3) \cup (W_1 \cap W_2 \cap C_3)\big) \cup (W_1 \cap W_2 \cap W_3) \Big) = \\ 
-    &= p^3 +3(1-p)p^2 =3p^2 -2p^3\,.
-    
+p&\Big( \big( (C_1 \cap W_2 \cap W_3) \cup (W_1 \cap C_2 \cap W_3) \cup (W_1 \cap W_2 \cap C_3)\big) \cup (W_1 \cap W_2 \cap W_3) \Big) = \cr
+&= p^3 +3(1-p)p^2 =3p^2 -2p^3\.
 \end{aligned}
-```
+$$
+![Errore Binario Simmetrico](images/binary-symmetric-error.png "Errore Binario Simmetrico|binary-symmetric-error")
 
-</div>
+Come si può vedere nella [figura sopra](#binary-symmetric-error), quando la probabilità di errore $p$ è inferiore a $1/2$, il codice di ripetizione riduce efficacemente la possibilità che il ricevitore riceva un bit errato. Al contrario, se $p$ supera $1/2$, il codice amplifica la probabilità di decodificare gli errori anziché correggerli.
+# Codici di Ripetizione Quantistica per i Qubit
 
-![Binary Symmetric Error](images/binary-symmetric-error.png)
+Il codice di ripetizione a 3 bit può essere utilizzato anche per la correzione degli errori dei qubit.
 
-As can be seen in Fig.
-<a href="#fig:enter-label" data-reference-type="ref"
-data-reference="fig:enter-label">1</a>, when the error probability $`p`$
-is less than $`1/2`$, the repetition code effectively reduces the chance
-of the receiver obtaining an incorrect bit. Conversely, if $`p`$ exceeds
-$`1/2`$, the code amplifies the likelihood of decoding errors rather
-than correcting them.
+## Codifica degli Stati Quantistici
 
-# Quantum Repetition Codes for Qubits
+Per creare uno stato entangled ripetuto a 3 qubit, possiamo utilizzare il circuito mostrato nella [figura sotto](#3-qubit-bit-flip). Grazie a questo circuito possiamo codificare lo stato generico $\alpha \ket{0}+ \beta \ket{1}$ nello stato $\alpha \ket{000}+ \beta \ket{111}$, grazie all'azione delle porte NOT controllate (CNOT).
 
-The 3-bit repetition code can be used also for qubit error correction.
+![Schema circuitale del codice a inversione di bit a 3 qubit.](images/encoding_quantum_states.png "Schema circuitale del codice a inversione di bit a 3 qubit|3-qubit-bit-flip")
 
-## Encoding Quantum States
+Si noti che questa codifica è diversa dalla ripetizione dello stesso stato tre volte $\ket{\psi}\otimes\ket{\psi}\otimes\ket{\psi}$, cosa che sarebbe impossibile a causa del teorema di non clonazione.
 
-To create a 3-qubit repeated entangled state, we can use the circuit
-shown in Fig. <a href="#fig:3qubit" data-reference-type="ref"
-data-reference="fig:3qubit">2</a>. Thanks to this circuit we can encode
-the generic state $`\alpha \ket{0}+ \beta \ket{1}`$ into the state
-$`\alpha \ket{000}+ \beta \ket{111}`$, thanks to the action of the
-controlled NOT (CNOT) gates.
+## Rilevamento e correzione degli errori di inversione di bit
 
-<figure id="fig:3qubit">
-<div class="quantikz">
-<p>&amp;&amp;&amp;<br />
-&amp;&amp;&amp;<br />
-&amp;&amp;&amp;<br />
-</p>
-</div>
-<figcaption>3-qubit bit flip code circuit diagram.</figcaption>
-</figure>
+Il primo tipo di errore che possiamo correggere con i qubit a ripetizione è l'inversione di bit. Questo tipo di errore è rappresentato da una porta $X$. Se uno dei tre qubit, diciamo quello centrale, subisce questo tipo di errore, lo stato finale del sistema sarebbe $\alpha \ket{010}+ \beta \ket{101}$. Per rilevare questa inversione di bit potremmo misurare lo stato, ma ciò distruggerebbe la sovrapposizione.
 
-Notice that this encoding is different from the repetition of the same
-state three times $`\ket{\psi}\otimes\ket{\psi}\otimes\ket{\psi}`$,
-which would be impossible due to the no cloning theorem.
+Come possiamo cercare di capire quale dei tre qubit si è invertito senza misurarne direttamente lo stato? Il modo corretto per farlo è aggiungere un nuovo elemento al nostro sistema. Questo dovrebbe essere un sistema che inizia disaccoppiato dal nostro sistema, entra in contatto con lo stato principale e ne viene influenzato in modo prevedibile, ma finisce di nuovo in uno stato disaccoppiato alla fine. Quando parlo di disaccoppiato mi riferisco, in senso formale, a quello che viene chiamato stato separabile. La proprietà principale di uno stato separabile è che se misuriamo una delle porzioni separate del nostro sistema non perturbiamo il resto. Possiamo quindi sfruttare questa proprietà per dedurre, misurando il nuovo sistema, quale dei tre bit si è invertito (supponendo di avere un solo inversione). Quindi possiamo applicare la porta $X$ inversa, quindi $X$ stessa, al qubit sbagliato per ottenere nuovamente lo stato iniziale.
 
-## Detecting and Correcting Bit-Flip Errors
+Chiarito questo, e ricordando che con $n$ qubit possiamo ottenere $2^n$ misurazioni diverse, abbiamo bisogno solo di 2 qubit in grado di indicizzare i $2^2 = 4$ risultati diversi:
 
-The first type of error we can correct with repetition qubits is the bit
-flip. This sort of error is represented as an $`X`$ gate. If one of the
-three qubits, say the middle one, undergoes this type of error, the
-final state of the system would be
-$`\alpha \ket{010}+ \beta \ket{101}`$. In order to detect this bit flip
-we could measure the state, but this would destroy the superposition.
+- 00 se non ci sono errori;
 
-<div class="tcolorbox">
+- 01 se il bit con errore è il terzo;
 
-<span class="mark">Proposed addition by Edo</span>  
-How can we try to understand which of the three qubits flipped without
-measuring directly the state? The correct way to do this is add a new
-piece to our system. This should be a system that start decoupled from
-our system, enter in contact with the main state and get influenced by
-it in a predictable way, but end up again in a decoupled state at the
-end. When i speak about decoupled i really refer, in a formal way, to
-what is called a separable state. The main property of a separable state
-is that if we measure one of the separated portion of our system we
-don’t perturb the rest. So we can exploit this property to deduce,
-measuring the new system, which of the three bits flipped ( assuming we
-have only a single flip). Then we can apply the inverse $`X`$ gate, so
-$`X`$ itself, to the wrong qubit to get again the initial state.
+- 10 se il bit con errore è il primo;
 
-This cleared, and recalling that with $`n`$ qubit we can obtain $`2^n`$
-different measurements, we need only 2 qubits that can index the
-$`2^2 = 4`$ different outcomes:
+- 11 se il bit con errore è il secondo.
 
-- 00 if we have no errors;
-
-- 01 if the bit with error is the third one;
-
-- 10 if the bit with error is the first one;
-
-- 11 if the bit with error is the second one.
-
-Now, let’s see how can we design a circuit that is respecting all the
-premises. Consider our starting state as
-``` math
-\alpha \ket{000} + \beta \ket{111}.
-```
-For example, if an error occurs on the first qubit, we end up with the
-state
-``` math
+Ora, vediamo come possiamo progettare un circuito che rispetti tutte le premesse. Consideriamo il nostro stato iniziale come
+$$
+\alpha \ket{000} + \beta \ket{111}. $$
+Ad esempio, se si verifica un errore sul primo qubit, si ottiene lo stato
+$$
 \alpha \ket{100} + \beta \ket{011}.
-```
-Now, we can try to use some gates, such as C-NOTs, to make this change
-affect the bottom two qubits. We can do this as shown in the following
-figure.
+$$
+Ora, possiamo provare a utilizzare alcune porte, come le porte C-NOT, per fare in modo che questa modifica influisca sui due qubit inferiori. Possiamo farlo come mostrato nella [figura seguente](#correcting-an-error-on-the-first-qubit).
 
-<div class="center">
+![Correzione di un errore sul primo qubit](images/bitflip1.png "Correzione di un errore sul primo qubit|correcting-an-error-on-the-first-qubit")
 
-<div class="quantikz">
+Applicando quel CNOT, indicato come $\{CX}_{i \to j}$, ovvero che il qubit di controllo è l'$i$-esimo, otteniamo
 
-&&&&&  
-&&& &&  
-&&&&&  
-&&&&&  
-&&&&&  
+$$
+\begin{aligned}
+\CX{1}{4} \left( (\alpha \ket{100} + \beta \ket{011}) \otimes \ket{00} \right) = \cr
+= \CX{1}{4} (\alpha \ket{100} \otimes \ket{00}) + \CX{1}{4} (\beta \ket{011} \otimes \ket{00}) = \cr
+= \alpha \ket{100} \otimes \ket{10} + \beta \ket{011} \otimes \ket{00}
+\end{aligned}
+$$
 
-</div>
+dove abbiamo sfruttato la linearità nel secondo passaggio. Notiamo che il CNOT ha agito solo sulla prima parte del nostro stato di sovrapposizione. Questo non è uno stato che vogliamo ottenere alla fine perché non è separabile, quindi non possiamo esprimerlo in una forma come
+$$
+\begin{aligned}
+(\alpha \ket{100}+ \beta \ket{011} ) \otimes \ket{10}
+\end{aligned}
+$$
+Questo è lo stato che vorremmo ottenere poiché vogliamo misurare gli ultimi due qubit e ottenere la stringa $10$, che ci dice che l'errore si è verificato sul primo qubit, il tutto senza perturbare il nostro stato originale (i primi tre qubit).
 
-</div>
+Dobbiamo quindi modificare la seconda parte dello stato, quella legata al coefficiente $\beta$, per ottenere $\beta \ket{011} \otimes \ket{10}$. Come possiamo farlo? Poiché il termine $\alpha$ ha il primo qubit impostato a $1$, possiamo applicare un CNOT al secondo o al terzo qubit senza modificare quella parte dello stato. Quindi possiamo applicare il CNOT al secondo come [mostrato](#correcting-an-eotfq-2).
 
-Applying that CNOT, denoted as $`\text{CX}_{i \to j}`$, meaning that the
-control qubit is the $`i`$-th one, we end up with
-``` math
-\begin{gathered}
-\text{CX}_{1 \to 4}  \big( (\alpha \ket{100} +\beta \ket{011} ) \otimes \ket{00} \big) = \\
-= \text{CX}_{1 \to 4}  (\alpha \ket{100} \otimes \ket{00} ) + \text{CX}_{1 \to 4}  (\beta \ket{011} \otimes \ket{00}) = \\
-=  \alpha \ket{100} \otimes \ket{10} + \beta \ket{011} \otimes \ket{00}
-\end{gathered}
-```
-where we exploited linearity in the second step. We notice that the CNOT
-acted only on the first part of our superposition state. This is not a
-state we want to obtain in the end because it is not separable, so we
-cannot put it in a form like
-``` math
-\begin{gathered}
-(\alpha \ket{100}+  \beta \ket{011} ) \otimes \ket{10}
-\end{gathered}
-```
-That is the state we would like to obtain since we want to measure the
-last two qubits and obtain the string $`10`$, which tells us that the
-error occurred on the first qubit, all without perturbing our original
-state (the first three qubits).
+![Correzione di un errore sul primo qubit (2)](images/biflip2.png "Correzione di un errore sul primo qubit (2)|correcting-an-eotfq-2")
 
-So we need to modify the second part of the state, the one linked to the
-coefficient $`\beta`$, to end up with
-$`\beta \ket{011} \otimes \ket{10}`$. How can we do this? Since the
-$`\alpha`$ term has the first qubit set to $`1`$, we can apply a CNOT to
-the second or the third qubit without modifying that part of the state.
-So we can apply the CNOT to the second one, for example.
+In questo modo, applicando la porta, possiamo ottenere:
+$$
+\begin{aligned}
+\CX{2}{4} \big( \alpha \ket{100} \otimes \ket{10} + \beta \ket{011} \otimes \ket{00} \big) = \cr
+= \CX{2}{4} (\alpha \ket{100} \otimes \ket{10}) + \CX{2}{4} (\beta \ket{011} \otimes \ket{00}) = \cr
+= \alpha \ket{100} \otimes \ket{10} + \beta \ket{011} \otimes \ket{10} = \cr
+= \big( \alpha \ket{100} + \beta \ket{011} \big) \otimes \ket{10}
+\end{aligned}
+$$
 
-<div class="center">
+Questo è lo stato che vogliamo ottenere.
 
-<div class="quantikz">
+![Errore sul terzo qubit](images/bitflip3.png "Errore sul terzo qubit|error-on-the-third-qubit")
 
-&&&&&&&&  
-&& & & & &&&  
-&&& & & &&&  
-&&&&& & &&  
-&&&&& & &&  
-
-</div>
-
-</div>
-
-In this way, we can obtain, by applying the gate:
-``` math
-\begin{gathered}
-    \text{CX}_{2 \to 4}  \big( \alpha \ket{100} \otimes \ket{10} + \beta \ket{011} \otimes \ket{00} \big) = \\
-                    = \text{CX}_{2 \to 4}  (\alpha \ket{100} \otimes \ket{10}) + \text{CX}_{2 \to 4}  (\beta \ket{011} \otimes \ket{00}) = \\
-                    =  \alpha \ket{100} \otimes \ket{10} + \beta \ket{011} \otimes \ket{10} = \\
-                    =  \big( \alpha \ket{100}  + \beta \ket{011} \big)\otimes \ket{10} 
-\end{gathered}
-```
-that is the state we want to get.
-
-<div class="center">
-
-<div class="quantikz">
-
-&&& &&&  
-&& & & & &  
-&&& & & &  
-&&&&& &  
-&&&&& &  
-
-</div>
-
-</div>
-
-If we now consider an error on the third qubit, resulting in a state
-like
-``` math
+Se ora consideriamo un errore sul terzo qubit come nell'[immagine](#error-on-the-third-qubit), che risulta in uno stato come
+$$
 \alpha \ket{001} + \beta \ket{110},
-```
-we see that our circuit is not working correctly. In fact,
-``` math
-\begin{gathered}
-\text{CX}_{2 \to 4} \text{CX}_{1 \to 4}  \big( (\alpha \ket{001} + \beta \ket{110} ) \otimes \ket{00} \big) = \\
-= \text{CX}_{2 \to 4} \text{CX}_{1 \to 4}  (\alpha \ket{001} \otimes \ket{00} ) + \text{CX}_{2 \to 4} \text{CX}_{1 \to 4}  (\beta \ket{110} \otimes \ket{00}) = \\
-=  \alpha \ket{001} \otimes \ket{00} + \beta \ket{110} \otimes \ket{00} = \\
-=  \big( \alpha \ket{001}  + \beta \ket{110} \big) \otimes \ket{00}.
-\end{gathered}
-```
-Notice that in this case, the CNOT acting on the first term of the
-superposition (the $`\alpha`$ term) does nothing, while the second term
-results in two consecutive flips that cancel each other out. So here,
-the action of the gates is equivalent to the identity. We end up with no
-information about the error. We can correct this situation by adding
-CNOTs; like in the previous situation, we need to add two of them to
-create a separable state.
+$$
+vediamo che il nostro circuito non funziona correttamente. Infatti,
+$$
+\begin{aligned}
+\CX{2}{4} \CX{1}{4} \big( (\alpha \ket{001} + \beta \ket{110}) \otimes \ket{00} \big) = \cr
+= \CX{2}{4} \CX{1}{4} (\alpha \ket{001} \otimes \ket{00}) + \CX{2}{4} \CX{1}{4} (\beta \ket{110} \otimes \ket{00}) = \cr
+= \alpha \ket{001} \otimes \ket{00} + \beta \ket{110} \otimes \ket{00} = \cr
+= \big( \alpha \ket{001} + \beta \ket{110} \big) \otimes \ket{00}. \end{aligned}
+$$
 
-<div class="center">
+Si noti che in questo caso, il CNOT che agisce sul primo termine della sovrapposizione (il termine $\alpha$) non fa nulla, mentre il secondo termine risulta in due inversioni consecutive che si annullano a vicenda. Quindi, in questo caso, l'azione delle porte è equivalente all'identità. Non si ottiene alcuna informazione sull'errore. Possiamo correggere questa situazione aggiungendo CNOT; come nella situazione precedente, dobbiamo aggiungerne due per creare uno stato separabile, come mostrato [qui](#error-corrected-on-the-third-qubit).
 
-<div class="quantikz">
+![Errore corretto sul terzo qubit](images/bitflip4.png "Errore corretto sul terzo qubit|error-corrected-on-the-third-qubit")
 
-&&&&&&&&&  
-&&&&&&&&&  
-&&& &&&&&&  
-&&&&&&&&&  
-&&&&&&&&&  
+In questo modo, si ottiene il risultato $01$ se si verifica un errore sul terzo bit. Si ricordi che i primi due CNOT si comportano come l'identità in questa situazione.
 
-</div>
+Se torniamo al caso precedente, quello con l'errore sul primo qubit, vediamo che la situazione è simmetrica: le due porte che abbiamo aggiunto alla fine agiscono come l'identità, mentre le prime due agiscono come descritto in precedenza; tutto funziona ancora. Inoltre, questo circuito agisce sullo stato di assenza di errore come l'identità.
 
-</div>
+![Errore sul secondo qubit](images/bitflip6.png "Errore sul secondo qubit|error-on-the-second-qubi")
 
-In this way, we end up with the result $`01`$ if we have an error on the
-third bit. Remember that the first two CNOTs act like the identity in
-this situation.
-
-If we return to the previous case, the one with the error on the first
-qubit, we see that the situation is symmetric: the two gates we added at
-the end act like the identity, while the first two act as we described
-previously; everything still works. Moreover, this circuit acts on the
-no-error state as the identity.
-
-<div class="center">
-
-<div class="quantikz">
-
-&&&&&&&&&  
-&&&&&&&&&  
-&&& &&&&&&  
-&&&&&&&&&  
-&&&&&&&&&  
-
-</div>
-
-</div>
-
-The last case we need to investigate is the error on the central qubit.
-We want, in this case, to obtain the result $`11`$. Let’s see what
-happens with the current circuit. We notice that the first and the last
-CNOTs act only on the $`\beta`$ part of the superposition. The middle
-ones, instead, act only on the $`\alpha`$ part. If we check, we end up
-with the separable state of the desired type:
-``` math
+L'ultimo caso che dobbiamo analizzare è l'[errore sul qubit centrale](#error-on-the-second-qubit). Vogliamo, in questo caso, ottenere il risultato $11$. Vediamo cosa succede con il circuito attuale. Notiamo che il primo e l'ultimo CNOT agiscono solo sulla parte $\beta$ della sovrapposizione. Quelli centrali, invece, agiscono solo sulla parte $\alpha$. Se controlliamo, otteniamo lo stato separabile del tipo desiderato:
+$$
 \big( \alpha\ket{010}+\beta\ket{101} \big) \otimes \ket{11}.
-```
+$$
+Il nostro circuito funziona!
 
-</div>
+Riassumendo, possiamo facilmente calcolare i risultati della misurazione (*sindromi*) per tutti gli stati ottenuti da al massimo un bit-flip; sono elencati nella tabella seguente.
 
-To prevent that we can add two ancilla qubits, which will be measured to
-reveal if and on which qubit the error happened. This is easily done by
-adding four extra CNOT gates, see Fig.
-<a href="#fig:3bitrepflip" data-reference-type="ref"
-data-reference="fig:3bitrepflip">3</a>.
-
-<figure id="fig:3bitrepflip">
-<div class="quantikz">
-<p>&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;<br />
-&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;<br />
-&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;<br />
-&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;<br />
-&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;<br />
-</p>
-</div>
-<figcaption></figcaption>
-</figure>
-
-We can easily compute the measurement outcomes (*syndromes*) for all the
-states obtained from at most one bit-flip, they are listed in the
-following table.
-
-|                 State                 | Syndrome |
+| Stato | Sindrome |
 |:-------------------------------------:|:--------:|
-| $`\alpha \ket{000}+ \beta \ket{111}`$ |    00    |
-| $`\alpha \ket{100}+ \beta \ket{011}`$ |    10    |
-| $`\alpha \ket{010}+ \beta \ket{101}`$ |    11    |
-| $`\alpha \ket{001}+ \beta \ket{110}`$ |    01    |
+| $\alpha \ket{000}+ \beta \ket{111}$ | 00 |
+| $\alpha \ket{100}+ \beta \ket{011}$ | 10 |
+| $\alpha \ket{010}+ \beta \ket{101}$ | 11 |
+| $\alpha \ket{001}+ \beta \ket{110}$ | 01 |
 
-It is important to underline that perfect bit-flip errors are just a
-simple model of a much more complex phenomenon, here we easily assumed
-one flip represented by a unitary operator. We will discuss about non
-unitary errors by the end of the article.
+È importante sottolineare che gli errori di inversione di bit perfetti sono solo un modello semplice di un fenomeno molto più complesso; qui abbiamo ipotizzato un singolo inversione rappresentato da un operatore unitario. Discuteremo degli errori non unitari alla fine dell'articolo.
 
-## Handling Phase-Flip Errors
+## Gestione degli errori di inversione di fase
 
-Another fundamental type of errors we have to worry about are phase-flip
-errors, modeled as $`Z`$ gates. Applying a $`Z`$ gate to any of the
-three qubits of the previous encoding we obtain
-``` math
-(\mathbb{I}\otimes Z \otimes \mathbb{I})(\alpha \ket{000}+ \beta \ket{111})=\alpha \ket{000}- \beta \ket{111}.
-```
-It turns out that phase-flips on any of the three qubits have the same
-effect on the whole final state, leading to a total phase flip for an
-odd number of $`Z`$ gates applied. Unfortunately our previous error
-correction circuit is not able to detect phase-flip errors, the output
-in the ancilla qubits will be $`00`$ anyway, not detecting any error.
+Un altro tipo fondamentale di errore di cui dobbiamo preoccuparci sono gli errori di inversione di fase, modellati come porte $Z$. Applicando una porta $Z$ a uno qualsiasi dei tre qubit della codifica precedente, otteniamo
+$$
+(\mathbb{I}\otimes Z \otimes \mathbb{I})(\alpha \ket{000}+ \beta \ket{111})=\alpha \ket{000}- \beta \ket{111}. $$
+Si scopre che le inversioni di fase su uno qualsiasi dei tre qubit hanno lo stesso effetto sull'intero stato finale, portando a un'inversione di fase totale per un numero dispari di porte $Z$ applicate. Sfortunatamente il nostro precedente circuito di correzione degli errori non è in grado di rilevare errori di inversione di fase; l'uscita nei qubit ancillari sarà comunque $00$, senza rilevare alcun errore.
 
-## Modified Repetition Code for Phase-Flip Mitigation
+## Codice di ripetizione modificato per la mitigazione dell'inversione di fase
 
-In order to detect phase flip errors, we must modify the encoded state
-$`\alpha \ket{000}+ \beta \ket{111}`$ by applying three Hadamard gates,
-reaching then the state $`\alpha \ket{+++}+ \beta \ket{---}`$. This is
-done by the circuit in Fig.
-<a href="#fig:3qubit_phase" data-reference-type="ref"
-data-reference="fig:3qubit_phase">4</a>.
+Per rilevare errori di inversione di fase, dobbiamo modificare lo stato codificato $\alpha \ket{000}+ \beta \ket{111}$ applicando tre porte Hadamard, raggiungendo quindi lo stato $\alpha \ket{+++}+ \beta \ket{---}$. Questo viene fatto dal circuito nella [figura sotto](#3-qubit-phase-correcting-diagram-first-part). ![Diagramma di correzione di fase a 3 qubit - prima parte](images/3-qubitphaseflip.png "Diagramma di correzione di fase a 3 qubit - prima parte|3-qubit-phase-correcting-diagram-first-part")
 
-<figure id="fig:3qubit_phase">
-<div class="quantikz">
-<p>&amp;&amp;&amp;&amp;<br />
-&amp;&amp;&amp;&amp;<br />
-&amp;&amp;&amp;&amp;<br />
-</p>
-</div>
-<figcaption>3-qubit phase flip code circuit diagram.</figcaption>
-</figure>
+Dopo questa codifica, un errore di inversione di fase trasformerà uno stato $\ket{+}$ in uno $\ket{-}$ e viceversa. Quindi, aggiungendo due qubit ancilla nello stato $\ket{+}$, saremo in grado di riprodurre un circuito analogo a quello realizzato per le inversioni di bit, rappresentato nel [diagramma](#3-qubit-complete-phase-correcting-diagram).
 
-After this encoding, a phase-flip error will transform a $`\ket{+}`$
-state in a $`\ket{-}`$ and viceversa. So adding two ancilla qubits in
-$`\ket{+}`$ state, we will be able to reproduce a circuit analogous to
-the one done for bit-flips, represented in Fig.
-<a href="#fig:3qubit_phase_corr" data-reference-type="ref"
-data-reference="fig:3qubit_phase_corr">5</a>.
+![Diagramma di correzione di fase completa a 3 qubit](images/phase_flip_error.png "Diagramma di correzione di fase completa a 3 qubit|3-qubit-complete-phase-correcting-diagram")
 
-<figure id="fig:3qubit_phase_corr">
-<div class="quantikz">
-<p>&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;<br />
-&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;<br />
-&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;<br />
-&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;<br />
-&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;<br />
-</p>
-</div>
-<figcaption></figcaption>
-</figure>
+Come in precedenza, la sindrome misurata ci dirà se e dove si è verificato l'errore.
 
-As before the measured syndorme will tell us if and where the error
-occurred.
+La correzione degli errori di inversione di fase ci impone un cambio di base, effettuato tramite porte di Hadamard.
 
-Correcting phase-flip errors force us to a change of basis, done by
-means of Hadamard gates.
+# Il codice Shor a 9 qubit
 
-# The 9-Qubit Shor Code
+Il codice di correzione degli errori Shor a 9 qubit è ottenuto combinando il codice di ripetizione a 3 bit per gli errori di inversione di bit e di fase descritto in precedenza.
 
-The 9-qubit Shor error correcting code is a obtained combining the 3-bit
-repetition code for bit-flip and phase-flip errors described before.
+## Struttura del codice e codifica
 
-## Code Structure and Encoding
+I due codici di correzione degli errori appena visti saranno concatenati, dando origine a un circuito a 9 qubit. Questi due codici possono essere applicati in entrambi gli ordini, quindi abbiamo scelto di applicare prima il codice di correzione degli errori di inversione di fase (codice esterno); i qubit risultanti saranno poi codificati utilizzando il codice di ripetizione a 3 bit per gli errori di inversione di bit (codice interno), come nella [figura seguente](#9-qubit-shor-code-circuit-diagram).
 
-The two error correcting codes just seen will be concatenated, resulting
-so in a 9-qubits circuit in the end. These two codes can be applied in
-both orders, so we made the choice to apply first the phase-flip error
-correcting code (outer code), the resulting qubits will be then encoded
-using the 3-bit repetition code for bit-flip errors (inner code), as in
-Fig. <a href="#fig:shor_circuit" data-reference-type="ref"
-data-reference="fig:shor_circuit">6</a>.
+![Schema del circuito a codice Shor a 9 qubit](images/9qubit_shore.png "Schema del circuito a codice Shor a 9 qubit|9-qubit-shor-code-circuit-diagram")
 
-<figure id="fig:shor_circuit">
-<div class="quantikz">
-<p>&amp;&amp;&amp;&amp;&amp;&amp;<br />
-&amp;&amp;&amp;&amp;&amp;&amp;<br />
-&amp;&amp;&amp;&amp;&amp;&amp;<br />
-&amp;&amp;&amp;&amp;&amp;&amp;<br />
-&amp;&amp;&amp;&amp;&amp;&amp;<br />
-&amp;&amp;&amp;&amp;&amp;&amp;<br />
-&amp;&amp;&amp;&amp;&amp;&amp;<br />
-&amp;&amp;&amp;&amp;&amp;&amp;<br />
-&amp;&amp;&amp;&amp;&amp;&amp;<br />
-</p>
-</div>
-<figcaption>9-qubit Shor code circuit diagram.</figcaption>
-</figure>
-
-In this way, the resultant action of the circuit on the original qubit
-basis states is the following:
-``` math
+In questo modo, l'azione risultante del circuito sugli stati base dei qubit originali è la seguente:
+$$
 \begin{aligned}
-        \ket{0} &\mapsto \frac{1}{2\sqrt{2}}(\ket{000}+\ket{111})\otimes(\ket{000}+\ket{111})\otimes(\ket{000}+\ket{111}) \\
-        \ket{1} &\mapsto \frac{1}{2\sqrt{2}}(\ket{000}-\ket{111})\otimes(\ket{000}-\ket{111})\otimes(\ket{000}-\ket{111}).
-    \end{aligned}
-```
+\ket{0} &\mapsto \frac{1}{2\sqrt{2}}(\ket{000}+\ket{111})\otimes(\ket{000}+\ket{111})\otimes(\ket{000}+\ket{111}) \cr
+\ket{1} &\mapsto \frac{1}{2\sqrt{2}}(\ket{000}-\ket{111})\otimes(\ket{000}-\ket{111})\otimes(\ket{000}-\ket{111}). \end{aligned}
+$$
 
-## Error Propagation and CNOT Gate Operations
+## Propagazione degli errori e operazioni delle porte CNOT
 
-Now before going and see how errors affect our encoding, we must stop to
-introduce some important relationships and equivalences regarding $`X`$
-and $`Z`$ errors. The following equivalences can be verified calculating
-the matrix multiplications or by writing down the truth tables.
+Ora, prima di vedere come gli errori influenzano la nostra codifica, dobbiamo soffermarci a introdurre alcune importanti relazioni ed equivalenze riguardanti gli errori $X$ e $Z$. Le seguenti equivalenze possono essere verificate calcolando le moltiplicazioni di matrici o scrivendo le tabelle di verità per [porte X](#relazioni-porte-x-e-porte-cnot) e [porte X](#relazioni-porte-z-e-porte-cnot) con il CNOT. 
 
-<figure id="fig:x_cnot">
-<div class="quantikz">
-<p>&amp;&amp;&amp;<br />
-&amp;&amp;&amp;<br />
-</p>
-</div>
-<p> = </p>
-<div class="quantikz">
-<p>&amp;&amp;&amp;<br />
-&amp;&amp;&amp;<br />
-</p>
-</div>
-<div class="quantikz">
-<p>&amp;&amp;&amp;<br />
-&amp;&amp;&amp;<br />
-</p>
-</div>
-<p> = </p>
-<div class="quantikz">
-<p>&amp;&amp;&amp;<br />
-&amp;&amp;&amp;<br />
-</p>
-</div>
-<div class="quantikz">
-<p>&amp;&amp;&amp;<br />
-&amp;&amp;&amp;<br />
-</p>
-</div>
-<p> = </p>
-<div class="quantikz">
-<p>&amp;&amp;&amp;<br />
-&amp;&amp;&amp;<br />
-</p>
-</div>
-<figcaption>X gates and CNOT gates relationships.</figcaption>
-</figure>
+![Relazioni tra porte X e porte CNOT](images/x-gates.png "Relazioni tra porte X e porte CNOT|relazioni-porte-x-e-porte-cnot")
+![Relazioni tra porte Z e porte CNOT](images/z-gates.png "Relazioni tra porte Z e porte CNOT|relazioni-porte-z-e-porte-cnot")
 
-<figure id="fig:z_cnot">
-<div class="quantikz">
-<p>&amp;&amp;&amp;<br />
-&amp;&amp;&amp;<br />
-</p>
-</div>
-<p> = </p>
-<div class="quantikz">
-<p>&amp;&amp;&amp;<br />
-&amp;&amp;&amp;<br />
-</p>
-</div>
-<div class="quantikz">
-<p>&amp;&amp;&amp;<br />
-&amp;&amp;&amp;<br />
-</p>
-</div>
-<p> = </p>
-<div class="quantikz">
-<p>&amp;&amp;&amp;<br />
-&amp;&amp;&amp;<br />
-</p>
-</div>
-<div class="quantikz">
-<p>&amp;&amp;&amp;<br />
-&amp;&amp;&amp;<br />
-</p>
-</div>
-<p> = </p>
-<div class="quantikz">
-<p>&amp;&amp;&amp;<br />
-&amp;&amp;&amp;<br />
-</p>
-</div>
-<figcaption>Z gates and CNOT gates relationships.</figcaption>
-</figure>
+## Correzione degli errori di inversione di bit
 
-## Correction of Bit-Flip Errors
+Considerando un errore di inversione di bit che interessa il nostro circuito, possiamo concentrarci su ciascuno dei tre blocchi separatamente. È facile vedere che ognuno di essi è la codifica di un singolo qubit utilizzando il codice di ripetizione a 3 bit per gli errori di inversione di bit, quindi sfruttando due qubit ancilla per blocco possiamo misurare e correggere fino a un errore di inversione di bit per blocco.
 
-Considering a bit-flip error affecting our circuit, we can focus on each
-of the three blocks separately. It is easy to see that each of them is
-the encoding of a single qubit using the 3-bit repetition code for
-bit-flip errors, so exploiting two ancilla qubit per block we can
-measure and correct up to one bit-flip error per block.
+## Correzione degli errori di inversione di fase
 
-## Correction of Phase-Flip Errors
+Poiché il codice progettato per correggere le inversioni di fase non è direttamente influenzato dagli errori, mostrare le capacità del codice Shor di rilevare questo tipo di errori sarà più difficile dato il nostro ordine di codifica.
 
-Since the code designed to correct phase-flips is not affected directly
-by the errors, showing the capabilities of the Shor code to detect this
-kind of errors will be more difficult given our order of encoding.
+Supponendo che un errore $Z$ interessi uno dei 9 qubit, possiamo usare le equivalenze introdotte in precedenza per dimostrare che è equivalente a un errore di inversione di fase che si verifica prima della codifica interna, come mostrato [sotto](#phasefliperrorfigure).
 
-Supposing a $`Z`$ error affecting one of the 9 qubits, we can use the
-equivalences introduced before to show that it is equivalent to one
-phase-flip error occurring prior the inner encoding, see Fig.
-<a href="#fig:shor_z_errors" data-reference-type="ref"
-data-reference="fig:shor_z_errors">9</a>.
+![Equivalenza dell'errore di inversione di fase nel codice Shor](images/phase-flip_error_equivalence.png "Equivalenza dell'errore di inversione di fase nel codice Shor|phasefliperrorfigure")
 
-<figure id="fig:shor_z_errors">
-<div class="quantikz">
-<p>&amp;&amp;&amp;&amp;&amp;&amp;&amp;<br />
-&amp;&amp;&amp;&amp;&amp;&amp;&amp;<br />
-&amp;&amp;&amp;&amp;&amp;&amp;&amp;<br />
-&amp;&amp;&amp;&amp;&amp;&amp;&amp;<br />
-&amp;&amp;&amp;&amp;&amp;&amp;&amp;<br />
-&amp;&amp;&amp;&amp;&amp;&amp;&amp;<br />
-&amp;&amp;&amp;&amp;&amp;&amp;&amp;<br />
-&amp;&amp;&amp;&amp;&amp;&amp;&amp;<br />
-&amp;&amp;&amp;&amp;&amp;&amp;&amp;<br />
-</p>
-</div>
-<p><span class="math inline">=</span></p>
-<div class="quantikz">
-<p>&amp;&amp;&amp;&amp;&amp;&amp;&amp;<br />
-&amp;&amp;&amp;&amp;&amp;&amp;&amp;<br />
-&amp;&amp;&amp;&amp;&amp;&amp;&amp;<br />
-&amp;&amp;&amp;&amp;&amp;&amp;&amp;<br />
-&amp;&amp;&amp;&amp;&amp;&amp;&amp;<br />
-&amp;&amp;&amp;&amp;&amp;&amp;&amp;<br />
-&amp;&amp;&amp;&amp;&amp;&amp;&amp;<br />
-&amp;&amp;&amp;&amp;&amp;&amp;&amp;<br />
-&amp;&amp;&amp;&amp;&amp;&amp;&amp;<br />
-</p>
-</div>
-<p><span class="math inline">=</span></p>
-<div class="quantikz">
-<p>&amp;&amp;&amp;&amp;&amp;&amp;&amp;<br />
-&amp;&amp;&amp;&amp;&amp;&amp;&amp;<br />
-&amp;&amp;&amp;&amp;&amp;&amp;&amp;<br />
-&amp;&amp;&amp;&amp;&amp;&amp;&amp;<br />
-&amp;&amp;&amp;&amp;&amp;&amp;&amp;<br />
-&amp;&amp;&amp;&amp;&amp;&amp;&amp;<br />
-&amp;&amp;&amp;&amp;&amp;&amp;&amp;<br />
-&amp;&amp;&amp;&amp;&amp;&amp;&amp;<br />
-&amp;&amp;&amp;&amp;&amp;&amp;&amp;<br />
-</p>
-</div>
-<figcaption></figcaption>
-</figure>
+Quindi un errore $Z$ che si verifica in uno qualsiasi dei tre qubit all'interno di un blocco ha lo stesso effetto sullo stato finale di un errore $Z$ che si verifica prima del codice interno.
 
-So a $`Z`$ error occurring in any of the three qubits within a block has
-the same effect on the final state of a $`Z`$ error occurring before the
-inner code.
+Quello che possiamo fare per gestire gli errori di inversione di fase è modellare l'errore $Z$ come se si verificasse prima del codice interno; quindi decodificare il primo per tornare alla prima fase della codifica. Ora il nostro qubit originale è semplicemente codificato utilizzando il codice di ripetizione per le inversioni di fase. In questo modo, possiamo semplicemente utilizzare due qubit ancilla come in precedenza per verificare la correttezza del nostro stato, e quindi codificare nuovamente ciascuno dei tre qubit con il codice di inversione di fase. La sindrome rileverà il blocco in cui si è verificato l'inversione di fase, vedere [figura sotto](#shor_correct_z).
 
-What we can do to deal with phase-flip errors is to model the $`Z`$
-error as happening before the inner code; so decode the former to go
-back to the first stage of encoding. Now our original qubit is just
-encoded using the repetition code for phase-flips. In this way we can
-just use two ancilla qubits as before to check the correctness of our
-state, and then encode again each of the three qubits with the bit-flip
-code. The syndrome will detect the block in which the phase flip
-occurred, see
-Fig.<a href="#fig:shor_correct_z" data-reference-type="ref"
-data-reference="fig:shor_correct_z">10</a>.
+![Shor Correct Z](images/shor_correct_z.png "Shor Correct Z|shor_correct_z")
 
-<figure id="fig:shor_correct_z">
-<div class="quantikz">
-<p>&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;<br />
-&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;<br />
-&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;<br />
-&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;<br />
-&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;<br />
-&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;<br />
-&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;<br />
-&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;<br />
-&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;<br />
-&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;<br />
-&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;<br />
-</p>
-</div>
-<figcaption></figcaption>
-</figure>
+Alla fine, possiamo semplificare il circuito precedente utilizzando quattro porte CNOT in meno, come nella [figura sotto](#shor_correct_z_simplified).
 
-In the end we can simplify the previous circuit using four CNOT gates
-less, as in
-Fig.<a href="#fig:shor_correct_z_simplified" data-reference-type="ref"
-data-reference="fig:shor_correct_z_simplified">11</a>.
+![Shor Correct Z Simplified](images/shor_correct_z_simplified.png "Shor Correct Z Simplified|shor_correct_z_simplified")
 
-<figure id="fig:shor_correct_z_simplified">
-<div class="quantikz">
-<p>&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;<br />
-&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;<br />
-&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;<br />
-&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;<br />
-&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;<br />
-&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;<br />
-&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;<br />
-&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;<br />
-&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;<br />
-&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;<br />
-&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;<br />
-</p>
-</div>
-<figcaption></figcaption>
-</figure>
+## Correzione simultanea degli errori di bit e di inversione di fase
 
-## Simultaneous Bit and Phase-Flip Error Correction
+Abbiamo appena visto come sia gli errori $X$ che $Z$ possano essere rilevati e corretti utilizzando il codice Shor. Consideriamo ora lo scenario in cui si verificano simultaneamente sia un errore di inversione di bit che un errore di inversione di fase, possibilmente sullo stesso qubit; vedremo che il codice Shor è in grado di gestire questo scenario senza ulteriori modifiche.
 
-We’ve just seen how both $`X`$ and $`Z`$ errors can be detected and
-corrected using the Shor code. Let’s now consider the scenario in which
-both a bit-flip and a phase-flip error happen simultaneously, possibly
-on the same qubit; we’ll see that the Shor code is able to handle this
-scenario without further modifications.
+Poiché le matrici degli errori $X$ e $Z$ sono anticommutabili:
+$$
+XZ = \begin{pmatrix}0&1\cr1&0\end{pmatrix} \begin{pmatrix}1&0\cr0&-1\end{pmatrix}=
+\begin{pmatrix}0&-1\cr1&0\end{pmatrix}=-\begin{pmatrix}1&0\cr0&-1\end{pmatrix}\begin{pmatrix}0&1\cr1&0\end{pmatrix}=-ZX
+$$
+invertendole si ottiene solo un fattore di fase globale irrilevante di $-1$. Quindi, indipendentemente dall'ordine in cui si verificano gli errori, siamo sempre in grado di propagare l'errore $Z$ prima del codice interno. A questo punto è importante notare che le procedure per rilevare ed eventualmente correggere gli errori di inversione di bit e di fase possono essere eseguite indipendentemente introducendo un numero sufficiente di qubit ancillari, quindi possiamo semplicemente applicare prima la procedura per rilevare l'errore $X$ e poi quella per rilevare l'errore $Z$ per ripristinare infine lo stato iniziale corretto. Per essere precisi, l'ordine in cui vengono eseguite le procedure non è affatto importante, poiché le porte $X$ su uno qualsiasi dei nove qubit della codifica commutano con tutte le porte del circuito semplificato per correggere gli errori di inversione di fase ([Figura Shor semplificata sopra](#shor_correct_z_simplified)); quindi anche invertendo l'ordine delle procedure entrambi gli errori verranno rilevati correttamente.
 
-Since $`X`$ and $`Z`$ errors matrices anticommute:
-``` math
-XZ = \begin{pmatrix}0&1\\1&0\end{pmatrix} \begin{pmatrix}1&0\\0&-1\end{pmatrix}=
-\begin{pmatrix}0&-1\\1&0\end{pmatrix}=-\begin{pmatrix}1&0\\0&-1\end{pmatrix}\begin{pmatrix}0&1\\1&0\end{pmatrix}=-ZX
-```
-inverting them just causes an irrilevant global phase factor of $`-1`$.
-So, no matter in which order the errors occur, we are always able to
-propagate the $`Z`$ error prior to the inner code. At this point it is
-important to notice that the procedures to detect and eventually correct
-bit-flip and phase-flip errors can be performed indipendently
-introducing enough ancilla qubits, so we can simply first apply the
-procedure to detect the $`X`$ error, and then apply the procedure to
-detect the $`Z`$ error to finally recover the correct initial state. To
-be precise it is not important at all the order in which the procedures
-are performed, since $`X`$ gates on any of the nine qubits of the
-encoding commute with all the gates of the simplified circuit to correct
-phase-flip errors (Fig.
-<a href="#fig:shor_correct_z_simplified" data-reference-type="ref"
-data-reference="fig:shor_correct_z_simplified">11</a>); so also
-inverting the order of the procedures will correctly detect both the
-errors.
+## Robustezza contro gli errori casuali
 
-## Robustness Against Random Errors
+Prima di considerare gli errori quantistici arbitrari, analizziamo le prestazioni del codice Shor a 9 qubit quando si verificano errori casuali rappresentati da matrici di Pauli sui qubit.
 
-Before considering arbitrary quantum errors, let’s analyze the
-performance of the 9-qubit Shor code when random errors rapresented by
-Pauli matrices occur on the qubits.
+Consideriamo un semplice modello di rumore in cui ogni qubit subisce un errore con probabilità p, e gli errori si verificano indipendentemente. Per semplificare, analizziamo lo scenario peggiore.
 
-Let’s consider a simple noise model where each qubit experiences an
-error with probability $`p`$, the errors occur indipendently. To keep
-things simple we analyze the worst case scenario
+Consideriamo uno scenario in cui gli errori colpiscono i qubit indipendentemente con probabilità p, analogamente al canale binario simmetrico nei sistemi classici. Per semplicità, ipotizziamo che non ci siano correlazioni tra gli errori. Sebbene probabilità distinte possano essere assegnate agli errori X, Y e Z, ci concentriamo sullo scenario peggiore per il codice Shor: gli errori Y. Poiché gli errori Y equivalgono a errori simultanei X e Z fino a un fattore di fase globale, essi rappresentano sia errori di inversione di bit che di fase.
 
-Consider a scenario where errors strike qubits independently with
-probability $`p`$, analogous to the binary symmetric channel in
-classical systems. For simplicity, assume no correlations between
-errors. While distinct probabilities could be assigned to $`X`$, $`Y`$,
-and $`Z`$ errors, we focus on the worst-case scenario for the Shor code:
-$`Y`$ errors. Since $`Y`$ errors are equivalent to simultaneous $`X`$
-and $`Z`$ errors up to a global phase factor, them represents both
-bit-flip and phase-flip errors.
+Supponiamo di codificare un qubit logico utilizzando il codice Shor: il vantaggio o meno dipende dalla probabilità di errore p. Analogamente al classico codice a ripetizione a 3 bit, che diventa svantaggioso quando p>1/2, anche per il codice Shor possiamo trovare tale soglia e quantificarne le prestazioni.
 
-Suppose we encode a logical qubit using the Shor code, whether we get an
-advantage or not depends on the error probability $`p`$. Similar to the
-classical 3-bit repetition code, which becomes disadvantageous when
-$`p>1/2`$, also for the Shor code we can find such a threshold and
-quantify its performance.
-
-The 9-qubit Shor code is able to correct any Pauli error on a single
-qubit, including so $`Y`$ errors, but it fails if more then one $`Y`$
-error occur on different qubits. Since in our scenario we focus on $`Y`$
-errors, the code is reliable and protects our logical qubit as long as
-at most one of the physical qubits is affected by an error, which
-happens with probability
-``` math
+Il codice Shor a 9 qubit è in grado di correggere qualsiasi errore di Pauli su un singolo qubit, inclusi gli errori $Y$, ma fallisce se si verificano più errori $Y$ su qubit diversi. Poiché nel nostro scenario ci concentriamo sugli errori $Y$, il codice è affidabile e protegge il nostro qubit logico finché al massimo uno dei qubit fisici è affetto da un errore, che si verifica con probabilità
+$$
 (1-p)^9 + 9p(1-p)^8.
-```
-Otherwise, the code fails with probability
-``` math
+$$
+Altrimenti, il codice fallisce con probabilità
+$$
 1-(1-p)^9-9p(1-p)^8.
-```
+$$
 
-Is not sure that the happening of more then one Pauli error lead to
-wrong decoding of the original qubit state, but for the sake of this
-analysis we consider this scenario as a failure. We say in this case a
-logical error affected our logical qubit. On the other hand, if we do
-not use the code our single physical qubit suffers logical errors with
-probability $`p`$, so the code gives a real advantage only for $`p`$
-such that
-``` math
+Non è certo che il verificarsi di più errori di Pauli porti a una decodifica errata dello stato originale del qubit, ma ai fini di questa analisi consideriamo questo scenario come un fallimento. Diciamo che in questo caso un errore logico ha interessato il nostro qubit logico. D'altra parte, se non utilizziamo il codice, il nostro singolo qubit fisico subisce errori logici con probabilità $p$, quindi il codice offre un vantaggio reale solo per $p$ tale che
+$$
 1-(1-p)^9-9p(1-p)^8<p.
-```
+$$
 
-<figure id="fig:code_performance">
-<img src="images/shor-threshold.png" style="width:70.0%" />
-<figcaption aria-hidden="true"></figcaption>
-</figure>
+![Soglia di prestazioni Shor](images/shor-threshold.png "Soglia di prestazioni Shor|shor_performance" )
 
-As we can see in Fig.
-<a href="#fig:code_performance" data-reference-type="ref"
-data-reference="fig:code_performance">12</a> the threshold for the
-9-qubit Shor code is about $`0.0323`$. If $`p`$ is smaller of the former
-value, the code is helping, it has diminished the likelihood of an error
-to occur, but if $`p`$ is greater then the threshold, we should not use
-the code since it would worsen the robustness to noise of our system
-w.r.t a single physical qubit.
+Come possiamo vedere nella [figura sopra](#shor_performance), la soglia per il codice Shor a 9 qubit è di circa $0,0323$. Se $p$ è inferiore al valore precedente, il codice è utile, riducendo la probabilità che si verifichi un errore, ma se $p$ è maggiore della soglia, non dovremmo utilizzare il codice poiché peggiorerebbe la robustezza al rumore del nostro sistema rispetto a un singolo qubit fisico.
 
-# Error Discretization in Quantum Systems
+# Discretizzazione degli errori nei sistemi quantistici
 
-The 9-qubit Shor code corrects arbitrary quantum errors—not just $`X`$
-or $`Z`$ errors—by leveraging its ability to correct $`X`$ and $`Z`$
-errors separately. This works because any possible single-qubit error
-can be decomposed into a combination of $`X`$, $`Z`$, or both (a
-property known as the *discretization of errors*). Since the code
-detects and corrects $`X`$ and $`Z`$ errors independently, it inherently
-handles all other errors as well. Thus, no additional mechanisms are
-needed: correcting $`X`$ and $`Z`$ suffices to protect against arbitrary
-quantum noise. First we focus on Unitary Errors.
+Il codice Shor a 9 qubit corregge errori quantistici arbitrari, non solo errori $X$ o $Z$, sfruttando la sua capacità di correggere separatamente gli errori $X$ e $Z$. Questo funziona perché qualsiasi possibile errore a singolo qubit può essere scomposto in una combinazione di $X$, $Z$ o entrambi (una proprietà nota come *discretizzazione degli errori*). Poiché il codice rileva e corregge gli errori $X$ e $Z$ in modo indipendente, gestisce intrinsecamente anche tutti gli altri errori. Pertanto, non sono necessari meccanismi aggiuntivi: correggere $X$ e $Z$ è sufficiente per proteggere dal rumore quantistico arbitrario. Innanzitutto, ci concentriamo sugli errori unitari.
 
-## Modeling Unitary Qubit Errors
+## Modellazione degli errori unitari dei qubit
 
-The 9-qubit Shor code can correct *any* single-qubit unitary error, even
-those that are not close to the identity (e.g., small rotations or
-arbitrary unitary operations). While it may seem challenging to correct
-infinitely many possible errors, the key insight is that any
-single-qubit unitary $`U`$ can be decomposed into a linear combination
-of Pauli operators:
-``` math
-U = \alpha I + \beta X + \gamma Y + \delta Z
-```
-where $`Y = iXZ`$.
+Il codice Shor a 9 qubit può correggere *qualsiasi* errore unitario a singolo qubit, anche quelli che non sono prossimi all'identità (ad esempio, piccole rotazioni o operazioni unitarie arbitrarie). Sebbene possa sembrare difficile correggere un numero infinito di possibili errori, l'intuizione chiave è che qualsiasi $U$ unitario a singolo qubit può essere scomposto in una combinazione lineare di operatori di Pauli:
+$$
+U = α I + β X + γ Y + δ Z
+$$
+dove $Y = iXZ$.
 
-When an error $`U_k`$ occurs on the $`k`$-th qubit, the corrupted state
-becomes a superposition of the original state and states with $`X_k`$,
-$`Z_k`$, or $`X_kZ_k`$ errors. During error detection, the syndrome
-measurements probabilistically collapse this superposition into one of
-the Pauli error cases (or no error), with probabilities $`|\alpha|^2`$,
-$`|\beta|^2`$, $`|\gamma|^2`$, and $`|\delta|^2`$. The syndrome reveals
-which error occurred, allowing its correction. Remarkably, this process
-works even for tiny errors, as the syndrome measurements discretize the
-error into a Pauli operation, which the code is designed to fix. After
-correction, the system returns to the original encoded state,
-effectively removing the entropy introduced by the error. This
-demonstrates the *discretization of errors*: arbitrary unitary errors
-are reduced to correctable Pauli errors through syndrome measurement.
+Quando si verifica un errore $U_k$ sul $k$-esimo qubit, lo stato corrotto diventa una sovrapposizione dello stato originale e degli stati con errori $X_k$, $Z_k$ o $X_kZ_k$. Durante il rilevamento dell'errore, le misurazioni della sindrome collassano probabilisticamente questa sovrapposizione in uno dei casi di errore di Pauli (o nessun errore), con probabilità $|\alpha|^2$, $|\beta|^2$, $|\gamma|^2$ e $|\delta|^2$. La sindrome rivela quale errore si è verificato, consentendone la correzione. Sorprendentemente, questo processo funziona anche per errori minuscoli, poiché le misurazioni della sindrome discretizzano l'errore in un'operazione di Pauli, che il codice è progettato per correggere. Dopo la correzione, il sistema torna allo stato codificato originale, rimuovendo di fatto l'entropia introdotta dall'errore. Questo dimostra la *discretizzazione degli errori*: errori unitari arbitrari vengono ridotti a errori di Pauli correggibili attraverso la misurazione della sindrome.
 
-The 9-qubit Shor code corrects arbitrary unitary errors through error
-discretization. For multi-qubit errors, we formally represent operations
-using tensor products with identity matrices. Using Qiskit’s qubit
-numbering $`(Q_8,Q_7,...,Q_0)`$, single-qubit operations extend to the
-9-qubit space as:
+Il codice Shor a 9 qubit corregge errori unitari arbitrari attraverso la discretizzazione degli errori. Per gli errori multi-qubit, rappresentiamo formalmente le operazioni utilizzando prodotti tensoriali con matrici identità. Utilizzando la numerazione dei qubit di Qiskit $(Q_8,Q_7,...,Q_0)$, le operazioni a singolo qubit si estendono allo spazio a 9 qubit come:
 
-``` math
+<div id="operator-definitions">
+$$
 \begin{aligned}
-X_0 &= I^{\otimes 8} \otimes X = I\otimes I\otimes I\otimes I\otimes I\otimes I\otimes I\otimes I\otimes X\\
-Z_4 &= I^{\otimes 4} \otimes Z \otimes I^{\otimes 4}=I\otimes I\otimes I\otimes I\otimes Z \otimes I\otimes I\otimes I\otimes I \\
+X_0 &= I^{\otimes 8} \otimes X = I\otimes I\otimes I\otimes I\otimes I\otimes I\otimes I\otimes I\otimes X\cr
+Z_4 &= I^{\otimes 4} \otimes Z \otimes I^{\otimes 4}=I\otimes I\otimes I\otimes I\otimes Z \otimes I\otimes I\otimes I\otimes I \cr
 U_7 &= I \otimes U \otimes I^{\otimes 7} =I\otimes U\otimes I\otimes I\otimes I\otimes I\otimes I\otimes I\otimes I
 \end{aligned}
-```
+$$
+</div>
 
-where $`I^{\otimes n}`$ denotes an $`n`$-fold tensor product of identity
-matrices. An arbitrary unitary error $`U_k`$ on qubit $`k`$ decomposes
-into Pauli operators as:
-``` math
+dove $I^{\otimes n}$ denota un prodotto tensoriale $n$-piegato di matrici identità. Un errore unitario arbitrario $U_k$ sul qubit $k$ si scompone in operatori di Pauli come:
+$$
 U_k = \alpha I^{\otimes 9} + \beta X_k + \gamma Y_k + \delta Z_k
-```
+$$
 
-with $`X_k`$, $`Z_k`$ defined similarly to
-<a href="#eq:errors" data-reference-type="ref"
-data-reference="eq:errors">[eq:errors]</a>, and $`Y_k = iX_kZ_k`$. For
-multiple errors, the formalism extends naturally:
-``` math
+con $X_k$, $Z_k$ definiti in modo simile alle [precedenti definizioni di operatori](#operator-definitions) e $Y_k = iX_kZ_k$. Per errori multipli, il formalismo si estende naturalmente:
+$$
 U_{j,k} = (I^{\otimes (8-j)} \otimes U_j \otimes I^{\otimes j}) \cdot (I^{\otimes (8-k)} \otimes U_k \otimes I^{\otimes k})
-```
+$$
 
-The syndrome measurement projects these continuous errors onto discrete
-Pauli operators. For example, a two-qubit error $`U_{2,5}`$ would
-collapse to one of $`I`$, $`X_2`$, $`Z_5`$, $`X_2Z_5`$, etc., with
-probabilities determined by the decomposition coefficients. The tensor
-product structure ensures correct identification of affected qubits
-through the syndrome pattern.
-``` math
+La misurazione della sindrome proietta questi errori continui su operatori di Pauli discreti. Ad esempio, un errore a due qubit $U_{2,5}$ collasserebbe in uno tra $I$, $X_2$, $Z_5$, $X_2Z_5$, ecc., con probabilità determinate dai coefficienti di decomposizione. La struttura del prodotto tensoriale garantisce la corretta identificazione dei qubit interessati attraverso il pattern della sindrome. $$
 \xi \otimes \ket{\psi}\bra{\psi}
-```
-where
-``` math
+$$
+dove
+$$
 \begin{aligned}
-\xi &= |\alpha|^2 \ket{I \text{ syndrome}}\bra{I \text{ syndrome}}\\
-      &+ |\beta|^2 \ket{X_k \text{ syndrome}}\bra{X_k \text{ syndrome}}\\
-      &+ |\gamma|^2 \ket{X_kZ_k \text{ syndrome}}\bra{X_kZ_k \text{ syndrome}}\\
-      &+ |\delta|^2 \ket{Z_k \text{ syndrome}}\bra{Z_k \text{ syndrome}}.
+\xi &= |\alpha|^2 \ket{I \{ sindrome}}\bra{I \{ sindrome}}\cr
+&+ |\beta|^2 \ket{X_k \{ sindrome}}\bra{X_k \{ sindrome}}\cr
+&+ |\gamma|^2 \ket{X_kZ_k \{ sindrome}}\bra{X_kZ_k \{ sindrome}}\cr
+&+ |\delta|^2 \ket{Z_k \{ sindrome}}\bra{Z_k \{ sindrome}}.
 \end{aligned}
-```
+$$
 
-## General Arbitrary Qubit Errors
+## Errori arbitrari generali sui qubit
 
-We now examine arbitrary (not necessarily unitary) errors on qubits.
-Specifically, we model the error using a general quantum channel
-$`\Phi`$, which could represent various noise processes—such as
-dephasing, depolarization, reset operations, or even unconventional,
-less-studied channels.
+Ora esaminiamo gli errori arbitrari (non necessariamente unitari) sui qubit. Nello specifico, modelliamo l'errore utilizzando un canale quantistico generico $\Phi$, che potrebbe rappresentare vari processi di rumore, come sfasamento, depolarizzazione, operazioni di reset o persino canali non convenzionali e meno studiati.
 
-To analyze $`\Phi`$, we first express it in terms of Kraus operators:
-``` math
+Per analizzare $\Phi$, lo esprimiamo innanzitutto in termini di operatori di Kraus:
+$$
 \Phi(\sigma) = \sum_j A_j \sigma A_j^\dagger,
-```
-where each $`A_j`$ is a $`2 \times 2`$ matrix. Since the Pauli matrices
-form a basis for such operators, we expand each $`A_j`$ as:
-``` math
+$$
+dove ogni $A_j$ è una matrice $2 \times 2$. Poiché le matrici di Pauli costituiscono una base per tali operatori, espandiamo ogni $A_j$ come:
+$$
 A_j = \alpha_j I + \beta_j X + \gamma_j Y + \delta_j Z.
-```
-This decomposition allows us to rewrite the action of $`\Phi`$ on a
-target qubit $`k`$ in terms of Pauli errors:
-``` math
+$$
+Questa decomposizione ci permette di riscrivere l'azione di $\Phi$ su un qubit target $k$ in termini di errori di Pauli:
+$$
 \begin{aligned}
-\Phi_k \big( \ket{\psi}\bra{\psi} \big) &= \sum_j \big( \alpha_j I_k + \beta_j X_k + \gamma_j Y_k + \delta_j Z_k \big) \ket{\psi}\bra{\psi} \\
+\Phi_k \big( \ket{\psi}\bra{\psi} \big) &= \sum_j \big( \alpha_j I_k + \beta_j X_k + \gamma_j Y_k + \delta_j Z_k \big) \ket{\psi}\bra{\psi} \cr
 &\quad \times \big( \alpha_j I_k + \beta_j X_k + \gamma_j Y_k + \delta_j Z_k \big)^\dagger.
 \end{aligned}
-```
-In essence, we have reformulated the Kraus operators as linear
-combinations of Pauli terms.
+$$
+In sostanza, abbiamo riformulato gli operatori di Kraus come combinazioni lineari di termini di Pauli.
 
-Upon measuring the error syndrome and applying the appropriate
-correction, the resulting state resembles the unitary error case, albeit
-with a more complex mixture:
-``` math
+Misurando la sindrome di errore e applicando la correzione appropriata, lo stato risultante assomiglia al caso di errore unitario, sebbene con una miscela più complessa:
+$$
 \xi \otimes \ket{\psi}\bra{\psi},
-```
-where $`\xi`$ now incorporates contributions from all Kraus terms:
-``` math
+$$
+dove $\xi$ ora incorpora i contributi di tutti i termini di Kraus:
+$$
 \begin{aligned}
-\xi &= \sum_j \Big( |\alpha_j|^2 \ket{I \text{ syndrome}}\bra{I \text{ syndrome}} \\
-&\quad + |\beta_j|^2 \ket{X_k \text{ syndrome}}\bra{X_k \text{ syndrome}} \\
-&\quad + |\gamma_j|^2 \ket{X_kZ_k \text{ syndrome}}\bra{X_kZ_k \text{ syndrome}} \\
-&\quad + |\delta_j|^2 \ket{Z_k \text{ syndrome}}\bra{Z_k \text{ syndrome}} \Big).
+\xi &= \sum_j \Big( |\alpha_j|^2 \ket{I \{ sindrome}}\bra{I \{ sindrome}} \cr
+&\quad + |\beta_j|^2 \ket{X_k \{ sindrome}}\bra{X_k \{ sindrome}} \cr
+&\quad + |\gamma_j|^2 \ket{X_kZ_k \{ sindrome}}\bra{X_kZ_k \{ sindrome}} \cr
+&\quad + |\delta_j|^2 \ket{Z_k \{ sindrome}}\bra{Z_k \{ sindrome}} \Big).
 \end{aligned}
-```
+$$
 
-While the explicit derivation involves more terms, the underlying
-principle remains identical to the unitary scenario: syndrome extraction
-and correction project the error into distinguishable Pauli components.
+Sebbene la derivazione esplicita coinvolga più termini, il principio di base rimane identico allo scenario unitario: l'estrazione e la correzione della sindrome proiettano l'errore in componenti di Pauli distinguibili.
+## Estensioni e generalizzazioni
 
-## Extensions and Generalizations
+La discretizzazione degli errori si estende naturalmente a codici di correzione degli errori quantistici più generali, inclusi quelli in grado di rilevare e correggere errori su più qubit. In tali scenari, gli errori multi-qubit possono essere rappresentati come prodotti tensoriali di matrici di Pauli:
+$$
+E = \bigotimes_{k=1}^n P_k \quad \{dove} \quad P_k \in \{I, X, Y, Z\},
+$$
+e sindromi distinte identificano le corrispondenti correzioni di Pauli che potrebbero dover essere applicate simultaneamente a più qubit, anziché a un singolo qubit.
 
-The discretization of errors naturally extends to more general quantum
-error-correcting codes, including those capable of detecting and
-correcting errors across multiple qubits. In such scenarios, multi-qubit
-errors can be represented as tensor products of Pauli matrices:
-``` math
-E = \bigotimes_{k=1}^n P_k \quad \text{where} \quad P_k \in \{I, X, Y, Z\},
-```
-and distinct syndromes identify corresponding Pauli corrections that may
-need to be applied to multiple qubits simultaneously, rather than just a
-single qubit.
+Attraverso la misurazione delle sindromi, gli errori vengono effettivamente proiettati su un insieme discreto di possibilità caratterizzate da questi prodotti tensoriali di Pauli. Applicando le correzioni appropriate, possiamo ripristinare lo stato codificato originale. La casualità introdotta durante questo processo è limitata ai qubit delle sindromi, che vengono successivamente scartati o ripristinati. Questo meccanismo rimuove efficacemente la casualità generata dal sistema contenente le informazioni codificate, preservando l'integrità del calcolo quantistico.
 
-Through syndrome measurement, errors are effectively projected onto a
-discrete set of possibilities characterized by these Pauli tensor
-products. By applying the appropriate corrections, we can recover the
-original encoded state. The randomness introduced during this process is
-confined to the syndrome qubits, which are subsequently either discarded
-or reset. This mechanism effectively removes the generated randomness
-from the system containing the encoded information, preserving the
-integrity of the quantum computation.
+Il principio fondamentale rimane coerente con il caso a singolo qubit: la correzione degli errori procede attraverso:
 
-The fundamental principle remains consistent with the single-qubit case:
-error correction proceeds by
+1. Identificazione delle sindromi di errore tramite misurazione,
 
-1.  Identifying error syndromes through measurement,
+2. Determinazione delle corrispondenti correzioni di Pauli e
 
-2.  Determining the corresponding Pauli corrections, and
+3. Isolamento della casualità nei qubit ausiliari che vengono poi rimossi
+dal sistema.
 
-3.  Isolating the randomness in ancillary qubits that are then removed
-    from the system.
-
-This approach maintains the essential features of quantum error
-correction while scaling to more complex, multi-qubit error patterns.
+Questo approccio mantiene le caratteristiche essenziali della correzione degli errori quantistica, pur consentendo la scalabilità verso modelli di errore multi-qubit più complessi.
