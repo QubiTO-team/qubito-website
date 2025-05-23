@@ -12,5 +12,6 @@ showHeadingAnchors: false
 showZenMode: false
 title: "Team"
 translationKey: "team-page"
+showPagination: false
 ---
 Questa è la pagina team. Puoi scrivermi qui!
