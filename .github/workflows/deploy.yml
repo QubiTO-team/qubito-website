@@ -23,7 +23,12 @@ jobs:
         run: git submodule update --init --recursive
 
       - name: Build site
-        run: hugo --minify
+        run: |
+          if [[ "${{ github.ref_name }}" == "main" ]]; then
+            hugo --minify --baseURL "https://qubito.polito.it"
+          else [[ "${{ github.ref_name }}" == "staging" ]]; then
+          hugo --minify --baseURL "https://qubito-team.github.io"
+          fi
 
       - name: Checkout GitHub Pages repository
         uses: actions/checkout@v3
