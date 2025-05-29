@@ -15,20 +15,55 @@ translationKey: "contacts-page"
 showTableOfContents: false
 showPagination: false
 ---
+
+
 # Mettiti in Contatto con Noi!
-
+{{< lead >}}
 Se desideri supportarci nella nostra missione o unirti a noi nel nostro percorso, non esitare a contattarci. Siamo sempre grati per l'aiuto e il sostegno della nostra comunità.
+{{< /lead >}}
 
-Informazioni di Contatto
 
 
-{{< typeit 
-tag=h4
-lifelike=true
-startdelay=1000
->}}qubito@polito.it{{< /typeit >}}
+<div style="text-align: center;">
+{{< button href="mailto:qubito@polito.it" target="_self" >}}
+Scrivici!
+{{< /button >}} 
 
-## I nostri partner
+
+<html> 
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    // Initialize TypeIt for the overview subtitle
+    new TypeIt(".email-field", {
+      speed: 200,
+      startDelay: 2000,
+      lifeLike: true,
+      breakLines: false,
+      waitUntilVisible: true,
+      loop: false,
+      cursor: true,
+      afterComplete: function (instance) {
+        // instance.destroy();
+      },
+    })
+      .type("qubito@polito.it", { delay: 700 })
+      .go();
+  });
+</script>
+    <br>
+    <a
+    href="mailto:qubito@polito.it"
+    class="email-field"
+    style= "
+        font-size: 2rem;
+        color: var(--color-neutral-200)    
+    "></a>
+</html>
+
+</div>
+
+
+# I nostri partner
 
 <h2 style="text-align: center">Partner principale</h2>
 
@@ -55,10 +90,15 @@ startdelay=1000
 
 # Seguici
 
+{{< lead >}}
 Rimani aggiornato sui nostri ultimi progetti ed eventi seguendoci sui social media!
+{{< /lead >}}
 
 + [Instagram {{<icon "instagram" >}}](https://www.instagram.com/qubitoteam_polito/)
 + [Linkedin {{<icon "linkedin" >}}](https://www.linkedin.com/company/qubito-student-team-politecnico-di-torino/)
 
 ## Il tuo aiuto è molto importante per noi!
+
+{{< lead >}}
 Che tu abbia domande, suggerimenti o semplicemente voglia salutarci, il tuo contributo è prezioso per noi. Grazie per essere con noi in questa avventura!
+{{< /lead >}}
