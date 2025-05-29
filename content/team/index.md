@@ -12,6 +12,7 @@ showHeadingAnchors: false
 showZenMode: false
 title: ""
 translationKey: "team-page"
+showPagination: false
 ---
 
 <h1 style="text-align: center;">Chi siamo</h1>

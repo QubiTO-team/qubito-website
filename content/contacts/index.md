@@ -13,6 +13,7 @@ showZenMode: false
 title: "Contatti"
 translationKey: "contacts-page"
 showTableOfContents: false
+showPagination: false
 ---
 # Mettiti in Contatto con Noi!
 

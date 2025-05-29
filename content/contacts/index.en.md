@@ -13,6 +13,7 @@ showZenMode: false
 title: "Contacts"
 translationKey: "contacts-page"
 showTableOfContents: false
+showPagination: false
 ---
 
 # Get in Touch with Us!
