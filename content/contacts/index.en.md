@@ -21,19 +21,30 @@ If you want to support us in our mission or join us on our journey, please donâ€
 
 Contact Information
 
-{{< typeit 
-tag=h3
-lifelike=true
-startdelay=1000
->}}qubito@polito.it
-{{< /typeit >}}
-
 ## Our partners
 
-### Main partner
+<h2 style="text-align: center">Partner principale</h2>
 
-Politecnico di Torino
-
+<a href="https://www.polito.it/" target="_blank" rel="noopener">
+        <img src="./polito_logo_blu.png"
+            alt="Politecnico Logo"
+            class="h-auto dark:hidden nozoom"
+            style="
+                max-height: 8rem;
+                width: 25%; 
+                margin-left: auto;
+                margin-right: auto;"
+        />
+        <img src="./polito_logo_white.png" 
+            alt="Politecnico Logo" 
+            class="h-auto hidden dark:flex nozoom"dark:flex
+            style="
+                max-height: 8rem;
+                width: 25%; 
+                margin-left: auto;
+                margin-right: auto;"
+        />
+      </a>
 
 ## Follow Us
 
