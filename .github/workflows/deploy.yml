@@ -27,7 +27,7 @@ jobs:
           if [[ "${{ github.ref_name }}" == "main" ]]; then
             hugo --minify --baseURL "https://qubito.polito.it"
           else [[ "${{ github.ref_name }}" == "staging" ]]; then
-          hugo --minify --baseURL "https://qubito-team.github.io"
+            hugo --minify --baseURL "https://qubito-team.github.io"
           fi
 
       - name: Checkout GitHub Pages repository
