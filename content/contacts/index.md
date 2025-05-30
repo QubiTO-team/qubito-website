@@ -19,7 +19,7 @@ showPagination: false
 
 # Mettiti in Contatto con Noi!
 {{< lead >}}
-Se desideri supportarci nella nostra missione o unirti a noi nel nostro percorso, non esitare a contattarci. Siamo sempre grati per l'aiuto e il sostegno della nostra comunità.
+Siamo felici di accogliere proposte di collaborazione e siamo entusiasti di esplorare potenziali partnership. Se sei interessato a collaborare con noi o hai domande, non esitare a contattarci.
 {{< /lead >}}
 
 
