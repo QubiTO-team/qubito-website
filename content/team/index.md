@@ -12,10 +12,11 @@ showHeadingAnchors: false
 showZenMode: false
 title: ""
 translationKey: "team-page"
+showTableOfContents: false
 showPagination: false
 ---
 
-<h1 style="text-align: center;">Chi siamo</h1>
+# Chi siamo
 
 QubiTO nasce nel 2023 sulla scia dell'entusiasmo di studenti e professori del Politecnico di Torino verso la fisica quantistica e le sue contemporanee, promettenti prospettive tecnologiche. 
 Insieme, uniti dalla passione per tale dinamismo, ricerchiamo e divulghiamo gli aspetti di questo affascinante mondo nelle sue innumerevoli declinazioni e sfruttiamo le nostre conoscenze e competenze partecipando in squadra ad hackaton internazionali. 
@@ -45,9 +46,12 @@ Laddove la parziale decoerenza del sistema fisico o l'interferenza dovuta al rum
 ## Programmazione
 Le operazioni basilari che vengono eseguite dai qubit prendono il nome di "gates" e la loro opportuna combinazione rende idealmente possibile eseguire qualunque operazione che sia già alla portata di un computer classico. La vera potenza dei qubit risiede nel fatto che molti dei gates non hanno un corrispettivo classico, permettendo di effettuare computazioni complesse in maniera esponenzialmente più veloce nei casi più fortunati. La divisione di programmazione studia il modo di combinare i gates per ricavare algoritmi quantistici che dimstrino una maggiore rapidità di esecuzione rispetto alla controparte classica.
 
-## Comunicazioni
-La divisione che si occupa di comunicazione si allontana dall'implementazione del computer quantistico per concentrarsi sull'infrastruttura necessaria al trasferimento di informazione quantistica, ossia messaggi codificati in forma di qubit. Oltre all'implementazione pratica di un network quantistico e allo studio dell'informazione quantistica, particolare importanza è data all'approfondimento della crittografia quantistica, tecnologia promettente nella messa in sicurezza di comunicazioni confidenziali. 
+## Metodi matematici e comunicazione
 
+La divisione dedicata ai metodi matematici e alla comunicazione sposta il suo focus dall'implementazione del computer quantistico per enfatizzare sia i concetti matematici essenziali per comprendere varie sfide, come i problemi di ottimizzazione, sia l'infrastruttura necessaria per il trasferimento di informazioni quantistiche, ossia messaggi codificati in forma di qubit. Oltre all'attenzione sulle reti quantistiche e allo studio dell'informazione quantistica, questa divisione attribuisce un'importanza significativa all'esplorazione della crittografia quantistica, una tecnologia promettente per la sicurezza delle comunicazioni riservate.
 
+## Divulgation
 
-Una sesta divisione si occupa della divulgazione esterna al team tramite i canali social di QubiTo, la stesura di articoli sul sito e la partecipazione ad eventi a contatto con il pubblico, approfondendo anche argomenti e applicazioni della fisica quantistica più distanti dalla computazione quantistica. Una sottodivisione di programmatori si occupa inoltre della gestione e del miglioramento del sito.    
+Una sesta divisione si occupa della divulgazione esterna al team tramite i canali social di QubiTO, la gestione del sito e la partecipazione ad eventi a contatto con il pubblico, approfondendo anche argomenti e applicazioni della fisica quantistica più distanti dalla computazione quantistica.
+
+ Una sottodivisione di programmatori si occupa inoltre della gestione e del miglioramento del sito.    
