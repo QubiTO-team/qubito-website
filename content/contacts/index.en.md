@@ -19,8 +19,7 @@ showPagination: false
 # Get in Touch with Us!
 
 {{< lead >}}
-If you want to support us in our mission or join us on our journey, please don’t hesitate to reach out. We are always grateful for the help and encouragement from our community.
-
+We welcome collaboration opportunities and are eager to explore potential partnerships. If you’re interested in partnering with us or have any inquiries, please feel free to reach out. 
 {{< /lead >}}
 
 
