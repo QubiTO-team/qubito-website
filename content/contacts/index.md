@@ -65,6 +65,7 @@ Scrivici!
 
 # I nostri partner
 
+
 <h2 style="text-align: center">Partner principale</h2>
 
 <a href="https://www.polito.it/" target="_blank" rel="noopener">

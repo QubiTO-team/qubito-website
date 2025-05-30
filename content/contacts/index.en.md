@@ -18,38 +18,81 @@ showPagination: false
 
 # Get in Touch with Us!
 
+{{< lead >}}
 If you want to support us in our mission or join us on our journey, please don’t hesitate to reach out. We are always grateful for the help and encouragement from our community.
 
-Contact Information
+{{< /lead >}}
 
-## Our partners
 
-<h2 style="text-align: center">Partner principale</h2>
+<div style="text-align: center;">
+{{< button href="mailto:qubito@polito.it" target="_self" >}}
+Send us an email!
+{{< /button >}} 
 
-<a href="https://www.polito.it/" target="_blank" rel="noopener">
-        <img src="./polito_logo_blu.png"
-            alt="Politecnico Logo"
-            class="h-auto dark:hidden nozoom"
-            style="
-                max-height: 8rem;
-                width: 25%; 
-                margin-left: auto;
-                margin-right: auto;"
-        />
-        <img src="./polito_logo_white.png" 
-            alt="Politecnico Logo" 
-            class="h-auto hidden dark:flex nozoom"dark:flex
-            style="
-                max-height: 8rem;
-                width: 25%; 
-                margin-left: auto;
-                margin-right: auto;"
-        />
-      </a>
+
+<html> 
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    // Initialize TypeIt for the overview subtitle
+    new TypeIt(".email-field", {
+      speed: 200,
+      startDelay: 2000,
+      lifeLike: true,
+      breakLines: false,
+      waitUntilVisible: true,
+      loop: false,
+      cursor: true,
+      afterComplete: function (instance) {
+        // instance.destroy();
+      },
+    })
+      .type("qubito@polito.it", { delay: 700 })
+      .go();
+  });
+</script>
+    <br>
+    <a
+    href="mailto:qubito@polito.it"
+    class="email-field"
+    style= "
+        font-size: 2rem;
+        color: var(--color-neutral-200)    
+    "></a>
+</html>
+
+</div>
+
+
+
+# Our partners
+<style>
+.partner-image{
+    max-height: 8rem;
+    width: 25%; 
+    margin-left: auto;
+    margin-right: auto;"
+}
+</style>
+
+<h2 style="text-align: center">Main partner</h2>
+
+{{< figure
+    src="polito_logo_blu.png"
+    alt="Logo PoliTo"
+    class="h-auto dark:hidden nozoom partner-image"
+>}}
+{{< figure
+    src="polito_logo_white.png"
+    alt="Logo PoliTo"
+    class="h-auto hidden dark:flex nozoom partner-image"
+>}}
+
 
 ## Follow Us
 
+{{< lead >}}
 Stay updated on our latest projects and events by following us on social media!
+{{< /lead >}}
 
 + [Instagram {{<icon "instagram" >}}](https://www.instagram.com/qubitoteam_polito/)
 + [Linkedin {{<icon "linkedin" >}}](https://www.linkedin.com/company/qubito-student-team-politecnico-di-torino/)
@@ -57,4 +100,6 @@ Stay updated on our latest projects and events by following us on social media!
 
 ## We Appreciate Your Support!
 
+{{< lead >}}
 Whether you have questions, suggestions, or just want to say hello, your input means the world to us. Thank you for being a part of our journey!
+{{< /lead >}}
