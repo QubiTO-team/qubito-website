@@ -22,7 +22,7 @@ QubiTO was founded in 2023, inspired by the enthusiasm of students and professor
 
 With the inauguration of the first quantum computer at the Polytechnic, Spark IQM, we will finally begin to apply our theoretical knowledge to the realization of practical projects!
 
-<img src="./Spark-Hero-Image.png" 
+<img src="/images/Spark-Hero-Image.png" 
 style="width: 50%; 
       display: block;
       margin-left: auto;

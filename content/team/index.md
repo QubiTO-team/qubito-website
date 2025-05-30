@@ -25,7 +25,7 @@ Insieme, uniti dalla passione per tale dinamismo, ricerchiamo e divulghiamo gli 
 
 Con l'inaugurazione del primo quantum computer del Politecnico Spark IQM inizieremo infine ad applicare il nostro bagaglio di conoscenze teoriche nella realizzazione di progetti pratici!
 
-<img src="./Spark-Hero-Image.png" 
+<img src="/images/Spark-Hero-Image.png" 
 style="width: 50%; 
       display: block;
       margin-left: auto;
