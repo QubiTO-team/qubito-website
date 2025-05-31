@@ -25,10 +25,11 @@ Siamo felici di accogliere proposte di collaborazione e siamo entusiasti di espl
 
 
 <div style="text-align: center;">
+<div>
 {{< button href="mailto:qubito@polito.it" target="_self" >}}
 Scrivici!
 {{< /button >}} 
-
+</div>
 
 <html> 
 <script>
@@ -64,30 +65,28 @@ Scrivici!
 
 
 # I nostri partner
+<style>
+.partner-image{
+    max-height: 10rem;
+    width: auto; 
+    margin-left: auto;
+    margin-right: auto;"
+}
+</style>
 
 
 <h2 style="text-align: center">Partner principale</h2>
 
-<a href="https://www.polito.it/" target="_blank" rel="noopener">
-        <img src="./polito_logo_blu.png"
-            alt="Politecnico Logo"
-            class="h-auto dark:hidden nozoom"
-            style="
-                max-height: 8rem;
-                width: 25%; 
-                margin-left: auto;
-                margin-right: auto;"
-        />
-        <img src="./polito_logo_white.png" 
-            alt="Politecnico Logo" 
-            class="h-auto hidden dark:flex nozoom"dark:flex
-            style="
-                max-height: 8rem;
-                width: 25%; 
-                margin-left: auto;
-                margin-right: auto;"
-        />
-      </a>
+{{< figure
+    src="polito_logo_blu.png"
+    alt="Logo PoliTo"
+    class="dark:hidden nozoom partner-image"
+>}}
+{{< figure
+    src="polito_logo_white.png"
+    alt="Logo PoliTo"
+    class="hidden dark:flex nozoom partner-image"
+>}}
 
 # Seguici
 

@@ -22,11 +22,12 @@ showPagination: false
 We welcome collaboration opportunities and are eager to explore potential partnerships. If you’re interested in partnering with us or have any inquiries, please feel free to reach out. 
 {{< /lead >}}
 
-
 <div style="text-align: center;">
+<div>
 {{< button href="mailto:qubito@polito.it" target="_self" >}}
 Send us an email!
 {{< /button >}} 
+</div>
 
 
 <html> 
@@ -58,7 +59,6 @@ Send us an email!
         color: var(--color-neutral-200)    
     "></a>
 </html>
-
 </div>
 
 
@@ -66,8 +66,8 @@ Send us an email!
 # Our partners
 <style>
 .partner-image{
-    max-height: 8rem;
-    width: 25%; 
+    max-height: 10rem;
+    width: auto; 
     margin-left: auto;
     margin-right: auto;"
 }
@@ -78,12 +78,12 @@ Send us an email!
 {{< figure
     src="polito_logo_blu.png"
     alt="Logo PoliTo"
-    class="h-auto dark:hidden nozoom partner-image"
+    class="dark:hidden nozoom partner-image"
 >}}
 {{< figure
     src="polito_logo_white.png"
     alt="Logo PoliTo"
-    class="h-auto hidden dark:flex nozoom partner-image"
+    class="hidden dark:flex nozoom partner-image"
 >}}
 
 
