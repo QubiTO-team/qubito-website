@@ -1,3 +1,12 @@
+- icon: "🇨🇭"  
+  header: "ETH Zurich Quantum Hackathon"  
+  badge: "2025"  
+  description: "Six of our students competed against their brilliant international colleagues at ETH Zurich. Divided into two teams, they tackled the \"Portfolio Optimization\" challenge presented by QCentroid and the \"Gate Parallelization\" challenge by QuEra. Upon returning to Turin, they presented their solutions to fellow colleagues, professors, and quantum computing enthusiasts."  
+  isMainActivity: true
+  images:
+    - "/images/past-activities/eth25_2.JPG"
+    - "/images/past-activities/eth25_1.JPG"
+
 - icon: "🚀"  
   header: "Orientation Fair"  
   badge: "2025"  
@@ -10,7 +19,7 @@
   description: "Celebrating Pi Day with a quantum perspective, exploring the role of π in theoretical physics and quantum mechanics."  
   isMainActivity: false  
 
-- icon: "💡"  
+- icon: "🇩🇪"  
   header: "Pushquantum Hackathon"  
   badge: "2024"  
   description: "Participation in the international hackathon at the TUM Entrepreneurship Research Institute in Munich."  
