@@ -50,7 +50,7 @@ Le operazioni basilari che vengono eseguite dai qubit prendono il nome di "gates
 
 La divisione dedicata ai metodi matematici e alla comunicazione sposta il suo focus dall'implementazione del computer quantistico per enfatizzare sia i concetti matematici essenziali per comprendere varie sfide, come i problemi di ottimizzazione, sia l'infrastruttura necessaria per il trasferimento di informazioni quantistiche, ossia messaggi codificati in forma di qubit. Oltre all'attenzione sulle reti quantistiche e allo studio dell'informazione quantistica, questa divisione attribuisce un'importanza significativa all'esplorazione della crittografia quantistica, una tecnologia promettente per la sicurezza delle comunicazioni riservate.
 
-## Divulgation
+## Divulgazione
 
 Una sesta divisione si occupa della divulgazione esterna al team tramite i canali social di QubiTO, la gestione del sito e la partecipazione ad eventi a contatto con il pubblico, approfondendo anche argomenti e applicazioni della fisica quantistica più distanti dalla computazione quantistica.
 
