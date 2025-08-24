@@ -4,9 +4,7 @@
   description: "Description Coming Soon"  
   isMainActivity: true
   isActive: true
-  link:  
-    url: "/en/activities/qiskit-fall-fest-2025"  
-    text: "Qiskit Fall Fest 2025"
+  url: "/en/activities/qiskit-fall-fest-2025"
 
 - icon: "🇨🇭"  
   header: "ETH Zurich Quantum Hackathon"  

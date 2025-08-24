@@ -13,12 +13,14 @@ $inactiveActivities := where $allActivities "isActive" "!=" true }} {{ if gt
 {{ partial "timeline" (dict "items" $activeActivities) }} {{ range
 $activeActivities }} {{ partial "timelineItem" (dict "icon" .icon "header"
 .header "badge" .badge "description" .description "link" .link "images" .images
-"isMainActivity" .isMainActivity "isActive" .isActive) }} {{ end }} {{ end }} {{
-if and (gt (len $inactiveActivities) 0) (gt (len $activeActivities) 0) }}
+"isMainActivity" .isMainActivity "isActive" .isActive "url" .url) }} {{ end }}
+{{ end }} {{ if and (gt (len $inactiveActivities) 0) (gt (len $activeActivities)
+0) }}
 <hr />
 {{end}} {{if gt (len $inactiveActivities) 0 }}
 <h2>{{ i18n "pastEvents" }}</h2>
 {{ partial "timeline" (dict "items" $inactiveActivities) }} {{ range
 $inactiveActivities }} {{ partial "timelineItem" (dict "icon" .icon "header"
 .header "badge" .badge "description" .description "link" .link "images" .images
-"isMainActivity" .isMainActivity "isActive" .isActive) }} {{ end }} {{ end }}
+"isMainActivity" .isMainActivity "isActive" .isActive "url" .url) }} {{ end }}
+{{ end }}

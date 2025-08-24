@@ -1,6 +1,6 @@
 {{ $icon := .icon | default "check" }} {{ $header := .header }} {{ $badge :=
 .badge }} {{ $description := .description }} {{ $isActive := .isActive }} {{
-$images := .images }} {{ $link := .link }}
+$images := .images }} {{ $link := .link }} {{ $url := .url }}
 
 <li class="list-none">
   <div class="flex flex-start">
@@ -40,6 +40,12 @@ $images := .images }} {{ $link := .link }}
           class="rounded-xl"
         />
         {{ end }}
+      </div>
+      {{ end }} {{ if $url }}
+      <div class="mt-4 flex justify-end">
+        <a href="{{ $url }}" class="btn" target="_blank">
+          {{ i18n "readMore" }}
+        </a>
       </div>
       {{ end }}
     </div>
