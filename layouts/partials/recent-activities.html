@@ -9,7 +9,7 @@ $allActivities = $activitiesContent | unmarshal }} {{ end }} {{
 $activeActivities := where $allActivities "isActive" true }} {{
 $inactiveActivities := where $allActivities "isActive" "!=" true }} {{ if gt
 (len $activeActivities) 0 }}
-<h2>{{ i18n "incomingEvents" }}</h2>
+<h2>{{ i18n "upcomingEvents" }}</h2>
 {{ partial "timeline" (dict "items" $activeActivities) }} {{ range
 $activeActivities }} {{ partial "timelineItem" (dict "icon" .icon "header"
 .header "badge" .badge "description" .description "link" .link "images" .images

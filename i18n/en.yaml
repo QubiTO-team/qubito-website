@@ -78,5 +78,5 @@ shortcode:
 recent:
   show_more: "Show More"
 
-incomingEvents: "Incoming Events"
+upcomingEvents: "Upcoming Events"
 pastEvents: "Past Events"
