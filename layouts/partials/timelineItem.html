@@ -1,11 +1,11 @@
 {{ $icon := .icon | default "check" }} {{ $header := .header }} {{ $badge :=
-.badge }} {{ $description := .description }} {{ $images := .images }} {{ $link
-:= .link }}
+.badge }} {{ $description := .description }} {{ $isActive := .isActive }} {{
+$images := .images }} {{ $link := .link }} {{ $url := .url }}
 
 <li class="list-none">
   <div class="flex flex-start">
     <div
-      class="bg-primary-500 dark:bg-primary-300 text-neutral-50 dark:text-neutral-700 min-w-[30px] h-8 text-2xl flex items-center justify-center rounded-full -ml-12 mt-5"
+      class="bg-primary-500 dark:bg-primary-300 text-neutral-50 dark:text-neutral-700 min-w-[30px] h-8 text-2xl flex items-center justify-center rounded-full -ml-12 mt-5 hide-on-mobile"
     >
       {{ if $icon }}
       <span class="text-base">{{ $icon }}</span>
@@ -13,7 +13,7 @@
       <span class="text-base">{{ partial "icon" $icon }}</span>
     </div>
     <div
-      class="block p-6 rounded-lg shadow-2xl min-w-full ml-6 mb-10 break-words bg-neutral dark:bg-neutral-800"
+      class="block p-6 rounded-lg shadow-2xl min-w-full mb-10 break-words bg-neutral dark:bg-neutral-800 ml-6 align-on-mobile"
     >
       <div class="flex justify-between">
         {{ if $header }}
@@ -41,7 +41,26 @@
         />
         {{ end }}
       </div>
+      {{ end }} {{ if $url }}
+      <div class="mt-4 flex justify-end">
+        <a href="{{ $url }}" class="btn" target="_blank">
+          {{ i18n "readMore" }}
+        </a>
+      </div>
       {{ end }}
     </div>
   </div>
 </li>
+</li>
+<style>
+  @media (max-width: 640px) {
+    .align-on-mobile {
+    margin-left: 0 !important;
+    }
+  }
+  @media (max-width: 640px) {
+    .hide-on-mobile {
+      display: none !important;
+    }
+  }
+</style>

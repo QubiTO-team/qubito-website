@@ -64,6 +64,7 @@
   flex-direction: column;
   align-self: center;
   padding: 0rem 4rem;
+  padding-left: 6rem;
 } 
 
 @media (min-width: 768px) {
