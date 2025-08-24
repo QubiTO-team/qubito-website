@@ -89,6 +89,7 @@ tag = "tags"
 category = "categories"
 author = "authors"
 series = "series"
+activity = "activities"
 
 [languages.en] 
 contentDir = "content"
@@ -105,7 +106,7 @@ logo = "websiteLogo.svg"
 secondaryLogo = "websiteLogo.svg"
 description = "QubiTO is an open community for anyone who shares our passion for quantum science and technology. Whether you are a physicist, engineer, developer, designer, or simply a curious mind, you will find a space with us where your ideas can evolve. We conduct research, participate in hackathons, and push the boundaries of quantum innovation — together."
 contentDir = "content"
-mainSections = ["articles","team"]
+mainSections = ["articles","activities","team"]
 copyright = "©2025 QubiTO. All rights reserved."
 creator = "Created by QubiTO's Divulgation Division"
 githubEditText = "Edit on GitHub"
@@ -115,4 +116,5 @@ tag = "tags"
 category = "categories"
 author = "authors"
 series = "series"
+activity = "activities"
 

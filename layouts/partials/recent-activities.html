@@ -6,9 +6,19 @@ $activitiesFile }} {{ else }} {{ $path = printf "%s.%s.yaml" (strings.TrimSuffix
 := "" }} {{ if fileExists $path }} {{ $activitiesContent = readFile $path }} {{
 end }} {{ $allActivities := slice }} {{ if $activitiesContent }} {{
 $allActivities = $activitiesContent | unmarshal }} {{ end }} {{
-$activitiesToShow := $allActivities }} {{ if .ishome }} {{ $activitiesToShow =
-first $recentActivities $allActivities }} {{ end }} {{ if gt (len
-$activitiesToShow) 0 }} {{ partial "timeline" (dict "items" $activitiesToShow)
-}} {{ range $activitiesToShow }} {{ partial "timelineItem" (dict "icon" .icon
-"header" .header "badge" .badge "description" .description "link" .link "images"
-.images "isMainActivity" .isMainActivity) }} {{ end }} {{ end }}
+$activeActivities := where $allActivities "isActive" true }} {{
+$inactiveActivities := where $allActivities "isActive" "!=" true }} {{ if gt
+(len $activeActivities) 0 }}
+<h2>{{ i18n "incomingEvents" }}</h2>
+{{ partial "timeline" (dict "items" $activeActivities) }} {{ range
+$activeActivities }} {{ partial "timelineItem" (dict "icon" .icon "header"
+.header "badge" .badge "description" .description "link" .link "images" .images
+"isMainActivity" .isMainActivity "isActive" .isActive) }} {{ end }} {{ end }} {{
+if and (gt (len $inactiveActivities) 0) (gt (len $activeActivities) 0) }}
+<hr />
+{{end}} {{if gt (len $inactiveActivities) 0 }}
+<h2>{{ i18n "pastEvents" }}</h2>
+{{ partial "timeline" (dict "items" $inactiveActivities) }} {{ range
+$inactiveActivities }} {{ partial "timelineItem" (dict "icon" .icon "header"
+.header "badge" .badge "description" .description "link" .link "images" .images
+"isMainActivity" .isMainActivity "isActive" .isActive) }} {{ end }} {{ end }}

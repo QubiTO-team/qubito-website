@@ -103,3 +103,6 @@ articles:
   no_articles_description: "Non ci sono articoli qui."
   no_articles_description_2: "Puoi aggiungere un articolo a questa pagina."
   no_articles_description_3: "Puoi anche aggiungere un articolo a questa pagina."
+
+incomingEvents: "Eventi in arrivo"
+pastEvents: "Eventi passati"

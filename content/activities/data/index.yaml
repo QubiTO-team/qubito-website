@@ -1,3 +1,13 @@
+- icon: "🍂"  
+  header: "Qiskit Fall Fest 2025"  
+  badge: "2025"  
+  description: "Description Coming Soon"  
+  isMainActivity: true
+  isActive: true
+  link:  
+    url: "/activities/qiskit-fall-fest-2025"  
+    text: "Qiskit Fall Fest 2025"
+
 - icon: "🇨🇭"  
   header: "Quantum Hackathon ETH di Zurigo"  
   badge: "2025"  
