@@ -31,13 +31,13 @@ $images := .images }} {{ $link := .link }} {{ $url := .url }}
         >
       </p>
       {{ end }} {{ end }} {{ if $images }}
-      <div class="flex justify-center items-center flex-wrap gap-4 mt-4">
+      <div class="flex justify-center items-center flex-wrap mt-2 image-list-gap">
         {{ range $images }}
         <img
           src="{{ . }}"
           alt="Image from {{ $header }}"
-          style="max-width: min(400px, 80vw); max-height: 400px"
-          class="rounded-xl"
+          style="max-width: min(400px, 70vw); max-height: 400px"
+          class="rounded-xl image-list-gap"
         />
         {{ end }}
       </div>
@@ -57,10 +57,13 @@ $images := .images }} {{ $link := .link }} {{ $url := .url }}
     .align-on-mobile {
     margin-left: 0 !important;
     }
-  }
-  @media (max-width: 640px) {
     .hide-on-mobile {
       display: none !important;
+    }
+    .image-list-gap {
+      gap: 0 !important;
+      margin-top: 0.5rem !important;
+      margin-bottom: 0.5rem !important;
     }
   }
 </style>
