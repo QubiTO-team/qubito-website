@@ -110,18 +110,13 @@
   .overview-title {
     flex-direction: row;
   }
-  .overview-activities-title {
-    flex-direction: row;
-  }
 }
 
 
 @media (max-width: 640px) {
-
   .overview-activities-title {
     font-size: 3rem;
   }
-
 }
 
 .overview-title-div {

@@ -31,7 +31,7 @@ $images := .images }} {{ $link := .link }} {{ $url := .url }}
         >
       </p>
       {{ end }} {{ end }} {{ if $images }}
-      <div class="flex justify-center items-center flex-wrap mt-2 image-list-gap">
+      <div class="flex justify-center items-center flex-wrap gap-4 image-list-gap">
         {{ range $images }}
         <img
           src="{{ . }}"
