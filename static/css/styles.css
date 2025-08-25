@@ -76,7 +76,7 @@
 
 @media (max-width: 640px) {
   .overview-activities-content {
-    padding-left: 4rem;
+    padding: 0rem 0rem;
   }
 }
 
