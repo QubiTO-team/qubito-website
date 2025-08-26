@@ -73,6 +73,9 @@
   badge: "2023"
   description: "Sul palco del Google DevFestAlps presso il Toolbox Coworking a Torino, abbiamo presentato il nostro lavoro sull'algoritmo di Grover e gli oracoli quantistici."
   isMainActivity: true
+  link:
+    url: "https://gdg.community.dev/events/details/google-gdg-torino-presents-devfest-alps-2023/"
+    text: "Google DevFestAlps 2023"
   images:
     - "/images/past-activities/dev-fest-alps-2023-1.jpg"
     - "/images/past-activities/dev-fest-alps-2023-2.jpg"
@@ -82,9 +85,6 @@
   badge: "Autunno 2023"
   description: "Il team ha affrontato una sfida interna incentrata sullo sviluppo dell'algoritmo di Grover. I team, composti in modo eterogeneo, hanno lavorato in autonomia e in competizione tra loro, ricreando lo spirito autentico di un hackathon."
   isMainActivity: true
-  link:
-    url: "https://gdg.community.dev/events/details/google-gdg-torino-presents-devfest-alps-2023/"
-    text: "Google DevFestAlps 2023"
   images: 
     - "/images/past-activities/hackathon-interno-2023.png"
 
