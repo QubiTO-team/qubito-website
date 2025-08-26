@@ -408,3 +408,6 @@ Il principio fondamentale rimane coerente con il caso a singolo qubit: la correz
 dal sistema.
 
 Questo approccio mantiene le caratteristiche essenziali della correzione degli errori quantistica, pur consentendo la scalabilità verso modelli di errore multi-qubit più complessi.
+
+## Referenze
+IBM Quantum Learning "[Correcting quantum errors](https://quantum.cloud.ibm.com/learning/en/courses/foundations-of-quantum-error-correction/correcting-quantum-errors/introduction)".

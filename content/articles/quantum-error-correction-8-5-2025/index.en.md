@@ -426,3 +426,6 @@ The fundamental principle remains consistent with the single-qubit case: error c
     from the system.
 
 This approach maintains the essential features of quantum error correction while scaling to more complex, multi-qubit error patterns.
+
+## References
+IBM Quantum Learning "[Correcting quantum errors](https://quantum.cloud.ibm.com/learning/en/courses/foundations-of-quantum-error-correction/correcting-quantum-errors/introduction)".

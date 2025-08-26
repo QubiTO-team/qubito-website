@@ -77,7 +77,7 @@
       .move(-5)
       .delete(1)
       .type("Q")
-      .move(5, {delay: 100})
+      .move(5, { delay: 100 })
       .delete(2, { pause: 200 })
       .type("TO", { delay: 500 })
       .pause(400)
@@ -182,15 +182,12 @@
       background-attachment: fixed; /* This keeps the background fixed while scrolling */
     "
   >
-    <div
-      class="overview-activities-section middle-screen"
-      style="margin: auto 20%; z-index: 0;"
-    >
-      <div class="overview-left">
-        <h1 class="overview-title">{{ .Params.activitiesTitle }}</h1>
+    <div class="overview-activities-section" style="z-index: 0">
+      <div class="overview-activities-header">
+        <h1 class="overview-activities-title">{{ .Params.activitiesTitle }}</h1>
         <p class="overview-description">{{ .Params.activitiesDescription }}</p>
       </div>
-      <div class="prose dark:prose-invert">
+      <div class="overview-activities-content prose dark:prose-invert">
         {{ partial "recent-activities.html" (dict "Site" .Site "Page" . "ishome"
         true) }}
       </div>

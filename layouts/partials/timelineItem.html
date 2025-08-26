@@ -1,11 +1,11 @@
 {{ $icon := .icon | default "check" }} {{ $header := .header }} {{ $badge :=
-.badge }} {{ $description := .description }} {{ $images := .images }} {{ $link
-:= .link }}
+.badge }} {{ $description := .description }} {{ $isActive := .isActive }} {{
+$images := .images }} {{ $link := .link }} {{ $url := .url }}
 
 <li class="list-none">
   <div class="flex flex-start">
     <div
-      class="bg-primary-500 dark:bg-primary-300 text-neutral-50 dark:text-neutral-700 min-w-[30px] h-8 text-2xl flex items-center justify-center rounded-full -ml-12 mt-5"
+      class="bg-primary-500 dark:bg-primary-300 text-neutral-50 dark:text-neutral-700 min-w-[30px] h-8 text-2xl flex items-center justify-center rounded-full -ml-12 mt-5 hide-on-mobile"
     >
       {{ if $icon }}
       <span class="text-base">{{ $icon }}</span>
@@ -13,13 +13,13 @@
       <span class="text-base">{{ partial "icon" $icon }}</span>
     </div>
     <div
-      class="block p-6 rounded-lg shadow-2xl min-w-full ml-6 mb-10 break-words bg-neutral dark:bg-neutral-800"
+      class="block p-6 rounded-lg shadow-2xl min-w-full mb-10 break-words bg-neutral dark:bg-neutral-800 ml-6 align-on-mobile"
     >
       <div class="flex justify-between">
         {{ if $header }}
         <h2 class="mt-0">{{ $header }}</h2>
         {{ end }} {{ if $badge }}
-        <h3 class="">{{ $badge }}</h3>
+        <h3 style="text-align: right;">{{ $badge }}</h3>
         {{ end }}
       </div>
       {{ if $description }}
@@ -31,17 +31,39 @@
         >
       </p>
       {{ end }} {{ end }} {{ if $images }}
-      <div class="flex justify-center items-center flex-wrap gap-4 mt-4">
+      <div class="flex justify-center items-center flex-wrap gap-4 image-list-gap">
         {{ range $images }}
         <img
           src="{{ . }}"
           alt="Image from {{ $header }}"
-          style="max-width: min(400px, 80vw); max-height: 400px"
-          class="rounded-xl"
+          style="max-width: min(400px, 70vw); max-height: 400px"
+          class="rounded-xl image-list-gap"
         />
         {{ end }}
+      </div>
+      {{ end }} {{ if $url }}
+      <div class="mt-4 flex justify-end">
+        <a href="{{ $url }}" class="btn" target="_blank">
+          {{ i18n "readMore" }}
+        </a>
       </div>
       {{ end }}
     </div>
   </div>
 </li>
+</li>
+<style>
+  @media (max-width: 640px) {
+    .align-on-mobile {
+    margin-left: 0 !important;
+    }
+    .hide-on-mobile {
+      display: none !important;
+    }
+    .image-list-gap {
+      gap: 0 !important;
+      margin-top: 0.5rem !important;
+      margin-bottom: 0.5rem !important;
+    }
+  }
+</style>
