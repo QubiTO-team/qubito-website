@@ -1,4 +1,4 @@
-# qubito-website
+# QubiTO Website
 
 ## Table of Contents
 - [About the Project](#about-the-project)
