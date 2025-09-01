@@ -13,4 +13,4 @@ showZenMode: false
 title: "Attività"
 ---
 
-{{< recent-activities>}}
+{{<recent-activities>}}

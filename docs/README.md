@@ -5,7 +5,7 @@
 This documentation explains how to use and contribute to the QubiTO Team website.
 
 If you want to modify specific pages, see:
-- [Articles](pages/acticles.md)
+- [Articles](pages/articles.md)
 - [Activities](pages/activities.md)
 - [Home Page](pages/home.md)
 
