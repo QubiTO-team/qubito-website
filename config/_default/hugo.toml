@@ -83,6 +83,7 @@ mainSections = ["articles","team"]
 copyright = "©2025 QubiTO. Tutti i diritti riservati."
 creator = "Creato dalla Divisione Divulgazione di QubiTO"
 githubEditText = "Modifica su GitHub"
+githubViewText = "Visualizza su GitHub"
 
 [languages.it.taxonomies]
 tag = "tags"
@@ -109,6 +110,7 @@ mainSections = ["articles","team"]
 copyright = "©2025 QubiTO. All rights reserved."
 creator = "Created by QubiTO's Divulgation Division"
 githubEditText = "Edit on GitHub"
+githubViewText = "View on GitHub"
 
 [languages.en.taxonomies]
 tag = "tags"
