@@ -1,0 +1,93 @@
+<a href="{{ .Page.RelPermalink }}" class="min-w-full">
+  <div
+    class="border border-neutral-200 dark:border-neutral-700 border-2 rounded overflow-hidden shadow-2xl relative"
+  >
+    <!-- Profile Image -->
+    {{ with .Params.image }}
+      <div
+        class="w-full thumbnail_card nozoom"
+        style='background-image:url("{{ if strings.HasPrefix . "http" }}{{ . }}{{ else }}{{ . | relURL }}{{ end }}");'
+      ></div>
+    {{ end }}
+    {{ with site.Params.image }}
+      <meta property="og:image" content="{{ index . 0 | absURL }}" />
+    {{ end }}
+    {{/*  {{ with .Params.image }}
+      <div
+        class="w-full thumbnail_card nozoom"
+        style="
+          background-image: url('{{ if or (hasPrefix . "http://") (hasPrefix . "https://") }}{{ . }}{{ else }}{{ . | relURL }}{{ end }}');
+        "
+      ></div>
+    {{ end }}  */}}
+
+    <!-- Name -->
+    <div class="px-6 pt-4">
+      <div
+        class="font-bold text-xl text-neutral-800 decoration-primary-500 hover:underline hover:underline-offset-2 dark:text-neutral"
+      >
+        {{.Params.Title}}
+      </div>
+    </div>
+    <!-- Role -->
+    <div class="px-6 py-2">
+      <div
+        class="text-base text-neutral-800 decoration-primary-500 hover:underline hover:underline-offset-2 dark:text-neutral"
+      >
+        {{.Params.role}}
+      </div>
+    </div>
+
+
+    {{/*  <!-- Bio -->
+    <div class="px-6 pt-0 pb-4">
+      <p class="text-neutral-700 dark:text-neutral-300 text-sm leading-relaxed">
+        Esperto di informatica quantistica e superconduttività, con un focus
+        sulla costruzione di qubit e sul controllo dell'informazione nei
+        computer quantistici.
+      </p>
+    </div>  */}}
+
+    {{/*  <!-- Social Links -->
+    <div class="px-6 pt-0 pb-4">
+      <div class="flex flex-wrap gap-2">
+        <a
+          href="https://twitter.com/johndoe"
+          class="text-neutral-600 dark:text-neutral-400 hover:text-primary-500 dark:hover:text-primary-400 transition-colors"
+        >
+          <i class="fab fa-twitter text-lg"></i>
+        </a>
+        <a
+          href="https://github.com/johndoe"
+          class="text-neutral-600 dark:text-neutral-400 hover:text-primary-500 dark:hover:text-primary-400 transition-colors"
+        >
+          <i class="fab fa-github text-lg"></i>
+        </a>
+        <a
+          href="https://linkedin.com/in/johndoe"
+          class="text-neutral-600 dark:text-neutral-400 hover:text-primary-500 dark:hover:text-primary-400 transition-colors"
+        >
+          <i class="fab fa-linkedin-in text-lg"></i>
+        </a>
+        <a
+          href="https://instagram.com/johndoe"
+          class="text-neutral-600 dark:text-neutral-400 hover:text-primary-500 dark:hover:text-primary-400 transition-colors"
+        >
+          <i class="fab fa-instagram text-lg"></i>
+        </a>
+        <a
+          href="https://facebook.com/johndoe.profile"
+          class="text-neutral-600 dark:text-neutral-400 hover:text-primary-500 dark:hover:text-primary-400 transition-colors"
+        >
+          <i class="fab fa-facebook-f text-lg"></i>
+        </a>
+        <a
+          href="https://youtube.com/@johndoe"
+          class="text-neutral-600 dark:text-neutral-400 hover:text-primary-500 dark:hover:text-primary-400 transition-colors"
+        >
+          <i class="fab fa-youtube text-lg"></i>
+        </a>
+      </div>
+    </div>  */}}
+  </div>
+</a>

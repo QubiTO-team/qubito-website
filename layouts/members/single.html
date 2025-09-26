@@ -1,0 +1,157 @@
+{{ define "main" }} {{ .Scratch.Set "scope" "term" }} {{ if
+.Site.Params.term.showHero | default false }} {{ $heroStyle := print "hero/"
+.Site.Params.term.heroStyle ".html" }} {{ if templates.Exists ( printf
+"partials/%s" $heroStyle ) }} {{ partial $heroStyle . }} {{ else }} {{ partial
+"hero/basic.html" . }} {{ end }} {{- end -}} {{ $toc := and
+(.Params.showTableOfContents | default (.Site.Params.term.showTableOfContents |
+default false)) (in .TableOfContents "<ul") }}
+<header>
+  {{ if .Params.showBreadcrumbs | default (.Site.Params.term.showBreadcrumbs |
+  default false) }} {{ partial "breadcrumbs.html" . }} {{ end }} {{/*
+  <h1 class="mt-5 text-4xl font-extrabold text-neutral-900 dark:text-neutral">
+    {{ .Title }}
+  </h1>
+  */}}
+  <div
+    class="mt-1 mb-2 text-base text-neutral-500 dark:text-neutral-400 print:hidden"
+  >
+    {{ partial "article-meta/term.html" (dict "context" . "scope" "single") }}
+  </div>
+</header>
+<header class="mb-8">
+  <div class="flex flex-col md:flex-row items-center md:items-start gap-6">
+    {{ with .Params.image }}
+    <img
+      class="rounded-full w-48 h-48 object-cover flex-shrink-0"
+      src="{{ . }}"
+      alt="{{ $.Title }}"
+    />
+    {{ end }}
+
+    <div class="text-center md:text-left">
+      <h1 class="text-4xl font-extrabold text-neutral-900 dark:text-neutral">
+        {{ .Params.Title }}
+      </h1>
+      {{ with .Params.role }}
+      <p class="text-lg text-neutral-600 dark:text-neutral-400 mt-1">{{ . }}</p>
+      {{ end }}
+    </div>
+    {{ if .Params.social }}
+    <ul class="flex space-x-4 mt-4">
+      {{ range $platform, $link := .Params.social }}
+      <li
+        class="flex mb-1 ltr:text-right rtl:text-left sm:mb-0 ltr:sm:mr-7 ltr:sm:last:mr-0 rtl:sm:ml-7 rtl:sm:last:ml-0 lg:mr-4"
+      >
+        <a
+          class="decoration-primary-500 hover:underline hover:decoration-2 hover:underline-offset-2 flex items-center"
+          href="{{ $link }}"
+          title="{{ $platform }}"
+        >
+          <span {{ if and $platform }} class="mr-1" {{ end }}>
+            {{ partial "icon.html" $platform }}
+          </span>
+        </a>
+      </li>
+      {{ end }}
+    </ul>
+    {{ end }}
+  </div>
+</header>
+
+{{ with .Params.bio }}
+<p>{{ . }}</p>
+{{ end }} {{ .Content }}
+<section
+  class="flex flex-col max-w-full mt-0 mb-5 prose dark:prose-invert lg:flex-row"
+>
+  {{ if .Content }}
+  <div class="min-w-0 min-h-0 max-w-prose">{{ .Content }}</div>
+  <script>
+    var oid = "views_term_{{ .Data.Term }}";
+    var oid_likes = "likes_term_{{ .Data.Term }}";
+  </script>
+  {{ $jsPage := resources.Get "js/page.js" }} {{ $jsPage = $jsPage |
+  resources.Minify | resources.Fingerprint "sha512" }}
+  <script
+    type="text/javascript"
+    src="{{ $jsPage.RelPermalink }}"
+    integrity="{{ $jsPage.Data.Integrity }}"
+  ></script>
+  {{ end }}
+</section>
+
+<h2
+  class="mt-12 mb-6 text-2xl font-bold text-neutral-700 first:mt-8 dark:text-neutral-300"
+>
+  {{ .Site.Language.Params.articles }}
+</h2>
+
+{{ $authorName := .Params.Title }} {{ $pages := where site.RegularPages
+"Params.authors" "intersect" (slice $authorName) }} {{ if gt $pages 0 }} {{
+$cardView := true }} {{ $cardViewScreenWidth := false }} {{ $groupByYear :=
+.Params.groupByYear | default ($.Site.Params.term.groupByYear | default false)
+}} {{ if not $cardView }}
+
+<section class="space-y-10 w-full">
+  {{ if $groupByYear }}
+  <h2
+    class="mt-12 text-2xl font-bold text-neutral-700 first:mt-8 dark:text-neutral-300"
+  >
+    {{ .Key }}
+  </h2>
+  {{ end }} {{ range $pages }} {{ partial "article-link/simple.html" . }} {{ end
+  }}
+</section>
+
+{{ else if and $cardView (not $cardViewScreenWidth) }} {{ if $groupByYear }}
+<h2
+  class="mt-12 mb-3 text-2xl font-bold text-neutral-700 first:mt-8 dark:text-neutral-300"
+>
+  {{ .Key }}
+</h2>
+<section class="w-full grid gap-4 sm:grid-cols-2 md:grid-cols-3">
+  {{ range $pages }} {{ partial "article-link/card.html" . }} {{ end }}
+</section>
+{{ else }}
+
+<section class="w-full grid gap-4 sm:grid-cols-2 md:grid-cols-3">
+  {{ range $pages }} {{ partial "article-link/card.html" . }} {{ end }}
+</section>
+
+{{ end }} {{ else if and $cardView $cardViewScreenWidth }} {{ if $groupByYear }}
+
+<div
+  class="relative w-screen max-w-[1600px] px-[30px]"
+  style="left: calc(max(-50vw, -800px) + 50%)"
+>
+  <h2
+    class="mt-12 mb-3 text-2xl font-bold text-neutral-700 first:mt-8 dark:text-neutral-300"
+  >
+    {{ .Key }}
+  </h2>
+  <section
+    class="w-full grid gap-4 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5"
+  >
+    {{ range $pages }} {{ partial "article-link/card.html" . }} {{ end }}
+  </section>
+</div>
+{{ else }}
+
+<div
+  class="relative w-screen max-w-[1600px] px-[30px]"
+  style="left: calc(max(-50vw, -800px) + 50%)"
+>
+  <section
+    class="w-full grid gap-4 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5"
+  >
+    {{ range $pages }} {{ partial "article-link/card.html" . }} {{ end }}
+  </section>
+</div>
+
+{{ end }} {{end}} {{ else }}
+<section class="mt-10 prose dark:prose-invert">
+  <p class="py-8 border-t">
+    <em>{{ i18n "term.no_articles" | emojify }}</em>
+  </p>
+</section>
+{{ end }} {{ end }}
