@@ -26,6 +26,13 @@ pageRef = "team"
 identifier = "Tj5XqISJOS"
 weight = 12
 
+[[main]]
+name = "Unisciti a noi"
+url = "/join-us/"
+# pre = "users-plus"
+pageRef = "join-us"
+identifier = "Tj5XqJOINUS"
+weight = 13
 
 [[main]]
 name = "Contatti"
@@ -33,7 +40,8 @@ url = "/contacts/"
 # pre = "tags"
 pageRef = "contacts"
 identifier = "Tj5XqDRSSD"
-weight = 13
+weight = 14
+
 # [[main]]
 # name = "Etichette"
 # # pre = "tags"
@@ -80,7 +88,7 @@ weight = 1
 
 # [[footer]]
 # # name = "GitHub"
-# url = ""    
+# url = ""
 # pre = "github"
 # identifier = "Ig4sDJREPW"
 # weight = 3

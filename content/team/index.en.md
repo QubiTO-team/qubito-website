@@ -29,6 +29,8 @@ style="width: 50%;
       margin-right: auto;
       width: 50%;">
 
+---
+
 Our team currently consists of six divisions that focus on internal insights related to defined technological areas, mostly oriented towards quantum computing:
 
 ## Hardware
@@ -56,3 +58,10 @@ The division dedicated to mathematical methods and communication shifts its focu
 A sixth division is responsible for external outreach through QubiTO's social media channels, managing the content of the website, and participating in events that engage the public, also delving into topics and applications of quantum physics that are more distant from quantum computing.
 
  Additionally, a sub-division of programmers manages and improves the website.
+
+---
+
+<div style="text-align: center;">
+  <h2>Want to be part of our team?</h2>
+  {{< button href="/en/join-us/" >}}Join Us{{< /button >}}
+</div>

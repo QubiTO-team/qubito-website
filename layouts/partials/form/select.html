@@ -1,0 +1,24 @@
+{{- $id := .id -}}
+{{- $label := .label -}}
+{{- $options := .options -}}
+{{- $required := .required | default false -}}
+
+<div class="mb-6">
+  <label for="{{ $id }}" class="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-2">
+    {{ $label }}{{ if $required }}<span class="text-red-500 ml-1">*</span>{{ end }}
+  </label>
+  <select
+    id="{{ $id }}"
+    name="{{ $id }}"
+    {{ if $required }}required{{ end }}
+    class="w-full px-4 py-3 border border-neutral-300 dark:border-neutral-600 rounded-lg
+           focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500
+           bg-white dark:bg-neutral-800 text-neutral-900 dark:text-neutral-100
+           transition-colors duration-200 appearance-none"
+  >
+    <option value="">{{ i18n "select_option" | default "Select an option..." }}</option>
+    {{- range $options -}}
+      <option value="{{ .value }}">{{ .label }}</option>
+    {{- end -}}
+  </select>
+</div>
