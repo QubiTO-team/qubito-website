@@ -32,6 +32,8 @@ style="width: 50%;
       margin-right: auto;
       width: 50%;">
 
+---
+
 Il nostro team è attualmente composto da cinque divisioni che si occupano di approfondimenti interni al team stesso, relativi ad aree tecnologiche definite, per la maggior parte orientate alla computazione quantistica:
 
 ## Hardware 
@@ -54,4 +56,11 @@ La divisione dedicata ai metodi matematici e alla comunicazione sposta il suo fo
 
 Una sesta divisione si occupa della divulgazione esterna al team tramite i canali social di QubiTO, la gestione del sito e la partecipazione ad eventi a contatto con il pubblico, approfondendo anche argomenti e applicazioni della fisica quantistica più distanti dalla computazione quantistica.
 
- Una sottodivisione di programmatori si occupa inoltre della gestione e del miglioramento del sito.    
+ Una sottodivisione di programmatori si occupa inoltre della gestione e del miglioramento del sito.
+
+---
+
+<div style="text-align: center;">
+  <h2>Vuoi far parte del nostro team?</h2>
+  {{< button href="/join-us/" >}}Unisciti a Noi{{< /button >}}
+</div>

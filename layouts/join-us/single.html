@@ -1,0 +1,326 @@
+{{ define "main" }}
+<article class="max-w-4xl mx-auto">
+
+  <header class="mb-8 text-center">
+    <h1 class="text-4xl font-bold text-neutral-800 dark:text-neutral-100 mb-4">
+      {{ .Title }}
+    </h1>
+    {{ if .Params.description }}
+      <p class="text-xl text-neutral-600 dark:text-neutral-400 max-w-3xl mx-auto">
+        {{ .Params.description }}
+      </p>
+    {{ end }}
+  </header>
+
+  <div class="prose prose-neutral dark:prose-invert mb-8 max-w-3xl mx-auto">
+    {{ .Content }}
+  </div>
+
+  <!-- Application Form -->
+  <div class="bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-700 rounded-xl shadow-xl p-8">
+
+    <form id="join-us-form" class="space-y-8">
+
+      <!-- Personal Information -->
+      <div class="bg-gradient-to-r from-blue-50 to-purple-50 dark:from-neutral-800 dark:to-neutral-800 rounded-lg p-6">
+        <h3 class="text-xl font-semibold text-neutral-800 dark:text-neutral-100 mb-6">
+          {{ if eq .Site.Language.Lang "it" }}Informazioni Personali{{ else }}Personal Information{{ end }}
+        </h3>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="mb-6">
+            <label class="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-2">
+              {{ if eq .Site.Language.Lang "it" }}Nome{{ else }}First Name{{ end }}<span class="text-red-500 ml-1">*</span>
+            </label>
+            <input type="text" id="first_name" name="first_name" required
+              class="w-full px-4 py-3 border border-neutral-300 dark:border-neutral-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 bg-white dark:bg-neutral-800 text-neutral-900 dark:text-neutral-100 placeholder-neutral-500 dark:placeholder-neutral-400 transition-colors duration-200"
+              placeholder="{{ if eq .Site.Language.Lang "it" }}Il tuo nome{{ else }}Your first name{{ end }}">
+          </div>
+
+          <div class="mb-6">
+            <label class="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-2">
+              {{ if eq .Site.Language.Lang "it" }}Cognome{{ else }}Last Name{{ end }}<span class="text-red-500 ml-1">*</span>
+            </label>
+            <input type="text" id="last_name" name="last_name" required
+              class="w-full px-4 py-3 border border-neutral-300 dark:border-neutral-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 bg-white dark:bg-neutral-800 text-neutral-900 dark:text-neutral-100 placeholder-neutral-500 dark:placeholder-neutral-400 transition-colors duration-200"
+              placeholder="{{ if eq .Site.Language.Lang "it" }}Il tuo cognome{{ else }}Your last name{{ end }}">
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="mb-6">
+            <label class="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-2">
+              Email<span class="text-red-500 ml-1">*</span>
+            </label>
+            <input type="email" id="email" name="email" required
+              class="w-full px-4 py-3 border border-neutral-300 dark:border-neutral-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 bg-white dark:bg-neutral-800 text-neutral-900 dark:text-neutral-100 placeholder-neutral-500 dark:placeholder-neutral-400 transition-colors duration-200"
+              placeholder="nome.cognome@studenti.polito.it">
+          </div>
+
+          <div class="mb-6">
+            <label class="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-2">
+              {{ if eq .Site.Language.Lang "it" }}Telefono (Facoltativo){{ else }}Phone (Optional){{ end }}
+            </label>
+            <input type="tel" id="phone" name="phone"
+              class="w-full px-4 py-3 border border-neutral-300 dark:border-neutral-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 bg-white dark:bg-neutral-800 text-neutral-900 dark:text-neutral-100 placeholder-neutral-500 dark:placeholder-neutral-400 transition-colors duration-200"
+              placeholder="+39 123 456 7890">
+          </div>
+        </div>
+      </div>
+
+      <!-- Academic Background -->
+      <div class="bg-gradient-to-r from-green-50 to-blue-50 dark:from-neutral-800 dark:to-neutral-800 rounded-lg p-6">
+        <h3 class="text-xl font-semibold text-neutral-800 dark:text-neutral-100 mb-6">
+          {{ if eq .Site.Language.Lang "it" }}Formazione Accademica{{ else }}Academic Background{{ end }}
+        </h3>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="mb-6">
+            <label class="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-2">
+              {{ if eq .Site.Language.Lang "it" }}Stato Attuale{{ else }}Current Status{{ end }}<span class="text-red-500 ml-1">*</span>
+            </label>
+            <select id="student_status" name="student_status" required
+              class="w-full px-4 py-3 border border-neutral-300 dark:border-neutral-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 bg-white dark:bg-neutral-800 text-neutral-900 dark:text-neutral-100 transition-colors duration-200 appearance-none">
+              <option value="">{{ if eq .Site.Language.Lang "it" }}Seleziona...{{ else }}Select...{{ end }}</option>
+              <option value="bachelor_polito">{{ if eq .Site.Language.Lang "it" }}Studente Triennale - Politecnico di Torino{{ else }}Bachelor Student - Politecnico di Torino{{ end }}</option>
+              <option value="master_polito">{{ if eq .Site.Language.Lang "it" }}Studente Magistrale - Politecnico di Torino{{ else }}Master Student - Politecnico di Torino{{ end }}</option>
+              <option value="phd_polito">{{ if eq .Site.Language.Lang "it" }}Dottorando - Politecnico di Torino{{ else }}PhD Student - Politecnico di Torino{{ end }}</option>
+              <option value="bachelor_other">{{ if eq .Site.Language.Lang "it" }}Studente Triennale - Altra Università{{ else }}Bachelor Student - Other University{{ end }}</option>
+              <option value="master_other">{{ if eq .Site.Language.Lang "it" }}Studente Magistrale - Altra Università{{ else }}Master Student - Other University{{ end }}</option>
+              <option value="graduate">{{ if eq .Site.Language.Lang "it" }}Laureato{{ else }}Graduate{{ end }}</option>
+              <option value="professional">{{ if eq .Site.Language.Lang "it" }}Professionista{{ else }}Professional{{ end }}</option>
+            </select>
+          </div>
+
+          <div class="mb-6">
+            <label class="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-2">
+              {{ if eq .Site.Language.Lang "it" }}Corso di Laurea{{ else }}Degree Program{{ end }}<span class="text-red-500 ml-1">*</span>
+            </label>
+            <input type="text" id="degree_program" name="degree_program" required
+              class="w-full px-4 py-3 border border-neutral-300 dark:border-neutral-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 bg-white dark:bg-neutral-800 text-neutral-900 dark:text-neutral-100 placeholder-neutral-500 dark:placeholder-neutral-400 transition-colors duration-200"
+              placeholder="{{ if eq .Site.Language.Lang "it" }}es. Ingegneria Fisica, Fisica, Informatica...{{ else }}e.g. Physics Engineering, Physics, Computer Science...{{ end }}">
+          </div>
+        </div>
+      </div>
+
+      <!-- Quantum Computing Experience -->
+      <div class="bg-gradient-to-r from-purple-50 to-pink-50 dark:from-neutral-800 dark:to-neutral-800 rounded-lg p-6">
+        <h3 class="text-xl font-semibold text-neutral-800 dark:text-neutral-100 mb-6">
+          {{ if eq .Site.Language.Lang "it" }}Esperienza nel Quantum Computing{{ else }}Quantum Computing Experience{{ end }}
+        </h3>
+
+        <div class="mb-6">
+          <fieldset>
+            <legend class="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-4">
+              {{ if eq .Site.Language.Lang "it" }}Qual è il tuo livello di esperienza con il quantum computing?{{ else }}What is your level of experience with quantum computing?{{ end }}<span class="text-red-500 ml-1">*</span>
+            </legend>
+            <div class="space-y-4">
+              <div class="flex items-center mt-3">
+                <input type="radio" id="exp_none" name="quantum_experience" value="none" required
+                  class="h-4 w-4 text-primary-500 border-neutral-300 dark:border-neutral-600 focus:ring-primary-500 bg-white dark:bg-neutral-800">
+                <label for="exp_none" class="ml-3 text-sm text-neutral-700 dark:text-neutral-300">
+                  {{ if eq .Site.Language.Lang "it" }}Nessuna esperienza - sono molto curioso di imparare{{ else }}No experience - very curious to learn{{ end }}
+                </label>
+              </div>
+              <div class="flex items-center mt-3">
+                <input type="radio" id="exp_basic" name="quantum_experience" value="basic" required
+                  class="h-4 w-4 text-primary-500 border-neutral-300 dark:border-neutral-600 focus:ring-primary-500 bg-white dark:bg-neutral-800">
+                <label for="exp_basic" class="ml-3 text-sm text-neutral-700 dark:text-neutral-300">
+                  {{ if eq .Site.Language.Lang "it" }}Conoscenze di base - ho letto articoli o seguito corsi introduttivi{{ else }}Basic knowledge - read articles or took introductory courses{{ end }}
+                </label>
+              </div>
+              <div class="flex items-center mt-3">
+                <input type="radio" id="exp_intermediate" name="quantum_experience" value="intermediate" required
+                  class="h-4 w-4 text-primary-500 border-neutral-300 dark:border-neutral-600 focus:ring-primary-500 bg-white dark:bg-neutral-800">
+                <label for="exp_intermediate" class="ml-3 text-sm text-neutral-700 dark:text-neutral-300">
+                  {{ if eq .Site.Language.Lang "it" }}Livello intermedio - ho studiato la teoria e fatto alcuni esercizi{{ else }}Intermediate - studied theory and did some exercises{{ end }}
+                </label>
+              </div>
+              <div class="flex items-center mt-3">
+                <input type="radio" id="exp_advanced" name="quantum_experience" value="advanced" required
+                  class="h-4 w-4 text-primary-500 border-neutral-300 dark:border-neutral-600 focus:ring-primary-500 bg-white dark:bg-neutral-800">
+                <label for="exp_advanced" class="ml-3 text-sm text-neutral-700 dark:text-neutral-300">
+                  {{ if eq .Site.Language.Lang "it" }}Livello avanzato - ho esperienza pratica con simulatori o hardware reale{{ else }}Advanced - practical experience with simulators or real hardware{{ end }}
+                </label>
+              </div>
+            </div>
+          </fieldset>
+        </div>
+
+        <div class="mb-6">
+          <label class="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-2">
+            {{ if eq .Site.Language.Lang "it" }}Descrivi eventuali progetti, corsi o esperienze legate al quantum computing{{ else }}Describe any projects, courses, or experiences related to quantum computing{{ end }}
+          </label>
+          <textarea id="quantum_projects" name="quantum_projects" rows="4"
+            class="w-full px-4 py-3 border border-neutral-300 dark:border-neutral-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 bg-white dark:bg-neutral-800 text-neutral-900 dark:text-neutral-100 placeholder-neutral-500 dark:placeholder-neutral-400 transition-colors duration-200 resize-y"
+            placeholder="{{ if eq .Site.Language.Lang "it" }}es. Progetto universitario su algoritmo di Grover, corso online su Qiskit...{{ else }}e.g. University project on Grover's algorithm, online course on Qiskit...{{ end }}"></textarea>
+        </div>
+      </div>
+
+      <!-- Team Interests -->
+      <div class="bg-gradient-to-r from-teal-50 to-cyan-50 dark:from-neutral-800 dark:to-neutral-800 rounded-lg p-6">
+        <h3 class="text-xl font-semibold text-neutral-800 dark:text-neutral-100 mb-6">
+          {{ if eq .Site.Language.Lang "it" }}Interessi nel Team{{ else }}Team Interests{{ end }}
+        </h3>
+
+        <div class="mb-6">
+          <fieldset>
+            <legend class="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-4">
+              {{ if eq .Site.Language.Lang "it" }}Quali divisioni di QubiTO ti interessano di più? (Seleziona almeno una){{ else }}Which QubiTO divisions interest you most? (Select at least one){{ end }}<span class="text-red-500 ml-1">*</span>
+            </legend>
+            <div class="space-y-4">
+              <div class="flex items-center mt-3">
+                <input type="checkbox" id="div_hardware" name="division_interests[]" value="hardware"
+                  class="h-4 w-4 text-primary-500 border-neutral-300 dark:border-neutral-600 rounded focus:ring-primary-500 bg-white dark:bg-neutral-800">
+                <label for="div_hardware" class="ml-3 text-sm text-neutral-700 dark:text-neutral-300">
+                  {{ if eq .Site.Language.Lang "it" }}Hardware - Sistemi fisici e elettronica quantistica{{ else }}Hardware - Physical systems and quantum electronics{{ end }}
+                </label>
+              </div>
+              <div class="flex items-center mt-3">
+                <input type="checkbox" id="div_decoherence" name="division_interests[]" value="decoherence"
+                  class="h-4 w-4 text-primary-500 border-neutral-300 dark:border-neutral-600 rounded focus:ring-primary-500 bg-white dark:bg-neutral-800">
+                <label for="div_decoherence" class="ml-3 text-sm text-neutral-700 dark:text-neutral-300">
+                  {{ if eq .Site.Language.Lang "it" }}Decoerenza - Studio dei meccanismi di deterioramento quantistico{{ else }}Decoherence - Study of quantum deterioration mechanisms{{ end }}
+                </label>
+              </div>
+              <div class="flex items-center mt-3">
+                <input type="checkbox" id="div_error" name="division_interests[]" value="error_correction"
+                  class="h-4 w-4 text-primary-500 border-neutral-300 dark:border-neutral-600 rounded focus:ring-primary-500 bg-white dark:bg-neutral-800">
+                <label for="div_error" class="ml-3 text-sm text-neutral-700 dark:text-neutral-300">
+                  {{ if eq .Site.Language.Lang "it" }}Correzione Errori - Algoritmi per recuperare informazioni corrotte{{ else }}Error Correction - Algorithms to recover corrupted information{{ end }}
+                </label>
+              </div>
+              <div class="flex items-center mt-3">
+                <input type="checkbox" id="div_programming" name="division_interests[]" value="programming"
+                  class="h-4 w-4 text-primary-500 border-neutral-300 dark:border-neutral-600 rounded focus:ring-primary-500 bg-white dark:bg-neutral-800">
+                <label for="div_programming" class="ml-3 text-sm text-neutral-700 dark:text-neutral-300">
+                  {{ if eq .Site.Language.Lang "it" }}Programmazione - Combinazione di gate quantistici e algoritmi{{ else }}Programming - Combination of quantum gates and algorithms{{ end }}
+                </label>
+              </div>
+              <div class="flex items-center mt-3">
+                <input type="checkbox" id="div_math" name="division_interests[]" value="math_communication"
+                  class="h-4 w-4 text-primary-500 border-neutral-300 dark:border-neutral-600 rounded focus:ring-primary-500 bg-white dark:bg-neutral-800">
+                <label for="div_math" class="ml-3 text-sm text-neutral-700 dark:text-neutral-300">
+                  {{ if eq .Site.Language.Lang "it" }}Metodi Matematici e Comunicazione{{ else }}Mathematical Methods & Communication{{ end }}
+                </label>
+              </div>
+              <div class="flex items-center mt-3">
+                <input type="checkbox" id="div_outreach" name="division_interests[]" value="outreach"
+                  class="h-4 w-4 text-primary-500 border-neutral-300 dark:border-neutral-600 rounded focus:ring-primary-500 bg-white dark:bg-neutral-800">
+                <label for="div_outreach" class="ml-3 text-sm text-neutral-700 dark:text-neutral-300">
+                  {{ if eq .Site.Language.Lang "it" }}Divulgazione - Social media, sito web, eventi pubblici{{ else }}Outreach - Social media, website, public events{{ end }}
+                </label>
+              </div>
+            </div>
+          </fieldset>
+        </div>
+
+        <div class="mb-6">
+          <label class="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-2">
+            {{ if eq .Site.Language.Lang "it" }}Quanto tempo puoi dedicare alle attività di QubiTO?{{ else }}How much time can you dedicate to QubiTO activities?{{ end }}<span class="text-red-500 ml-1">*</span>
+          </label>
+          <select id="time_availability" name="time_availability" required
+            class="w-full px-4 py-3 border border-neutral-300 dark:border-neutral-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 bg-white dark:bg-neutral-800 text-neutral-900 dark:text-neutral-100 transition-colors duration-200 appearance-none">
+            <option value="">{{ if eq .Site.Language.Lang "it" }}Seleziona...{{ else }}Select...{{ end }}</option>
+            <option value="2-4_hours">{{ if eq .Site.Language.Lang "it" }}2-4 ore a settimana{{ else }}2-4 hours per week{{ end }}</option>
+            <option value="5-8_hours">{{ if eq .Site.Language.Lang "it" }}5-8 ore a settimana{{ else }}5-8 hours per week{{ end }}</option>
+            <option value="9-15_hours">{{ if eq .Site.Language.Lang "it" }}9-15 ore a settimana{{ else }}9-15 hours per week{{ end }}</option>
+            <option value="flexible">{{ if eq .Site.Language.Lang "it" }}Varia in base ai progetti e agli impegni accademici{{ else }}Varies based on projects and academic commitments{{ end }}</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Motivation -->
+      <div class="bg-gradient-to-r from-violet-50 to-purple-50 dark:from-neutral-800 dark:to-neutral-800 rounded-lg p-6">
+        <h3 class="text-xl font-semibold text-neutral-800 dark:text-neutral-100 mb-6">
+          {{ if eq .Site.Language.Lang "it" }}Motivazioni{{ else }}Motivation{{ end }}
+        </h3>
+
+        <div class="mb-6">
+          <label class="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-2">
+            {{ if eq .Site.Language.Lang "it" }}Perché vuoi unirti a QubiTO? Cosa ti motiva nel quantum computing?{{ else }}Why do you want to join QubiTO? What motivates you about quantum computing?{{ end }}<span class="text-red-500 ml-1">*</span>
+          </label>
+          <textarea id="motivation" name="motivation" rows="5" required
+            class="w-full px-4 py-3 border border-neutral-300 dark:border-neutral-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 bg-white dark:bg-neutral-800 text-neutral-900 dark:text-neutral-100 placeholder-neutral-500 dark:placeholder-neutral-400 transition-colors duration-200 resize-y"
+            placeholder="{{ if eq .Site.Language.Lang "it" }}Condividi la tua passione per il quantum computing, cosa speri di imparare...{{ else }}Share your passion for quantum computing, what you hope to learn...{{ end }}"></textarea>
+        </div>
+
+        <div class="mb-6">
+          <label class="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-2">
+            {{ if eq .Site.Language.Lang "it" }}C'è qualcos'altro che vorresti condividere con noi?{{ else }}Is there anything else you'd like to share with us?{{ end }}
+          </label>
+          <textarea id="additional_info" name="additional_info" rows="3"
+            class="w-full px-4 py-3 border border-neutral-300 dark:border-neutral-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 bg-white dark:bg-neutral-800 text-neutral-900 dark:text-neutral-100 placeholder-neutral-500 dark:placeholder-neutral-400 transition-colors duration-200 resize-y"
+            placeholder="{{ if eq .Site.Language.Lang "it" }}Esperienze particolari, progetti personali, interessi correlati...{{ else }}Special experiences, personal projects, related interests...{{ end }}"></textarea>
+        </div>
+      </div>
+
+      <!-- Email Copy Option -->
+      <div class="pt-6 flex ml-6">
+        <div class="flex items-center">
+          <input type="checkbox" id="email_copy" name="email_copy" value="true"
+            class="h-4 w-4 text-primary-500 border-neutral-300 dark:border-neutral-600 rounded focus:ring-primary-500 bg-white dark:bg-neutral-800 mr-2">
+          <label for="email_copy" class="text-sm text-neutral-600 dark:text-neutral-400">
+            {{ if eq .Site.Language.Lang "it" }}Invia una copia delle risposte via email{{ else }}Send me a copy of my responses{{ end }}
+          </label>
+        </div>
+      </div>
+
+      <!-- Submit Button -->
+      <div class="pt-4 text-center">
+        {{ if eq .Site.Language.Lang "it" }}
+          {{ partial "button" (dict "type" "submit" "id" "submit-btn" "content" "Invia Candidatura") }}
+        {{ else }}
+          {{ partial "button" (dict "type" "submit" "id" "submit-btn" "content" "Submit Application") }}
+        {{ end }}
+        <div class="mt-6"></div>
+      </div>
+
+      <!-- Form Status Messages -->
+      <div id="form-status" class="hidden text-center p-6 rounded-xl"></div>
+    </form>
+  </div>
+
+</article>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  var form = document.getElementById('join-us-form');
+  var submitBtn = document.getElementById('submit-btn');
+  var statusDiv = document.getElementById('form-status');
+
+  var loadingText = {{ if eq .Site.Language.Lang "it" }}"Invio in corso..."{{ else }}"Submitting..."{{ end }};
+  var submitText = {{ if eq .Site.Language.Lang "it" }}"Invia Candidatura"{{ else }}"Submit Application"{{ end }};
+  var loadingMessage = {{ if eq .Site.Language.Lang "it" }}"Invio della candidatura in corso..."{{ else }}"Submitting your application..."{{ end }};
+  var successTitle = {{ if eq .Site.Language.Lang "it" }}"Candidatura inviata con successo!"{{ else }}"Application submitted successfully!"{{ end }};
+  var successMessage = {{ if eq .Site.Language.Lang "it" }}"Grazie per il tuo interesse in QubiTO! Ti contatteremo presto."{{ else }}"Thank you for your interest in QubiTO! We'll contact you soon."{{ end }};
+
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = loadingText;
+
+    statusDiv.className = 'text-center p-6 rounded-xl bg-blue-50 dark:bg-blue-900 text-blue-800 dark:text-blue-200 border border-blue-200 dark:border-blue-700';
+    statusDiv.textContent = loadingMessage;
+    statusDiv.classList.remove('hidden');
+
+    setTimeout(function() {
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = submitText;
+
+      statusDiv.className = 'text-center p-6 rounded-xl bg-green-50 dark:bg-green-900 text-green-800 dark:text-green-200 border border-green-200 dark:border-green-700';
+      statusDiv.innerHTML = '<div class="font-bold text-xl mb-2">' + successTitle + '</div><div class="text-sm">' + successMessage + '</div>';
+
+      form.reset();
+
+      setTimeout(function() {
+        statusDiv.classList.add('hidden');
+      }, 10000);
+
+    }, 3000);
+  });
+});
+</script>
+
+{{ end }}
