@@ -28,7 +28,7 @@ weight = 12
 
 [[main]]
 name = "Unisciti a noi"
-url = "/join-us/"
+url = "/en/join-us/"
 # pre = "users-plus"
 pageRef = "join-us"
 identifier = "Tj5XqJOINUS"

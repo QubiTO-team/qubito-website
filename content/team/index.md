@@ -58,9 +58,4 @@ Una sesta divisione si occupa della divulgazione esterna al team tramite i canal
 
  Una sottodivisione di programmatori si occupa inoltre della gestione e del miglioramento del sito.
 
----
-
-<div style="text-align: center;">
-  <h2>Vuoi far parte del nostro team?</h2>
-  {{< button href="/join-us/" >}}Unisciti a Noi{{< /button >}}
-</div>
+{{< join-us-section >}}

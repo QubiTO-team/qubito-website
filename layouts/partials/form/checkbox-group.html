@@ -1,22 +1,22 @@
 {{- $id := .id -}} {{- $label := .label -}} {{- $options := .options -}} {{-
-$required := .required | default false -}}
+$required := .required | default false -}} {{- $name := .name | default .id -}}
 
 <div class="mb-6">
     <fieldset>
         <legend
-            class="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-4"
+            class="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-6"
         >
             {{ $label }}{{ if $required }}<span class="text-red-500 ml-1"
                 >*</span
             >{{ end }}
         </legend>
-        <div class="space-y-4">
+        <div class="space-y-4 mx-4">
             {{- range $index, $option := $options -}}
-            <div class="flex items-center mt-3">
+            <div class="flex items-center">
                 <input
                     type="checkbox"
                     id="{{ $id }}_{{ $index }}"
-                    name="{{ $id }}[]"
+                    name="{{ $name }}[]"
                     value="{{ $option.value }}"
                     class="h-4 w-4 text-primary-500 border-neutral-300 dark:border-neutral-600 rounded focus:ring-primary-500 bg-white dark:bg-neutral-800"
                 />

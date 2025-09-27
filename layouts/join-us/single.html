@@ -12,6 +12,49 @@
     {{ end }}
   </header>
 
+  {{ if eq .Site.Language.Lang "it" }}
+  <!-- Italian page redirect message -->
+  <div class="text-center py-16">
+    <div class="max-w-2xl mx-auto">
+      <h2 class="text-2xl font-bold text-neutral-800 dark:text-neutral-100 mb-6">
+        Pagina non disponibile
+      </h2>
+      <p class="text-lg text-neutral-600 dark:text-neutral-400 mb-8">
+        Questa pagina è disponibile solo in inglese. Clicca il pulsante qui sotto per visualizzarla.
+      </p>
+      <div class="space-y-4">
+        {{ partial "button" (dict "href" "/en/join-us/" "content" "Vai alla versione inglese") }}
+      </div>
+    </div>
+  </div>
+  {{ else if not .Site.Params.isRecruiting }}
+  <div class="text-center py-16">
+    <div class="max-w-2xl mx-auto">
+      <h2 class="text-2xl font-bold text-neutral-800 dark:text-neutral-100 mb-6">
+        {{ if eq .Site.Language.Lang "it" }}
+          Al momento non stiamo reclutando
+        {{ else }}
+          We are not currently recruiting
+        {{ end }}
+      </h2>
+      <p class="text-lg text-neutral-600 dark:text-neutral-400 mb-8">
+        {{ if eq .Site.Language.Lang "it" }}
+          Grazie per il tuo interesse nel far parte di QubiTO! Al momento non abbiamo posizioni aperte, ma ti invitiamo a seguirci sui nostri canali social per rimanere aggiornato su future opportunità.
+        {{ else }}
+          Thank you for your interest in joining QubiTO! We don't currently have open positions, but we invite you to follow us on our social channels to stay updated on future opportunities.
+        {{ end }}
+      </p>
+      <div class="space-y-4">
+        {{ if eq .Site.Language.Lang "it" }}
+          {{ partial "button" (dict "href" "/team/" "content" "Scopri il nostro team") }}
+        {{ else }}
+          {{ partial "button" (dict "href" "/en/team/" "content" "Discover our team") }}
+        {{ end }}
+      </div>
+    </div>
+  </div>
+  {{ else }}
+
   <div class="prose prose-neutral dark:prose-invert mb-8 max-w-3xl mx-auto">
     {{ .Content }}
   </div>
@@ -19,259 +62,73 @@
   <!-- Application Form -->
   <div class="bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-700 rounded-xl shadow-xl p-8">
 
-    <form id="join-us-form" class="space-y-8">
+    <form id="join-us-form" action="{{ .Site.Params.googleFormUrl }}" method="POST"
+        class="space-y-6 p-4"
+        target="hidden_iframe"
+        onsubmit="submitted=true"
+    >
 
-      <!-- Personal Information -->
-      <div class="bg-gradient-to-r from-blue-50 to-purple-50 dark:from-neutral-800 dark:to-neutral-800 rounded-lg p-6">
-        <h3 class="text-xl font-semibold text-neutral-800 dark:text-neutral-100 mb-6">
-          {{ if eq .Site.Language.Lang "it" }}Informazioni Personali{{ else }}Personal Information{{ end }}
-        </h3>
+      {{ partial "form/text-input" (dict "id" "name_surname" "name" "entry.549661010" "label" "Name and Surname" "required" true) }}
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div class="mb-6">
-            <label class="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-2">
-              {{ if eq .Site.Language.Lang "it" }}Nome{{ else }}First Name{{ end }}<span class="text-red-500 ml-1">*</span>
-            </label>
-            <input type="text" id="first_name" name="first_name" required
-              class="w-full px-4 py-3 border border-neutral-300 dark:border-neutral-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 bg-white dark:bg-neutral-800 text-neutral-900 dark:text-neutral-100 placeholder-neutral-500 dark:placeholder-neutral-400 transition-colors duration-200"
-              placeholder="{{ if eq .Site.Language.Lang "it" }}Il tuo nome{{ else }}Your first name{{ end }}">
-          </div>
+      {{ partial "form/text-input" (dict "id" "id_number" "name" "entry.1934738868" "label" "ID Number" "required" true) }}
 
-          <div class="mb-6">
-            <label class="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-2">
-              {{ if eq .Site.Language.Lang "it" }}Cognome{{ else }}Last Name{{ end }}<span class="text-red-500 ml-1">*</span>
-            </label>
-            <input type="text" id="last_name" name="last_name" required
-              class="w-full px-4 py-3 border border-neutral-300 dark:border-neutral-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 bg-white dark:bg-neutral-800 text-neutral-900 dark:text-neutral-100 placeholder-neutral-500 dark:placeholder-neutral-400 transition-colors duration-200"
-              placeholder="{{ if eq .Site.Language.Lang "it" }}Il tuo cognome{{ else }}Your last name{{ end }}">
-          </div>
-        </div>
+      {{ partial "form/text-input" (dict "id" "email" "name" "entry.661787044" "label" "Instutional Mail Address" "type" "email" "required" true) }}
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div class="mb-6">
-            <label class="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-2">
-              Email<span class="text-red-500 ml-1">*</span>
-            </label>
-            <input type="email" id="email" name="email" required
-              class="w-full px-4 py-3 border border-neutral-300 dark:border-neutral-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 bg-white dark:bg-neutral-800 text-neutral-900 dark:text-neutral-100 placeholder-neutral-500 dark:placeholder-neutral-400 transition-colors duration-200"
-              placeholder="nome.cognome@studenti.polito.it">
-          </div>
+      {{ partial "form/text-input" (dict "id" "major" "name" "entry.1967944721" "label" "Which major are you?" "required" true) }}
 
-          <div class="mb-6">
-            <label class="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-2">
-              {{ if eq .Site.Language.Lang "it" }}Telefono (Facoltativo){{ else }}Phone (Optional){{ end }}
-            </label>
-            <input type="tel" id="phone" name="phone"
-              class="w-full px-4 py-3 border border-neutral-300 dark:border-neutral-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 bg-white dark:bg-neutral-800 text-neutral-900 dark:text-neutral-100 placeholder-neutral-500 dark:placeholder-neutral-400 transition-colors duration-200"
-              placeholder="+39 123 456 7890">
-          </div>
-        </div>
-      </div>
+      {{ partial "form/text-input" (dict "id" "years_complete" "name" "entry.1198730495" "label" "In your opinion, in how many years will you be able to complete your studies?" "required" true) }}
 
-      <!-- Academic Background -->
-      <div class="bg-gradient-to-r from-green-50 to-blue-50 dark:from-neutral-800 dark:to-neutral-800 rounded-lg p-6">
-        <h3 class="text-xl font-semibold text-neutral-800 dark:text-neutral-100 mb-6">
-          {{ if eq .Site.Language.Lang "it" }}Formazione Accademica{{ else }}Academic Background{{ end }}
-        </h3>
+      {{ partial "form/radio-group" (dict "id" "year_student" "name" "entry.1318495168" "label" "Which year student are you?" "required" true "options" (slice
+        (dict "value" "1st year of bachelors" "label" "1st year of bachelors")
+        (dict "value" "2nd year of bachelors" "label" "2nd year of bachelors")
+        (dict "value" "3nd year of bachelors" "label" "3nd year of bachelors")
+        (dict "value" "1st year of masters" "label" "1st year of masters")
+        (dict "value" "2nd year of masters" "label" "2nd year of masters")
+      )) }}
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div class="mb-6">
-            <label class="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-2">
-              {{ if eq .Site.Language.Lang "it" }}Stato Attuale{{ else }}Current Status{{ end }}<span class="text-red-500 ml-1">*</span>
-            </label>
-            <select id="student_status" name="student_status" required
-              class="w-full px-4 py-3 border border-neutral-300 dark:border-neutral-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 bg-white dark:bg-neutral-800 text-neutral-900 dark:text-neutral-100 transition-colors duration-200 appearance-none">
-              <option value="">{{ if eq .Site.Language.Lang "it" }}Seleziona...{{ else }}Select...{{ end }}</option>
-              <option value="bachelor_polito">{{ if eq .Site.Language.Lang "it" }}Studente Triennale - Politecnico di Torino{{ else }}Bachelor Student - Politecnico di Torino{{ end }}</option>
-              <option value="master_polito">{{ if eq .Site.Language.Lang "it" }}Studente Magistrale - Politecnico di Torino{{ else }}Master Student - Politecnico di Torino{{ end }}</option>
-              <option value="phd_polito">{{ if eq .Site.Language.Lang "it" }}Dottorando - Politecnico di Torino{{ else }}PhD Student - Politecnico di Torino{{ end }}</option>
-              <option value="bachelor_other">{{ if eq .Site.Language.Lang "it" }}Studente Triennale - Altra Università{{ else }}Bachelor Student - Other University{{ end }}</option>
-              <option value="master_other">{{ if eq .Site.Language.Lang "it" }}Studente Magistrale - Altra Università{{ else }}Master Student - Other University{{ end }}</option>
-              <option value="graduate">{{ if eq .Site.Language.Lang "it" }}Laureato{{ else }}Graduate{{ end }}</option>
-              <option value="professional">{{ if eq .Site.Language.Lang "it" }}Professionista{{ else }}Professional{{ end }}</option>
-            </select>
-          </div>
+      {{ partial "form/star-rating" (dict "id" "english_abilities" "name" "entry.1217868080" "label" "How would you rate your English speaking abilities?" "required" true "max" 5) }}
 
-          <div class="mb-6">
-            <label class="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-2">
-              {{ if eq .Site.Language.Lang "it" }}Corso di Laurea{{ else }}Degree Program{{ end }}<span class="text-red-500 ml-1">*</span>
-            </label>
-            <input type="text" id="degree_program" name="degree_program" required
-              class="w-full px-4 py-3 border border-neutral-300 dark:border-neutral-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 bg-white dark:bg-neutral-800 text-neutral-900 dark:text-neutral-100 placeholder-neutral-500 dark:placeholder-neutral-400 transition-colors duration-200"
-              placeholder="{{ if eq .Site.Language.Lang "it" }}es. Ingegneria Fisica, Fisica, Informatica...{{ else }}e.g. Physics Engineering, Physics, Computer Science...{{ end }}">
-          </div>
-        </div>
-      </div>
+      {{ partial "form/radio-group" (dict "id" "other_team" "name" "entry.749971554" "label" "Are you currently a part of another student team?" "required" true "options" (slice
+        (dict "value" "Yes, more than one" "label" "Yes, more than one")
+        (dict "value" "Yes, one" "label" "Yes, one")
+        (dict "value" "No" "label" "No")
+      )) }}
 
-      <!-- Quantum Computing Experience -->
-      <div class="bg-gradient-to-r from-purple-50 to-pink-50 dark:from-neutral-800 dark:to-neutral-800 rounded-lg p-6">
-        <h3 class="text-xl font-semibold text-neutral-800 dark:text-neutral-100 mb-6">
-          {{ if eq .Site.Language.Lang "it" }}Esperienza nel Quantum Computing{{ else }}Quantum Computing Experience{{ end }}
-        </h3>
+      {{ partial "form/radio-group" (dict "id" "social_media" "name" "entry.580941735" "label" "Are you applying for the social media manager role?" "required" true "options" (slice
+        (dict "value" "Yes" "label" "Yes")
+        (dict "value" "No" "label" "No")
+      )) }}
 
-        <div class="mb-6">
-          <fieldset>
-            <legend class="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-4">
-              {{ if eq .Site.Language.Lang "it" }}Qual è il tuo livello di esperienza con il quantum computing?{{ else }}What is your level of experience with quantum computing?{{ end }}<span class="text-red-500 ml-1">*</span>
-            </legend>
-            <div class="space-y-4">
-              <div class="flex items-center mt-3">
-                <input type="radio" id="exp_none" name="quantum_experience" value="none" required
-                  class="h-4 w-4 text-primary-500 border-neutral-300 dark:border-neutral-600 focus:ring-primary-500 bg-white dark:bg-neutral-800">
-                <label for="exp_none" class="ml-3 text-sm text-neutral-700 dark:text-neutral-300">
-                  {{ if eq .Site.Language.Lang "it" }}Nessuna esperienza - sono molto curioso di imparare{{ else }}No experience - very curious to learn{{ end }}
-                </label>
-              </div>
-              <div class="flex items-center mt-3">
-                <input type="radio" id="exp_basic" name="quantum_experience" value="basic" required
-                  class="h-4 w-4 text-primary-500 border-neutral-300 dark:border-neutral-600 focus:ring-primary-500 bg-white dark:bg-neutral-800">
-                <label for="exp_basic" class="ml-3 text-sm text-neutral-700 dark:text-neutral-300">
-                  {{ if eq .Site.Language.Lang "it" }}Conoscenze di base - ho letto articoli o seguito corsi introduttivi{{ else }}Basic knowledge - read articles or took introductory courses{{ end }}
-                </label>
-              </div>
-              <div class="flex items-center mt-3">
-                <input type="radio" id="exp_intermediate" name="quantum_experience" value="intermediate" required
-                  class="h-4 w-4 text-primary-500 border-neutral-300 dark:border-neutral-600 focus:ring-primary-500 bg-white dark:bg-neutral-800">
-                <label for="exp_intermediate" class="ml-3 text-sm text-neutral-700 dark:text-neutral-300">
-                  {{ if eq .Site.Language.Lang "it" }}Livello intermedio - ho studiato la teoria e fatto alcuni esercizi{{ else }}Intermediate - studied theory and did some exercises{{ end }}
-                </label>
-              </div>
-              <div class="flex items-center mt-3">
-                <input type="radio" id="exp_advanced" name="quantum_experience" value="advanced" required
-                  class="h-4 w-4 text-primary-500 border-neutral-300 dark:border-neutral-600 focus:ring-primary-500 bg-white dark:bg-neutral-800">
-                <label for="exp_advanced" class="ml-3 text-sm text-neutral-700 dark:text-neutral-300">
-                  {{ if eq .Site.Language.Lang "it" }}Livello avanzato - ho esperienza pratica con simulatori o hardware reale{{ else }}Advanced - practical experience with simulators or real hardware{{ end }}
-                </label>
-              </div>
-            </div>
-          </fieldset>
-        </div>
+      <div id="technical-fields" style="display: none;">
+        {{ partial "form/star-rating" (dict "id" "rf_engineering" "name" "entry.1162883226" "label" "How much do you know about Radio Frequency Engineering?" "required" true "max" 10) }}
 
-        <div class="mb-6">
-          <label class="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-2">
-            {{ if eq .Site.Language.Lang "it" }}Descrivi eventuali progetti, corsi o esperienze legate al quantum computing{{ else }}Describe any projects, courses, or experiences related to quantum computing{{ end }}
-          </label>
-          <textarea id="quantum_projects" name="quantum_projects" rows="4"
-            class="w-full px-4 py-3 border border-neutral-300 dark:border-neutral-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 bg-white dark:bg-neutral-800 text-neutral-900 dark:text-neutral-100 placeholder-neutral-500 dark:placeholder-neutral-400 transition-colors duration-200 resize-y"
-            placeholder="{{ if eq .Site.Language.Lang "it" }}es. Progetto universitario su algoritmo di Grover, corso online su Qiskit...{{ else }}e.g. University project on Grover's algorithm, online course on Qiskit...{{ end }}"></textarea>
-        </div>
-      </div>
+        {{ partial "form/star-rating" (dict "id" "fpga" "name" "entry.1653166584" "label" "How much do you know about FPGAs?" "required" true "max" 10) }}
 
-      <!-- Team Interests -->
-      <div class="bg-gradient-to-r from-teal-50 to-cyan-50 dark:from-neutral-800 dark:to-neutral-800 rounded-lg p-6">
-        <h3 class="text-xl font-semibold text-neutral-800 dark:text-neutral-100 mb-6">
-          {{ if eq .Site.Language.Lang "it" }}Interessi nel Team{{ else }}Team Interests{{ end }}
-        </h3>
+        {{ partial "form/star-rating" (dict "id" "python_coding" "name" "entry.2142560715" "label" "How familiar are you with coding, especially in Python?" "required" true "max" 10) }}
 
-        <div class="mb-6">
-          <fieldset>
-            <legend class="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-4">
-              {{ if eq .Site.Language.Lang "it" }}Quali divisioni di QubiTO ti interessano di più? (Seleziona almeno una){{ else }}Which QubiTO divisions interest you most? (Select at least one){{ end }}<span class="text-red-500 ml-1">*</span>
-            </legend>
-            <div class="space-y-4">
-              <div class="flex items-center mt-3">
-                <input type="checkbox" id="div_hardware" name="division_interests[]" value="hardware"
-                  class="h-4 w-4 text-primary-500 border-neutral-300 dark:border-neutral-600 rounded focus:ring-primary-500 bg-white dark:bg-neutral-800">
-                <label for="div_hardware" class="ml-3 text-sm text-neutral-700 dark:text-neutral-300">
-                  {{ if eq .Site.Language.Lang "it" }}Hardware - Sistemi fisici e elettronica quantistica{{ else }}Hardware - Physical systems and quantum electronics{{ end }}
-                </label>
-              </div>
-              <div class="flex items-center mt-3">
-                <input type="checkbox" id="div_decoherence" name="division_interests[]" value="decoherence"
-                  class="h-4 w-4 text-primary-500 border-neutral-300 dark:border-neutral-600 rounded focus:ring-primary-500 bg-white dark:bg-neutral-800">
-                <label for="div_decoherence" class="ml-3 text-sm text-neutral-700 dark:text-neutral-300">
-                  {{ if eq .Site.Language.Lang "it" }}Decoerenza - Studio dei meccanismi di deterioramento quantistico{{ else }}Decoherence - Study of quantum deterioration mechanisms{{ end }}
-                </label>
-              </div>
-              <div class="flex items-center mt-3">
-                <input type="checkbox" id="div_error" name="division_interests[]" value="error_correction"
-                  class="h-4 w-4 text-primary-500 border-neutral-300 dark:border-neutral-600 rounded focus:ring-primary-500 bg-white dark:bg-neutral-800">
-                <label for="div_error" class="ml-3 text-sm text-neutral-700 dark:text-neutral-300">
-                  {{ if eq .Site.Language.Lang "it" }}Correzione Errori - Algoritmi per recuperare informazioni corrotte{{ else }}Error Correction - Algorithms to recover corrupted information{{ end }}
-                </label>
-              </div>
-              <div class="flex items-center mt-3">
-                <input type="checkbox" id="div_programming" name="division_interests[]" value="programming"
-                  class="h-4 w-4 text-primary-500 border-neutral-300 dark:border-neutral-600 rounded focus:ring-primary-500 bg-white dark:bg-neutral-800">
-                <label for="div_programming" class="ml-3 text-sm text-neutral-700 dark:text-neutral-300">
-                  {{ if eq .Site.Language.Lang "it" }}Programmazione - Combinazione di gate quantistici e algoritmi{{ else }}Programming - Combination of quantum gates and algorithms{{ end }}
-                </label>
-              </div>
-              <div class="flex items-center mt-3">
-                <input type="checkbox" id="div_math" name="division_interests[]" value="math_communication"
-                  class="h-4 w-4 text-primary-500 border-neutral-300 dark:border-neutral-600 rounded focus:ring-primary-500 bg-white dark:bg-neutral-800">
-                <label for="div_math" class="ml-3 text-sm text-neutral-700 dark:text-neutral-300">
-                  {{ if eq .Site.Language.Lang "it" }}Metodi Matematici e Comunicazione{{ else }}Mathematical Methods & Communication{{ end }}
-                </label>
-              </div>
-              <div class="flex items-center mt-3">
-                <input type="checkbox" id="div_outreach" name="division_interests[]" value="outreach"
-                  class="h-4 w-4 text-primary-500 border-neutral-300 dark:border-neutral-600 rounded focus:ring-primary-500 bg-white dark:bg-neutral-800">
-                <label for="div_outreach" class="ml-3 text-sm text-neutral-700 dark:text-neutral-300">
-                  {{ if eq .Site.Language.Lang "it" }}Divulgazione - Social media, sito web, eventi pubblici{{ else }}Outreach - Social media, website, public events{{ end }}
-                </label>
-              </div>
-            </div>
-          </fieldset>
-        </div>
+        {{ partial "form/star-rating" (dict "id" "quantum_mechanics" "name" "entry.624271257" "label" "How familiar are you with concepts in quantum mechanics?" "required" true "max" 10) }}
 
-        <div class="mb-6">
-          <label class="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-2">
-            {{ if eq .Site.Language.Lang "it" }}Quanto tempo puoi dedicare alle attività di QubiTO?{{ else }}How much time can you dedicate to QubiTO activities?{{ end }}<span class="text-red-500 ml-1">*</span>
-          </label>
-          <select id="time_availability" name="time_availability" required
-            class="w-full px-4 py-3 border border-neutral-300 dark:border-neutral-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 bg-white dark:bg-neutral-800 text-neutral-900 dark:text-neutral-100 transition-colors duration-200 appearance-none">
-            <option value="">{{ if eq .Site.Language.Lang "it" }}Seleziona...{{ else }}Select...{{ end }}</option>
-            <option value="2-4_hours">{{ if eq .Site.Language.Lang "it" }}2-4 ore a settimana{{ else }}2-4 hours per week{{ end }}</option>
-            <option value="5-8_hours">{{ if eq .Site.Language.Lang "it" }}5-8 ore a settimana{{ else }}5-8 hours per week{{ end }}</option>
-            <option value="9-15_hours">{{ if eq .Site.Language.Lang "it" }}9-15 ore a settimana{{ else }}9-15 hours per week{{ end }}</option>
-            <option value="flexible">{{ if eq .Site.Language.Lang "it" }}Varia in base ai progetti e agli impegni accademici{{ else }}Varies based on projects and academic commitments{{ end }}</option>
-          </select>
-        </div>
-      </div>
+        {{ partial "form/radio-group" (dict "id" "qiskit" "name" "entry.1567563518" "label" "Do you know of Qiskit?" "required" true "options" (slice
+          (dict "value" "The squirrel sound?" "label" "The squirrel sound?")
+          (dict "value" "A little bit" "label" "A little bit")
+          (dict "value" "For sure!" "label" "For sure!")
+        )) }}
 
-      <!-- Motivation -->
-      <div class="bg-gradient-to-r from-violet-50 to-purple-50 dark:from-neutral-800 dark:to-neutral-800 rounded-lg p-6">
-        <h3 class="text-xl font-semibold text-neutral-800 dark:text-neutral-100 mb-6">
-          {{ if eq .Site.Language.Lang "it" }}Motivazioni{{ else }}Motivation{{ end }}
-        </h3>
+        {{ partial "form/radio-group" (dict "id" "studied_qc" "name" "entry.994432141" "label" "Have you ever studied Quantum Computing?" "required" true "options" (slice
+          (dict "value" "Yes, in an institution" "label" "Yes, in an institution")
+          (dict "value" "Yes, by myself" "label" "Yes, by myself")
+          (dict "value" "No" "label" "No")
+        )) }}
 
-        <div class="mb-6">
-          <label class="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-2">
-            {{ if eq .Site.Language.Lang "it" }}Perché vuoi unirti a QubiTO? Cosa ti motiva nel quantum computing?{{ else }}Why do you want to join QubiTO? What motivates you about quantum computing?{{ end }}<span class="text-red-500 ml-1">*</span>
-          </label>
-          <textarea id="motivation" name="motivation" rows="5" required
-            class="w-full px-4 py-3 border border-neutral-300 dark:border-neutral-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 bg-white dark:bg-neutral-800 text-neutral-900 dark:text-neutral-100 placeholder-neutral-500 dark:placeholder-neutral-400 transition-colors duration-200 resize-y"
-            placeholder="{{ if eq .Site.Language.Lang "it" }}Condividi la tua passione per il quantum computing, cosa speri di imparare...{{ else }}Share your passion for quantum computing, what you hope to learn...{{ end }}"></textarea>
-        </div>
-
-        <div class="mb-6">
-          <label class="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-2">
-            {{ if eq .Site.Language.Lang "it" }}C'è qualcos'altro che vorresti condividere con noi?{{ else }}Is there anything else you'd like to share with us?{{ end }}
-          </label>
-          <textarea id="additional_info" name="additional_info" rows="3"
-            class="w-full px-4 py-3 border border-neutral-300 dark:border-neutral-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 bg-white dark:bg-neutral-800 text-neutral-900 dark:text-neutral-100 placeholder-neutral-500 dark:placeholder-neutral-400 transition-colors duration-200 resize-y"
-            placeholder="{{ if eq .Site.Language.Lang "it" }}Esperienze particolari, progetti personali, interessi correlati...{{ else }}Special experiences, personal projects, related interests...{{ end }}"></textarea>
-        </div>
-      </div>
-
-      <!-- Email Copy Option -->
-      <div class="pt-6 flex ml-6">
-        <div class="flex items-center">
-          <input type="checkbox" id="email_copy" name="email_copy" value="true"
-            class="h-4 w-4 text-primary-500 border-neutral-300 dark:border-neutral-600 rounded focus:ring-primary-500 bg-white dark:bg-neutral-800 mr-2">
-          <label for="email_copy" class="text-sm text-neutral-600 dark:text-neutral-400">
-            {{ if eq .Site.Language.Lang "it" }}Invia una copia delle risposte via email{{ else }}Send me a copy of my responses{{ end }}
-          </label>
-        </div>
+        {{ partial "form/textarea" (dict "id" "other_skills" "name" "entry.1054528835" "label" "Would you like to mention any other skills that you feel would be useful for your time in the team? (ex: previous hackathon participations etc.)" "rows" 4) }}
       </div>
 
       <!-- Submit Button -->
       <div class="pt-4 text-center">
         {{ if eq .Site.Language.Lang "it" }}
-          {{ partial "button" (dict "type" "submit" "id" "submit-btn" "content" "Invia Candidatura") }}
+          {{ partial "button" (dict "type" "submit" "id" "submit-btn" "content" "Invia Candidatura" "class" "mx-auto") }}
         {{ else }}
-          {{ partial "button" (dict "type" "submit" "id" "submit-btn" "content" "Submit Application") }}
+          {{ partial "button" (dict "type" "submit" "id" "submit-btn" "content" "Submit Application" "class" "mx-auto") }}
         {{ end }}
         <div class="mt-6"></div>
       </div>
@@ -279,11 +136,37 @@
       <!-- Form Status Messages -->
       <div id="form-status" class="hidden text-center p-6 rounded-xl"></div>
     </form>
+
+    <!-- Hidden iframe for Google Forms submission -->
+    <script type="text/javascript">var submitted=false;</script>
+    <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;" onload="if(submitted) {window.location='{{ if eq .Site.Language.Lang "it" }}/thankyou/{{ else }}/en/thankyou/{{ end }}'}"></iframe>
   </div>
 
 </article>
 
 <script>
+var submitted = false;
+
+function onFormSubmit() {
+  var statusDiv = document.getElementById('form-status');
+  var submitBtn = document.getElementById('submit-btn');
+
+  var successTitle = {{ if eq .Site.Language.Lang "it" }}"Candidatura inviata con successo!"{{ else }}"Application submitted successfully!"{{ end }};
+  var successMessage = {{ if eq .Site.Language.Lang "it" }}"Grazie per il tuo interesse in QubiTO! Ti contatteremo presto."{{ else }}"Thank you for your interest in QubiTO! We\'ll contact you soon."{{ end }};
+  var submitText = {{ if eq .Site.Language.Lang "it" }}"Invia Candidatura"{{ else }}"Submit Application"{{ end }};
+
+  submitBtn.disabled = false;
+  submitBtn.innerHTML = submitText;
+
+  statusDiv.className = 'text-center p-6 rounded-xl bg-green-50 dark:bg-green-900 text-green-800 dark:text-green-200 border border-green-200 dark:border-green-700';
+  statusDiv.innerHTML = '<div class="font-bold text-xl mb-2">' + successTitle + '</div><div class="text-sm">' + successMessage + '</div>';
+  statusDiv.classList.remove('hidden');
+
+  setTimeout(function() {
+    statusDiv.classList.add('hidden');
+  }, 10000);
+}
+
 document.addEventListener('DOMContentLoaded', function() {
   var form = document.getElementById('join-us-form');
   var submitBtn = document.getElementById('submit-btn');
@@ -293,34 +176,120 @@ document.addEventListener('DOMContentLoaded', function() {
   var submitText = {{ if eq .Site.Language.Lang "it" }}"Invia Candidatura"{{ else }}"Submit Application"{{ end }};
   var loadingMessage = {{ if eq .Site.Language.Lang "it" }}"Invio della candidatura in corso..."{{ else }}"Submitting your application..."{{ end }};
   var successTitle = {{ if eq .Site.Language.Lang "it" }}"Candidatura inviata con successo!"{{ else }}"Application submitted successfully!"{{ end }};
-  var successMessage = {{ if eq .Site.Language.Lang "it" }}"Grazie per il tuo interesse in QubiTO! Ti contatteremo presto."{{ else }}"Thank you for your interest in QubiTO! We'll contact you soon."{{ end }};
+  var successMessage = {{ if eq .Site.Language.Lang "it" }}"Grazie per il tuo interesse in QubiTO! Ti contatteremo presto."{{ else }}"Thank you for your interest in QubiTO! We\'ll contact you soon."{{ end }};
 
   form.addEventListener('submit', function(e) {
-    e.preventDefault();
+    // Validate required fields
+    var requiredFields = form.querySelectorAll('[required]');
+    var hasErrors = false;
 
+    requiredFields.forEach(function(field) {
+      field.classList.remove('border-red-500', 'border-red-300');
+      field.classList.add('border-neutral-300', 'dark:border-neutral-600');
+
+      // Skip validation for technical fields if they are hidden
+      var technicalFields = document.getElementById('technical-fields');
+      var isFieldInTechnicalSection = technicalFields && technicalFields.contains(field);
+      var isTechnicalSectionHidden = technicalFields && technicalFields.style.display === 'none';
+
+      if (isFieldInTechnicalSection && isTechnicalSectionHidden) {
+        return; // Skip validation for hidden technical fields
+      }
+
+      if (!field.value.trim()) {
+        hasErrors = true;
+        field.classList.remove('border-neutral-300', 'dark:border-neutral-600');
+        field.classList.add('border-red-500', 'dark:border-red-300');
+      }
+    });
+
+    if (hasErrors) {
+      e.preventDefault();
+      statusDiv.className = 'text-center p-6 rounded-xl bg-red-50 dark:bg-red-900 text-red-800 dark:text-red-200 border border-red-200 dark:border-red-700';
+      statusDiv.textContent = {{ if eq .Site.Language.Lang "it" }}"Si prega di compilare tutti i campi obbligatori"{{ else }}"Please fill in all required fields"{{ end }};
+      statusDiv.classList.remove('hidden');
+      return;
+    }
+
+    // Show loading state with icon
     submitBtn.disabled = true;
-    submitBtn.innerHTML = loadingText;
+    // submitBtn.innerHTML = '<svg class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>';
 
     statusDiv.className = 'text-center p-6 rounded-xl bg-blue-50 dark:bg-blue-900 text-blue-800 dark:text-blue-200 border border-blue-200 dark:border-blue-700';
     statusDiv.textContent = loadingMessage;
     statusDiv.classList.remove('hidden');
 
-    setTimeout(function() {
-      submitBtn.disabled = false;
-      submitBtn.innerHTML = submitText;
-
-      statusDiv.className = 'text-center p-6 rounded-xl bg-green-50 dark:bg-green-900 text-green-800 dark:text-green-200 border border-green-200 dark:border-green-700';
-      statusDiv.innerHTML = '<div class="font-bold text-xl mb-2">' + successTitle + '</div><div class="text-sm">' + successMessage + '</div>';
-
-      form.reset();
-
-      setTimeout(function() {
-        statusDiv.classList.add('hidden');
-      }, 10000);
-
-    }, 3000);
+    // Set flag for iframe onload
+    submitted = true;
   });
+
+  const technicalFieldsIds = ['rf_engineering', 'fpga', 'python_coding', 'quantum_mechanics', 'qiskit', 'studied_qc'];
+
+  function setRequired(id, required) {
+    const container = document.getElementById(id + '_container');
+    if (!container) {
+      return;
+    }
+
+    const label = container.querySelector('label');
+    const inputs = container.querySelectorAll('input');
+
+    if (inputs.length > 0) {
+      if (required) {
+        inputs[0].setAttribute('required', 'required');
+      } else {
+        inputs.forEach(input => input.removeAttribute('required'));
+      }
+    }
+  }
+
+  // Add listener for social media radio using MutationObserver
+  function addSocialMediaListener() {
+    var socialMediaContainer = document.getElementById('social_media_container');
+    if (socialMediaContainer) {
+      socialMediaContainer.addEventListener('change', function(event) {
+        if (event.target.name === 'entry.580941735') {
+          var technicalFields = document.getElementById('technical-fields');
+          const isSocial = event.target.value === 'Yes';
+
+          if (isSocial) {
+            technicalFields.style.display = 'none';
+            technicalFieldsIds.forEach(id => setRequired(id, false));
+            // Clear values in hidden technical fields
+            var hiddenInputs = technicalFields.querySelectorAll('input, textarea');
+            hiddenInputs.forEach(function(input) {
+              if (input.type !== 'radio' && input.type !== 'checkbox') {
+                input.value = '';
+              } else if (input.type === 'radio' || input.type === 'checkbox') {
+                input.checked = false;
+              }
+            });
+          } else {
+            technicalFields.style.display = 'block';
+            technicalFieldsIds.forEach(id => setRequired(id, true));
+          }
+        }
+      });
+      return true;
+    }
+    return false;
+  }
+
+  // Try immediately first
+  if (!addSocialMediaListener()) {
+    // If not found, use MutationObserver to wait for DOM changes
+    var observer = new MutationObserver(function(mutations) {
+      if (addSocialMediaListener()) {
+        observer.disconnect();
+      }
+    });
+    observer.observe(document.body, { childList: true, subtree: true });
+  }
 });
 </script>
+
+{{ end }}
+
+</article>
 
 {{ end }}

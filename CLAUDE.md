@@ -1,0 +1,4 @@
+- Don't edit any file in ./themes/ if needed using hugo properties copy the file content to the main repo then edit them
+- No use of Emojis
+- Always make sure to have both languages (english-italian)
+- Always check for existing pages and components before creating any new ones

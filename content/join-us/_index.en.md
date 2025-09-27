@@ -5,6 +5,6 @@ layout: "single"
 type: "join-us"
 ---
 
-Are you passionate about quantum computing and want to be part of a dynamic and innovative community? QubiTO is always looking for new talents who share our passion for quantum science and technology.
+QubiTO is waiting for you! We are looking for quantum enthusiasts from every department to share in an adventure. If you think of yourself as suitable, fill this form with all the required information. Explain to us why you want to join the team, tell us about your background and what you expect to achieve with your experience in the team.
 
-Whether you're a student, researcher, or simply a curious mind, there's room for you in our team. Fill out the form below to apply and tell us about yourself!
+Based on the information on this form we will contact you for an interview. Don't worry, it is just to know you better, bring all your passion and confidence with you!
