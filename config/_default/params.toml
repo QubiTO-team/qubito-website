@@ -12,7 +12,7 @@ highlightCurrentMenuArea = true
 githubViewPath = "https://github.com/QubiTO-team/qubito-website/"
 githubEditPath = "https://github.com/QubiTO-team/qubito-website/edit/main/content/"
 isRecruiting = true
-googleFormUrl = "https://docs.google.com/forms/d/e/1FAIpQLSfXLPfOky5WoX9dWRWdsjLp2KUqq93E8b2eXy_VVQ3iKKYsHQ/formResponse"
+googleFormUrl = "https://docs.google.com/forms/u/0/d/e/1FAIpQLSfXLPfOky5WoX9dWRWdsjLp2KUqq93E8b2eXy_VVQ3iKKYsHQ/formResponse"
 
 [header]
 layout = "fixed"

@@ -1,19 +1,20 @@
 {{- $id := .id -}} {{- $label := .label -}} {{- $placeholder := .placeholder |
 default "Your answer" -}} {{- $required := .required | default false -}} {{-
-$type := .type | default "text" -}}
+$type := .type | default "text" -}} {{- $name := .name | default .id -}}
 
 <div class="mb-6">
     <label
         for="{{ $id }}"
         class="block text-base font-medium text-neutral-700 dark:text-neutral-300 mb-3"
     >
-        {{ $label }}{{ if $required }}<span class="text-red-500 ml-1">*</span>{{
-        end }}
+        {{ $label }}{{ if $required }}<span style="color: #ef4444" class="ml-1"
+            >*</span
+        >{{ end }}
     </label>
     <input
         type="{{ $type }}"
         id="{{ $id }}"
-        name="{{ $id }}"
+        name="{{ $name }}"
         placeholder="{{ $placeholder }}"
         {{
         if

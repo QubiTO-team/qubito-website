@@ -1,12 +1,14 @@
 {{- $id := .id -}} {{- $label := .label -}} {{- $options := .options -}} {{-
-$required := .required | default false -}}
+$required := .required | default false -}} {{- $name := .name | default .id -}}
 
-<div class="mb-6">
+<div class="mb-6" id="{{ $id }}_container">
     <fieldset>
         <legend
             class="block text-base font-medium text-neutral-700 dark:text-neutral-300 mb-6"
         >
-            {{ $label }}{{ if $required }}<span class="text-red-500 ml-1"
+            {{ $label }}{{ if $required }}<span
+                style="color: #ef4444"
+                class="ml-1"
                 >*</span
             >{{ end }}
         </legend>
@@ -16,7 +18,7 @@ $required := .required | default false -}}
                 <input
                     type="radio"
                     id="{{ $id }}_{{ $index }}"
-                    name="{{ $id }}"
+                    name="{{ $name }}"
                     value="{{ $option.value }}"
                     {{
                     if

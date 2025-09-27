@@ -5,8 +5,9 @@
     <label
         class="block text-base font-medium text-neutral-700 dark:text-neutral-300 mb-3"
     >
-        {{ $label }}{{ if $required }}<span class="text-red-500 ml-1">*</span>{{
-        end }}
+        {{ $label }}{{ if $required }}<span style="color: #ef4444" class="ml-1"
+            >*</span
+        >{{ end }}
     </label>
     <div
         class="star-rating"

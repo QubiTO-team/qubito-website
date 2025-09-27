@@ -12,7 +12,22 @@
     {{ end }}
   </header>
 
-  {{ if not .Site.Params.isRecruiting }}
+  {{ if eq .Site.Language.Lang "it" }}
+  <!-- Italian page redirect message -->
+  <div class="text-center py-16">
+    <div class="max-w-2xl mx-auto">
+      <h2 class="text-2xl font-bold text-neutral-800 dark:text-neutral-100 mb-6">
+        Pagina non disponibile
+      </h2>
+      <p class="text-lg text-neutral-600 dark:text-neutral-400 mb-8">
+        Questa pagina è disponibile solo in inglese. Clicca il pulsante qui sotto per visualizzarla.
+      </p>
+      <div class="space-y-4">
+        {{ partial "button" (dict "href" "/en/join-us/" "content" "Vai alla versione inglese") }}
+      </div>
+    </div>
+  </div>
+  {{ else if not .Site.Params.isRecruiting }}
   <div class="text-center py-16">
     <div class="max-w-2xl mx-auto">
       <h2 class="text-2xl font-bold text-neutral-800 dark:text-neutral-100 mb-6">
@@ -47,19 +62,23 @@
   <!-- Application Form -->
   <div class="bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-700 rounded-xl shadow-xl p-8">
 
-    <form id="join-us-form" action="{{ .Site.Params.googleFormUrl }}" method="POST" target="hidden_iframe" class="space-y-6 p-4" onsubmit="submitted=true">
+    <form id="join-us-form" action="{{ .Site.Params.googleFormUrl }}" method="POST"
+        class="space-y-6 p-4"
+        target="hidden_iframe"
+        onsubmit="submitted=true"
+    >
 
-      {{ partial "form/text-input" (dict "id" "name_surname" "name" "entry.695496861" "label" "Name and Surname" "required" true) }}
+      {{ partial "form/text-input" (dict "id" "name_surname" "name" "entry.549661010" "label" "Name and Surname" "required" true) }}
 
-      {{ partial "form/text-input" (dict "id" "id_number" "name" "entry.2069405905" "label" "ID Number" "required" true) }}
+      {{ partial "form/text-input" (dict "id" "id_number" "name" "entry.1934738868" "label" "ID Number" "required" true) }}
 
-      {{ partial "form/text-input" (dict "id" "email" "name" "entry.1363881523" "label" "Instutional Mail Address" "type" "email" "required" true) }}
+      {{ partial "form/text-input" (dict "id" "email" "name" "entry.661787044" "label" "Instutional Mail Address" "type" "email" "required" true) }}
 
-      {{ partial "form/text-input" (dict "id" "major" "name" "entry.548458229" "label" "Which major are you?" "required" true) }}
+      {{ partial "form/text-input" (dict "id" "major" "name" "entry.1967944721" "label" "Which major are you?" "required" true) }}
 
-      {{ partial "form/text-input" (dict "id" "years_complete" "name" "entry.1556068256" "label" "In your opinion, in how many years will you be able to complete your studies?" "required" true) }}
+      {{ partial "form/text-input" (dict "id" "years_complete" "name" "entry.1198730495" "label" "In your opinion, in how many years will you be able to complete your studies?" "required" true) }}
 
-      {{ partial "form/radio-group" (dict "id" "year_student" "name" "entry.889940815" "label" "Which year student are you?" "required" true "options" (slice
+      {{ partial "form/radio-group" (dict "id" "year_student" "name" "entry.1318495168" "label" "Which year student are you?" "required" true "options" (slice
         (dict "value" "1st year of bachelors" "label" "1st year of bachelors")
         (dict "value" "2nd year of bachelors" "label" "2nd year of bachelors")
         (dict "value" "3nd year of bachelors" "label" "3nd year of bachelors")
@@ -67,40 +86,42 @@
         (dict "value" "2nd year of masters" "label" "2nd year of masters")
       )) }}
 
-      {{ partial "form/star-rating" (dict "id" "english_abilities" "name" "entry.341042005" "label" "How would you rate your English speaking abilities?" "required" true "max" 5) }}
+      {{ partial "form/star-rating" (dict "id" "english_abilities" "name" "entry.1217868080" "label" "How would you rate your English speaking abilities?" "required" true "max" 5) }}
 
-      {{ partial "form/radio-group" (dict "id" "other_team" "name" "entry.567828951" "label" "Are you currently a part of another student team?" "required" true "options" (slice
+      {{ partial "form/radio-group" (dict "id" "other_team" "name" "entry.749971554" "label" "Are you currently a part of another student team?" "required" true "options" (slice
         (dict "value" "Yes, more than one" "label" "Yes, more than one")
         (dict "value" "Yes, one" "label" "Yes, one")
         (dict "value" "No" "label" "No")
       )) }}
 
-      {{ partial "form/radio-group" (dict "id" "social_media" "name" "entry.259225554" "label" "Are you applying for the social media manager role?" "required" true "options" (slice
+      {{ partial "form/radio-group" (dict "id" "social_media" "name" "entry.580941735" "label" "Are you applying for the social media manager role?" "required" true "options" (slice
         (dict "value" "Yes" "label" "Yes")
         (dict "value" "No" "label" "No")
       )) }}
 
-      {{ partial "form/star-rating" (dict "id" "rf_engineering" "name" "entry.1162883226" "label" "How much do you know about Radio Frequency Engineering?" "max" 10) }}
+      <div id="technical-fields" style="display: none;">
+        {{ partial "form/star-rating" (dict "id" "rf_engineering" "name" "entry.1162883226" "label" "How much do you know about Radio Frequency Engineering?" "required" true "max" 10) }}
 
-      {{ partial "form/star-rating" (dict "id" "fpga" "name" "entry.1653166584" "label" "How much do you know about FPGAs?" "max" 10) }}
+        {{ partial "form/star-rating" (dict "id" "fpga" "name" "entry.1653166584" "label" "How much do you know about FPGAs?" "required" true "max" 10) }}
 
-      {{ partial "form/star-rating" (dict "id" "python_coding" "name" "entry.2142560715" "label" "How familiar are you with coding, especially in Python?" "max" 10) }}
+        {{ partial "form/star-rating" (dict "id" "python_coding" "name" "entry.2142560715" "label" "How familiar are you with coding, especially in Python?" "required" true "max" 10) }}
 
-      {{ partial "form/star-rating" (dict "id" "quantum_mechanics" "name" "entry.624271257" "label" "How familiar are you with concepts in quantum mechanics?" "max" 10) }}
+        {{ partial "form/star-rating" (dict "id" "quantum_mechanics" "name" "entry.624271257" "label" "How familiar are you with concepts in quantum mechanics?" "required" true "max" 10) }}
 
-      {{ partial "form/radio-group" (dict "id" "qiskit" "name" "entry.1567563518" "label" "Do you know of Qiskit?" "options" (slice
-        (dict "value" "The squirrel sound?" "label" "The squirrel sound?")
-        (dict "value" "A little bit" "label" "A little bit")
-        (dict "value" "For sure!" "label" "For sure!")
-      )) }}
+        {{ partial "form/radio-group" (dict "id" "qiskit" "name" "entry.1567563518" "label" "Do you know of Qiskit?" "required" true "options" (slice
+          (dict "value" "The squirrel sound?" "label" "The squirrel sound?")
+          (dict "value" "A little bit" "label" "A little bit")
+          (dict "value" "For sure!" "label" "For sure!")
+        )) }}
 
-      {{ partial "form/radio-group" (dict "id" "studied_qc" "name" "entry.994432141" "label" "Have you ever studied Quantum Computing?" "options" (slice
-        (dict "value" "Yes, in an institution" "label" "Yes, in an institution")
-        (dict "value" "Yes, by myself" "label" "Yes, by myself")
-        (dict "value" "No" "label" "No")
-      )) }}
+        {{ partial "form/radio-group" (dict "id" "studied_qc" "name" "entry.994432141" "label" "Have you ever studied Quantum Computing?" "required" true "options" (slice
+          (dict "value" "Yes, in an institution" "label" "Yes, in an institution")
+          (dict "value" "Yes, by myself" "label" "Yes, by myself")
+          (dict "value" "No" "label" "No")
+        )) }}
 
-      {{ partial "form/textarea" (dict "id" "other_skills" "name" "entry.1054528835" "label" "Would you like to mention any other skills that you feel would be useful for your time in the team? (ex: previous hackathon participations etc.)" "rows" 4) }}
+        {{ partial "form/textarea" (dict "id" "other_skills" "name" "entry.1054528835" "label" "Would you like to mention any other skills that you feel would be useful for your time in the team? (ex: previous hackathon participations etc.)" "rows" 4) }}
+      </div>
 
       <!-- Submit Button -->
       <div class="pt-4 text-center">
@@ -131,7 +152,7 @@ function onFormSubmit() {
   var submitBtn = document.getElementById('submit-btn');
 
   var successTitle = {{ if eq .Site.Language.Lang "it" }}"Candidatura inviata con successo!"{{ else }}"Application submitted successfully!"{{ end }};
-  var successMessage = {{ if eq .Site.Language.Lang "it" }}"Grazie per il tuo interesse in QubiTO! Ti contatteremo presto."{{ else }}"Thank you for your interest in QubiTO! We'll contact you soon."{{ end }};
+  var successMessage = {{ if eq .Site.Language.Lang "it" }}"Grazie per il tuo interesse in QubiTO! Ti contatteremo presto."{{ else }}"Thank you for your interest in QubiTO! We\'ll contact you soon."{{ end }};
   var submitText = {{ if eq .Site.Language.Lang "it" }}"Invia Candidatura"{{ else }}"Submit Application"{{ end }};
 
   submitBtn.disabled = false;
@@ -146,7 +167,6 @@ function onFormSubmit() {
   }, 10000);
 }
 
-<script>
 document.addEventListener('DOMContentLoaded', function() {
   var form = document.getElementById('join-us-form');
   var submitBtn = document.getElementById('submit-btn');
@@ -156,7 +176,7 @@ document.addEventListener('DOMContentLoaded', function() {
   var submitText = {{ if eq .Site.Language.Lang "it" }}"Invia Candidatura"{{ else }}"Submit Application"{{ end }};
   var loadingMessage = {{ if eq .Site.Language.Lang "it" }}"Invio della candidatura in corso..."{{ else }}"Submitting your application..."{{ end }};
   var successTitle = {{ if eq .Site.Language.Lang "it" }}"Candidatura inviata con successo!"{{ else }}"Application submitted successfully!"{{ end }};
-  var successMessage = {{ if eq .Site.Language.Lang "it" }}"Grazie per il tuo interesse in QubiTO! Ti contatteremo presto."{{ else }}"Thank you for your interest in QubiTO! We'll contact you soon."{{ end }};
+  var successMessage = {{ if eq .Site.Language.Lang "it" }}"Grazie per il tuo interesse in QubiTO! Ti contatteremo presto."{{ else }}"Thank you for your interest in QubiTO! We\'ll contact you soon."{{ end }};
 
   form.addEventListener('submit', function(e) {
     // Validate required fields
@@ -182,17 +202,80 @@ document.addEventListener('DOMContentLoaded', function() {
       return;
     }
 
-    // Show loading state
+    // Show loading state with icon
     submitBtn.disabled = true;
-    submitBtn.innerHTML = loadingText;
+    submitBtn.innerHTML = '<svg class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>';
 
-    statusDiv.className = 'text-center p-6 rounded-xl bg-blue-50 dark:bg-blue-900 text-blue-800 dark:text-blue-200 border border-blue-200 dark:border-blue-700';
-    statusDiv.textContent = loadingMessage;
-    statusDiv.classList.remove('hidden');
+    // statusDiv.className = 'text-center p-6 rounded-xl bg-blue-50 dark:bg-blue-900 text-blue-800 dark:text-blue-200 border border-blue-200 dark:border-blue-700';
+    // statusDiv.textContent = loadingMessage;
+    // statusDiv.classList.remove('hidden');
 
     // Set flag for iframe onload
     submitted = true;
   });
+
+  const technicalFieldsIds = ['rf_engineering', 'fpga', 'python_coding', 'quantum_mechanics', 'qiskit', 'studied_qc'];
+
+  function setRequired(id, required) {
+    const container = document.getElementById(id + '_container');
+    if (!container) {
+      return;
+    }
+
+    const label = container.querySelector('label');
+    const inputs = container.querySelectorAll('input');
+
+    if (inputs.length > 0) {
+      if (required) {
+        inputs[0].setAttribute('required', 'required');
+      } else {
+        inputs.forEach(input => input.removeAttribute('required'));
+      }
+    }
+  }
+
+  // Add listener for social media radio using MutationObserver
+  function addSocialMediaListener() {
+    var socialMediaContainer = document.getElementById('social_media_container');
+    if (socialMediaContainer) {
+      socialMediaContainer.addEventListener('change', function(event) {
+        if (event.target.name === 'entry.580941735') {
+          var technicalFields = document.getElementById('technical-fields');
+          const isSocial = event.target.value === 'Yes';
+
+          if (isSocial) {
+            technicalFields.style.display = 'none';
+            technicalFieldsIds.forEach(id => setRequired(id, false));
+            // Clear values in hidden technical fields
+            var hiddenInputs = technicalFields.querySelectorAll('input, textarea');
+            hiddenInputs.forEach(function(input) {
+              if (input.type !== 'radio' && input.type !== 'checkbox') {
+                input.value = '';
+              } else if (input.type === 'radio' || input.type === 'checkbox') {
+                input.checked = false;
+              }
+            });
+          } else {
+            technicalFields.style.display = 'block';
+            technicalFieldsIds.forEach(id => setRequired(id, true));
+          }
+        }
+      });
+      return true;
+    }
+    return false;
+  }
+
+  // Try immediately first
+  if (!addSocialMediaListener()) {
+    // If not found, use MutationObserver to wait for DOM changes
+    var observer = new MutationObserver(function(mutations) {
+      if (addSocialMediaListener()) {
+        observer.disconnect();
+      }
+    });
+    observer.observe(document.body, { childList: true, subtree: true });
+  }
 });
 </script>
 
