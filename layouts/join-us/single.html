@@ -126,9 +126,9 @@
       <!-- Submit Button -->
       <div class="pt-4 text-center">
         {{ if eq .Site.Language.Lang "it" }}
-          {{ partial "button" (dict "type" "submit" "id" "submit-btn" "content" "Invia Candidatura") }}
+          {{ partial "button" (dict "type" "submit" "id" "submit-btn" "content" "Invia Candidatura" "class" "mx-auto") }}
         {{ else }}
-          {{ partial "button" (dict "type" "submit" "id" "submit-btn" "content" "Submit Application") }}
+          {{ partial "button" (dict "type" "submit" "id" "submit-btn" "content" "Submit Application" "class" "mx-auto") }}
         {{ end }}
         <div class="mt-6"></div>
       </div>
@@ -187,6 +187,15 @@ document.addEventListener('DOMContentLoaded', function() {
       field.classList.remove('border-red-500', 'border-red-300');
       field.classList.add('border-neutral-300', 'dark:border-neutral-600');
 
+      // Skip validation for technical fields if they are hidden
+      var technicalFields = document.getElementById('technical-fields');
+      var isFieldInTechnicalSection = technicalFields && technicalFields.contains(field);
+      var isTechnicalSectionHidden = technicalFields && technicalFields.style.display === 'none';
+
+      if (isFieldInTechnicalSection && isTechnicalSectionHidden) {
+        return; // Skip validation for hidden technical fields
+      }
+
       if (!field.value.trim()) {
         hasErrors = true;
         field.classList.remove('border-neutral-300', 'dark:border-neutral-600');
@@ -204,11 +213,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Show loading state with icon
     submitBtn.disabled = true;
-    submitBtn.innerHTML = '<svg class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>';
+    // submitBtn.innerHTML = '<svg class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>';
 
-    // statusDiv.className = 'text-center p-6 rounded-xl bg-blue-50 dark:bg-blue-900 text-blue-800 dark:text-blue-200 border border-blue-200 dark:border-blue-700';
-    // statusDiv.textContent = loadingMessage;
-    // statusDiv.classList.remove('hidden');
+    statusDiv.className = 'text-center p-6 rounded-xl bg-blue-50 dark:bg-blue-900 text-blue-800 dark:text-blue-200 border border-blue-200 dark:border-blue-700';
+    statusDiv.textContent = loadingMessage;
+    statusDiv.classList.remove('hidden');
 
     // Set flag for iframe onload
     submitted = true;
