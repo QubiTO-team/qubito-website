@@ -5,6 +5,6 @@ layout: "single"
 type: "join-us"
 ---
 
-Sei appassionato di quantum computing e vuoi far parte di una community dinamica e innovativa? QubiTO è sempre alla ricerca di nuovi talenti che condividano la nostra passione per la scienza e la tecnologia quantistica.
+QubiTO is waiting for you! We are looking for quantum enthusiasts from every department to share in an adventure. If you think of yourself as suitable, fill this form with all the required information. Explain to us why you want to join the team, tell us about your background and what you expect to achieve with your experience in the team.
 
-Che tu sia uno studente, un ricercatore o semplicemente una mente curiosa, c'è spazio per te nel nostro team. Compila il modulo qui sotto per candidarti e raccontaci di te!
+Based on the information on this form we will contact you for an interview. Don't worry, it is just to know you better, bring all your passion and confidence with you!

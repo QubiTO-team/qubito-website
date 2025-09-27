@@ -59,9 +59,4 @@ A sixth division is responsible for external outreach through QubiTO's social me
 
  Additionally, a sub-division of programmers manages and improves the website.
 
----
-
-<div style="text-align: center;">
-  <h2>Want to be part of our team?</h2>
-  {{< button href="/en/join-us/" >}}Join Us{{< /button >}}
-</div>
+{{< join-us-section >}}

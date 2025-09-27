@@ -91,7 +91,7 @@ category = "categories"
 author = "authors"
 series = "series"
 
-[languages.en] 
+[languages.en]
 contentDir = "content"
 languageName = "English"
 weight = 2
@@ -117,4 +117,3 @@ tag = "tags"
 category = "categories"
 author = "authors"
 series = "series"
-
