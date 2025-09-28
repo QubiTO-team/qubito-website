@@ -5,102 +5,218 @@ default false }} {{- $url := urls.Parse .Destination }} {{- $altText := .Text }}
 $titleParts) 1 }} {{- $caption = index $titleParts 0 }} {{- end }} {{- if ge
 (len $titleParts) 2 }} {{- $caption = trim (index $titleParts 0) " \t\n\r" }}
 {{- $figId = trim (index $titleParts 1) " \t\n\r" }} {{- else if $caption }} {{-
-$figId = anchorize $caption }} {{- end }} {{- if findRE "^https?" $url.Scheme }}
+$figId = anchorize $caption }} {{- end }}
+
+<style>
+    .image-found-dark {
+        display: none;
+    }
+    .image-found-light {
+        display: block;
+    }
+    .dark .image-found-dark {
+        display: block;
+    }
+    .dark .image-found-light {
+        display: none;
+    }
+    .dark .image-dark {
+        display: block;
+        filter: invert(1) hue-rotate(180deg);
+    }
+
+    .responsive-image {
+        max-width: 100%;
+        height: auto;
+        image-rendering: -webkit-optimize-contrast;
+        image-rendering: optimize-contrast;
+        image-rendering: crisp-edges;
+    }
+</style>
+
+{{- if findRE "^https?" $url.Scheme }}
 <figure {{ with $caption }} id="{{ anchorize . }}" {{ end }}>
-  <img
-    class="my-0 rounded-md"
-    loading="lazy"
-    src="{{ $url.String }}"
-    alt="{{ $altText }}"
-  />
-  {{ with $caption }}
-  <figcaption>{{ . | markdownify }}</figcaption>
-  {{ end }}
+    <img
+        class="my-0 rounded-md responsive-image"
+        loading="lazy"
+        src="{{ $url.String }}"
+        alt="{{ $altText }}"
+    />
+    {{ with $caption }}
+    <figcaption>{{ . | markdownify }}</figcaption>
+    {{ end }}
 </figure>
 {{- else }} {{- $resource := "" }} {{- if $.Page.Resources.GetMatch
 ($url.String) }} {{- $resource = $.Page.Resources.GetMatch ($url.String) }} {{-
 else if resources.GetMatch ($url.String) }} {{- $resource = resources.Get
-($url.String) }} {{- end }} {{- with $resource }}
-
-<style>
-  .image-found-dark {
-    display: none;
-  }
-  .image-found-light {
-    display: block;
-  }
-  .dark .image-found-dark {
-    display: block;
-  }
-  .dark .image-found-light {
-    display: none;
-  }
-  .dark .image-dark {
-    display: block;
-    filter: invert(1) hue-rotate(180deg);
-  }
-</style>
-
-{{- $darkPath := replaceRE "(?i)(\\.[^./]+)$" "-dark$1" .Name }} {{- $darkRes :=
-$.Page.Resources.GetMatch $darkPath }}
+($url.String) }} {{- end }} {{- with $resource }} {{- $darkPath := printf
+"%s-dark%s" (strings.TrimSuffix (path.Ext .Name) .Name) (path.Ext .Name) }} {{-
+$darkRes := $.Page.Resources.GetMatch $darkPath }} {{- if not
+$disableImageOptimization }} {{- $small := .Resize "480x" }} {{- $medium :=
+.Resize "768x" }} {{- $large := .Resize "1200x" }} {{- $xlarge := .Resize
+"1920x" }}
 
 <figure {{ if $figId }} id="{{ $figId }}" {{ end }}>
-  {{- if $darkRes }}
-  <img
-    src="{{ .RelPermalink }}"
-    class="my-0 rounded-md image-found-light"
-    alt="{{ $altText }}"
-    loading="lazy"
-    {{
-    with
-    $caption
-    }}title="{{ . }}"
-    {{
-    end
-    }}
-  />
-  <img
-    src="{{ $darkRes.RelPermalink }}"
-    class="my-0 rounded-md image-found-dark"
-    alt="{{ $altText }}"
-    loading="lazy"
-    {{
-    with
-    $caption
-    }}title="{{ . }}"
-    {{
-    end
-    }}
-  />
-  {{- else }}
-  <img
-    src="{{ .RelPermalink }}"
-    class="my-0 rounded-md image-dark"
-    alt="{{ $altText }}"
-    loading="lazy"
-    {{
-    with
-    $caption
-    }}title="{{ . }}"
-    {{
-    end
-    }}
-  />
-  {{- end }} {{ with $caption }}
-  <figcaption>{{ . | markdownify }}</figcaption>
-  {{ end }}
-</figure>
+    {{- if $darkRes }} {{- $darkSmall := $darkRes.Resize "480x" }} {{-
+    $darkMedium := $darkRes.Resize "768x" }} {{- $darkLarge := $darkRes.Resize
+    "1200x" }} {{- $darkXLarge := $darkRes.Resize "1920x" }}
 
+    <picture class="image-found-light">
+        <source media="(max-width: 480px)" srcset="{{ $small.RelPermalink }}" />
+        <source
+            media="(max-width: 768px)"
+            srcset="{{ $medium.RelPermalink }}"
+        />
+        <source
+            media="(max-width: 1200px)"
+            srcset="{{ $large.RelPermalink }}"
+        />
+        <source
+            media="(min-width: 1201px)"
+            srcset="{{ $xlarge.RelPermalink }}"
+        />
+        <img
+            src="{{ $large.RelPermalink }}"
+            class="my-0 rounded-md responsive-image"
+            alt="{{ $altText }}"
+            loading="lazy"
+            {{
+            with
+            $caption
+            }}title="{{ . }}"
+            {{
+            end
+            }}
+            width="{{ $large.Width }}"
+            height="{{ $large.Height }}"
+        />
+    </picture>
+
+    <picture class="image-found-dark">
+        <source
+            media="(max-width: 480px)"
+            srcset="{{ $darkSmall.RelPermalink }}"
+        />
+        <source
+            media="(max-width: 768px)"
+            srcset="{{ $darkMedium.RelPermalink }}"
+        />
+        <source
+            media="(max-width: 1200px)"
+            srcset="{{ $darkLarge.RelPermalink }}"
+        />
+        <source
+            media="(min-width: 1201px)"
+            srcset="{{ $darkXLarge.RelPermalink }}"
+        />
+        <img
+            src="{{ $darkLarge.RelPermalink }}"
+            class="my-0 rounded-md responsive-image"
+            alt="{{ $altText }}"
+            loading="lazy"
+            {{
+            with
+            $caption
+            }}title="{{ . }}"
+            {{
+            end
+            }}
+            width="{{ $darkLarge.Width }}"
+            height="{{ $darkLarge.Height }}"
+        />
+    </picture>
+    {{- else }}
+    <picture>
+        <source media="(max-width: 480px)" srcset="{{ $small.RelPermalink }}" />
+        <source
+            media="(max-width: 768px)"
+            srcset="{{ $medium.RelPermalink }}"
+        />
+        <source
+            media="(max-width: 1200px)"
+            srcset="{{ $large.RelPermalink }}"
+        />
+        <source
+            media="(min-width: 1201px)"
+            srcset="{{ $xlarge.RelPermalink }}"
+        />
+        <img
+            src="{{ $large.RelPermalink }}"
+            class="my-0 rounded-md responsive-image image-dark"
+            alt="{{ $altText }}"
+            loading="lazy"
+            {{
+            with
+            $caption
+            }}title="{{ . }}"
+            {{
+            end
+            }}
+            width="{{ $large.Width }}"
+            height="{{ $large.Height }}"
+        />
+    </picture>
+    {{- end }} {{ with $caption }}
+    <figcaption>{{ . | markdownify }}</figcaption>
+    {{ end }}
+</figure>
 {{- else }}
 <figure {{ if $figId }} id="{{ $figId }}" {{ end }}>
-  <img
-    class="my-0 rounded-md"
-    loading="lazy"
-    src="{{ $url.String }}"
-    alt="{{ $altText }}"
-  />
-  {{ with $caption }}
-  <figcaption>{{ . | markdownify }}</figcaption>
-  {{ end }}
+    {{- if $darkRes }}
+    <img
+        src="{{ .RelPermalink }}"
+        class="my-0 rounded-md responsive-image image-found-light"
+        alt="{{ $altText }}"
+        loading="lazy"
+        {{
+        with
+        $caption
+        }}title="{{ . }}"
+        {{
+        end
+        }}
+    />
+    <img
+        src="{{ $darkRes.RelPermalink }}"
+        class="my-0 rounded-md responsive-image image-found-dark"
+        alt="{{ $altText }}"
+        loading="lazy"
+        {{
+        with
+        $caption
+        }}title="{{ . }}"
+        {{
+        end
+        }}
+    />
+    {{- else }}
+    <img
+        src="{{ .RelPermalink }}"
+        class="my-0 rounded-md responsive-image image-dark"
+        alt="{{ $altText }}"
+        loading="lazy"
+        {{
+        with
+        $caption
+        }}title="{{ . }}"
+        {{
+        end
+        }}
+    />
+    {{- end }} {{ with $caption }}
+    <figcaption>{{ . | markdownify }}</figcaption>
+    {{ end }}
+</figure>
+{{- end }} {{- else }}
+<figure {{ if $figId }} id="{{ $figId }}" {{ end }}>
+    <img
+        class="my-0 rounded-md responsive-image"
+        loading="lazy"
+        src="{{ $url.String }}"
+        alt="{{ $altText }}"
+    />
+    {{ with $caption }}
+    <figcaption>{{ . | markdownify }}</figcaption>
+    {{ end }}
 </figure>
 {{- end }} {{- end }}

@@ -1,0 +1,11 @@
+{{ if .Site.Params.isRecruiting }}
+<hr />
+<div style="text-align: center">
+    <h2>
+        {{ if eq .Site.Language.Lang "it" }} Vuoi far parte del nostro team? {{
+        else }} Want to be part of our team? {{ end }}
+    </h2>
+    {{ partial "button" (dict "href" "/en/join-us/" "content" (cond (eq
+    .Site.Language.Lang "it") "Unisciti a Noi" "Join Us")) }}
+</div>
+{{ end }}

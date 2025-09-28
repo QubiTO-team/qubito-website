@@ -1,0 +1,295 @@
+{{ define "main" }}
+<article class="max-w-4xl mx-auto">
+
+  <header class="mb-8 text-center">
+    <h1 class="text-4xl font-bold text-neutral-800 dark:text-neutral-100 mb-4">
+      {{ .Title }}
+    </h1>
+    {{ if .Params.description }}
+      <p class="text-xl text-neutral-600 dark:text-neutral-400 max-w-3xl mx-auto">
+        {{ .Params.description }}
+      </p>
+    {{ end }}
+  </header>
+
+  {{ if eq .Site.Language.Lang "it" }}
+  <!-- Italian page redirect message -->
+  <div class="text-center py-16">
+    <div class="max-w-2xl mx-auto">
+      <h2 class="text-2xl font-bold text-neutral-800 dark:text-neutral-100 mb-6">
+        Pagina non disponibile
+      </h2>
+      <p class="text-lg text-neutral-600 dark:text-neutral-400 mb-8">
+        Questa pagina è disponibile solo in inglese. Clicca il pulsante qui sotto per visualizzarla.
+      </p>
+      <div class="space-y-4">
+        {{ partial "button" (dict "href" "/en/join-us/" "content" "Vai alla versione inglese") }}
+      </div>
+    </div>
+  </div>
+  {{ else if not .Site.Params.isRecruiting }}
+  <div class="text-center py-16">
+    <div class="max-w-2xl mx-auto">
+      <h2 class="text-2xl font-bold text-neutral-800 dark:text-neutral-100 mb-6">
+        {{ if eq .Site.Language.Lang "it" }}
+          Al momento non stiamo reclutando
+        {{ else }}
+          We are not currently recruiting
+        {{ end }}
+      </h2>
+      <p class="text-lg text-neutral-600 dark:text-neutral-400 mb-8">
+        {{ if eq .Site.Language.Lang "it" }}
+          Grazie per il tuo interesse nel far parte di QubiTO! Al momento non abbiamo posizioni aperte, ma ti invitiamo a seguirci sui nostri canali social per rimanere aggiornato su future opportunità.
+        {{ else }}
+          Thank you for your interest in joining QubiTO! We don't currently have open positions, but we invite you to follow us on our social channels to stay updated on future opportunities.
+        {{ end }}
+      </p>
+      <div class="space-y-4">
+        {{ if eq .Site.Language.Lang "it" }}
+          {{ partial "button" (dict "href" "/team/" "content" "Scopri il nostro team") }}
+        {{ else }}
+          {{ partial "button" (dict "href" "/en/team/" "content" "Discover our team") }}
+        {{ end }}
+      </div>
+    </div>
+  </div>
+  {{ else }}
+
+  <div class="prose prose-neutral dark:prose-invert mb-8 max-w-3xl mx-auto">
+    {{ .Content }}
+  </div>
+
+  <!-- Application Form -->
+  <div class="bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-700 rounded-xl shadow-xl p-8">
+
+    <form id="join-us-form" action="{{ .Site.Params.googleScriptUrl }}" method="POST"
+        class="space-y-6 p-4"
+        target="hidden_iframe"
+        onsubmit="submitted=true"
+    >
+
+      {{ partial "form/text-input" (dict "id" "name_surname" "name" "name_surname" "label" "Name and Surname" "required" true) }}
+
+      {{ partial "form/text-input" (dict "id" "id_number" "name" "id_number" "label" "ID Number" "required" true) }}
+
+      {{ partial "form/text-input" (dict "id" "email" "name" "email" "label" "Instutional Mail Address" "type" "email" "required" true) }}
+
+      {{ partial "form/text-input" (dict "id" "major" "name" "major" "label" "Which major are you?" "required" true) }}
+
+      {{ partial "form/text-input" (dict "id" "years_complete" "name" "years_complete" "label" "In your opinion, in how many years will you be able to complete your studies?" "required" true) }}
+
+      {{ partial "form/radio-group" (dict "id" "year_student" "name" "year_student" "label" "Which year student are you?" "required" true "options" (slice
+        (dict "value" "1st year of bachelors" "label" "1st year of bachelors")
+        (dict "value" "2nd year of bachelors" "label" "2nd year of bachelors")
+        (dict "value" "3nd year of bachelors" "label" "3nd year of bachelors")
+        (dict "value" "1st year of masters" "label" "1st year of masters")
+        (dict "value" "2nd year of masters" "label" "2nd year of masters")
+      )) }}
+
+      {{ partial "form/star-rating" (dict "id" "english_abilities" "name" "english_abilities" "label" "How would you rate your English speaking abilities?" "required" true "max" 5) }}
+
+      {{ partial "form/radio-group" (dict "id" "other_team" "name" "other_team" "label" "Are you currently a part of another student team?" "required" true "options" (slice
+        (dict "value" "Yes, more than one" "label" "Yes, more than one")
+        (dict "value" "Yes, one" "label" "Yes, one")
+        (dict "value" "No" "label" "No")
+      )) }}
+
+      {{ partial "form/radio-group" (dict "id" "social_media" "name" "social_media" "label" "Are you applying for the social media manager role?" "required" true "options" (slice
+        (dict "value" "Yes" "label" "Yes")
+        (dict "value" "No" "label" "No")
+      )) }}
+
+      <div id="technical-fields" style="display: none;">
+        {{ partial "form/star-rating" (dict "id" "rf_engineering" "name" "rf_engineering" "label" "How much do you know about Radio Frequency Engineering?" "required" true "max" 10) }}
+
+        {{ partial "form/star-rating" (dict "id" "fpga" "name" "fpga" "label" "How much do you know about FPGAs?" "required" true "max" 10) }}
+
+        {{ partial "form/star-rating" (dict "id" "python_coding" "name" "python_coding" "label" "How familiar are you with coding, especially in Python?" "required" true "max" 10) }}
+
+        {{ partial "form/star-rating" (dict "id" "quantum_mechanics" "name" "quantum_mechanics" "label" "How familiar are you with concepts in quantum mechanics?" "required" true "max" 10) }}
+
+        {{ partial "form/radio-group" (dict "id" "qiskit" "name" "qiskit" "label" "Do you know of Qiskit?" "required" true "options" (slice
+          (dict "value" "The squirrel sound?" "label" "The squirrel sound?")
+          (dict "value" "A little bit" "label" "A little bit")
+          (dict "value" "For sure!" "label" "For sure!")
+        )) }}
+
+        {{ partial "form/radio-group" (dict "id" "studied_qc" "name" "studied_qc" "label" "Have you ever studied Quantum Computing?" "required" true "options" (slice
+          (dict "value" "Yes, in an institution" "label" "Yes, in an institution")
+          (dict "value" "Yes, by myself" "label" "Yes, by myself")
+          (dict "value" "No" "label" "No")
+        )) }}
+
+        {{ partial "form/textarea" (dict "id" "other_skills" "name" "other_skills" "label" "Would you like to mention any other skills that you feel would be useful for your time in the team? (ex: previous hackathon participations etc.)" "rows" 4) }}
+      </div>
+
+      <!-- Submit Button -->
+      <div class="pt-4 text-center">
+        {{ if eq .Site.Language.Lang "it" }}
+          {{ partial "button" (dict "type" "submit" "id" "submit-btn" "content" "Invia Candidatura" "class" "mx-auto") }}
+        {{ else }}
+          {{ partial "button" (dict "type" "submit" "id" "submit-btn" "content" "Submit Application" "class" "mx-auto") }}
+        {{ end }}
+        <div class="mt-6"></div>
+      </div>
+
+      <!-- Form Status Messages -->
+      <div id="form-status" class="hidden text-center p-6 rounded-xl"></div>
+    </form>
+
+    <!-- Hidden iframe for Google Forms submission -->
+    <script type="text/javascript">var submitted=false;</script>
+    <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;" onload="if(submitted) {window.location='{{ if eq .Site.Language.Lang "it" }}/thankyou/{{ else }}/en/thankyou/{{ end }}'}"></iframe>
+  </div>
+
+</article>
+
+<script>
+var submitted = false;
+
+function onFormSubmit() {
+  var statusDiv = document.getElementById('form-status');
+  var submitBtn = document.getElementById('submit-btn');
+
+  var successTitle = {{ if eq .Site.Language.Lang "it" }}"Candidatura inviata con successo!"{{ else }}"Application submitted successfully!"{{ end }};
+  var successMessage = {{ if eq .Site.Language.Lang "it" }}"Grazie per il tuo interesse in QubiTO! Ti contatteremo presto."{{ else }}"Thank you for your interest in QubiTO! We\'ll contact you soon."{{ end }};
+  var submitText = {{ if eq .Site.Language.Lang "it" }}"Invia Candidatura"{{ else }}"Submit Application"{{ end }};
+
+  submitBtn.disabled = false;
+  submitBtn.innerHTML = submitText;
+
+  statusDiv.className = 'text-center p-6 rounded-xl bg-green-50 dark:bg-green-900 text-green-800 dark:text-green-200 border border-green-200 dark:border-green-700';
+  statusDiv.innerHTML = '<div class="font-bold text-xl mb-2">' + successTitle + '</div><div class="text-sm">' + successMessage + '</div>';
+  statusDiv.classList.remove('hidden');
+
+  setTimeout(function() {
+    statusDiv.classList.add('hidden');
+  }, 10000);
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  var form = document.getElementById('join-us-form');
+  var submitBtn = document.getElementById('submit-btn');
+  var statusDiv = document.getElementById('form-status');
+
+  var loadingText = {{ if eq .Site.Language.Lang "it" }}"Invio in corso..."{{ else }}"Submitting..."{{ end }};
+  var submitText = {{ if eq .Site.Language.Lang "it" }}"Invia Candidatura"{{ else }}"Submit Application"{{ end }};
+  var loadingMessage = {{ if eq .Site.Language.Lang "it" }}"Invio della candidatura in corso..."{{ else }}"Submitting your application..."{{ end }};
+  var successTitle = {{ if eq .Site.Language.Lang "it" }}"Candidatura inviata con successo!"{{ else }}"Application submitted successfully!"{{ end }};
+  var successMessage = {{ if eq .Site.Language.Lang "it" }}"Grazie per il tuo interesse in QubiTO! Ti contatteremo presto."{{ else }}"Thank you for your interest in QubiTO! We\'ll contact you soon."{{ end }};
+
+  form.addEventListener('submit', function(e) {
+    // Validate required fields
+    var requiredFields = form.querySelectorAll('[required]');
+    var hasErrors = false;
+
+    requiredFields.forEach(function(field) {
+      field.classList.remove('border-red-500', 'border-red-300');
+      field.classList.add('border-neutral-300', 'dark:border-neutral-600');
+
+      // Skip validation for technical fields if they are hidden
+      var technicalFields = document.getElementById('technical-fields');
+      var isFieldInTechnicalSection = technicalFields && technicalFields.contains(field);
+      var isTechnicalSectionHidden = technicalFields && technicalFields.style.display === 'none';
+
+      if (isFieldInTechnicalSection && isTechnicalSectionHidden) {
+        return; // Skip validation for hidden technical fields
+      }
+
+      if (!field.value.trim()) {
+        hasErrors = true;
+        field.classList.remove('border-neutral-300', 'dark:border-neutral-600');
+        field.classList.add('border-red-500', 'dark:border-red-300');
+      }
+    });
+
+    if (hasErrors) {
+      e.preventDefault();
+      statusDiv.className = 'text-center p-6 rounded-xl bg-red-50 dark:bg-red-900 text-red-800 dark:text-red-200 border border-red-200 dark:border-red-700';
+      statusDiv.textContent = {{ if eq .Site.Language.Lang "it" }}"Si prega di compilare tutti i campi obbligatori"{{ else }}"Please fill in all required fields"{{ end }};
+      statusDiv.classList.remove('hidden');
+      return;
+    }
+
+    // Show loading state with icon
+    submitBtn.disabled = true;
+    // submitBtn.innerHTML = '<svg class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>';
+
+    statusDiv.className = 'text-center p-6 rounded-xl bg-blue-50 dark:bg-blue-900 text-blue-800 dark:text-blue-200 border border-blue-200 dark:border-blue-700';
+    statusDiv.textContent = loadingMessage;
+    statusDiv.classList.remove('hidden');
+
+    // Set flag for iframe onload
+    submitted = true;
+  });
+
+  const technicalFieldsIds = ['rf_engineering', 'fpga', 'python_coding', 'quantum_mechanics', 'qiskit', 'studied_qc'];
+
+  function setRequired(id, required) {
+    const container = document.getElementById(id + '_container');
+    if (!container) {
+      return;
+    }
+
+    const label = container.querySelector('label');
+    const inputs = container.querySelectorAll('input');
+
+    if (inputs.length > 0) {
+      if (required) {
+        inputs[0].setAttribute('required', 'required');
+      } else {
+        inputs.forEach(input => input.removeAttribute('required'));
+      }
+    }
+  }
+
+  // Add listener for social media radio using MutationObserver
+  function addSocialMediaListener() {
+    var socialMediaContainer = document.getElementById('social_media_container');
+    if (socialMediaContainer) {
+      socialMediaContainer.addEventListener('change', function(event) {
+        if (event.target.name === 'social_media') {
+          var technicalFields = document.getElementById('technical-fields');
+          const isSocial = event.target.value === 'Yes';
+
+          if (isSocial) {
+            technicalFields.style.display = 'none';
+            technicalFieldsIds.forEach(id => setRequired(id, false));
+            // Clear values in hidden technical fields
+            var hiddenInputs = technicalFields.querySelectorAll('input, textarea');
+            hiddenInputs.forEach(function(input) {
+              if (input.type !== 'radio' && input.type !== 'checkbox') {
+                input.value = '';
+              } else if (input.type === 'radio' || input.type === 'checkbox') {
+                input.checked = false;
+              }
+            });
+          } else {
+            technicalFields.style.display = 'block';
+            technicalFieldsIds.forEach(id => setRequired(id, true));
+          }
+        }
+      });
+      return true;
+    }
+    return false;
+  }
+
+  // Try immediately first
+  if (!addSocialMediaListener()) {
+    // If not found, use MutationObserver to wait for DOM changes
+    var observer = new MutationObserver(function(mutations) {
+      if (addSocialMediaListener()) {
+        observer.disconnect();
+      }
+    });
+    observer.observe(document.body, { childList: true, subtree: true });
+  }
+});
+</script>
+
+{{ end }}
+
+</article>
+
+{{ end }}

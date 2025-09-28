@@ -1,0 +1,63 @@
+{{ define "main" }} {{ if not .Site.Params.isRecruiting }}
+<!-- Use existing 404 layout -->
+<h1 class="mb-3 text-4xl font-extrabold">
+    {{ i18n "error.404_title" | emojify }}
+</h1>
+<p class="mt-8 mb-12 text-neutral-400 dark:text-neutral-500">
+    {{ i18n "error.404_error" | emojify }}
+</p>
+<div class="prose dark:prose-invert">
+    <p>{{ i18n "error.404_description" | emojify }}</p>
+</div>
+{{ else }}
+<div id="thank-you-content" style="display: none">
+    <article>
+        <header class="mb-6">
+            <h1
+                class="mb-4 text-4xl font-bold text-neutral-800 dark:text-neutral-200"
+            >
+                {{ .Title }}
+            </h1>
+        </header>
+
+        <div class="prose prose-neutral dark:prose-invert mx-auto max-w-3xl">
+            {{ .Content }}
+        </div>
+
+        <div class="mt-8 text-center">
+            {{ if eq .Site.Language.Lang "it" }} {{ partial "button" (dict
+            "href" "/" "content" "Torna alla Home") }} {{ else }} {{ partial
+            "button" (dict "href" "/en/" "content" "Back to Home") }} {{ end }}
+        </div>
+    </article>
+</div>
+
+<div id="not-found-content">
+    <h1 class="mb-3 text-4xl font-extrabold">
+        {{ i18n "error.404_title" | emojify }}
+    </h1>
+    <p class="mt-8 mb-12 text-neutral-400 dark:text-neutral-500">
+        {{ i18n "error.404_error" | emojify }}
+    </p>
+    <div class="prose dark:prose-invert">
+        <p>{{ i18n "error.404_description" | emojify }}</p>
+    </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // Check if user came from form submission
+        if (
+            document.referrer &&
+            (document.referrer.includes("/join-us/") ||
+                document.referrer.includes("/thankyou/"))
+        ) {
+            // Show thank you content
+            document.getElementById("thank-you-content").style.display =
+                "block";
+            document.getElementById("not-found-content").style.display = "none";
+        }
+        // Otherwise keep 404 content visible (default)
+    });
+</script>
+{{ end }} {{ end }}

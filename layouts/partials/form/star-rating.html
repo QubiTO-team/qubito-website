@@ -1,0 +1,113 @@
+{{- $id := .id -}} {{- $label := .label -}} {{- $name := .name -}} {{- $required
+:= .required | default false -}} {{- $max := .max | default 5 -}}
+
+<div class="mb-6">
+    <label
+        class="block text-base font-medium text-neutral-700 dark:text-neutral-300 mb-3"
+    >
+        {{ $label }}{{ if $required }}<span style="color: #ef4444" class="ml-1"
+            >*</span
+        >{{ end }}
+    </label>
+    <div
+        class="star-rating"
+        data-rating="0"
+        data-max="{{ $max }}"
+        data-name="{{ $name }}"
+    >
+        {{ range seq 1 $max }}
+        <span class="star" data-value="{{ . }}">★</span>
+        {{ end }}
+    </div>
+    <input
+        type="hidden"
+        name="{{ $name }}"
+        value=""
+        {{
+        if
+        $required
+        }}required{{
+        end
+        }}
+    />
+</div>
+
+<style>
+    .star-rating {
+        display: flex;
+        gap: 4px;
+        margin-bottom: 8px;
+    }
+
+    .star {
+        font-size: 24px;
+        color: #d1d5db;
+        cursor: pointer;
+        transition: color 0.2s ease;
+        user-select: none;
+        text-decoration: none;
+    }
+
+    .star:hover,
+    .star.active {
+        color: #a855f7;
+    }
+
+    .star-rating[data-rating="0"] .star {
+        color: #d1d5db;
+    }
+</style>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const starRatings = document.querySelectorAll(".star-rating");
+
+        starRatings.forEach(function (rating) {
+            const stars = rating.querySelectorAll(".star");
+            const hiddenInput = rating.nextElementSibling;
+            const maxRating = parseInt(rating.getAttribute("data-max"));
+            let currentRating = 0;
+
+            stars.forEach(function (star, index) {
+                star.addEventListener("click", function () {
+                    currentRating = parseInt(this.getAttribute("data-value"));
+                    rating.setAttribute("data-rating", currentRating);
+                    hiddenInput.value = currentRating;
+
+                    // Update star colors
+                    stars.forEach(function (s, i) {
+                        if (i < currentRating) {
+                            s.classList.add("active");
+                        } else {
+                            s.classList.remove("active");
+                        }
+                    });
+                });
+
+                star.addEventListener("mouseenter", function () {
+                    const hoverValue = parseInt(
+                        this.getAttribute("data-value"),
+                    );
+                    stars.forEach(function (s, i) {
+                        if (i < hoverValue) {
+                            s.style.color = "#a855f7";
+                        } else {
+                            s.style.color =
+                                i < currentRating ? "#a855f7" : "#d1d5db";
+                        }
+                    });
+                });
+            });
+
+            rating.addEventListener("mouseleave", function () {
+                stars.forEach(function (s, i) {
+                    if (i < currentRating) {
+                        s.style.color = "#a855f7";
+                    } else {
+                        s.style.color = "#d1d5db";
+                    }
+                });
+            });
+        });
+    });
+</script>
