@@ -62,23 +62,23 @@
   <!-- Application Form -->
   <div class="bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-700 rounded-xl shadow-xl p-8">
 
-    <form id="join-us-form" action="{{ .Site.Params.googleFormUrl }}" method="POST"
+    <form id="join-us-form" action="{{ .Site.Params.googleScriptUrl }}" method="POST"
         class="space-y-6 p-4"
         target="hidden_iframe"
         onsubmit="submitted=true"
     >
 
-      {{ partial "form/text-input" (dict "id" "name_surname" "name" "entry.549661010" "label" "Name and Surname" "required" true) }}
+      {{ partial "form/text-input" (dict "id" "name_surname" "name" "name_surname" "label" "Name and Surname" "required" true) }}
 
-      {{ partial "form/text-input" (dict "id" "id_number" "name" "entry.1934738868" "label" "ID Number" "required" true) }}
+      {{ partial "form/text-input" (dict "id" "id_number" "name" "id_number" "label" "ID Number" "required" true) }}
 
-      {{ partial "form/text-input" (dict "id" "email" "name" "entry.661787044" "label" "Instutional Mail Address" "type" "email" "required" true) }}
+      {{ partial "form/text-input" (dict "id" "email" "name" "email" "label" "Instutional Mail Address" "type" "email" "required" true) }}
 
-      {{ partial "form/text-input" (dict "id" "major" "name" "entry.1967944721" "label" "Which major are you?" "required" true) }}
+      {{ partial "form/text-input" (dict "id" "major" "name" "major" "label" "Which major are you?" "required" true) }}
 
-      {{ partial "form/text-input" (dict "id" "years_complete" "name" "entry.1198730495" "label" "In your opinion, in how many years will you be able to complete your studies?" "required" true) }}
+      {{ partial "form/text-input" (dict "id" "years_complete" "name" "years_complete" "label" "In your opinion, in how many years will you be able to complete your studies?" "required" true) }}
 
-      {{ partial "form/radio-group" (dict "id" "year_student" "name" "entry.1318495168" "label" "Which year student are you?" "required" true "options" (slice
+      {{ partial "form/radio-group" (dict "id" "year_student" "name" "year_student" "label" "Which year student are you?" "required" true "options" (slice
         (dict "value" "1st year of bachelors" "label" "1st year of bachelors")
         (dict "value" "2nd year of bachelors" "label" "2nd year of bachelors")
         (dict "value" "3nd year of bachelors" "label" "3nd year of bachelors")
@@ -86,41 +86,41 @@
         (dict "value" "2nd year of masters" "label" "2nd year of masters")
       )) }}
 
-      {{ partial "form/star-rating" (dict "id" "english_abilities" "name" "entry.1217868080" "label" "How would you rate your English speaking abilities?" "required" true "max" 5) }}
+      {{ partial "form/star-rating" (dict "id" "english_abilities" "name" "english_abilities" "label" "How would you rate your English speaking abilities?" "required" true "max" 5) }}
 
-      {{ partial "form/radio-group" (dict "id" "other_team" "name" "entry.749971554" "label" "Are you currently a part of another student team?" "required" true "options" (slice
+      {{ partial "form/radio-group" (dict "id" "other_team" "name" "other_team" "label" "Are you currently a part of another student team?" "required" true "options" (slice
         (dict "value" "Yes, more than one" "label" "Yes, more than one")
         (dict "value" "Yes, one" "label" "Yes, one")
         (dict "value" "No" "label" "No")
       )) }}
 
-      {{ partial "form/radio-group" (dict "id" "social_media" "name" "entry.580941735" "label" "Are you applying for the social media manager role?" "required" true "options" (slice
+      {{ partial "form/radio-group" (dict "id" "social_media" "name" "social_media" "label" "Are you applying for the social media manager role?" "required" true "options" (slice
         (dict "value" "Yes" "label" "Yes")
         (dict "value" "No" "label" "No")
       )) }}
 
       <div id="technical-fields" style="display: none;">
-        {{ partial "form/star-rating" (dict "id" "rf_engineering" "name" "entry.933573501" "label" "How much do you know about Radio Frequency Engineering?" "required" true "max" 10) }}
+        {{ partial "form/star-rating" (dict "id" "rf_engineering" "name" "rf_engineering" "label" "How much do you know about Radio Frequency Engineering?" "required" true "max" 10) }}
 
-        {{ partial "form/star-rating" (dict "id" "fpga" "name" "entry.1281042907" "label" "How much do you know about FPGAs?" "required" true "max" 10) }}
+        {{ partial "form/star-rating" (dict "id" "fpga" "name" "fpga" "label" "How much do you know about FPGAs?" "required" true "max" 10) }}
 
-        {{ partial "form/star-rating" (dict "id" "python_coding" "name" "entry.720723822" "label" "How familiar are you with coding, especially in Python?" "required" true "max" 10) }}
+        {{ partial "form/star-rating" (dict "id" "python_coding" "name" "python_coding" "label" "How familiar are you with coding, especially in Python?" "required" true "max" 10) }}
 
-        {{ partial "form/star-rating" (dict "id" "quantum_mechanics" "name" "entry.1986856911" "label" "How familiar are you with concepts in quantum mechanics?" "required" true "max" 10) }}
+        {{ partial "form/star-rating" (dict "id" "quantum_mechanics" "name" "quantum_mechanics" "label" "How familiar are you with concepts in quantum mechanics?" "required" true "max" 10) }}
 
-        {{ partial "form/radio-group" (dict "id" "qiskit" "name" "entry.492449161" "label" "Do you know of Qiskit?" "required" true "options" (slice
+        {{ partial "form/radio-group" (dict "id" "qiskit" "name" "qiskit" "label" "Do you know of Qiskit?" "required" true "options" (slice
           (dict "value" "The squirrel sound?" "label" "The squirrel sound?")
           (dict "value" "A little bit" "label" "A little bit")
           (dict "value" "For sure!" "label" "For sure!")
         )) }}
 
-        {{ partial "form/radio-group" (dict "id" "studied_qc" "name" "entry.227378745" "label" "Have you ever studied Quantum Computing?" "required" true "options" (slice
+        {{ partial "form/radio-group" (dict "id" "studied_qc" "name" "studied_qc" "label" "Have you ever studied Quantum Computing?" "required" true "options" (slice
           (dict "value" "Yes, in an institution" "label" "Yes, in an institution")
           (dict "value" "Yes, by myself" "label" "Yes, by myself")
           (dict "value" "No" "label" "No")
         )) }}
 
-        {{ partial "form/textarea" (dict "id" "other_skills" "name" "entry.1940575581" "label" "Would you like to mention any other skills that you feel would be useful for your time in the team? (ex: previous hackathon participations etc.)" "rows" 4) }}
+        {{ partial "form/textarea" (dict "id" "other_skills" "name" "other_skills" "label" "Would you like to mention any other skills that you feel would be useful for your time in the team? (ex: previous hackathon participations etc.)" "rows" 4) }}
       </div>
 
       <!-- Submit Button -->
@@ -248,7 +248,7 @@ document.addEventListener('DOMContentLoaded', function() {
     var socialMediaContainer = document.getElementById('social_media_container');
     if (socialMediaContainer) {
       socialMediaContainer.addEventListener('change', function(event) {
-        if (event.target.name === 'entry.580941735') {
+        if (event.target.name === 'social_media') {
           var technicalFields = document.getElementById('technical-fields');
           const isSocial = event.target.value === 'Yes';
 
