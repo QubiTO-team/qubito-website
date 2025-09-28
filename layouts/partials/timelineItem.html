@@ -33,12 +33,40 @@ $images := .images }} {{ $link := .link }} {{ $url := .url }}
       {{ end }} {{ end }} {{ if $images }}
       <div class="flex justify-center items-center flex-wrap gap-4 image-list-gap">
         {{ range $images }}
-        <img
-          src="{{ . }}"
-          alt="Image from {{ $header }}"
-          style="max-width: min(400px, 70vw); max-height: 400px"
-          class="rounded-xl image-list-gap"
-        />
+        {{- $resource := "" }}
+        {{- if $.Page.Resources.GetMatch . }}
+          {{- $resource = $.Page.Resources.GetMatch . }}
+        {{- else if resources.GetMatch . }}
+          {{- $resource = resources.Get . }}
+        {{- end }}
+
+        {{- with $resource }}
+          {{- $small := .Resize "400x webp q85" }}
+          {{- $medium := .Resize "600x webp q85" }}
+          {{- $fallback := .Resize "400x jpg q85" }}
+
+          <picture>
+            <source media="(max-width: 768px)" srcset="{{ $small.RelPermalink }}" type="image/webp">
+            <source media="(min-width: 769px)" srcset="{{ $medium.RelPermalink }}" type="image/webp">
+            <img
+              src="{{ $fallback.RelPermalink }}"
+              alt="Image from {{ $header }}"
+              style="max-width: min(400px, 70vw); max-height: 400px"
+              class="rounded-xl image-list-gap responsive-image"
+              loading="lazy"
+              width="{{ $fallback.Width }}"
+              height="{{ $fallback.Height }}"
+            />
+          </picture>
+        {{- else }}
+          <img
+            src="{{ . }}"
+            alt="Image from {{ $header }}"
+            style="max-width: min(400px, 70vw); max-height: 400px"
+            class="rounded-xl image-list-gap responsive-image"
+            loading="lazy"
+          />
+        {{- end }}
         {{ end }}
       </div>
       {{ end }} {{ if $url }}

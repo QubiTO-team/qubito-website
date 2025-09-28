@@ -1,0 +1,95 @@
+{{- $src := .Get "src" }} {{- $alt := .Get "alt" | default "Image" }} {{-
+$caption := .Get "caption" }} {{- $class := .Get "class" | default
+"responsive-image" }} {{- $loading := .Get "loading" | default "lazy" }} {{-
+$disableOptimization := .Get "disableOptimization" | default false }} {{-
+$resource := "" }} {{- if .Page.Resources.GetMatch $src }} {{- $resource =
+.Page.Resources.GetMatch $src }} {{- else if resources.GetMatch $src }} {{-
+$resource = resources.Get $src }} {{- end }}
+
+<style>
+    .responsive-image {
+        max-width: 100%;
+        height: auto;
+        image-rendering: -webkit-optimize-contrast;
+        image-rendering: optimize-contrast;
+        image-rendering: crisp-edges;
+        transition: opacity 0.3s ease;
+    }
+
+    .responsive-image[loading="lazy"] {
+        opacity: 0;
+    }
+
+    .responsive-image.loaded {
+        opacity: 1;
+    }
+</style>
+
+{{- with $resource }} {{- if not $disableOptimization }} {{- $small := .Resize
+"480x webp q90" }} {{- $medium := .Resize "768x webp q90" }} {{- $large :=
+.Resize "1200x webp q90" }} {{- $xlarge := .Resize "1920x webp q85" }} {{-
+$fallback := .Resize "1200x jpg q90" }}
+
+<figure>
+    <picture>
+        <source
+            media="(max-width: 480px)"
+            srcset="{{ $small.RelPermalink }}"
+            type="image/webp"
+        />
+        <source
+            media="(max-width: 768px)"
+            srcset="{{ $medium.RelPermalink }}"
+            type="image/webp"
+        />
+        <source
+            media="(max-width: 1200px)"
+            srcset="{{ $large.RelPermalink }}"
+            type="image/webp"
+        />
+        <source
+            media="(min-width: 1201px)"
+            srcset="{{ $xlarge.RelPermalink }}"
+            type="image/webp"
+        />
+        <img
+            src="{{ $fallback.RelPermalink }}"
+            class="{{ $class }}"
+            alt="{{ $alt }}"
+            loading="{{ $loading }}"
+            width="{{ $fallback.Width }}"
+            height="{{ $fallback.Height }}"
+            onload="this.classList.add('loaded')"
+        />
+    </picture>
+    {{ with $caption }}
+    <figcaption>{{ . | markdownify }}</figcaption>
+    {{ end }}
+</figure>
+{{- else }}
+<figure>
+    <img
+        src="{{ .RelPermalink }}"
+        class="{{ $class }}"
+        alt="{{ $alt }}"
+        loading="{{ $loading }}"
+        onload="this.classList.add('loaded')"
+    />
+    {{ with $caption }}
+    <figcaption>{{ . | markdownify }}</figcaption>
+    {{ end }}
+</figure>
+{{- end }} {{- else }}
+<figure>
+    <img
+        src="{{ $src }}"
+        class="{{ $class }}"
+        alt="{{ $alt }}"
+        loading="{{ $loading }}"
+        onload="this.classList.add('loaded')"
+    />
+    {{ with $caption }}
+    <figcaption>{{ . | markdownify }}</figcaption>
+    {{ end }}
+</figure>
+{{- end }}

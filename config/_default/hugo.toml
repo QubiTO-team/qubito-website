@@ -25,6 +25,15 @@ enableEmoji = true
 
 [imaging]
   anchor = 'Center'
+  quality = 85
+  resampleFilter = 'Lanczos'
+
+  # Image processing configurations for different sizes
+  [imaging.resolutions]
+    small = 480
+    medium = 768
+    large = 1200
+    xlarge = 1920
 
 [sitemap]
   changefreq = 'daily'
