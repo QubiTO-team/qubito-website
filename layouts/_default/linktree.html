@@ -1,0 +1,220 @@
+{{ define "main" }} {{ $current := . }} {{ $translationPages := slice $current
+}} {{ range .Translations }} {{ $translationPages = $translationPages | append .
+}} {{ end }} {{ $orderedPages := slice }} {{ range $translationPages }} {{ if eq
+.Lang "it" }} {{ $orderedPages = $orderedPages | append . }} {{ end }} {{ end }}
+{{ range $translationPages }} {{ if ne .Lang "it" }} {{ $orderedPages =
+$orderedPages | append . }} {{ end }} {{ end }}
+<div class="relative">
+    <div class="background pointer-events-none">
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+    <article
+        class="relative mx-auto w-full max-w-md sm:max-w-full px-4 pt-4 pb-6 text-center sm:px-4 sm:pt-24 bg-neutral dark:bg-neutral-700 rounded-lg mb-0 mt-6"
+    >
+        <div
+            class="flex w-full flex-wrap items-center justify-between gap-4 text-sm sm:flex-nowrap"
+        >
+            <div class="flex flex-wrap items-center">
+                {{ if gt (len $orderedPages) 1 }}
+                <nav
+                    aria-label='{{ i18n "global.language" }}'
+                    class="flex items-center gap-1 rounded-full bg-white p-1 font-semibold uppercase tracking-wide text-neutral-600 shadow-lg backdrop-blur-sm dark:bg-neutral-900/70 dark:text-neutral-200 mr-2"
+                >
+                    {{ range $orderedPages }} {{ $isActive := eq .Lang
+                    $current.Lang }}
+                    <a
+                        href="{{ .RelPermalink }}"
+                        class="rounded-full px-3 py-1 {{ if $isActive }}bg-primary-600 text-neutral-50 shadow-sm dark:bg-primary-500 dark:text-neutral-50{{ end }}"
+                    >
+                        {{ with .Language.Params.displayName }}{{ . }}{{ else
+                        }}{{ upper .Lang }}{{ end }}
+                    </a>
+                    {{ end }}
+                </nav>
+                {{ end }} {{ if .Site.Params.footer.showAppearanceSwitcher |
+                default false }}
+                <button
+                    id="appearance-switcher"
+                    aria-label="Dark mode switcher"
+                    type="button"
+                    class="inline-flex items-center justify-center rounded-full bg-white px-3 py-2 text-base text-neutral-600 shadow-lg dark:bg-neutral-900/70 dark:text-neutral-200"
+                >
+                    <span class="flex items-center justify-center dark:hidden">
+                        {{ partial "icon.html" "moon" }}
+                    </span>
+                    <span class="hidden items-center justify-center dark:flex">
+                        {{ partial "icon.html" "sun" }}
+                    </span>
+                </button>
+                {{ end }}
+            </div>
+            <button
+                id="share-button"
+                type="button"
+                data-default-label="Share"
+                data-copied-label="Link copied!"
+                class="inline-flex items-center justify-center rounded-full bg-white px-4 py-2 font-semibold uppercase tracking-wide text-neutral-600 shadow-lg dark:bg-neutral-900/70 dark:text-neutral-200"
+            >
+                <span class="flex items-center justify-center">
+                    {{ partial "icon.html" "share" }}
+                </span>
+            </button>
+        </div>
+        <div class="flex flex-col items-center gap-6">
+            {{ with .Site.Params.logo }}
+            <div
+                class="flex h-24 w-24 items-center justify-center rounded-full bg-white p-1.5 shadow-lg dark:bg-neutral-900"
+            >
+                <img
+                    src="{{ relURL . }}"
+                    alt="{{ $.Site.Title }} logo"
+                    class="logo h-full w-full object-contain"
+                    loading="lazy"
+                />
+            </div>
+            {{ end }}
+
+            <div class="space-y-4">
+                <h1
+                    class="text-4xl font-bold text-neutral-900 dark:text-neutral-100 mt-2 mb-2"
+                >
+                    {{ .Description }}
+                </h1>
+            </div>
+        </div>
+
+        {{ if .Params.social }}
+        <ul class="gap-4 mt-4 flex flex-column justify-center">
+            {{ range $platform, $link := .Params.social }}
+            <li class="flex mb-1 ltr:text-right rtl:text-left">
+                <a
+                    class="decoration-primary-500 hover:underline hover:decoration-2 hover:underline-offset-2 flex items-center"
+                    href="{{ $link }}"
+                    title="{{ $platform }}"
+                >
+                    <span> {{ partial "icon.html" $platform }} </span>
+                </a>
+            </li>
+            {{ end }}
+        </ul>
+        {{ end }}
+
+        <div class="space-y-10">
+            {{ range .Params.linkGroups }}
+            <section class="text-left">
+                <h2
+                    class="text-sm font-semibold uppercase tracking-[0.3em] text-neutral-500 dark:text-neutral-400"
+                >
+                    {{ .title }}
+                </h2>
+                <div class="mt-4 space-y-4">
+                    {{ range .links }} {{ $isExternal := or (hasPrefix .url
+                    "http://") (hasPrefix .url "https://") }}
+                    <a
+                        href="{{ .url }}"
+                        class="group block w-full transform bg-white/80 px-6 py-3 text-center text-lg font-semibold text-neutral-900 shadow-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-neutral-400 dark:bg-neutral-900/70 dark:text-neutral-100"
+                        {{
+                        if
+                        $isExternal
+                        }}target="_blank"
+                        rel="noopener noreferrer"
+                        {{
+                        end
+                        }}
+                    >
+                        <span
+                            class="flex flex-wrap items-center justify-center gap-2"
+                        >
+                            <span>{{ .label }}</span>
+                            {{ if $isExternal }}
+                            <span
+                                aria-hidden="true"
+                                class="text-sm font-normal text-neutral-500 ml-2"
+                                >↗</span
+                            >
+                            {{ end }}
+                        </span>
+                    </a>
+                    {{ end }}
+                </div>
+            </section>
+            {{ end }}
+        </div>
+
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                const shareButton = document.getElementById("share-button");
+                if (shareButton) {
+                    const defaultLabel =
+                        shareButton.dataset.defaultLabel ||
+                        shareButton.textContent;
+                    const copiedLabel =
+                        shareButton.dataset.copiedLabel || "Copied!";
+
+                    shareButton.addEventListener("click", async function () {
+                        const shareData = {
+                            title: document.title,
+                            url: window.location.href,
+                        };
+
+                        if (navigator.share) {
+                            try {
+                                await navigator.share(shareData);
+                            } catch (error) {
+                                console.warn(
+                                    "Share cancelled or failed",
+                                    error,
+                                );
+                            }
+                            return;
+                        }
+
+                        if (
+                            navigator.clipboard &&
+                            navigator.clipboard.writeText
+                        ) {
+                            try {
+                                await navigator.clipboard.writeText(
+                                    window.location.href,
+                                );
+                                shareButton.textContent = copiedLabel;
+                                shareButton.disabled = true;
+                                setTimeout(function () {
+                                    shareButton.textContent = defaultLabel;
+                                    shareButton.disabled = false;
+                                }, 1500);
+                            } catch (error) {
+                                console.warn("Clipboard write failed", error);
+                            }
+                        }
+                    });
+                }
+            });
+        </script>
+    </article>
+</div>
+<style>
+    body {
+        padding-left: 0;
+        padding-right: 0;
+    }
+</style>
+{{ end }}
