@@ -8,6 +8,7 @@ If you want to modify specific pages, see:
 - [Articles](pages/articles.md)
 - [Activities](pages/activities.md)
 - [Home Page](pages/home.md)
+- [Linktree Page](pages/linktree.md)
 
 These guides describe the structure and properties of each section.
 

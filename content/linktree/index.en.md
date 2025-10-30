@@ -8,7 +8,7 @@ social:
   github: "https://github.com/QubiTO-team/qubito-website/"
   linkedin: "https://www.linkedin.com/company/qubito-student-team-politecnico-di-torino/"
   instagram: "https://www.instagram.com/qubitoteam_polito/"
-  website: "https://qubito.polito.it"
+  globe: "https://qubito.polito.it"
 linkGroups:
 
   - title: "Upcoming Events"

@@ -1,0 +1,22 @@
+{
+  "name": "qubito-website",
+  "private": true,
+  "scripts": {
+    "tailwind:build": "tailwindcss -c ./themes/blowfish/tailwind.config.js -i ./themes/blowfish/assets/css/main.css -o ./assets/css/compiled/main.css --minify",
+    "tailwind:watch": "tailwindcss -c ./themes/blowfish/tailwind.config.js -i ./themes/blowfish/assets/css/main.css -o ./assets/css/compiled/main.css --watch",
+    "prebuild": "npm run tailwind:build",
+    "build": "hugo --gc --minify",
+    "prehugo": "npm run tailwind:build",
+    "hugo": "hugo",
+    "prestart": "npm run tailwind:build",
+    "start": "concurrently \"npm:tailwind:watch\" \"hugo server -D\""
+  },
+  "devDependencies": {
+    "@tailwindcss/cli": "^4.1.4",
+    "@tailwindcss/forms": "^0.5.10",
+    "@tailwindcss/typography": "^0.5.16",
+    "concurrently": "^9.1.2",
+    "tailwind-scrollbar": "^4.0.2",
+    "tailwindcss": "^4.0.16"
+  }
+}
