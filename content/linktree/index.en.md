@@ -13,8 +13,8 @@ linkGroups:
 
   - title: "Upcoming Events"
     links:
-      - label: "ADD REGISTER LINK HERE"
-        url: "https://qubito.polito.it/"
+      - label: "Register for QubiTO Quantum Days"
+        url: "/en/forms/qubito-quantum-days-form/"
   - title: "On our site"
     links:
       - label: "Home"

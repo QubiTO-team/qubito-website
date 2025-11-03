@@ -1,0 +1,167 @@
+{{ define "main" }}
+<article class="max-w-4xl mx-auto">
+    <header class="mb-8 text-center">
+        <h1
+            class="text-4xl font-bold text-neutral-800 dark:text-neutral-100 mb-4"
+        >
+            {{ .Title }}
+        </h1>
+        {{ if .Params.description }}
+        <p
+            class="text-xl text-neutral-600 dark:text-neutral-400 max-w-3xl mx-auto"
+        >
+            {{ .Params.description }}
+        </p>
+        {{ end }}
+    </header>
+
+    {{ if not .Params.isFormOpen }}
+    <div class="text-center py-16">
+        <div class="max-w-2xl mx-auto">
+            <h2
+                class="text-2xl font-bold text-neutral-800 dark:text-neutral-100 mb-6"
+            >
+                Registrations are closed
+            </h2>
+            <p class="text-lg text-neutral-600 dark:text-neutral-400">
+                Thank you for your interest in QubiTO Quantum Days.
+                Registrations are currently closed; follow our social channels
+                for future updates.
+            </p>
+        </div>
+    </div>
+    {{ else }} {{ if .Content }}
+    <div class="prose prose-neutral dark:prose-invert mb-8 max-w-3xl mx-auto">
+        {{ .Content }}
+    </div>
+    {{ end }}
+
+    <div class="bg-white dark:bg-neutral-900 rounded-xl shadow-xl p-8">
+        <form
+            id="register-form"
+            action="{{ .Params.googleScriptUrl }}"
+            method="POST"
+            class="space-y-6 p-4"
+            target="hidden_iframe"
+            onsubmit="submitted=true"
+        >
+            {{ partial "form/text-input" (dict "id" "first_name" "name"
+            "first_name" "label" "First name" "required" true ) }} {{ partial
+            "form/text-input" (dict "id" "last_name" "name" "last_name" "label"
+            "Last name" "required" true ) }} {{ partial "form/text-input" (dict
+            "id" "email" "name" "email" "label" "Institutional email address"
+            "type" "email" "required" true ) }}
+
+            <div
+                class="rounded-lg bg-neutral-50 dark:bg-neutral-800/60 text-sm text-neutral-600 dark:text-neutral-300 leading-relaxed p-4 shadow-inner"
+            >
+                <strong class="font-semibold">Please note:</strong>
+                <span class="block mt-1"
+                    >Participants may appear in QubiTO social media posts
+                    documenting the event.</span
+                >
+            </div>
+
+            <div class="pt-4 text-center">
+                {{ partial "button" (dict "type" "submit" "id" "submit-btn"
+                "content" "Submit registration" "class" "mx-auto") }}
+                <div class="mt-6"></div>
+            </div>
+
+            <div
+                id="form-status"
+                class="hidden text-center p-6 rounded-xl"
+            ></div>
+        </form>
+
+        <script type="text/javascript">
+            var submitted = false;
+        </script>
+        <iframe
+            name="hidden_iframe"
+            id="hidden_iframe"
+            style="display: none"
+            onload="if(submitted) {window.location='/en/forms/qubito-quantum-days-thankyou/'}"
+        ></iframe>
+    </div>
+
+    {{ end }}
+</article>
+
+<script>
+    var submitted = false;
+
+    document.addEventListener("DOMContentLoaded", function () {
+        var form = document.getElementById("register-form");
+        var submitBtn = document.getElementById("submit-btn");
+        var statusDiv = document.getElementById("form-status");
+
+        if (!form || !submitBtn || !statusDiv) {
+            return;
+        }
+
+        var errorMessage = "Please fill in all required fields";
+        var submittingText = "Submitting...";
+        var defaultButtonHTML = submitBtn.innerHTML;
+
+        form.addEventListener("submit", function (e) {
+            var requiredFields = form.querySelectorAll("[required]");
+            var hasErrors = false;
+
+            statusDiv.className = "hidden";
+            statusDiv.textContent = "";
+
+            requiredFields.forEach(function (field) {
+                field.classList.remove("border-red-500", "dark:border-red-300");
+                field.classList.add(
+                    "border-neutral-300",
+                    "dark:border-neutral-600",
+                );
+
+                if (!field.value.trim()) {
+                    hasErrors = true;
+                    field.classList.remove(
+                        "border-neutral-300",
+                        "dark:border-neutral-600",
+                    );
+                    field.classList.add(
+                        "border-red-500",
+                        "dark:border-red-300",
+                    );
+                }
+            });
+
+            if (hasErrors) {
+                e.preventDefault();
+                statusDiv.className =
+                    "text-center p-6 rounded-xl shadow-lg bg-red-100 dark:bg-red-900/70 text-red-800 dark:text-red-100";
+                statusDiv.textContent = errorMessage;
+                statusDiv.classList.remove("hidden");
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = defaultButtonHTML;
+                submitBtn.classList.remove(
+                    "flex",
+                    "items-center",
+                    "justify-center",
+                    "gap-2",
+                );
+                return;
+            }
+
+            submitBtn.disabled = true;
+            submitBtn.classList.add(
+                "flex",
+                "items-center",
+                "justify-center",
+                "gap-2",
+            );
+            submitBtn.innerHTML =
+                '<svg class="h-5 w-5 animate-spin text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>' +
+                '<span class="text-white font-medium">' +
+                submittingText +
+                "</span>";
+        });
+    });
+</script>
+
+{{ end }}
