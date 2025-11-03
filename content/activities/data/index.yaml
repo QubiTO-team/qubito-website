@@ -1,9 +1,10 @@
 - icon: "🗓️"
   header: "QubiTO Quantum Days"
-  badge: "Aprile 2025"
+  badge: "Ottobre 12-14 2025"
   description: "TODO"
   isMainActivity: true
   isActive: true
+  url: "/activities/qubito-quantum-days/"
 
 - icon: "🤖"
   header: "GenQ Global Hackathon Series in Geneva"

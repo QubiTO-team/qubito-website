@@ -13,6 +13,8 @@ author: "Politecnico di Torino"
 **Do you want to experience the future of quantum engineering?**
 Talks, international guests, and a hands-on workshop.
 
+[Register now →](/en/qubito-quantum-days-form/)
+
 ---
 
 ### 🧠 Quantum Foundations
