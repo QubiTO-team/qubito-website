@@ -1,3 +1,12 @@
+- icon: "🤖"  
+  header: "GenQ Global Hackathon Series in Geneva"  
+  badge: "2025"  
+  description: "Our team obtained a great result at the GenQ Hackathon, hosted by QAI Ventures at CERN, where we competed in a series of exciting quantum machine learning challenges. We split into two groups to tackle distinct problems: medical image classification and air quality forecasting. Our efforts were rewarded when the medical imaging team secured 2nd Place and brought home the Innovation Award."  
+  isMainActivity: true  
+  images:
+    - "/images/past-activities/genq25_1.jpg"
+    - "/images/past-activities/genq25_2.jpg"
+
 - icon: "🇨🇭"  
   header: "ETH Zurich Quantum Hackathon"  
   badge: "2025"  
@@ -19,6 +28,14 @@
   description: "Celebrating Pi Day with a quantum perspective, exploring the role of π in theoretical physics and quantum mechanics."  
   isMainActivity: false  
 
+- icon: "🧠"  
+  header: "Internal Hackathon"  
+  badge: "Fall 2024"  
+  description: "Second internal hackathon focused on Quantum Optimization and Quantum Machine Learning, featuring original projects and exploration of new application horizons."  
+  isMainActivity: true  
+  images:  
+    - "/images/past-activities/hackathon-interno-2025.jpg" 
+
 - icon: "🇩🇪"  
   header: "Pushquantum Hackathon"  
   badge: "2024"  
@@ -26,14 +43,6 @@
   isMainActivity: true  
   images:  
     - "/images/past-activities/pushquantum-hackathon-2024.jpg"  
-
-- icon: "🧠"  
-  header: "Internal Hackathon"  
-  badge: "Fall 2025"  
-  description: "Second internal hackathon focused on Quantum Optimization and Quantum Machine Learning, featuring original projects and exploration of new application horizons."  
-  isMainActivity: true  
-  images:  
-    - "/images/past-activities/hackathon-interno-2025.jpg"  
 
 - icon: "🎤"  
   header: "DevFestAlps 2024"  
