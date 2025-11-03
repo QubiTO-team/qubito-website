@@ -9,7 +9,8 @@
     "prehugo": "npm run tailwind:build",
     "hugo": "hugo",
     "prestart": "npm run tailwind:build",
-    "start": "concurrently \"npm:tailwind:watch\" \"hugo server -D\""
+    "start": "concurrently \"npm:tailwind:watch\" \"hugo server -D\"",
+    "dev": "concurrently \"npm:tailwind:watch\" \"hugo server -D --disableFastRender --ignoreCache --noHTTPCache\""
   },
   "devDependencies": {
     "@tailwindcss/cli": "^4.1.4",
