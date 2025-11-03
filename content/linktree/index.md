@@ -12,8 +12,8 @@ social:
 linkGroups:
   - title: "Prossimi eventi"
     links:
-      - label: "ADD REGISTER LINK HERE"
-        url: "https://qubito.polito.it/"
+      - label: "Registrati ai QubiTO Quantum Days"
+        url: "/en/forms/qubito-quantum-days-form/"
   - title: "Sul nostro sito"
     links:
       - label: "Home"
