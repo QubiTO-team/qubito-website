@@ -14,7 +14,7 @@ author: "Politecnico di Torino"
 **Do you want to experience the future of quantum engineering?**
 Talks, international guests, and a hands-on workshop.
 
-[Register now →](en/forms/qubito-quantum-days-form/)
+[Register now →](/en/forms/qubito-quantum-days-form/)
 
 ---
 
