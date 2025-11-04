@@ -4,5 +4,5 @@ description: "100 Years of Quantum Mechanics"
 layout: "single"
 type: "qubito-quantum-days-form"
 isFormOpen: true
-googleScriptUrl: "https://script.google.com/macros/s/AKfycby8tXFe65JnQS8qzKrSRx8t_f-byciL9tai0jJQmEC-b2i-NMchpaR7uds7Iykbl-Pk/exec"
+googleScriptUrl: "https://script.google.com/macros/s/AKfycbzp8f32q6O0iqaM2BZXCT7Z9lFN9eUpt8X_RwV__5lVEWgxsrM63gq_P31B7bDOMFh2/exec"
 ---
