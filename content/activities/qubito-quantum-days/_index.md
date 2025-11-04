@@ -42,6 +42,12 @@ showTaxonomies: false
 
 <p>L’evento riunirà studenti, ricercatori e appassionati di scienze e ingegneria quantistica, offrendo un percorso che unisce storia, ricerca e applicazione pratica.</p>
 
+<div class="bg-secondary-100 dark:bg-secondary-900/30 border border-secondary-300 dark:border-secondary-700 rounded-xl mt-6 mb-6">
+  <p class="text-center font-medium text-sm text-secondary-900 dark:text-secondary-100">
+    🔊 Nota: Tutti gli interventi e i materiali dell’evento saranno in lingua <strong>inglese</strong>.
+  </p>
+</div>
+
 <hr class="my-8"/>
 
 <h3 class="text-2xl font-medium">📅 Programma</h3>
@@ -63,8 +69,8 @@ showTaxonomies: false
 
 </div>
 
-<aside class="mt-10 lg:mt-0 lg:w-80 lg:shrink-0 w-full max-w-md mx-auto lg:mx-0">
-    <div class="sticky top-28 rounded-3xl border border-neutral-200 bg-gradient-to-br from-primary-500/10 via-primary-500/5 to-transparent p-6 shadow-xl backdrop-blur-sm dark:border-neutral-700 dark:from-primary-400/20 dark:via-primary-500/10">
+<aside class="mt-10 lg:mt-0 lg:w-80 lg:shrink-0 w-full max-w-md mx-auto lg:mx-0 lg:sticky lg:top-28">
+  <div class="rounded-3xl border border-neutral-200 bg-gradient-to-br from-primary-500/10 via-primary-500/5 to-transparent p-6 shadow-xl backdrop-blur-sm dark:border-neutral-700 dark:from-primary-400/20 dark:via-primary-500/10">
         <h4 class="text-2xl/0 font-semibold text-neutral-900 dark:text-neutral-50 mb-10">QubiTO Quantum Days</h4>
     <p class="text-sm text-neutral-600 dark:text-neutral-300 mb-4">Tre giornate di talk, ospiti internazionali e workshop pratici sul futuro dell’ingegneria quantistica.</p>
     <dl class="text-sm text-neutral-700 dark:text-neutral-200 space-y-2 mb-6">
@@ -77,6 +83,9 @@ showTaxonomies: false
         <dd>Politecnico di Torino</dd>
       </div>
     </dl>
+    <div class="text-sm text-yellow-800 dark:text-yellow-200 mb-5 italic text-center">
+      🔊 L’evento si svolgerà interamente in inglese.
+    </div>
     <a href="/en/forms/qubito-quantum-days-form/">
        <div
            class="inline-flex w-full items-center justify-center rounded-full bg-gradient-to-r from-primary-700 via-primary-600/90 to-primary-700 px-7 py-3 text-lg font-semibold text-neutral-100 shadow-lg hover:opacity-90 dark:from-primary-400 dark:via-primary-200 dark:to-primary-400 dark:text-neutral-900">

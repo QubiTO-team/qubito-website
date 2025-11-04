@@ -62,9 +62,9 @@ showTaxonomies: false
 
 </div>
 
-<aside class="mt-10 lg:mt-0 lg:w-80 lg:shrink-0 w-full max-w-md mx-auto lg:mx-0">
-  <div class="sticky top-28 rounded-3xl border border-neutral-200 bg-gradient-to-br from-primary-500/10 via-primary-500/5 to-transparent p-6 shadow-xl backdrop-blur-sm dark:border-neutral-700 dark:from-primary-400/20 dark:via-primary-500/10">
-    <h4 class="text-2xl/0 font-semibold text-neutral-900 dark:text-neutral-50 mb-10">QubiTO Quantum Days</h4>
+<aside class="mt-10 lg:mt-0 lg:w-80 lg:shrink-0 w-full max-w-md mx-auto lg:mx-0 lg:sticky lg:top-28">
+  <div class="rounded-3xl border border-neutral-200 bg-gradient-to-br from-primary-500/10 via-primary-500/5 to-transparent p-6 pt-0 shadow-xl backdrop-blur-sm dark:border-neutral-700 dark:from-primary-400/20 dark:via-primary-500/10">
+    <h4 class="text-2xl font-semibold text-neutral-900 dark:text-neutral-50 ">QubiTO Quantum Days</h4>
     <p class="text-sm text-neutral-600 dark:text-neutral-300 mb-4">Three days of talks, international guests, and a hands-on workshop on the future of quantum engineering.</p>
     <dl class="text-sm text-neutral-700 dark:text-neutral-200 space-y-2 mb-6">
       <div class="flex items-center justify-between">
