@@ -1,103 +1,119 @@
-{{ $icon := .icon | default "check" }}
-{{ $header := .header }}
-{{ $badge := .badge }}
-{{ $description := .description }}
-{{ $images := .images }}
-{{ $link := .link }}
-{{ $url := .url }}
-{{ $readMoreLabel := cond (eq site.Language.Lang "it") "Scopri di più" "Read more" }}
-{{ $isExternal := and $url (or (strings.HasPrefix $url "http://") (strings.HasPrefix $url "https://")) }}
+{{ $icon := .icon | default "check" }} {{ $header := .header }} {{ $badge :=
+.badge }} {{ $description := .description }} {{ $images := .images }} {{ $link
+:= .link }} {{ $url := .url }} {{ $readMoreLabel := cond (eq site.Language.Lang
+"it") "Scopri di più" "Read more" }} {{ $isExternal := and $url (or
+(strings.HasPrefix $url "http://") (strings.HasPrefix $url "https://")) }}
 
 <li class="list-none">
-  <div class="flex flex-start">
-    <div class="bg-primary-500 dark:bg-primary-300 text-neutral-50 dark:text-neutral-700 min-w-[30px] h-8 text-2xl flex items-center justify-center rounded-full -ml-12 mt-5 hide-on-mobile">
-      {{ if $icon }}<span class="text-base">{{ $icon }}</span>{{ end }}
-      <span class="text-base">{{ partial "icon" $icon }}</span>
-    </div>
-    <div class="block p-6 rounded-lg shadow-2xl min-w-full mb-10 break-words bg-neutral dark:bg-neutral-800 ml-6 align-on-mobile">
-      <div class="flex justify-between gap-4">
-        {{ if $header }}<h2 class="mt-0">{{ $header }}</h2>{{ end }}
-        {{ if $badge }}<h3 class="mt-0 text-right whitespace-nowrap">{{ $badge }}</h3>{{ end }}
-      </div>
+    <div class="flex flex-start">
+        <div
+            class="bg-primary-500 dark:bg-primary-300 text-neutral-50 dark:text-neutral-700 min-w-[30px] h-8 text-2xl flex items-center justify-center rounded-full -ml-12 mt-5 hide-on-mobile"
+        >
+            {{ if $icon }}<span class="text-base">{{ $icon }}</span>{{ end }}
+            <span class="text-base">{{ partial "icon" $icon }}</span>
+        </div>
+        <div
+            class="block p-6 rounded-lg shadow-2xl min-w-full mb-10 break-words bg-neutral dark:bg-neutral-800 ml-6 align-on-mobile"
+        >
+            <div class="flex justify-between gap-4">
+                {{ if $header }}
+                <h2 class="mt-0">{{ $header }}</h2>
+                {{ end }} {{ if $badge }}
+                <h3 class="mt-0 text-right whitespace-nowrap">{{ $badge }}</h3>
+                {{ end }}
+            </div>
 
-      {{ if $description }}
-        <p>{{ $description }}</p>
-        {{ if $link }}
-          <p class="mt-2">
-            <a href="{{ $link.url }}" class="btn" target="_blank" rel="noopener noreferrer">
-              {{ $link.text }}
-            </a>
-          </p>
-        {{ end }}
-      {{ end }}
-
-      {{ if $images }}
-        <div class="flex justify-center items-center flex-wrap gap-4 image-list-gap mt-4">
-          {{ range $images }}
-            {{- $resource := "" }}
-            {{- if $.Page.Resources.GetMatch . }}
-              {{- $resource = $.Page.Resources.GetMatch . }}
-            {{- else if resources.GetMatch . }}
-              {{- $resource = resources.Get . }}
-            {{- end }}
-
-            {{- with $resource }}
-              {{- $small := .Resize "400x webp q85" }}
-              {{- $medium := .Resize "600x webp q85" }}
-              {{- $fallback := .Resize "400x jpg q85" }}
-              <picture>
-                <source media="(max-width: 768px)" srcset="{{ $small.RelPermalink }}" type="image/webp">
-                <source media="(min-width: 769px)" srcset="{{ $medium.RelPermalink }}" type="image/webp">
+            {{ if $description }}
+            <div class="prose prose-neutral dark:prose-invert">
+                {{ $description | markdownify }}
+            </div>
+            {{ if $link }}
+            <p class="mt-2">
+                <a
+                    href="{{ $link.url }}"
+                    class="btn"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    {{ $link.text }}
+                </a>
+            </p>
+            {{ end }} {{ end }} {{ if $images }}
+            <div
+                class="flex justify-center items-center flex-wrap gap-4 image-list-gap mt-4"
+            >
+                {{ range $images }} {{- $resource := "" }} {{- if
+                $.Page.Resources.GetMatch . }} {{- $resource =
+                $.Page.Resources.GetMatch . }} {{- else if resources.GetMatch .
+                }} {{- $resource = resources.Get . }} {{- end }} {{- with
+                $resource }} {{- $small := .Resize "400x webp q85" }} {{-
+                $medium := .Resize "600x webp q85" }} {{- $fallback := .Resize
+                "400x jpg q85" }}
+                <picture>
+                    <source
+                        media="(max-width: 768px)"
+                        srcset="{{ $small.RelPermalink }}"
+                        type="image/webp"
+                    />
+                    <source
+                        media="(min-width: 769px)"
+                        srcset="{{ $medium.RelPermalink }}"
+                        type="image/webp"
+                    />
+                    <img
+                        src="{{ $fallback.RelPermalink }}"
+                        alt="Image from {{ $header }}"
+                        style="max-width: min(400px, 70vw); max-height: 400px"
+                        class="rounded-xl image-list-gap responsive-image"
+                        loading="lazy"
+                        width="{{ $fallback.Width }}"
+                        height="{{ $fallback.Height }}"
+                    />
+                </picture>
+                {{- else }}
                 <img
-                  src="{{ $fallback.RelPermalink }}"
-                  alt="Image from {{ $header }}"
-                  style="max-width: min(400px, 70vw); max-height: 400px"
-                  class="rounded-xl image-list-gap responsive-image"
-                  loading="lazy"
-                  width="{{ $fallback.Width }}"
-                  height="{{ $fallback.Height }}"
+                    src="{{ . }}"
+                    alt="Image from {{ $header }}"
+                    style="max-width: min(400px, 70vw); max-height: 400px"
+                    class="rounded-xl image-list-gap responsive-image"
+                    loading="lazy"
                 />
-              </picture>
-            {{- else }}
-              <img
-                src="{{ . }}"
-                alt="Image from {{ $header }}"
-                style="max-width: min(400px, 70vw); max-height: 400px"
-                class="rounded-xl image-list-gap responsive-image"
-                loading="lazy"
-              />
-            {{- end }}
-          {{ end }}
+                {{- end }} {{ end }}
+            </div>
+            {{ end }} {{ if $url }}
+            <div class="mt-4 flex justify-end">
+                <a
+                    href="{{ $url }}"
+                    class="btn"
+                    {{
+                    if
+                    $isExternal
+                    }}target="_blank"
+                    rel="noopener noreferrer"
+                    {{
+                    end
+                    }}
+                >
+                    {{ $readMoreLabel }}
+                </a>
+            </div>
+            {{ end }}
         </div>
-      {{ end }}
-
-      {{ if $url }}
-        <div class="mt-4 flex justify-end">
-          <a
-            href="{{ $url }}"
-            class="btn"
-            {{ if $isExternal }}target="_blank" rel="noopener noreferrer"{{ end }}
-          >
-            {{ $readMoreLabel }}
-          </a>
-        </div>
-      {{ end }}
     </div>
-  </div>
 </li>
 
 <style>
-  @media (max-width: 640px) {
-    .align-on-mobile {
-      margin-left: 0 !important;
+    @media (max-width: 640px) {
+        .align-on-mobile {
+            margin-left: 0 !important;
+        }
+        .hide-on-mobile {
+            display: none !important;
+        }
+        .image-list-gap {
+            gap: 0 !important;
+            margin-top: 0.5rem !important;
+            margin-bottom: 0.5rem !important;
+        }
     }
-    .hide-on-mobile {
-      display: none !important;
-    }
-    .image-list-gap {
-      gap: 0 !important;
-      margin-top: 0.5rem !important;
-      margin-bottom: 0.5rem !important;
-    }
-  }
 </style>

@@ -20,11 +20,11 @@ showTableOfContents: false
 
 ## Your request has been delivered!
 
-We have received your registration for QubiTO Quantum Days and added your details to the attendee list. Our team will be in touch soon with practical information about the sessions and logistics.
+We have received your registration for QubiTO Quantum Days and added your details to the attendee list.
 
 While you wait:
 - Keep an eye on your institutional inbox for the event briefing.
 - Follow our [social media](/en/contacts/) to catch pre-event updates and coverage.
 - Explore our [projects](/en/activities/) to see what the team is working on.
 
-Event highlights may be shared on QubiTO's social channels. If you have any questions, reach out at [qubito@polito.it](mailto:qubito@polito.it).
+Event highlights may be shared on QubiTO's social channels.

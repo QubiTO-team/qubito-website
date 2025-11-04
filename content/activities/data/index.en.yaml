@@ -1,7 +1,18 @@
 - icon: "🗓️"
   header: "QubiTO Quantum Days"
   badge: "October 12-14 2025"
-  description: "TODO"
+  description: |
+    **QubiTO Quantum Days** is a three-day event at **Politecnico di Torino**
+    to celebrate 100 years of quantum mechanics.
+    It tells the story of how quantum ideas grew into today’s new technologies.
+
+    Talks by **Prof. Adami** and **Scott Aaronson** will explore past and future discoveries,
+    and a workshop will show real experiments on quantum computers.
+
+    📅 November 12–14, 2025 📍 Politecnico di Torino
+
+    [Register now →](/en/forms/qubito-quantum-days-form/)
+
   isMainActivity: true
   isActive: true
   url: "/en/activities/qubito-quantum-days/"
