@@ -22,9 +22,4 @@ showTableOfContents: false
 
 We have received your registration for QubiTO Quantum Days and added your details to the attendee list.
 
-While you wait:
-- Keep an eye on your institutional inbox for the event briefing.
-- Follow our [social media](/en/contacts/) to catch pre-event updates and coverage.
-- Explore our [projects](/en/activities/) to see what the team is working on.
-
-Event highlights may be shared on QubiTO's social channels.
+Keep an eye on the Mail for messages and remainders.
