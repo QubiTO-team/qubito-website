@@ -18,8 +18,14 @@ showZenMode: false
 showTableOfContents: false
 ---
 
-## Your request has been delivered!
+# Thank you for registering!
 
-We have received your registration for QubiTO Quantum Days and added your details to the attendee list.
+Your submission has been received successfully.
+You’ll get a confirmation email soon with more details.
 
-Keep an eye on the Mail for messages and remainders.
+In the meantime, feel free to:
+
+- Follow our [social media](/en/contacts/) for updates
+- Explore our [projects](/en/activities/)
+
+**See you at QubiTO Quantum Days!**
