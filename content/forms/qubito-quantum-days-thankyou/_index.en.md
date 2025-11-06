@@ -18,8 +18,6 @@ showZenMode: false
 showTableOfContents: false
 ---
 
-# Thank you for registering!
-
 Your submission has been received successfully.
 You’ll get a confirmation email soon with more details.
 
