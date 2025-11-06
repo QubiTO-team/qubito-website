@@ -1,14 +1,158 @@
-{{ $recentActivities := 4 }} {{ $translations := .AllTranslations }} {{
-$activitiesFile := "content/activities/data/index.yaml" }} {{ $path :=
-$activitiesFile }} {{ if eq .Site.Language.Lang "it" }} {{ $path =
-$activitiesFile }} {{ else }} {{ $path = printf "%s.%s.yaml" (strings.TrimSuffix
-".yaml" $activitiesFile) .Site.Language.Lang }} {{ end }} {{ $activitiesContent
-:= "" }} {{ if fileExists $path }} {{ $activitiesContent = readFile $path }} {{
-end }} {{ $allActivities := slice }} {{ if $activitiesContent }} {{
-$allActivities = $activitiesContent | unmarshal }} {{ end }} {{
-$activitiesToShow := $allActivities }} {{ if .ishome }} {{ $activitiesToShow =
-first $recentActivities $allActivities }} {{ end }} {{ if gt (len
-$activitiesToShow) 0 }} {{ partial "timeline" (dict "items" $activitiesToShow)
-}} {{ range $activitiesToShow }} {{ partial "timelineItem" (dict "icon" .icon
-"header" .header "badge" .badge "description" .description "link" .link "images"
-.images "isMainActivity" .isMainActivity) }} {{ end }} {{ end }}
+{{ $site := .Site | default site }}
+{{ $context := .context }}
+{{ $page := or .Page (and $context $context.Page) $site.Home }}
+{{ $lang := $page.Lang | default $site.Language.Lang }}
+{{ $isHome := .ishome | default false }}
+{{ $recentActivities := 4 }}
+
+{{ $activitiesFile := "content/activities/data/index.yaml" }}
+{{ $path := $activitiesFile }}
+{{ if ne $lang "it" }}
+  {{ $path = printf "%s.%s.yaml" (strings.TrimSuffix ".yaml" $activitiesFile) $lang }}
+{{ end }}
+
+{{ $activities := slice }}
+{{ if fileExists $path }}
+  {{ $content := readFile $path }}
+  {{ if $content }}
+    {{ $activities = $content | unmarshal }}
+  {{ end }}
+{{ end }}
+
+{{ $upcoming := where $activities "isActive" true }}
+{{ $previous := where $activities "isActive" false }}
+
+{{ if $isHome }}
+  {{ $list := $activities }}
+  {{ if gt (len $list) $recentActivities }}
+    {{ $list = first $recentActivities $list }}
+  {{ end }}
+  {{ if gt (len $list) 0 }}
+    <ol class="border-l-2 border-primary-500 dark:border-primary-300 list-none">
+      {{ range $list }}
+        {{ partial "timelineItem" (dict
+          "icon" .icon
+          "header" .header
+          "badge" .badge
+          "description" .description
+          "link" .link
+          "images" .images
+          "isMainActivity" .isMainActivity
+          "isActive" .isActive
+          "url" .url
+        ) }}
+      {{ end }}
+    </ol>
+  {{ end }}
+{{ else }}
+  {{ $filterAll := cond (eq $lang "it") "Tutte" "All" }}
+  {{ $filterUpcoming := cond (eq $lang "it") "In programma" "Upcoming" }}
+  {{ $filterPrevious := cond (eq $lang "it") "Passate" "Previous" }}
+  {{ $headingUpcoming := cond (eq $lang "it") "Attività in programma" "Upcoming activities" }}
+  {{ $headingPrevious := cond (eq $lang "it") "Attività precedenti" "Previous activities" }}
+  {{ $emptyUpcoming := cond (eq $lang "it") "Al momento non ci sono attività in programma." "There are no upcoming activities at the moment." }}
+  {{ $emptyPrevious := cond (eq $lang "it") "Non ci sono attività passate registrate." "There are no previous activities yet." }}
+
+  <div class="mb-8">
+    <div id="activities-filter" class="inline-flex rounded-full bg-neutral-100 dark:bg-neutral-800 p-1 shadow-inner gap-1">
+      <button type="button" class="filter-pill px-4 py-2 text-sm font-medium rounded-full transition-colors duration-150 ease-out bg-transparent text-neutral-600 dark:text-neutral-300 hover:bg-neutral-200 dark:hover:bg-neutral-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-400" data-activities-filter="all">
+        {{ $filterAll }}
+      </button>
+      <button type="button" class="filter-pill px-4 py-2 text-sm font-medium rounded-full transition-colors duration-150 ease-out bg-transparent text-neutral-600 dark:text-neutral-300 hover:bg-neutral-200 dark:hover:bg-neutral-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-400" data-activities-filter="upcoming">
+        {{ $filterUpcoming }}
+      </button>
+      <button type="button" class="filter-pill px-4 py-2 text-sm font-medium rounded-full transition-colors duration-150 ease-out bg-transparent text-neutral-600 dark:text-neutral-300 hover:bg-neutral-200 dark:hover:bg-neutral-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-400" data-activities-filter="previous">
+        {{ $filterPrevious }}
+      </button>
+    </div>
+  </div>
+
+  <div class="space-y-16" data-activities-container>
+    <section class="activities-group" data-activities-group="upcoming">
+      <h2 class="text-2xl font-semibold mb-6">{{ $headingUpcoming }}</h2>
+      {{ if gt (len $upcoming) 0 }}
+        <ol class="border-l-2 border-primary-500 dark:border-primary-300 list-none">
+          {{ range $upcoming }}
+            {{ partial "timelineItem" (dict
+              "icon" .icon
+              "header" .header
+              "badge" .badge
+              "description" .description
+              "link" .link
+              "images" .images
+              "isMainActivity" .isMainActivity
+              "isActive" .isActive
+              "url" .url
+            ) }}
+          {{ end }}
+        </ol>
+      {{ else }}
+        <p class="text-neutral-600 dark:text-neutral-400">{{ $emptyUpcoming }}</p>
+      {{ end }}
+    </section>
+
+    <section class="activities-group" data-activities-group="previous">
+      <h2 class="text-2xl font-semibold mb-6">{{ $headingPrevious }}</h2>
+      {{ if gt (len $previous) 0 }}
+        <ol class="border-l-2 border-neutral-300 dark:border-neutral-600 list-none">
+          {{ range $previous }}
+            {{ partial "timelineItem" (dict
+              "icon" .icon
+              "header" .header
+              "badge" .badge
+              "description" .description
+              "link" .link
+              "images" .images
+              "isMainActivity" .isMainActivity
+              "isActive" .isActive
+              "url" .url
+            ) }}
+          {{ end }}
+        </ol>
+      {{ else }}
+        <p class="text-neutral-600 dark:text-neutral-400">{{ $emptyPrevious }}</p>
+      {{ end }}
+    </section>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const filterButtons = document.querySelectorAll("[data-activities-filter]");
+      const groups = document.querySelectorAll("[data-activities-group]");
+      const activeClasses = ["bg-primary-500", "text-white", "dark:bg-primary-400", "dark:text-neutral-900", "shadow"];
+
+      if (!filterButtons.length || !groups.length) {
+        return;
+      }
+
+      function setActiveFilter(filter) {
+        filterButtons.forEach((button) => {
+          button.classList.remove(...activeClasses);
+          button.classList.add("bg-transparent");
+          if (button.dataset.activitiesFilter === filter) {
+            button.classList.remove("bg-transparent");
+            button.classList.add(...activeClasses);
+          }
+        });
+
+        groups.forEach((group) => {
+          if (filter === "all") {
+            group.classList.remove("hidden");
+            return;
+          }
+          if (group.dataset.activitiesGroup === filter) {
+            group.classList.remove("hidden");
+          } else {
+            group.classList.add("hidden");
+          }
+        });
+      }
+
+      filterButtons.forEach((button) => {
+        button.addEventListener("click", () => setActiveFilter(button.dataset.activitiesFilter));
+      });
+
+      setActiveFilter("all");
+    });
+  </script>
+{{ end }}

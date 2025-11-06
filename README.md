@@ -26,7 +26,18 @@ This is the official website of the QubiTO Team at Politecnico di Torino Univers
    git clone --recurse-submodules https://github.com/QubiTO-team/qubito-website.git
    ```
 
-3. **Run the project using one of the following:**
+3. **Install the JavaScript tooling that powers the Tailwind build:**
+   ```sh
+   npm install
+   ```
+
+4. **Run the project locally:**
+
+   - **Recommended for development and testing:**
+     ```sh
+     npm run dev
+     ```
+     This command ensures `npm run tailwind:watch` stays active so Tailwind regenerates CSS automatically while Hugo serves the site in development mode.
 
    - **With Blowfish tools:**  
      Run the following command and select **"Run a local server with Blowfish"** when prompted:
@@ -34,12 +45,24 @@ This is the official website of the QubiTO Team at Politecnico di Torino Univers
      npx blowfish-tools
      ```
 
-   - **With Hugo directly:**
+   - **Alternate workflow:**  
      ```sh
-     hugo server
+     npm run start
      ```
+     Similar to `npm run dev` but without the extra Hugo cache flags.
+
+   - **With Hugo directly (one-off compile):**
+     ```sh
+     npm run hugo
+     ```
+     The `prehugo` script recreates `assets/css/compiled/main.css` before launching Hugo.
 
    This will start a local server, usually at [http://localhost:1313](http://localhost:1313).
+
+   To produce a production build with a freshly generated Tailwind bundle, run:
+   ```sh
+   npm run build
+   ```
 
 ## Usage & Contribution
 

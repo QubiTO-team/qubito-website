@@ -1,89 +1,129 @@
-- icon: "🇨🇭"  
-  header: "ETH Zurich Quantum Hackathon"  
-  badge: "2025"  
-  description: "Six of our students competed against their brilliant international colleagues at ETH Zurich. Divided into two teams, they tackled the \"Portfolio Optimization\" challenge presented by QCentroid and the \"Gate Parallelization\" challenge by QuEra. Upon returning to Turin, they presented their solutions to fellow colleagues, professors, and quantum computing enthusiasts."  
+- icon: "🗓️"
+  header: "QubiTO Quantum Days"
+  badge: "October 12-14 2025"
+  description: |
+    **QubiTO Quantum Days** is a three-day event at **Politecnico di Torino**
+    to celebrate 100 years of quantum mechanics.
+    It tells the story of how quantum ideas grew into today’s new technologies.
+
+    Talks by **Prof. Adami** and **Scott Aaronson** will explore past and future discoveries,
+    and a workshop will show real experiments on quantum computers.
+
+    📍 Politecnico di Torino 📅 November 12–14, 2025
+
+    [Register now →](/en/forms/qubito-quantum-days-form/)
+
+  isMainActivity: true
+  isActive: true
+  url: "/en/activities/qubito-quantum-days/"
+
+- icon: "🤖"
+  header: "GenQ Global Hackathon Series in Geneva"
+  badge: "2025"
+  description: "Our team obtained a great result at the GenQ Hackathon, hosted by QAI Ventures at CERN, where we competed in a series of exciting quantum machine learning challenges. We split into two groups to tackle distinct problems: medical image classification and air quality forecasting. Our efforts were rewarded when the medical imaging team secured 2nd Place and brought home the Innovation Award."
+  isMainActivity: true
+  images:
+    - "/images/past-activities/genq25_1.jpg"
+    - "/images/past-activities/genq25_2.jpg"
+  isActive: false
+
+- icon: "🇨🇭"
+  header: "ETH Zurich Quantum Hackathon"
+  badge: "2025"
+  description: 'Six of our students competed against their brilliant international colleagues at ETH Zurich. Divided into two teams, they tackled the "Portfolio Optimization" challenge presented by QCentroid and the "Gate Parallelization" challenge by QuEra. Upon returning to Turin, they presented their solutions to fellow colleagues, professors, and quantum computing enthusiasts.'
   isMainActivity: true
   images:
     - "/images/past-activities/eth25_2.JPG"
     - "/images/past-activities/eth25_1.JPG"
+  isActive: false
 
-- icon: "🚀"  
-  header: "Orientation Fair"  
-  badge: "2025"  
-  description: "Second participation at the Orientation Fair, meeting new students interested in quantum physics."  
+- icon: "🚀"
+  header: "Orientation Fair"
+  badge: "2025"
+  description: "Second participation at the Orientation Fair, meeting new students interested in quantum physics."
   isMainActivity: false
+  isActive: false
 
-- icon: "🔢"  
-  header: "Pi Day"  
-  badge: "2025"  
-  description: "Celebrating Pi Day with a quantum perspective, exploring the role of π in theoretical physics and quantum mechanics."  
-  isMainActivity: false  
+- icon: "🔢"
+  header: "Pi Day"
+  badge: "2025"
+  description: "Celebrating Pi Day with a quantum perspective, exploring the role of π in theoretical physics and quantum mechanics."
+  isMainActivity: false
+  isActive: false
 
-- icon: "🇩🇪"  
-  header: "Pushquantum Hackathon"  
-  badge: "2024"  
-  description: "Participation in the international hackathon at the TUM Entrepreneurship Research Institute in Munich."  
-  isMainActivity: true  
-  images:  
-    - "/images/past-activities/pushquantum-hackathon-2024.jpg"  
+- icon: "🧠"
+  header: "Internal Hackathon"
+  badge: "Fall 2024"
+  description: "Second internal hackathon focused on Quantum Optimization and Quantum Machine Learning, featuring original projects and exploration of new application horizons."
+  isMainActivity: true
+  images:
+    - "/images/past-activities/hackathon-interno-2025.jpg"
+  isActive: false
 
-- icon: "🧠"  
-  header: "Internal Hackathon"  
-  badge: "Fall 2025"  
-  description: "Second internal hackathon focused on Quantum Optimization and Quantum Machine Learning, featuring original projects and exploration of new application horizons."  
-  isMainActivity: true  
-  images:  
-    - "/images/past-activities/hackathon-interno-2025.jpg"  
+- icon: "🇩🇪"
+  header: "Pushquantum Hackathon"
+  badge: "2024"
+  description: "Participation in the international hackathon at the TUM Entrepreneurship Research Institute in Munich."
+  isMainActivity: true
+  images:
+    - "/images/past-activities/pushquantum-hackathon-2024.jpg"
+  isActive: false
 
-- icon: "🎤"  
-  header: "DevFestAlps 2024"  
-  badge: "2024"  
-  description: "Second participation at Google DevFestAlps with a new talk, sharing our passion for quantum computing."  
-  isMainActivity: true  
-  images:  
-    - "/images/past-activities/dev-fest-alps-2024.jpg"  
+- icon: "🎤"
+  header: "DevFestAlps 2024"
+  badge: "2024"
+  description: "Second participation at Google DevFestAlps with a new talk, sharing our passion for quantum computing."
+  isMainActivity: true
+  images:
+    - "/images/past-activities/dev-fest-alps-2024.jpg"
+  isActive: false
 
-- icon: "🌍"  
-  header: "ETH Quantum Hackathon 2024"  
-  badge: "2024"  
-  description: "Our first international hackathon at ETH Zurich. We worked intensively for 24 hours on various challenges proposed by startups and companies."  
-  isMainActivity: true  
-  images:  
-    - "/images/past-activities/eth-quantum-hackathon-2024.jpg"  
+- icon: "🌍"
+  header: "ETH Quantum Hackathon 2024"
+  badge: "2024"
+  description: "Our first international hackathon at ETH Zurich. We worked intensively for 24 hours on various challenges proposed by startups and companies."
+  isMainActivity: true
+  images:
+    - "/images/past-activities/eth-quantum-hackathon-2024.jpg"
+  isActive: false
 
-- icon: "🎓"  
-  header: "Orientation Fair 2024"  
-  badge: "2024"  
-  description: "During Politecnico's annual Orientation Fair, we introduced ourselves to curious and quantum-interested prospective students."  
-  isMainActivity: false  
-  images:  
-    - "/images/past-activities/salone-dell-orientamento-2024.jpg"  
+- icon: "🎓"
+  header: "Orientation Fair 2024"
+  badge: "2024"
+  description: "During Politecnico's annual Orientation Fair, we introduced ourselves to curious and quantum-interested prospective students."
+  isMainActivity: false
+  images:
+    - "/images/past-activities/salone-dell-orientamento-2024.jpg"
+  isActive: false
 
-- icon: "✨"  
-  header: "Exploring Quantum Opportunities"  
-  badge: "2023"  
-  description: "Our first major outreach event at Politecnico di Torino in collaboration with BeQuantum. A great success with over 200 attendees in the room."  
-  isMainActivity: true  
-  images:  
-    - "/images/past-activities/esplorando-le-opportunita-quantistiche-1.jpg"  
-    - "/images/past-activities/esplorando-le-opportunita-quantistiche-2.jpg"  
+- icon: "✨"
+  header: "Exploring Quantum Opportunities"
+  badge: "2023"
+  description: "Our first major outreach event at Politecnico di Torino in collaboration with BeQuantum. A great success with over 200 attendees in the room."
+  isMainActivity: true
+  images:
+    - "/images/past-activities/esplorando-le-opportunita-quantistiche-1.jpg"
+    - "/images/past-activities/esplorando-le-opportunita-quantistiche-2.jpg"
+  isActive: false
 
-- icon: "🎤"  
-  header: "DevFestAlps 2023"  
-  badge: "2023"  
-  description: "On stage at Google DevFestAlps at Toolbox Coworking in Turin, we presented our work on Grover's algorithm and quantum oracles."  
-  isMainActivity: true  
-  link:  
-    url: "https://gdg.community.dev/events/details/google-gdg-torino-presents-devfest-alps-2023/"  
-    text: "Google DevFestAlps 2023"  
-  images:  
-    - "/images/past-activities/dev-fest-alps-2023-1.jpg"  
-    - "/images/past-activities/dev-fest-alps-2023-2.jpg"  
+- icon: "🎤"
+  header: "DevFestAlps 2023"
+  badge: "2023"
+  description: "On stage at Google DevFestAlps at Toolbox Coworking in Turin, we presented our work on Grover's algorithm and quantum oracles."
+  isMainActivity: true
+  link:
+    url: "https://gdg.community.dev/events/details/google-gdg-torino-presents-devfest-alps-2023/"
+    text: "Google DevFestAlps 2023"
+  images:
+    - "/images/past-activities/dev-fest-alps-2023-1.jpg"
+    - "/images/past-activities/dev-fest-alps-2023-2.jpg"
+  isActive: false
 
-- icon: "🔍"  
-  header: "Internal Hackathon"  
-  badge: "Fall 2023"  
-  description: "The team took on an internal challenge focused on developing Grover's algorithm. Heterogeneously composed teams worked independently and competed against each other, recreating the authentic spirit of a hackathon."  
-  isMainActivity: true 
-  images:  
-    - "/images/past-activities/hackathon-interno-2023.png"  
+- icon: "🔍"
+  header: "Internal Hackathon"
+  badge: "Fall 2023"
+  description: "The team took on an internal challenge focused on developing Grover's algorithm. Heterogeneously composed teams worked independently and competed against each other, recreating the authentic spirit of a hackathon."
+  isMainActivity: true
+  images:
+    - "/images/past-activities/hackathon-interno-2023.png"
+  isActive: false

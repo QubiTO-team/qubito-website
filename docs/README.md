@@ -8,8 +8,13 @@ If you want to modify specific pages, see:
 - [Articles](pages/articles.md)
 - [Activities](pages/activities.md)
 - [Home Page](pages/home.md)
+- [Linktree Page](pages/linktree.md)
 
 These guides describe the structure and properties of each section.
+
+### Running the site locally
+
+Make sure you have Node.js (with npm) installed, then run `npm install` once in the project root. Use `npm run dev` whenever you need to run or test the website; it keeps `npm run tailwind:watch` active so Tailwind updates the compiled CSS automatically while Hugo serves the content.
 
 ## Contribution
 
