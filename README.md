@@ -31,7 +31,13 @@ This is the official website of the QubiTO Team at Politecnico di Torino Univers
    npm install
    ```
 
-4. **Run the project using one of the following:**
+4. **Run the project locally:**
+
+   - **Recommended for development and testing:**
+     ```sh
+     npm run dev
+     ```
+     This command ensures `npm run tailwind:watch` stays active so Tailwind regenerates CSS automatically while Hugo serves the site in development mode.
 
    - **With Blowfish tools:**  
      Run the following command and select **"Run a local server with Blowfish"** when prompted:
@@ -39,11 +45,11 @@ This is the official website of the QubiTO Team at Politecnico di Torino Univers
      npx blowfish-tools
      ```
 
-   - **With the new automated workflow (recommended):**
+   - **Alternate workflow:**  
      ```sh
      npm run start
      ```
-     This watches your Tailwind classes and runs `hugo server -D` in parallel.
+     Similar to `npm run dev` but without the extra Hugo cache flags.
 
    - **With Hugo directly (one-off compile):**
      ```sh

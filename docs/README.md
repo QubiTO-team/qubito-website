@@ -12,6 +12,10 @@ If you want to modify specific pages, see:
 
 These guides describe the structure and properties of each section.
 
+### Running the site locally
+
+Make sure you have Node.js (with npm) installed, then run `npm install` once in the project root. Use `npm run dev` whenever you need to run or test the website; it keeps `npm run tailwind:watch` active so Tailwind updates the compiled CSS automatically while Hugo serves the content.
+
 ## Contribution
 
 We welcome contributions from both QubiTO Team members and external collaborators.

@@ -1345,6 +1345,9 @@ body.zen-mode-enable {
   .resize-y {
     resize: vertical;
   }
+  .list-disc {
+    list-style-type: disc;
+  }
   .list-none {
     list-style-type: none;
   }
@@ -1386,6 +1389,13 @@ body.zen-mode-enable {
   }
   .gap-6 {
     gap: calc(var(--spacing) * 6);
+  }
+  .space-y-1 {
+    :where(& > :not(:last-child)) {
+      --tw-space-y-reverse: 0;
+      margin-block-start: calc(calc(var(--spacing) * 1) * var(--tw-space-y-reverse));
+      margin-block-end: calc(calc(var(--spacing) * 1) * calc(1 - var(--tw-space-y-reverse)));
+    }
   }
   .space-y-2 {
     :where(& > :not(:last-child)) {
@@ -1941,6 +1951,9 @@ body.zen-mode-enable {
   .pl-2 {
     padding-left: calc(var(--spacing) * 2);
   }
+  .pl-4 {
+    padding-left: calc(var(--spacing) * 4);
+  }
   .pl-6 {
     padding-left: calc(var(--spacing) * 6);
   }
@@ -1974,10 +1987,6 @@ body.zen-mode-enable {
   .text-2xl {
     font-size: var(--text-2xl);
     line-height: var(--tw-leading, var(--text-2xl--line-height));
-  }
-  .text-2xl\/0 {
-    font-size: var(--text-2xl);
-    line-height: calc(var(--spacing) * 0);
   }
   .text-3xl {
     font-size: var(--text-3xl);

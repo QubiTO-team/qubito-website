@@ -55,11 +55,24 @@
             <div
                 class="rounded-lg bg-neutral-50 dark:bg-neutral-800/60 text-sm text-neutral-600 dark:text-neutral-300 leading-relaxed p-4 shadow-inner"
             >
-                <strong class="font-semibold">Please note:</strong>
-                <span class="block mt-1"
-                    >Participants may appear in QubiTO social media posts
-                    documenting the event.</span
-                >
+                <label class="flex items-start gap-3 cursor-pointer">
+                    <input
+                        type="checkbox"
+                        id="consent_social"
+                        name="consent_social"
+                        required
+                        class="mt-1 h-5 w-5 shrink-0 rounded border-neutral-300 dark:border-neutral-600 text-neutral-800 focus:ring-2 focus:ring-neutral-500"
+                    />
+                    <span>
+                        I agree that photos or videos of me taken during the
+                        event may be used by QubiTO for documentation and
+                        promotional purposes, including on social media.<span
+                            style="color: #ef4444"
+                            class="ml-1"
+                            >*</span
+                        >
+                    </span>
+                </label>
             </div>
 
             <div class="pt-4 text-center">
@@ -112,22 +125,47 @@
             statusDiv.textContent = "";
 
             requiredFields.forEach(function (field) {
-                field.classList.remove("border-red-500", "dark:border-red-300");
-                field.classList.add(
-                    "border-neutral-300",
-                    "dark:border-neutral-600",
+                var isCheckbox = field.type === "checkbox";
+                field.classList.remove(
+                    "border-red-500",
+                    "dark:border-red-300",
+                    "ring-2",
+                    "ring-offset-2",
+                    "ring-red-500",
                 );
+                field.setAttribute("aria-invalid", "false");
 
-                if (!field.value.trim()) {
-                    hasErrors = true;
-                    field.classList.remove(
+                if (!isCheckbox) {
+                    field.classList.add(
                         "border-neutral-300",
                         "dark:border-neutral-600",
                     );
-                    field.classList.add(
-                        "border-red-500",
-                        "dark:border-red-300",
-                    );
+                }
+
+                var isFieldInvalid = isCheckbox
+                    ? !field.checked
+                    : !field.value.trim();
+
+                if (isFieldInvalid) {
+                    hasErrors = true;
+                    field.setAttribute("aria-invalid", "true");
+
+                    if (isCheckbox) {
+                        field.classList.add(
+                            "ring-2",
+                            "ring-offset-2",
+                            "ring-red-500",
+                        );
+                    } else {
+                        field.classList.remove(
+                            "border-neutral-300",
+                            "dark:border-neutral-600",
+                        );
+                        field.classList.add(
+                            "border-red-500",
+                            "dark:border-red-300",
+                        );
+                    }
                 }
             });
 
