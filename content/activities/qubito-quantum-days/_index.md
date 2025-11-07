@@ -40,9 +40,14 @@ showTaxonomies: false
 
 <p>L’evento riunirà studenti, ricercatori e appassionati di scienze e ingegneria quantistica, offrendo un percorso che unisce storia, ricerca e applicazione pratica.</p>
 
-<div class="bg-secondary-100 dark:bg-secondary-900/30 border border-secondary-300 dark:border-secondary-700 rounded-xl mt-6 mb-6">
+<div class="bg-secondary-100 dark:bg-secondary-900/30 border border-secondary-300 dark:border-secondary-700 rounded-xl mt-6 mb-6 px-4">
   <p class="text-center font-medium text-sm text-secondary-900 dark:text-secondary-100">
     Nota: Tutti gli interventi e i materiali dell’evento saranno in lingua <strong>inglese</strong>.
+  </p>
+</div>
+<div class="bg-secondary-100 dark:bg-secondary-900/30 border border-secondary-300 dark:border-secondary-700 rounded-xl mt-0 mb-6 px-4">
+  <p class="text-center font-medium text-sm text-secondary-900 dark:text-secondary-100">
+    Nota: L’evento sarà fruibile anche <strong>online</strong>; i dettagli di accesso verranno inviati agli iscritti.
   </p>
 </div>
 
@@ -105,7 +110,7 @@ showTaxonomies: false
       <div class="flex items-center justify-between"><dt class="font-medium">Date</dt><dd>12–14 nov 2025</dd></div>
       <div class="flex items-center justify-between"><dt class="font-medium">Luogo</dt><dd>Politecnico di Torino</dd></div>
     </dl>
-    <div class="text-sm text-yellow-800 dark:text-yellow-200 mb-5 italic text-center">
+    <div class="text-sm text-yellow-800 dark:text-yellow-200 mb-5 italic text-center px-4 py-3">
       L’evento si svolgerà interamente in inglese.
     </div>
     <a href="/en/forms/qubito-quantum-days-form/">

@@ -39,6 +39,12 @@ showTaxonomies: false
 <p>To celebrate the first centenary of quantum mechanics, the <strong>QubiTO student team</strong> at Politecnico di Torino presents <em>QubiTO Quantum Days</em> — a three-day event exploring the evolution of quantum science from its theoretical origins to the technologies shaping the second quantum revolution.</p>
 <p>The event gathers students, researchers, and enthusiasts to reflect on a century of discoveries and look toward the future of quantum engineering.</p>
 
+<div class="bg-secondary-100 dark:bg-secondary-900/30 border border-secondary-300 dark:border-secondary-700 rounded-xl mt-6 mb-6 px-4">
+  <p class="text-center font-medium text-sm text-secondary-900 dark:text-secondary-100">
+    Note: The full event will also be available <strong>online</strong>; connection instructions will be shared with registered attendees.
+  </p>
+</div>
+
 <hr class="my-8"/>
 
 <h3 class="text-2xl font-medium mb-6">Program</h3>
