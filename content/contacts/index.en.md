@@ -19,18 +19,18 @@ showPagination: false
 # Get in Touch with Us!
 
 {{< lead >}}
-We welcome collaboration opportunities and are eager to explore potential partnerships. If you’re interested in partnering with us or have any inquiries, please feel free to reach out. 
+We welcome collaboration opportunities and are eager to explore potential partnerships. If you’re interested in partnering with us or have any inquiries, please feel free to reach out.
 {{< /lead >}}
 
 <div style="text-align: center;">
 <div>
-{{< button href="mailto:qubito@polito.it" target="_self" >}}
+{{< button href="mailto:teamqubito@gmail.com" target="_self" >}}
 Send us an email!
-{{< /button >}} 
+{{< /button >}}
 </div>
 
 
-<html> 
+<html>
 <script>
   document.addEventListener("DOMContentLoaded", function () {
     // Initialize TypeIt for the overview subtitle
@@ -46,17 +46,17 @@ Send us an email!
         // instance.destroy();
       },
     })
-      .type("qubito@polito.it", { delay: 700 })
+      .type("teamqubito@gmail.com", { delay: 700 })
       .go();
   });
 </script>
     <br>
     <a
-    href="mailto:qubito@polito.it"
+    href="mailto:teamqubito@gmail.com"
     class="email-field"
     style= "
         font-size: 2rem;
-        color: var(--color-neutral-200)    
+        color: var(--color-neutral-200)
     "></a>
 </html>
 </div>
@@ -67,7 +67,7 @@ Send us an email!
 <style>
 .partner-image{
     max-height: 10rem;
-    width: auto; 
+    width: auto;
     margin-left: auto;
     margin-right: auto;"
 }
