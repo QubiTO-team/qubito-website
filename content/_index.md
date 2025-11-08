@@ -19,7 +19,7 @@ sponsors: "/images/whoweare.jpg"
 contactTitle: "Mettiti in Contatto con Noi!"
 contactDescription: "Se desideri supportarci nella nostra missione o unirti a noi nel nostro percorso, non esitare a contattarci. Siamo sempre grati per l'aiuto e il sostegno della nostra comunità."
 contactInfoTitle: "Informazioni di Contatto"
-contactEmail: "qubito@polito.it"
+contactEmail: "teamqubito@gmail.com"
 contactEmailLabel: "Email"
 socialMediaTitle: "Social Media"
 socialMediaLinks:

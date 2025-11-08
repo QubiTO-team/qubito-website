@@ -6,9 +6,9 @@ If you want to support us in our mission or join us on our journey, please donâ€
 
 Contact Information
 
-    Email: qubito@polito.it
-    Social Media: 
-    
+    Email: teamqubito@gmail.com
+    Social Media:
+
     + [Instagram](https://www.instagram.com/qubitoteam_polito/)
     + [Linkedin](https://www.linkedin.com/company/qubito-student-team-politecnico-di-torino/)
 ## Our partners
@@ -36,9 +36,9 @@ Se desideri supportarci nella nostra missione o unirti a noi nel nostro percorso
 
 Informazioni di Contatto
 
-    Email: qubito@polito.it
-    
-    Social Media: 
+    Email: teamqubito@gmail.com
+
+    Social Media:
     + [Instagram](https://www.instagram.com/qubitoteam_polito/)
     + [Linkedin](https://www.linkedin.com/company/qubito-student-team-politecnico-di-torino/)
 

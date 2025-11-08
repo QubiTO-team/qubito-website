@@ -26,12 +26,12 @@ Siamo felici di accogliere proposte di collaborazione e siamo entusiasti di espl
 
 <div style="text-align: center;">
 <div>
-{{< button href="mailto:qubito@polito.it" target="_self" >}}
+{{< button href="mailto:teamqubito@gmail.com" target="_self" >}}
 Scrivici!
-{{< /button >}} 
+{{< /button >}}
 </div>
 
-<html> 
+<html>
 <script>
   document.addEventListener("DOMContentLoaded", function () {
     // Initialize TypeIt for the overview subtitle
@@ -47,17 +47,17 @@ Scrivici!
         // instance.destroy();
       },
     })
-      .type("qubito@polito.it", { delay: 700 })
+      .type("teamqubito@gmail.com", { delay: 700 })
       .go();
   });
 </script>
     <br>
     <a
-    href="mailto:qubito@polito.it"
+    href="mailto:teamqubito@gmail.com"
     class="email-field"
     style= "
         font-size: 2rem;
-        color: var(--color-neutral-200)    
+        color: var(--color-neutral-200)
     "></a>
 </html>
 
@@ -68,7 +68,7 @@ Scrivici!
 <style>
 .partner-image{
     max-height: 10rem;
-    width: auto; 
+    width: auto;
     margin-left: auto;
     margin-right: auto;"
 }
