@@ -32,5 +32,5 @@ linkGroups:
   - title: "Contact"
     links:
       - label: "Email us"
-        url: "mailto:qubito@polito.it"
+        url: "mailto:teamqubito@gmail.com"
 ---
