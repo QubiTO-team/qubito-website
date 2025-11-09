@@ -51,9 +51,23 @@
             "Last name" "required" true ) }} {{ partial "form/text-input" (dict
             "id" "email" "name" "email" "label" `Email address (for PoliTO
             students: sXXXXXX@studenti.polito.it)` "type" "email" "required"
-            true ) }} {{ partial "form/select" (dict "id" "attendance_mode"
-            "label" "How do you plan to attend the event?" "required" true
-            "options" (slice (dict "value" "in_person" "label" "In person")
+            true ) }}
+
+            <div
+                class="rounded-lg bg-neutral-50 dark:bg-neutral-800/60 text-sm text-neutral-600 dark:text-neutral-300 leading-relaxed p-4 shadow-inner"
+            >
+                <p class="font-semibold text-neutral-800 dark:text-neutral-100">
+                    ⚠️ Please note
+                </p>
+                <p class="mt-1">
+                    The in-person seats for November 12th are fully booked. New
+                    participants can only attend online on that day.
+                </p>
+            </div>
+
+            {{ partial "form/select" (dict "id" "attendance_mode" "label" `How
+            do you plan to attend on the 13th and 14th of November?` "required"
+            true "options" (slice (dict "value" "in_person" "label" "In person")
             (dict "value" "online_only" "label" "Online only") (dict "value"
             "both" "label" "Both") ) ) }}
 
