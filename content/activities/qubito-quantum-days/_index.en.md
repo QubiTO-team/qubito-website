@@ -57,7 +57,7 @@ showTaxonomies: false
   <ul class="list-disc pl-6 space-y-1">
     <li>Opening by the QubiTO board with <em>Prof. Matteo Cocuzza</em> (Coordinator of the M.Sc. in Quantum Engineering) and <em>Prof. Bartolomeo Montrucchio</em> (QubiTO Advisor).</li>
     <li>
-      <strong>Prof. Riccardo Adami</strong> (DISMA, Politecnico di Torino): <strong>Quantum Mechanics: From Heresy to Dogma in a Hundred Years</strong><br/>
+      <strong>Prof. Riccardo Adami</strong> (DISMA, Politecnico di Torino): <strong><em>Quantum Mechanics: From Heresy to Dogma in a Hundred Years</em></strong><br/>
       <span class="pl-4 block text-neutral-700 dark:text-neutral-300">
         A keynote lecture retracing the evolution of quantum mechanics across its first century.
       </span>
@@ -69,7 +69,7 @@ showTaxonomies: false
   <h4 class="text-xl font-semibold text-primary-600 mb-2">13th of November – The Challenge of Quantum Supremacy</h4>
   <p class="text-base italic mb-2">Room 29B / 17:30 – 19:00</p>
   <ul class="list-disc pl-6 space-y-1">
-    <li><strong>Prof. Scott Aaronson</strong> (University of Texas at Austin): <strong>The TRUTH about Quantum Computing</strong><br/>
+    <li><strong>Prof. Scott Aaronson</strong> (University of Texas at Austin): <strong><em>The TRUTH about Quantum Computing</em></strong><br/>
       <span class="pl-4 block text-neutral-700 dark:text-neutral-300">
         An online keynote exploring principles and perspectives of quantum computing and supremacy.
       </span>
@@ -81,7 +81,7 @@ showTaxonomies: false
   <h4 class="text-xl font-semibold text-primary-600 mb-2">14th of November – Quantum Workshop @ Lagrange</h4>
   <p class="text-base italic mb-2">Room 29B / 17:30 – 19:00</p>
   <ul class="list-disc pl-6 space-y-1">
-    <li><strong>Dr. Emanuele Dri:</strong> <strong>Quantum Workshop with Lagrange</strong><br/>
+    <li><strong>Dr. Emanuele Dri:</strong> <strong><em>Quantum Workshop with Lagrange</em></strong><br/>
       <span class="pl-4 block text-neutral-700 dark:text-neutral-300">
         Hands-on workshop with live demonstrations and guided simulations on the Politecnico’s Lagrange quantum computer.
       </span>
