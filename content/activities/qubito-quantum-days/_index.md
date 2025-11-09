@@ -63,7 +63,7 @@ showTaxonomies: false
   <ul class="list-disc pl-6 space-y-1">
     <li>Introduzione a cura del board di QubiTO con interventi del <em>Prof. Matteo Cocuzza</em> (Referente del corso di Laurea Magistrale in Quantum Engineering) e del <em>Prof. Bartolomeo Montrucchio</em> (Referente QubiTO).</li>
     <li>
-      <strong>Prof. Riccardo Adami</strong> (Politecnico di Torino): <em>Quantum Mechanics: From Heresy to Dogma in a Hundred Years</em><br/>
+      <strong>Prof. Riccardo Adami</strong> (Politecnico di Torino): <strong>Quantum Mechanics: From Heresy to Dogma in a Hundred Years</strong><br/>
       <span class="pl-4 block text-neutral-700 dark:text-neutral-300">
         Una lectio che ripercorre un secolo di scoperte e concetti fondamentali, mettendo in luce gli aspetti storici e teorici più affascinanti.
       </span>
@@ -75,7 +75,7 @@ showTaxonomies: false
   <h4 class="text-xl font-semibold text-primary-600 mb-2">13 novembre – La sfida della supremazia quantistica</h4>
   <p class="text-base italic mb-2">Aula 29B / 17:30 – 19:00</p>
   <ul class="list-disc pl-6 space-y-1">
-    <li><strong>Prof. Scott Aaronson</strong> (University of Texas at Austin): <em>The TRUTH about Quantum Computing</em><br/>
+    <li><strong>Prof. Scott Aaronson</strong> (University of Texas at Austin): <strong>The TRUTH about Quantum Computing</strong><br/>
       <span class="pl-4 block text-neutral-700 dark:text-neutral-300">
         Un talk tecnico online sui fondamenti e le prospettive del calcolo quantistico e della supremazia quantistica.
       </span>
@@ -87,7 +87,7 @@ showTaxonomies: false
   <h4 class="text-xl font-semibold text-primary-600 mb-2">14 novembre – Quantum Workshop @ Lagrange</h4>
   <p class="text-base italic mb-2">Aula 29B / 17:30 – 19:00</p>
   <ul class="list-disc pl-6 space-y-1">
-    <li><strong>Dott. Emanuele Dri</strong> (Politecnico di Torino): <em>Quantum Workshop with Lagrange</em><br/>
+    <li><strong>Dott. Emanuele Dri</strong> (Politecnico di Torino): <strong>Quantum Workshop with Lagrange</strong><br/>
       <span class="pl-4 block text-neutral-700 dark:text-neutral-300">
         Workshop pratico con simulazioni e dimostrazioni dal vivo sul computer quantistico del Politecnico di Torino, in collaborazione con il team QubiTO.
       </span>
