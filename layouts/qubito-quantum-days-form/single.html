@@ -60,16 +60,17 @@
                     ⚠️ Please note
                 </p>
                 <p class="mt-1">
-                    The in-person seats for November 12th are fully booked. New
-                    participants can only attend online on that day.
+                    All in-person seats for
+                    <strong>QubiTO Quantum Days (November 12–14)</strong> are
+                    now fully booked. New participants can only attend
+                    <strong>online</strong> for all days.
                 </p>
             </div>
 
             {{ partial "form/select" (dict "id" "attendance_mode" "label" `How
-            do you plan to attend on the 13th and 14th of November?` "required"
-            true "options" (slice (dict "value" "in_person" "label" "In person")
-            (dict "value" "online_only" "label" "Online only") (dict "value"
-            "both" "label" "Both") ) ) }}
+            do you plan to attend the event?` "required" true "disabled" true
+            "default_value" "online_only" "options" (slice (dict "value"
+            "online_only" "label" `Online only (in-person seats full)`) ) ) }}
 
             <div
                 class="rounded-lg bg-neutral-50 dark:bg-neutral-800/60 text-sm text-neutral-600 dark:text-neutral-300 leading-relaxed p-4 shadow-inner"
