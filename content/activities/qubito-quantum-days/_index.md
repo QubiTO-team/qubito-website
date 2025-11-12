@@ -63,7 +63,7 @@ showTaxonomies: false
   <ul class="list-disc pl-6 space-y-1">
     <li>Introduzione a cura del board di QubiTO con interventi del <em>Prof. Matteo Cocuzza</em> (Referente del corso di Laurea Magistrale in Quantum Engineering) e del <em>Prof. Bartolomeo Montrucchio</em> (Referente QubiTO).</li>
     <li>
-      <strong>Prof. Riccardo Adami</strong> (Politecnico di Torino): <strong><em>Quantum Mechanics: From Heresy to Dogma in a Hundred Years</em></strong><br/>
+      <strong>Prof. Riccardo Adami</strong> (Politecnico di Torino): <strong><em>Quantum Mechanics: From Heresy to Para-Dogma, and Back</em></strong><br/>
       <span class="pl-4 block text-neutral-700 dark:text-neutral-300">
         Una lectio che ripercorre un secolo di scoperte e concetti fondamentali, mettendo in luce gli aspetti storici e teorici più affascinanti.
       </span>
