@@ -57,7 +57,7 @@ showTaxonomies: false
   <ul class="list-disc pl-6 space-y-1">
     <li>Opening by the QubiTO board with <em>Prof. Matteo Cocuzza</em> (Coordinator of the M.Sc. in Quantum Engineering) and <em>Prof. Bartolomeo Montrucchio</em> (QubiTO Advisor).</li>
     <li>
-      <strong>Prof. Riccardo Adami</strong> (DISMA, Politecnico di Torino): <strong><em>Quantum Mechanics: From Heresy to Dogma in a Hundred Years</em></strong><br/>
+      <strong>Prof. Riccardo Adami</strong> (DISMA, Politecnico di Torino): <strong><em>Quantum Mechanics: From Heresy to Para-Dogma, and Back</em></strong><br/>
       <span class="pl-4 block text-neutral-700 dark:text-neutral-300">
         A keynote lecture retracing the evolution of quantum mechanics across its first century.
       </span>
