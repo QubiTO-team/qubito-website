@@ -10,10 +10,13 @@
 
     📍 Politecnico di Torino 📅 12–14 novembre 2025
 
-    [Registrati ora →](/en/forms/qubito-quantum-days-form/)
   isMainActivity: true
-  isActive: true
+  isActive: false
   url: "/activities/qubito-quantum-days/"
+  cta:
+    text: "Registrati ora →"
+    url: "/en/forms/qubito-quantum-days-form/"
+    requiresQuantumDays: true
 
 - icon: "🤖"
   header: "GenQ Global Hackathon Series in Geneva"

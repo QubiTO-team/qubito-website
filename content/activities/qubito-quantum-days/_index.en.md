@@ -39,11 +39,13 @@ showTaxonomies: false
 <p>To celebrate the first centenary of quantum mechanics, the <strong>QubiTO student team</strong> at Politecnico di Torino presents <em>QubiTO Quantum Days</em> — a three-day event exploring the evolution of quantum science from its theoretical origins to the technologies shaping the second quantum revolution.</p>
 <p>The event gathers students, researchers, and enthusiasts to reflect on a century of discoveries and look toward the future of quantum engineering.</p>
 
+{{% quantumdays %}}
 <div class="bg-secondary-100 dark:bg-secondary-900/30 border border-secondary-300 dark:border-secondary-700 rounded-xl mt-6 mb-6 px-4">
   <p class="text-center font-medium text-sm text-secondary-900 dark:text-secondary-100">
     Note: The full event will also be available <strong>online</strong>; connection instructions will be shared with registered attendees.
   </p>
 </div>
+{{% /quantumdays %}}
 
 <hr class="my-8"/>
 
@@ -96,6 +98,7 @@ showTaxonomies: false
 </div>
 
 </div>
+{{% quantumdays %}}
 <aside class="mt-10 lg:mt-0 lg:w-80 lg:shrink-0 w-full max-w-md mx-auto lg:mx-0 lg:sticky lg:top-28">
   <div class="rounded-3xl border border-neutral-200 bg-gradient-to-br from-primary-500/10 via-primary-500/5 to-transparent p-6 pt-0 shadow-xl backdrop-blur-sm dark:border-neutral-700 dark:from-primary-400/20 dark:via-primary-500/10">
     <h4 class="text-2xl font-semibold text-neutral-900 dark:text-neutral-50 mb-6">QubiTO Quantum Days</h4>
@@ -109,4 +112,5 @@ showTaxonomies: false
     </a>
   </div>
 </aside>
+{{% /quantumdays %}}
 </div>

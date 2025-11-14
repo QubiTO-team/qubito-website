@@ -1,4 +1,20 @@
 {{ define "main" }}
+{{ if not .Site.Params.isQuantumDaysRegistrationOpen }}
+<div class="text-center py-16">
+    <div class="max-w-2xl mx-auto">
+        <h1 class="text-3xl font-bold text-neutral-800 dark:text-neutral-100 mb-4">
+            Registrations are currently closed
+        </h1>
+        <p class="text-lg text-neutral-600 dark:text-neutral-400 mb-8">
+            The QubiTO Quantum Days form is unavailable at the moment. Follow our channels for future updates or explore our latest activities.
+        </p>
+        <div class="flex flex-col gap-4 items-center">
+            {{ partial "button" (dict "href" "/en/activities/" "content" "Explore activities") }}
+            {{ partial "button" (dict "href" "/en/" "content" "Back to Home") }}
+        </div>
+    </div>
+</div>
+{{ else }}
 <article class="max-w-4xl mx-auto">
     <header class="mb-8 text-center">
         <h1
@@ -121,6 +137,7 @@
     </div>
 
     {{ end }}
+    </div>
 </article>
 
 <script>
@@ -224,4 +241,5 @@
     });
 </script>
 
+{{ end }}
 {{ end }}

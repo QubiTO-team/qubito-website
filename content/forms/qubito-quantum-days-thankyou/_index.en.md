@@ -3,6 +3,7 @@ title: "Thank You!"
 date: 2025-01-27
 draft: false
 layout: single
+type: "qubito-quantum-days-thankyou"
 showDate: false
 showAuthor: false
 showReadingTime: false
