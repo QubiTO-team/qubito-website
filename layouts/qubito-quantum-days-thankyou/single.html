@@ -1,0 +1,52 @@
+{{ define "main" }} {{ if not .Site.Params.isQuantumDaysRegistrationOpen }}
+<h1 class="mb-3 text-4xl font-extrabold">
+    {{ i18n "error.404_title" | emojify }}
+</h1>
+<p class="mt-8 mb-12 text-neutral-400 dark:text-neutral-500">
+    {{ i18n "error.404_error" | emojify }}
+</p>
+<div class="prose dark:prose-invert">
+    <p>{{ i18n "error.404_description" | emojify }}</p>
+</div>
+{{ else }}
+<div id="quantum-days-thankyou" style="display: none">
+    <article>
+        <header class="mb-6">
+            <h1 class="mb-4 text-4xl font-bold text-neutral-800 dark:text-neutral-200">
+                {{ .Title }}
+            </h1>
+        </header>
+        <div class="prose prose-neutral dark:prose-invert mx-auto max-w-3xl">
+            {{ .Content }}
+        </div>
+        <div class="mt-8 text-center">
+            {{ partial "button" (dict "href" "/en/" "content" "Back to Home") }}
+        </div>
+    </article>
+</div>
+
+<div id="quantum-days-404">
+    <h1 class="mb-3 text-4xl font-extrabold">
+        {{ i18n "error.404_title" | emojify }}
+    </h1>
+    <p class="mt-8 mb-12 text-neutral-400 dark:text-neutral-500">
+        {{ i18n "error.404_error" | emojify }}
+    </p>
+    <div class="prose dark:prose-invert">
+        <p>{{ i18n "error.404_description" | emojify }}</p>
+    </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        if (
+            document.referrer &&
+            document.referrer.includes("/en/forms/qubito-quantum-days-form/")
+        ) {
+            document.getElementById("quantum-days-thankyou").style.display =
+                "block";
+            document.getElementById("quantum-days-404").style.display = "none";
+        }
+    });
+</script>
+{{ end }} {{ end }}
