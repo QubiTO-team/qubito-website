@@ -1,0 +1,7 @@
+{{- $when := .Get "when" | default "open" -}}
+{{- $isOpen := site.Params.isQuantumDaysRegistrationOpen -}}
+{{- if and (eq $when "open") $isOpen -}}
+  {{- .Inner -}}
+{{- else if and (eq $when "closed") (not $isOpen) -}}
+  {{- .Inner -}}
+{{- end -}}

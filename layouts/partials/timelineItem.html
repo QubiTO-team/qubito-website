@@ -1,8 +1,9 @@
 {{ $icon := .icon | default "check" }} {{ $header := .header }} {{ $badge :=
 .badge }} {{ $description := .description }} {{ $images := .images }} {{ $link
-:= .link }} {{ $url := .url }} {{ $readMoreLabel := cond (eq site.Language.Lang
-"it") "Scopri di più" "Read more" }} {{ $isExternal := and $url (or
-(strings.HasPrefix $url "http://") (strings.HasPrefix $url "https://")) }}
+:= .link }} {{ $url := .url }} {{ $cta := .cta }} {{ $readMoreLabel := cond (eq
+site.Language.Lang "it") "Scopri di più" "Read more" }} {{ $isExternal := and
+$url (or (strings.HasPrefix $url "http://") (strings.HasPrefix $url "https://"))
+}}
 
 <li class="list-none">
     <div class="flex flex-start">
@@ -38,7 +39,28 @@
                     {{ $link.text }}
                 </a>
             </p>
-            {{ end }} {{ end }} {{ if $images }}
+            {{ end }} {{ with $cta }} {{ $requiresQuantumDays :=
+            .requiresQuantumDays | default false }} {{ if or (not
+            $requiresQuantumDays) site.Params.isQuantumDaysRegistrationOpen }}
+            {{ if and .text .url }} {{ $ctaIsExternal := or (strings.HasPrefix
+            .url "http://") (strings.HasPrefix .url "https://") }}
+            <p class="mt-4">
+                <a
+                    href="{{ .url }}"
+                    class="btn"
+                    {{
+                    if
+                    $ctaIsExternal
+                    }}target="_blank"
+                    rel="noopener noreferrer"
+                    {{
+                    end
+                    }}
+                >
+                    {{ .text }}
+                </a>
+            </p>
+            {{ end }} {{ end }} {{ end }} {{ end }} {{ if $images }}
             <div
                 class="flex justify-center items-center flex-wrap gap-4 image-list-gap mt-4"
             >

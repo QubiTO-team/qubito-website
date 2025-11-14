@@ -12,6 +12,7 @@ highlightCurrentMenuArea = true
 githubViewPath = "https://github.com/QubiTO-team/qubito-website/"
 githubEditPath = "https://github.com/QubiTO-team/qubito-website/edit/main/content/"
 isRecruiting = false
+isQuantumDaysRegistrationOpen = false
 googleScriptUrl = "https://script.google.com/macros/s/AKfycbzQcoGTi7cL0mqLoT01KvvT4rTrNGWpHV71-pesLrKqg5t2UfhFmz-xtgNe4pOfdGA/exec"
 
 [header]
