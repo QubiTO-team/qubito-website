@@ -1,6 +1,9 @@
 {
   "name": "qubito-website",
   "private": true,
+  "engines": {
+    "node": "20.x"
+  },
   "scripts": {
     "tailwind:build": "tailwindcss -c ./themes/blowfish/tailwind.config.js -i ./themes/blowfish/assets/css/main.css -o ./assets/css/compiled/main.css --minify",
     "tailwind:watch": "tailwindcss -c ./themes/blowfish/tailwind.config.js -i ./themes/blowfish/assets/css/main.css -o ./assets/css/compiled/main.css --watch",
