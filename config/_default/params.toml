@@ -13,7 +13,7 @@ githubViewPath = "https://github.com/QubiTO-team/qubito-website/"
 githubEditPath = "https://github.com/QubiTO-team/qubito-website/edit/main/content/"
 isRecruiting = false
 isQuantumDaysRegistrationOpen = false
-googleScriptUrl = "https://script.google.com/macros/s/AKfycbzQcoGTi7cL0mqLoT01KvvT4rTrNGWpHV71-pesLrKqg5t2UfhFmz-xtgNe4pOfdGA/exec"
+joinUsGoogleScriptUrl = "https://script.google.com/macros/s/AKfycbz53SV6Flf4dcSit9Dh9RLgfr0-7Fc3Djx63XSEVqiEkrIe6hs-7lRzkIlzX_MPFk4qxQ/exec"
 
 [header]
 layout = "fixed"
@@ -72,7 +72,7 @@ showHero = true
 layoutBackgroundBlur = true
 layoutBackgroundHeaderSpace = true
 showBreadcrumbs = false
-showSummary = false
+showSummary = true
 showViews = false
 showLikes = false
 showTableOfContents = false

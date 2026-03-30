@@ -19,7 +19,50 @@ This is the official website of the QubiTO Team at Politecnico di Torino Univers
 ## Getting Started
 
 1. **Install [Node.js](https://nodejs.org/) and [Hugo](https://gohugo.io/getting-started/installing/):**
-   - You need both Node.js and Hugo installed on your system.
+   - Versions used by this project: Node.js `20.x` and Hugo `0.124.0` (see `.nvmrc` and `.tool-versions`).
+   - **Node.js `20.x` via nvm (macOS/Linux):**
+     ```sh
+     curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
+     # restart your shell, then:
+     nvm install 20
+     nvm use 20
+     node -v
+     ```
+   - **Hugo `0.124.0` direct downloads (extended):**
+     - **Linux (x64):**
+       ```sh
+       HUGO_VERSION=0.124.0
+       curl -L -o /tmp/hugo.tar.gz "https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/hugo_extended_${HUGO_VERSION}_Linux-64bit.tar.gz"
+       tar -xzf /tmp/hugo.tar.gz -C /tmp
+       sudo install /tmp/hugo /usr/local/bin/hugo
+       hugo version
+       ```
+     - **macOS (Apple Silicon):**
+       ```sh
+       HUGO_VERSION=0.124.0
+       curl -L -o /tmp/hugo.tar.gz "https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/hugo_extended_${HUGO_VERSION}_macOS-ARM64.tar.gz"
+       tar -xzf /tmp/hugo.tar.gz -C /tmp
+       sudo install /tmp/hugo /usr/local/bin/hugo
+       hugo version
+       ```
+     - **macOS (Intel):**
+       ```sh
+       HUGO_VERSION=0.124.0
+       curl -L -o /tmp/hugo.tar.gz "https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/hugo_extended_${HUGO_VERSION}_macOS-64bit.tar.gz"
+       tar -xzf /tmp/hugo.tar.gz -C /tmp
+       sudo install /tmp/hugo /usr/local/bin/hugo
+       hugo version
+       ```
+     - **Windows (x64, PowerShell):**
+       ```powershell
+       $HUGO_VERSION="0.124.0"
+       Invoke-WebRequest -Uri "https://github.com/gohugoio/hugo/releases/download/v$HUGO_VERSION/hugo_extended_${HUGO_VERSION}_Windows-64bit.zip" -OutFile "$env:TEMP\\hugo.zip"
+       Expand-Archive -Path "$env:TEMP\\hugo.zip" -DestinationPath "$env:TEMP\\hugo"
+       New-Item -ItemType Directory -Force -Path "$env:ProgramFiles\\Hugo" | Out-Null
+       Move-Item "$env:TEMP\\hugo\\hugo.exe" "$env:ProgramFiles\\Hugo\\hugo.exe"
+       $env:PATH += ";$env:ProgramFiles\\Hugo"
+       hugo version
+       ```
 
 2. **Clone the repository with submodules:**
    ```sh

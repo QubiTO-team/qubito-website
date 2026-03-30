@@ -62,7 +62,7 @@
   <!-- Application Form -->
   <div class="bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-700 rounded-xl shadow-xl p-8">
 
-    <form id="join-us-form" action="{{ .Site.Params.googleScriptUrl }}" method="POST"
+    <form id="join-us-form" action="{{ .Site.Params.joinUsGoogleScriptUrl }}" method="POST"
         class="space-y-6 p-4"
         target="hidden_iframe"
         onsubmit="submitted=true"
@@ -73,6 +73,8 @@
       {{ partial "form/text-input" (dict "id" "id_number" "name" "id_number" "label" "ID Number" "required" true) }}
 
       {{ partial "form/text-input" (dict "id" "email" "name" "email" "label" "Instutional Mail Address" "type" "email" "required" true) }}
+
+      {{ partial "form/text-input" (dict "id" "phone" "name" "phone" "label" "Phone Number (For interview communications)" "type" "tel" "required" true) }}
 
       {{ partial "form/text-input" (dict "id" "major" "name" "major" "label" "Which major are you?" "required" true) }}
 

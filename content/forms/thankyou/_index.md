@@ -2,9 +2,7 @@
 title: "Grazie!"
 date: 2025-01-27
 draft: false
-showDate: false
 showAuthor: false
-showReadingTime: false
 showEdit: false
 showPagination: false
 list: false
@@ -18,6 +16,9 @@ showReadingTime: false
 showHeadingAnchors: false
 showZenMode: false
 showTableOfContents: false
+url: "/thankyou/"
+aliases:
+  - "/forms/thankyou/"
 ---
 
 ## Candidatura inviata con successo!
