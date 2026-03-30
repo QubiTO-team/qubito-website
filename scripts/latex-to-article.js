@@ -78,7 +78,7 @@ function convertTabular(colspec, content, caption) {
   const header = rows[0];
   while (header.length < maxCols) header.push('');
   table += `| ${header.join(' | ')} |\n`;
-  table += `| ${Array(maxCols).fill('---').join(' | ')} |\n`;
+  table += `|${Array(maxCols).fill('---|').join('')}\n`;
 
   // Rows
   for (let i = 1; i < rows.length; i++) {
@@ -149,14 +149,15 @@ function convertLists(text) {
 
 /**
  * Convert table environments to Markdown tables.
+ * protect() is passed in so the output is shielded from later text substitutions.
  */
-function convertTables(text) {
+function convertTables(text, protect) {
   return text.replace(
     /\\begin\{table\}[\s\S]*?\\begin\{tabular\}\{([^}]*)\}([\s\S]*?)\\end\{tabular\}([\s\S]*?)\\end\{table\}/g,
     (_, colspec, tabContent, afterTabular) => {
       const captionMatch = afterTabular.match(/\\caption\{([^}]*)\}/);
       const caption = captionMatch ? captionMatch[1] : null;
-      return convertTabular(colspec, tabContent, caption);
+      return protect(convertTabular(colspec, tabContent, caption));
     }
   );
 }
@@ -196,6 +197,8 @@ function latexToMarkdown(latex) {
   md = md.replace(/\\maketitle\s*/g, '');
 
   // ---- Convert math environments to $$...$$ / $...$ before protecting ----
+  // These run before protect() is defined; the raw $$...$$ output is caught
+  // by the protect($$) step below — so \\ and all LaTeX inside is preserved.
   md = md.replace(
     /\\begin\{(equation|displaymath)\*?\}([\s\S]*?)\\end\{\1\*?\}/g,
     (_, _env, content) => `\n$$\n${content.trim()}\n$$\n`
@@ -203,6 +206,16 @@ function latexToMarkdown(latex) {
   md = md.replace(
     /\\begin\{(align|gather|multline|aligned)\*?\}([\s\S]*?)\\end\{\1\*?\}/g,
     (_, env, content) => `\n$$\n\\begin{${env}}\n${content.trim()}\n\\end{${env}}\n$$\n`
+  );
+  // \begin{center} → display math. KaTeX already centers $$...$$ blocks, so
+  // the environment adds nothing but its content. \\ inside becomes the
+  // aligned line-break separator, which KaTeX handles correctly.
+  md = md.replace(
+    /\\begin\{center\}([\s\S]*?)\\end\{center\}/g,
+    (_, content) => {
+      const body = content.trim().replace(/\\\\/g, '\\cr');
+      return `\n$$\n\\begin{aligned}\n${body}\n\\end{aligned}\n$$\n`;
+    }
   );
 
   // ---- Protect math and code blocks with placeholders ----
@@ -245,13 +258,13 @@ function latexToMarkdown(latex) {
     return `![](images/${path.basename(imgPath)})`;
   });
 
-  // ---- Tables ----
-  md = convertTables(md);
+  // ---- Tables (protected so separators survive typographic substitutions) ----
+  md = convertTables(md, protect);
 
   // Standalone tabular (not wrapped in table)
   md = md.replace(
     /\\begin\{tabular\}\{([^}]*)\}([\s\S]*?)\\end\{tabular\}/g,
-    (_, colspec, content) => convertTabular(colspec, content, null)
+    (_, colspec, content) => protect(convertTabular(colspec, content, null))
   );
 
   // ---- Lists ----
@@ -264,14 +277,13 @@ function latexToMarkdown(latex) {
   md = md.replace(/\\begin\{quotation\}([\s\S]*?)\\end\{quotation\}/g, (_, c) => {
     return '\n> ' + c.trim().split('\n').join('\n> ') + '\n';
   });
-  md = md.replace(/\\begin\{center\}([\s\S]*?)\\end\{center\}/g, (_, c) => c.trim() + '\n');
   md = md.replace(/\\begin\{flushleft\}([\s\S]*?)\\end\{flushleft\}/g, (_, c) => c.trim() + '\n');
   md = md.replace(/\\begin\{flushright\}([\s\S]*?)\\end\{flushright\}/g, (_, c) => c.trim() + '\n');
 
   // ---- Sections ----
-  md = md.replace(/\\section\*?\{([^}]*)\}/g, '\n# $1\n');
-  md = md.replace(/\\subsection\*?\{([^}]*)\}/g, '\n## $1\n');
-  md = md.replace(/\\subsubsection\*?\{([^}]*)\}/g, '\n### $1\n');
+  md = md.replace(/\\section\*?\{([^}]*)\}/g, '\n## $1\n');
+  md = md.replace(/\\subsection\*?\{([^}]*)\}/g, '\n### $1\n');
+  md = md.replace(/\\subsubsection\*?\{([^}]*)\}/g, '\n#### $1\n');
   md = md.replace(/\\paragraph\*?\{([^}]*)\}/g, '\n**$1**\n');
   md = md.replace(/\\subparagraph\*?\{([^}]*)\}/g, '\n**$1**\n');
 
@@ -535,7 +547,7 @@ Example:
   }
 
   const zipPath = args[0];
-  let outputDir = path.join(process.cwd(), 'content', 'articles');
+  let outputDir = path.join(__dirname, '..', 'content', 'articles');
   let dryRun = false;
 
   for (let i = 1; i < args.length; i++) {
