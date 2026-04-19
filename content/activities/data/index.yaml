@@ -1,3 +1,13 @@
+- icon: "🛠️"
+  header: "Pushquantum Hackathon alla TUM di Monaco"
+  badge: "2025"
+  description: "Durante l'hackathon, il nostro team si è tuffato in una delle sfide più grandi dell'informatica quantistica: la correzione degli errori. Abbiamo sviluppato una strategia per proteggere i calcoli dal rumore, cercando di ottenere la massima precisione possibile pur lavorando con risorse hardware estremamente limitate. Per trovare la soluzione perfetta, il gruppo ha testato e messo a confronto diversi algoritmi: siamo partiti da approcci standard, abbiamo sperimentato con modelli matematici avanzati di ottimizzazione e, alla fine, abbiamo persino creato una nostra soluzione personalizzata da zero."
+  isMainActivity: true
+  images:
+    - "/images/past-activities/munich2025_1.jpg"
+    - "/images/past-activities/munich2025_2.jpg"
+  isActive: false
+
 - icon: "🗓️"
   header: "QubiTO Quantum Days"
   badge: "12-14 Novembre 2025"
@@ -19,7 +29,7 @@
     requiresQuantumDays: true
 
 - icon: "🤖"
-  header: "GenQ Global Hackathon Series in Geneva"
+  header: "GenQ Global Hackathon Series a Ginevra"
   badge: "2025"
   description: "Il nostro team ha ottenuto un ottimo risultato al GenQ Hackathon, ospitato da QAI Ventures al CERN, dove abbiamo gareggiato in una serie di entusiasmanti sfide di quantum machine learning. Ci siamo divisi in due gruppi per affrontare due problemi distinti: la classificazione di immagini mediche e la previsione della qualità dell'aria. I nostri sforzi sono stati premiati quando il team dedicato alle immagini mediche si è aggiudicato il Secondo Posto e ha portato a casa il Premio per l'Innovazione."
   isMainActivity: true
