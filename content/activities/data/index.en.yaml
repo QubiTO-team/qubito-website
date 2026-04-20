@@ -1,3 +1,13 @@
+- icon: "🛠️"
+  header: "Pushquantum Hackathon in TUM Munich"
+  badge: "2025"
+  description: "During the hackathon, our team dove into one of the biggest challenges in quantum computing: error correction. We developed a strategy to protect computations from noise, aiming to achieve the highest possible accuracy while working with extremely limited hardware resources. To find the perfect solution, the group tested and compared several algorithms: we started with standard baseline approaches, experimented with advanced mathematical optimization models, and ultimately even built our own custom solution from scratch."
+  isMainActivity: true
+  images:
+    - "/images/past-activities/munich2025_1.jpg"
+    - "/images/past-activities/munich2025_2.jpg"
+  isActive: false
+
 - icon: "🗓️"
   header: "QubiTO Quantum Days"
   badge: "November 12-14 2025"
