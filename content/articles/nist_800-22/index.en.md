@@ -263,16 +263,15 @@ If the proportion falls outside of this interval, then there is evidence
 that the data is non-random. Other standard deviation values could also
 be used.
 
-**Uniform Distribution of *P-values:* **
+**Uniform Distribution of *P-values***
 
 ***The distribution of the P-values is examined to ensure uniformity.***
-Uniformity may also be determined via an application of a $$\chi^2$$ test and the determination of a *P-value* corresponding to the
-Goodness-of-Fit Distributional Test on the *P-values* obtained for an arbitrary statistical
+Uniformity may also be determined via an application of a $\chi^2$ test and the determination of a *P-value* corresponding to the Goodness-of-Fit Distributional Test on the *P-values* obtained for an arbitrary statistical
 test.
 
-$$\chi^2 = \sum_{i=1}^{10} \frac{(F_i - S/10)^2}{S/10}$$
+$$\chi^2 = \sum_{i=1}^{10} \frac{(F_i - s/10)^2}{s/10}$$
 
-**Common causes for error:**
+### Common causes for error
 
 **An incorrectly programmed statistical test:** As the code for each test
 has been created for a particular problem type, they feature selection
@@ -307,3 +306,7 @@ The NIST suite provides valuable user-side information alongside the mathematica
 it is not an all-encompassing standard for checking an RNG's quality in real-life circumstances.
 Additional tests must be conducted on the outputs of the generator, and issues that appear due to the generator's nature must be accounted for and fixed before usage in real-world applications. 
 However, it is a good guide in testing certain statistical qualities of the RNG that is being tested.
+
+
+## References
+"[A Statistical Test Suite for Random and Pseudorandom Number Generators for Cryptographic Applications](https://csrc.nist.gov/pubs/sp/800/22/r1/upd1/final)".
