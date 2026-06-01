@@ -1,6 +1,14 @@
+- icon: "🥈"
+  header: "IQM Quantum Hack in Madrid"
+  badge: "December 2025"
+  description: "In December, the student team QubiTO traveled to Madrid for the IQM Quantum Hack, a 24-hour quantum computing hackathon. The team tackled two major challenges: Algorithm Resolution (Indra) and Risk Prediction (Santander). For the Indra challenge, QubiTO designed and implemented a modified Monte Carlo Tree Search (MCTS) algorithm. This approach allowed the team to efficiently navigate a complex problem space within the strict 24-hour limit, earning them second place. In the Santander track, QubiTO applied quantum concepts to financial modeling, aiming to predict and mitigate risk factors more accurately and efficiently than classical computing methods."
+  isMainActivity: true
+  #images:
+  isActive: false
+
 - icon: "🛠️"
   header: "Pushquantum Hackathon in TUM Munich"
-  badge: "2025"
+  badge: "November 2025"
   description: "During the hackathon, our team dove into one of the biggest challenges in quantum computing: error correction. We developed a strategy to protect computations from noise, aiming to achieve the highest possible accuracy while working with extremely limited hardware resources. To find the perfect solution, the group tested and compared several algorithms: we started with standard baseline approaches, experimented with advanced mathematical optimization models, and ultimately even built our own custom solution from scratch."
   isMainActivity: true
   images:
@@ -31,7 +39,7 @@
 
 - icon: "🤖"
   header: "GenQ Global Hackathon Series in Geneva"
-  badge: "2025"
+  badge: "October 2025"
   description: "Our team obtained a great result at the GenQ Hackathon, hosted by QAI Ventures at CERN, where we competed in a series of exciting quantum machine learning challenges. We split into two groups to tackle distinct problems: medical image classification and air quality forecasting. Our efforts were rewarded when the medical imaging team secured 2nd Place and brought home the Innovation Award."
   isMainActivity: true
   images:
@@ -41,7 +49,7 @@
 
 - icon: "🇨🇭"
   header: "ETH Zurich Quantum Hackathon"
-  badge: "2025"
+  badge: "May 2025"
   description: 'Six of our students competed against their brilliant international colleagues at ETH Zurich. Divided into two teams, they tackled the "Portfolio Optimization" challenge presented by QCentroid and the "Gate Parallelization" challenge by QuEra. Upon returning to Turin, they presented their solutions to fellow colleagues, professors, and quantum computing enthusiasts.'
   isMainActivity: true
   images:

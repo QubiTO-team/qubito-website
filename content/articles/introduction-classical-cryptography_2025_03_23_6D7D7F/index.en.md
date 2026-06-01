@@ -1,7 +1,7 @@
 ---
 title: "Introduction to Classical Cryptography"
 weight: 14
-date: 2025-03-23
+date: 2026-03-23
 summary: "This article explores the core principles of classical cryptography by analyzing the mechanics and brute-force vulnerabilities of Caesar and Substition ciphers. It further examines the One-Time Pad and discusses true randomness in achieving digital security."
 tags: ["Cryptography", "OTP","Security"]
 authors: ["QubiTO Cryptography Group"]
