@@ -1,6 +1,14 @@
+- icon: "🥈"
+  header: "IQM Quantum Hack a Madrid"
+  badge: "Dicembre 2025"
+  description: "A dicembre, il team studentesco QubiTO si è recato a Madrid per l'IQM Quantum Hack, un hackathon di quantum computing di 24 ore. Il team ha affrontato due sfide principali: Algorithm Resolution (Indra) e Risk Prediction (Santander). Per la sfida Indra, QubiTO ha progettato e implementato un algoritmo Monte Carlo Tree Search (MCTS) modificato. Questo approccio ha permesso al team di esplorare in modo efficiente un problema complesso nel rigoroso limite delle 24 ore, conquistando il secondo posto sul podio! Nella traccia Santander, QubiTO ha applicato concetti quantistici alla modellazione finanziaria, con l'obiettivo di prevedere e mitigare i fattori di rischio in modo più accurato ed efficiente rispetto ai metodi di calcolo classici."
+  isMainActivity: true
+  #images:
+  isActive: false
+
 - icon: "🛠️"
   header: "Pushquantum Hackathon alla TUM di Monaco"
-  badge: "2025"
+  badge: "Novembre 2025"
   description: "Durante l'hackathon, il nostro team si è tuffato in una delle sfide più grandi dell'informatica quantistica: la correzione degli errori. Abbiamo sviluppato una strategia per proteggere i calcoli dal rumore, cercando di ottenere la massima precisione possibile pur lavorando con risorse hardware estremamente limitate. Per trovare la soluzione perfetta, il gruppo ha testato e messo a confronto diversi algoritmi: siamo partiti da approcci standard, abbiamo sperimentato con modelli matematici avanzati di ottimizzazione e, alla fine, abbiamo persino creato una nostra soluzione personalizzata da zero."
   isMainActivity: true
   images:
@@ -30,7 +38,7 @@
 
 - icon: "🤖"
   header: "GenQ Global Hackathon Series a Ginevra"
-  badge: "2025"
+  badge: "Ottobre 2025"
   description: "Il nostro team ha ottenuto un ottimo risultato al GenQ Hackathon, ospitato da QAI Ventures al CERN, dove abbiamo gareggiato in una serie di entusiasmanti sfide di quantum machine learning. Ci siamo divisi in due gruppi per affrontare due problemi distinti: la classificazione di immagini mediche e la previsione della qualità dell'aria. I nostri sforzi sono stati premiati quando il team dedicato alle immagini mediche si è aggiudicato il Secondo Posto e ha portato a casa il Premio per l'Innovazione."
   isMainActivity: true
   images:
@@ -40,7 +48,7 @@
 
 - icon: "🇨🇭"
   header: "Quantum Hackathon ETH di Zurigo"
-  badge: "2025"
+  badge: "Maggio 2025"
   description: 'Sei dei nostri studenti hanno sfidato i loro brillanti colleghi internazionali all''ETH di Zurigo. Divisi in due squadre, hanno affrontato la sfida di "Portfolio Optimization" presentata da QCentroid e quella di "Gate parallelization" proposta da QuEra. Al ritorno a Torino, hanno presentato le loro soluzioni ai colleghi, ai professori e agli appassionati di quantum computing.'
   isMainActivity: true
   images:
