@@ -1,0 +1,42 @@
+# Allow all legitimate search engine crawlers
+User-agent: *
+{{- if hugo.IsProduction | or (eq .Site.Params.env "production") }}
+Allow: /
+Disallow: /tags/
+Disallow: /categories/
+Disallow: /authors/
+Disallow: /series/
+Disallow: /search/
+{{- else }}
+Disallow: /
+{{- end }}
+
+# Block AI content scrapers that do not contribute to search indexing
+User-agent: GPTBot
+Disallow: /
+
+User-agent: CCBot
+Disallow: /
+
+User-agent: anthropic-ai
+Disallow: /
+
+User-agent: Claude-Web
+Disallow: /
+
+User-agent: Bytespider
+Disallow: /
+
+User-agent: Diffbot
+Disallow: /
+
+User-agent: ImagesiftBot
+Disallow: /
+
+User-agent: cohere-ai
+Disallow: /
+
+User-agent: YouBot
+Disallow: /
+
+Sitemap: {{ "sitemap.xml" | absURL }}
