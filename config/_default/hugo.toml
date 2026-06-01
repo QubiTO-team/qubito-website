@@ -36,7 +36,7 @@ enableEmoji = true
     xlarge = 1920
 
 [sitemap]
-  changefreq = 'daily'
+  changefreq = 'weekly'
   filename = 'sitemap.xml'
   priority = 0.5
 

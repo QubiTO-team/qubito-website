@@ -1,4 +1,5 @@
 colorScheme = "custom-colors"
+robots = "index, follow"
 defaultAppearance = "light"
 autoSwitchAppearance = true
 enableSearch = true
