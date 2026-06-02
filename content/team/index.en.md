@@ -10,7 +10,7 @@ showLikes: false
 showReadingTime: false
 showHeadingAnchors: false
 showZenMode: false
-title: "Team"
+title: ""
 translationKey: "team-page"
 showTableOfContents: false
 showPagination: false
