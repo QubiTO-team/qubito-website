@@ -3,7 +3,8 @@
   badge: "Dicembre 2025"
   description: "A dicembre, il team studentesco QubiTO si è recato a Madrid per l'IQM Quantum Hack, un hackathon di quantum computing di 24 ore. Il team ha affrontato due sfide principali: Algorithm Resolution (Indra) e Risk Prediction (Santander). Per la sfida Indra, QubiTO ha progettato e implementato un algoritmo Monte Carlo Tree Search (MCTS) modificato. Questo approccio ha permesso al team di esplorare in modo efficiente un problema complesso nel rigoroso limite delle 24 ore, conquistando il secondo posto sul podio! Nella traccia Santander, QubiTO ha applicato concetti quantistici alla modellazione finanziaria, con l'obiettivo di prevedere e mitigare i fattori di rischio in modo più accurato ed efficiente rispetto ai metodi di calcolo classici."
   isMainActivity: true
-  #images:
+  images:
+    - "/images/past-activities/madrid_iqm.jpg"
   isActive: false
 
 - icon: "🛠️"
