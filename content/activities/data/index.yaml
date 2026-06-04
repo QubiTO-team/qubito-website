@@ -1,9 +1,20 @@
+- icon: "🇨🇭"
+  header: "ETH Quantum Hackathon 2026 a Zurigo"
+  badge: "Maggio 2026"
+  description: "All'ETH di Zurigo QubiTO ha affrontato le sfide proposte da QuEra e Zurich Instruments. Per la sfida di QuEra, in cui abbiamo ottenuto il terzo posto con menzione d'onore, abbiamo affrontato una domanda controintuitiva: una porta logica a 1 qubit può essere più difficile da implementare di una a 2 qubit? Immergendoci nella sintesi di circuiti fault-tolerant, abbiamo toccato con mano l'enorme costo hardware delle porte non-Clifford, affrontando uno dei maggiori ostacoli per il calcolo quantistico su larga scala. Per la sfida di Zurich Instruments, ci siamo posti un obiettivo cruciale: quanto velocemente e in modo autonomo si può calibrare un qubit? Creando un digital twin del sistema, abbiamo sostituito i lenti sweep brute-force con spettroscopie guidate dalla fisica e algoritmi di stima bayesiana. In questo modo, abbiamo abbattuto drasticamente le misurazioni necessarie, ottimizzando l'uso del tempo macchina della QPU e compiendo un passo decisivo verso un'automazione senza intervento umano."
+  isMainActivity: true
+  images:
+    - "/images/past-activities/eth_2026_group.jpg"
+    - "/images/past-activities/eth_2026_presentation_1.jpg"
+  isActive: false
+
 - icon: "🥈"
   header: "IQM Quantum Hack a Madrid"
   badge: "Dicembre 2025"
   description: "A dicembre, il team studentesco QubiTO si è recato a Madrid per l'IQM Quantum Hack, un hackathon di quantum computing di 24 ore. Il team ha affrontato due sfide principali: Algorithm Resolution (Indra) e Risk Prediction (Santander). Per la sfida Indra, QubiTO ha progettato e implementato un algoritmo Monte Carlo Tree Search (MCTS) modificato. Questo approccio ha permesso al team di esplorare in modo efficiente un problema complesso nel rigoroso limite delle 24 ore, conquistando il secondo posto sul podio! Nella traccia Santander, QubiTO ha applicato concetti quantistici alla modellazione finanziaria, con l'obiettivo di prevedere e mitigare i fattori di rischio in modo più accurato ed efficiente rispetto ai metodi di calcolo classici."
   isMainActivity: true
-  #images:
+  images:
+    - "/images/past-activities/madrid_iqm.jpg"
   isActive: false
 
 - icon: "🛠️"

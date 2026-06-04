@@ -1,9 +1,20 @@
+- icon: "🇨🇭"
+  header: "ETH Quantum Hackathon 2026 in Zurich"
+  badge: "May 2026"
+  description: "At ETH Zurich, QubiTO tackled the challenges set by QuEra and Zurich Instruments. For the QuEra challenge, where we secured third place with an honorable mention, we tackled a counterintuitive question: can a 1-qubit logic gate be harder to implement than a 2-qubit one? Diving into fault-tolerant circuit synthesis, we experienced firsthand the enormous hardware cost of non-Clifford gates, addressing one of the major hurdles for large-scale quantum computing. For the Zurich Instruments challenge, we set ourselves a crucial goal: how quickly and autonomously can a qubit be calibrated? By creating a digital twin of the system, we replaced slow brute-force sweeps with physics-guided spectroscopy and Bayesian estimation algorithms. This approach drastically reduced the required measurements, optimizing QPU machine time and taking a decisive step toward fully automated, human-free operation."
+  isMainActivity: true
+  images:
+    - "/images/past-activities/eth_2026_group.jpg"
+    - "/images/past-activities/eth_2026_presentation_1.jpg"
+  isActive: false
+
 - icon: "🥈"
   header: "IQM Quantum Hack in Madrid"
   badge: "December 2025"
   description: "In December, the student team QubiTO traveled to Madrid for the IQM Quantum Hack, a 24-hour quantum computing hackathon. The team tackled two major challenges: Algorithm Resolution (Indra) and Risk Prediction (Santander). For the Indra challenge, QubiTO designed and implemented a modified Monte Carlo Tree Search (MCTS) algorithm. This approach allowed the team to efficiently navigate a complex problem space within the strict 24-hour limit, earning them second place. In the Santander track, QubiTO applied quantum concepts to financial modeling, aiming to predict and mitigate risk factors more accurately and efficiently than classical computing methods."
   isMainActivity: true
-  #images:
+  images:
+    - "/images/past-activities/madrid_iqm.jpg"
   isActive: false
 
 - icon: "🛠️"
