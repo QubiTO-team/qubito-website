@@ -1,3 +1,15 @@
+- icon: "🎤"
+  header: "QubiTO Quantum Seminars"
+  badge: "June-July 2026"
+  description: |
+    In June and July, three seminars dedicated to the **foundations of quantum mechanics** will take place, in which open problems regarding the interpretation of the theory will be discussed, such as the question of its completeness and the meaning of the wave function, while also emphasizing the formal and experimental implications that a critique of its principles entails.
+    The seminar series will feature presentations by **Prof. Marco Giovanelli**, historian and philosopher of physics and associate professor of the history of philosophy at the University of Turin, **Prof. Marco Genovese**, director of the quantum optics center at the National Institute of Metrological Research and corresponding member of the Academy of Sciences of Turin, and **Dr. Davide Romano**, researcher in the philosophy of physics at the University of Verona.
+    
+    📍 Politecnico di Torino 📅 June-July, 2026
+  isMainActivity: true
+  isActive: true
+  url: "/en/activities/qubito-quantum-seminars/"
+
 - icon: "🇨🇭"
   header: "ETH Quantum Hackathon 2026 in Zurich"
   badge: "May 2026"
