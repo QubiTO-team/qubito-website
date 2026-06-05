@@ -83,7 +83,7 @@ Il team Qubito è lieto di invitarvi a un ciclo di seminari sui fondamenti della
   </p>
 
   <p class="m-0 text-neutral-700 dark:text-neutral-300">
-    Il Dr. Davide Romano (Università di Verona) discuterà alcune questioni relative al significato e all'interpretazione della funzione d'onda nella meccanica quantistica.
+    Il Dr. Davide Romano (università degli studi di Verona) discuterà della teoria di Bohm come approccio realista alla meccanica quantistica e della natura della funzione d'onda
   </p>
   
 </div>

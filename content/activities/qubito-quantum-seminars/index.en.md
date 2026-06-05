@@ -83,7 +83,7 @@ The QubiTO team is pleased to invite you to a seminar series on the foundations 
   </p>
 
   <p class="m-0 text-neutral-700 dark:text-neutral-300">
-    Dr. Davide Romano (University of Verona) will discuss some issues related to the meaning and interpretation of the wave function in quantum mechanics.
+    Dr. Davide Romano (University of Verona) will discuss Bohmian mechanics as a realist approach to quantum mechanics, and the nature of the wave function
   </p>
   
 </div>
