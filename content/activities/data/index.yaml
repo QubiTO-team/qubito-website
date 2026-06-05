@@ -1,3 +1,14 @@
+- icon: "🎤"
+  header: "QubiTO Quantum Seminars"
+  badge: "June-July 2026"
+  description: |
+    un ciclo di seminari sui fondamenti della meccanica quantistica
+    
+    📍 Politecnico di Torino 📅 Giugno-Luglio, 2026"
+  isMainActivity: true
+  isActive: true
+  url: "/activities/qubito-quantum-seminars/"
+
 - icon: "🥈"
   header: "IQM Quantum Hack a Madrid"
   badge: "Dicembre 2025"
