@@ -12,9 +12,9 @@ forgejoDefaultServer = "https://v8.next.forgejo.org"
 highlightCurrentMenuArea = true
 githubViewPath = "https://github.com/QubiTO-team/qubito-website/"
 githubEditPath = "https://github.com/QubiTO-team/qubito-website/edit/main/content/"
-isRecruiting = false
+isRecruiting = true
 isQuantumDaysRegistrationOpen = false
-joinUsGoogleScriptUrl = "https://script.google.com/macros/s/AKfycbz53SV6Flf4dcSit9Dh9RLgfr0-7Fc3Djx63XSEVqiEkrIe6hs-7lRzkIlzX_MPFk4qxQ/exec"
+joinUsGoogleScriptUrl = "https://script.google.com/macros/s/AKfycbwGJElwxaXXjYXKcdZN9b-NH6ZGa7MkBdo7prXMJbYNE2VlwXvv6hRsH7JhfpcU4o5EFA/exec"
 
 [header]
 layout = "fixed"
