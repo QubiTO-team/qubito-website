@@ -122,7 +122,15 @@
           (dict "value" "No" "label" "No")
         )) }}
 
+        {{ partial "form/star-rating" (dict "id" "web_development" "name" "web_development" "label" "How much do you know about Web Development (HTML, CSS, JavaScript, frameworks)?" "required" true "max" 10) }}
+
         {{ partial "form/textarea" (dict "id" "other_skills" "name" "other_skills" "label" "Would you like to mention any other skills that you feel would be useful for your time in the team? (ex: previous hackathon participations etc.)" "rows" 4) }}
+      </div>
+
+      <div id="social-media-fields" style="display: none;">
+        {{ partial "form/textarea" (dict "id" "design_software" "name" "design_software" "label" "Do you have experience with any design or editing software (ex: Canva, Adobe Photoshop, Illustrator, Premiere Pro, Figma, CapCut)? List them and describe your level." "required" true "rows" 4) }}
+
+        {{ partial "form/textarea" (dict "id" "social_other_skills" "name" "social_other_skills" "label" "Would you like to mention any other skills that you feel would be useful for the social media role? (ex: copywriting, photography, video editing, managing pages etc.)" "rows" 4) }}
       </div>
 
       <!-- Submit Button -->
@@ -189,13 +197,11 @@ document.addEventListener('DOMContentLoaded', function() {
       field.classList.remove('border-red-500', 'border-red-300');
       field.classList.add('border-neutral-300', 'dark:border-neutral-600');
 
-      // Skip validation for technical fields if they are hidden
-      var technicalFields = document.getElementById('technical-fields');
-      var isFieldInTechnicalSection = technicalFields && technicalFields.contains(field);
-      var isTechnicalSectionHidden = technicalFields && technicalFields.style.display === 'none';
+      // Skip validation for fields in hidden technical or social media sections
+      var section = field.closest('#technical-fields, #social-media-fields');
 
-      if (isFieldInTechnicalSection && isTechnicalSectionHidden) {
-        return; // Skip validation for hidden technical fields
+      if (section && section.style.display === 'none') {
+        return;
       }
 
       if (!field.value.trim()) {
@@ -225,7 +231,29 @@ document.addEventListener('DOMContentLoaded', function() {
     submitted = true;
   });
 
-  const technicalFieldsIds = ['rf_engineering', 'fpga', 'python_coding', 'quantum_mechanics', 'qiskit', 'studied_qc'];
+  const technicalFieldsIds = ['rf_engineering', 'fpga', 'python_coding', 'web_development', 'quantum_mechanics', 'qiskit', 'studied_qc'];
+  const socialMediaRequiredIds = ['design_software'];
+
+  // Toggle required on plain fields (e.g. textareas) so hidden ones don't block native validation
+  function setFieldRequired(id, required) {
+    var field = document.getElementById(id);
+    if (field) {
+      field.required = required;
+    }
+  }
+
+  socialMediaRequiredIds.forEach(id => setFieldRequired(id, false));
+
+  // Clear values in a hidden section
+  function clearSection(section) {
+    section.querySelectorAll('input, textarea').forEach(function(input) {
+      if (input.type === 'radio' || input.type === 'checkbox') {
+        input.checked = false;
+      } else {
+        input.value = '';
+      }
+    });
+  }
 
   function setRequired(id, required) {
     const container = document.getElementById(id + '_container');
@@ -252,23 +280,23 @@ document.addEventListener('DOMContentLoaded', function() {
       socialMediaContainer.addEventListener('change', function(event) {
         if (event.target.name === 'social_media') {
           var technicalFields = document.getElementById('technical-fields');
+          var socialMediaFields = document.getElementById('social-media-fields');
           const isSocial = event.target.value === 'Yes';
 
           if (isSocial) {
             technicalFields.style.display = 'none';
             technicalFieldsIds.forEach(id => setRequired(id, false));
-            // Clear values in hidden technical fields
-            var hiddenInputs = technicalFields.querySelectorAll('input, textarea');
-            hiddenInputs.forEach(function(input) {
-              if (input.type !== 'radio' && input.type !== 'checkbox') {
-                input.value = '';
-              } else if (input.type === 'radio' || input.type === 'checkbox') {
-                input.checked = false;
-              }
-            });
+            clearSection(technicalFields);
+
+            socialMediaFields.style.display = 'block';
+            socialMediaRequiredIds.forEach(id => setFieldRequired(id, true));
           } else {
             technicalFields.style.display = 'block';
             technicalFieldsIds.forEach(id => setRequired(id, true));
+
+            socialMediaFields.style.display = 'none';
+            socialMediaRequiredIds.forEach(id => setFieldRequired(id, false));
+            clearSection(socialMediaFields);
           }
         }
       });
