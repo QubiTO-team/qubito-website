@@ -22,40 +22,6 @@
 
     elements.forEach((element) => observer.observe(element));
   });
-
-  // Function to scroll the activities section
-  const container = document.getElementById("activities");
-  const scrollLeftBtn = document.getElementById("scroll-left");
-  const scrollRightBtn = document.getElementById("scroll-right");
-  const scrollButtons = document.getElementById("scroll-buttons");
-
-  function updateScrollButtons() {
-    const maxScrollLeft = container.scrollWidth - container.clientWidth;
-
-    // If everything fits — hide buttons
-    if (container.scrollWidth <= container.clientWidth) {
-      scrollButtons.style.display = "none";
-    } else {
-      scrollButtons.style.display = "flex";
-      scrollLeftBtn.disabled = container.scrollLeft <= 0;
-      scrollRightBtn.disabled = container.scrollLeft >= maxScrollLeft - 1;
-    }
-  }
-
-  function scrollActivities(direction) {
-    const scrollAmount = 320;
-    container.scrollBy({
-      left: direction * scrollAmount,
-      behavior: "smooth",
-    });
-  }
-
-  // Add scroll listener
-  container.addEventListener("scroll", updateScrollButtons);
-
-  // Also check on load and on resize
-  window.addEventListener("load", updateScrollButtons);
-  window.addEventListener("resize", updateScrollButtons);
 </script>
 
 <script>

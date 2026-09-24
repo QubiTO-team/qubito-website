@@ -128,6 +128,7 @@
   {{ if templates.Exists "partials/extend-head.html" }}
   {{ partialCached "extend-head.html" .Site }}
   {{ end }}
+  <meta name="theme-color"/>
   {{/* Hreflang alternate links for multilingual SEO */}}
   {{ if .IsTranslated -}}
   {{ range .AllTranslations -}}
