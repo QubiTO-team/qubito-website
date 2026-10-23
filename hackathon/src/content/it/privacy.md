@@ -10,7 +10,7 @@ Questa informativa spiega come trattiamo i tuoi dati personali quando ti candidi
 
 ## 1. Titolare del trattamento
 
-QubiTO, team studentesco di quantum computing del Politecnico di Torino, [indirizzo].
+QubiTO, team studentesco di quantum computing del Politecnico di Torino, c/o Politecnico di Torino, Corso Duca degli Abruzzi 24, 10129 Torino.
 Email: teamqubito@gmail.com
 
 ## 2. Quali dati raccogliamo

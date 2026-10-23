@@ -6,17 +6,14 @@ draft: true
 
 ## Where
 
-- **Company talks, 11 December:** [building, room], Politecnico di Torino, [address].
-- **Hackathon, 12–13 December:** [building, room], [address].
-- **Dinner, 11 December:** Comala, [address]. [Open to everyone / for speakers and partners.]
-
-[Map or link to Google Maps]
+- **Company talks, 11 December:** Politecnico di Torino, Corso Duca degli Abruzzi 24, 10129 Torino ([map](https://maps.app.goo.gl/bDBn4TZZzcA69nQE8)). Building and room: [to be announced].
+- **Hackathon, 12–13 December:** Politecnico di Torino, Corso Duca degli Abruzzi 24 ([map](https://maps.app.goo.gl/bDBn4TZZzcA69nQE8)). Building and room: [to be announced].
+- **Dinner, 11 December:** Comala, Corso Francesco Ferrucci 63, 10138 Torino ([map](https://maps.app.goo.gl/bsLEe6SMH5TGGKtB8)). Open to everyone, participants included.
 
 ## Getting there
 
-- [Public transport: metro / tram / bus lines and stops.]
-- [Train: from Porta Susa / Porta Nuova.]
-- [Bike or car: parking options.]
+- **By train:** from Torino Porta Nuova the Politecnico is about 15 minutes on foot; from Torino Porta Susa about 25 minutes on foot.
+- **By public transport:** plan your trip with the [GTT journey planner](https://www.gtt.to.it) or Google Maps, using the map links above.
 
 ## Check-in
 

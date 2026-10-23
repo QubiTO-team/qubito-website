@@ -10,7 +10,7 @@ This notice explains how we handle your personal data when you apply to the Qubi
 
 ## 1. Who is responsible for your data
 
-QubiTO, the quantum computing student team of Politecnico di Torino, [address].
+QubiTO, the quantum computing student team of Politecnico di Torino, c/o Politecnico di Torino, Corso Duca degli Abruzzi 24, 10129 Torino.
 Email: teamqubito@gmail.com
 
 ## 2. What data we collect

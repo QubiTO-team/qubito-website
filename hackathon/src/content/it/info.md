@@ -6,17 +6,14 @@ draft: true
 
 ## Dove
 
-- **Talk delle aziende, 11 dicembre:** [edificio, aula], Politecnico di Torino, [indirizzo].
-- **Hackathon, 12–13 dicembre:** [edificio, aula], [indirizzo].
-- **Cena, 11 dicembre:** Comala, [indirizzo]. [Aperta a tutti / per speaker e partner.]
-
-[Mappa o link a Google Maps]
+- **Talk delle aziende, 11 dicembre:** Politecnico di Torino, Corso Duca degli Abruzzi 24, 10129 Torino ([mappa](https://maps.app.goo.gl/bDBn4TZZzcA69nQE8)). Edificio e aula: [da definire].
+- **Hackathon, 12–13 dicembre:** Politecnico di Torino, Corso Duca degli Abruzzi 24 ([mappa](https://maps.app.goo.gl/bDBn4TZZzcA69nQE8)). Edificio e aula: [da definire].
+- **Cena, 11 dicembre:** Comala, Corso Francesco Ferrucci 63, 10138 Torino ([mappa](https://maps.app.goo.gl/bsLEe6SMH5TGGKtB8)). Aperta a tutti, partecipanti compresi.
 
 ## Come arrivare
 
-- [Mezzi pubblici: linee e fermate di metro / tram / bus.]
-- [Treno: da Porta Susa / Porta Nuova.]
-- [Bici o auto: dove parcheggiare.]
+- **In treno:** da Torino Porta Nuova il Politecnico è a circa 15 minuti a piedi; da Torino Porta Susa a circa 25 minuti a piedi.
+- **Con i mezzi pubblici:** pianifica il viaggio con il [calcola percorso GTT](https://www.gtt.to.it) o con Google Maps, usando i link alle mappe qui sopra.
 
 ## Check-in
 
