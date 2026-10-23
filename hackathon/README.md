@@ -1,6 +1,6 @@
-# Qubito Hackathon 2026 website
+# QubiTO Hackathon 2026 website
 
-Static website for the Qubito Hackathon (11–13 December 2026), served at
+Static website for the QubiTO Hackathon (11–13 December 2026), served at
 **https://qubito.polito.it/hackathon/** (English) and **/hackathon/it/** (Italian).
 
 It lives inside the team site repo but is a separate [Astro](https://docs.astro.build) project:

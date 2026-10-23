@@ -1,5 +1,5 @@
 /**
- * Qubito Hackathon 2026 - forms backend (applications + partner requests).
+ * QubiTO Hackathon 2026 - forms backend (applications + partner requests).
  * Same mechanism as the existing join-us form: the site POSTs the form to this
  * Apps Script web app, which appends a row to the Google Sheet it is attached to.
  *
@@ -11,7 +11,7 @@
  *   a global cap on submissions per 10 minutes, and caps on emails.
  *
  * Setup, on the teamqubito@gmail.com account:
- * 1. Create a Google Sheet, e.g. "Qubito Hackathon 2026". Extensions > Apps Script, paste this file.
+ * 1. Create a Google Sheet, e.g. "QubiTO Hackathon 2026". Extensions > Apps Script, paste this file.
  * 2. Check the settings below. Project Settings (gear icon) > Time zone: Europe/Rome.
  * 3. Select the function "setup" in the toolbar and press Run once. Accept the permissions
  *    ("Google hasn't verified this app" > Advanced > Go to ...). This creates the two tabs with
@@ -24,7 +24,7 @@
 
 // ---------- settings ----------
 const TEAM_EMAIL = 'teamqubito@gmail.com'; // replies, daily digest, partner requests, alerts
-const RESULTS_DATE = { en: '[date TBA]', it: '[data da definire]' };
+const RESULTS_DATE = { en: '18 November 2026', it: '18 novembre 2026' };
 const DEADLINE = null; // e.g. '2026-11-20T23:59:00+01:00'; after it applications are refused (same value as src/config.ts)
 const QUOTA_RESERVE = 5;          // emails per day kept free for digest, partner notifications, alerts
 const MAX_PER_10_MIN = 30;        // above this many submissions in 10 minutes the form answers BUSY
@@ -143,9 +143,9 @@ function sendConfirmation_(sheet, row) {
     MailApp.sendEmail({
       to: get('email'),
       replyTo: TEAM_EMAIL,
-      name: 'Qubito Hackathon',
-      subject: lang === 'it' ? 'Abbiamo ricevuto la tua candidatura - Qubito Hackathon 2026'
-                             : 'We received your application - Qubito Hackathon 2026',
+      name: 'QubiTO Hackathon',
+      subject: lang === 'it' ? 'Abbiamo ricevuto la tua candidatura - QubiTO Hackathon 2026'
+                             : 'We received your application - QubiTO Hackathon 2026',
       body: confirmationText_(lang, name),
     });
     sheet.getRange(row, col).setValue('sent ' + Utilities.formatDate(new Date(), 'Europe/Rome', 'yyyy-MM-dd HH:mm'));
@@ -160,18 +160,18 @@ function sendConfirmation_(sheet, row) {
 function confirmationText_(lang, name) {
   if (lang === 'it') {
     return 'Ciao ' + name + ',\n\n' +
-      'grazie per esserti candidato/a al Qubito Hackathon (11-13 dicembre 2026, Torino). Abbiamo ricevuto la tua candidatura.\n\n' +
+      'grazie per esserti candidato/a al QubiTO Hackathon (11-13 dicembre 2026, Torino). Abbiamo ricevuto la tua candidatura.\n\n' +
       'Valuteremo tutte le candidature dopo la scadenza e ti scriveremo con l\'esito entro il ' + RESULTS_DATE.it + '. ' +
       'I team da 4 persone vengono formati in sede all\'inizio dell\'evento.\n\n' +
       'Questo è un messaggio automatico. Per qualsiasi domanda puoi rispondere a questa email.\n\n' +
-      'Il team di Qubito\nhttps://qubito.polito.it/hackathon/';
+      'Il team di QubiTO\nhttps://qubito.polito.it/hackathon/';
   }
   return 'Hi ' + name + ',\n\n' +
-    'thanks for applying to the Qubito Hackathon (11-13 December 2026, Torino). We received your application.\n\n' +
+    'thanks for applying to the QubiTO Hackathon (11-13 December 2026, Torino). We received your application.\n\n' +
     'We will review all applications after the deadline and email you the result by ' + RESULTS_DATE.en + '. ' +
     'Teams of 4 are formed on site at the start of the event.\n\n' +
     'This is an automatic message. If you have questions, just reply to this email.\n\n' +
-    'The Qubito team\nhttps://qubito.polito.it/hackathon/';
+    'The QubiTO team\nhttps://qubito.polito.it/hackathon/';
 }
 
 // One email a day to the team with the counts, instead of one email per application (saves quota).

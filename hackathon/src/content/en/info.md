@@ -20,7 +20,7 @@ draft: true
 
 ## Check-in
 
-Check-in opens at [time] on 12 December at [place]. Bring a valid ID and your confirmation email. Teams of 4 are formed right after check-in, before the challenges are presented at 11:00.
+Check-in opens at [time] on 12 December at [place]. Bring a valid ID and your confirmation email. Teams of 4 are formed right after check-in, before the challenges are presented at 10:00.
 
 ## What to bring
 
@@ -30,7 +30,7 @@ Check-in opens at [time] on 12 December at [place]. Bring a valid ID and your co
 - Water bottle, a sweater for the night, toiletries.
 - [Headphones.]
 
-Food is on us: lunch and dinner on 12 December, breakfast and lunch on 13 December. If you told us about dietary restrictions, we'll take care of them.
+Food is on us: dinner on 11 December, breakfast, lunch and dinner on 12 December, breakfast and lunch on 13 December. If you told us about dietary restrictions, we'll take care of them.
 
 ## During the night
 

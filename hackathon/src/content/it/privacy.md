@@ -1,12 +1,12 @@
 ---
 title: "Informativa privacy"
-description: "Come il Qubito Hackathon tratta i dati personali di candidati e partner."
+description: "Come il QubiTO Hackathon tratta i dati personali di candidati e partner."
 draft: true
 ---
 
 *Ultimo aggiornamento: [data]*
 
-Questa informativa spiega come trattiamo i tuoi dati personali quando ti candidi al Qubito Hackathon (11–13 dicembre 2026, Torino) tramite il nostro modulo di candidatura, o ci scrivi come potenziale partner, ai sensi del Regolamento generale sulla protezione dei dati (GDPR, Regolamento UE 2016/679).
+Questa informativa spiega come trattiamo i tuoi dati personali quando ti candidi al QubiTO Hackathon (11–13 dicembre 2026, Torino) tramite il nostro modulo di candidatura, o ci scrivi come potenziale partner, ai sensi del Regolamento generale sulla protezione dei dati (GDPR, Regolamento UE 2016/679).
 
 ## 1. Titolare del trattamento
 

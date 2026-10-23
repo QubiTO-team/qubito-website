@@ -20,7 +20,7 @@ draft: true
 
 ## Check-in
 
-Il check-in apre alle [ora] del 12 dicembre in [luogo]. Porta un documento d'identità valido e l'email di conferma. I team da 4 vengono formati subito dopo il check-in, prima della presentazione delle sfide alle 11:00.
+Il check-in apre alle [ora] del 12 dicembre in [luogo]. Porta un documento d'identità valido e l'email di conferma. I team da 4 vengono formati subito dopo il check-in, prima della presentazione delle sfide alle 10:00.
 
 ## Cosa portare
 
@@ -30,7 +30,7 @@ Il check-in apre alle [ora] del 12 dicembre in [luogo]. Porta un documento d'ide
 - Borraccia, una felpa per la notte, beauty case.
 - [Cuffie.]
 
-Il cibo è offerto da noi: pranzo e cena il 12 dicembre, colazione e pranzo il 13 dicembre. Se ci hai indicato restrizioni alimentari, ne terremo conto.
+Il cibo è offerto da noi: cena l'11 dicembre, colazione, pranzo e cena il 12 dicembre, colazione e pranzo il 13 dicembre. Se ci hai indicato restrizioni alimentari, ne terremo conto.
 
 ## Durante la notte
 

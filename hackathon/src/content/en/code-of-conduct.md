@@ -1,12 +1,12 @@
 ---
 title: "Code of conduct"
-description: "How we expect everyone to behave at the Qubito Hackathon, and how to report a problem."
+description: "How we expect everyone to behave at the QubiTO Hackathon, and how to report a problem."
 draft: true
 ---
 
 *Last updated: [date]*
 
-The Qubito Hackathon is a place to learn, build and meet people. We want everyone to feel welcome and safe, whatever their background, field of study or experience with quantum computing. This code applies to everyone at the event: participants, mentors, speakers, partners, volunteers and organisers. It covers the venue, the dinner on 11 December, online channels used for the event, and social media related to it.
+The QubiTO Hackathon is a place to learn, build and meet people. We want everyone to feel welcome and safe, whatever their background, field of study or experience with quantum computing. This code applies to everyone at the event: participants, mentors, speakers, partners, volunteers and organisers. It covers the venue, the dinner on 11 December, online channels used for the event, and social media related to it.
 
 ## Expected behaviour
 
@@ -36,7 +36,7 @@ The Qubito Hackathon is a place to learn, build and meet people. We want everyon
 
 If you experience or see behaviour that breaks this code, or you feel unsafe, please tell us as soon as possible:
 
-- talk to any organiser (wearing [Qubito t-shirt / badge]), or directly to [names of the on-site contact people];
+- talk to any organiser (wearing [QubiTO t-shirt / badge]), or directly to [names of the on-site contact people];
 - call or message [phone number], available for the whole event, including the night;
 - write to teamqubito@gmail.com, also after the event.
 
@@ -44,4 +44,4 @@ Reports are handled confidentially. You don't need proof and you won't get in tr
 
 ## What we will do
 
-The organisers will listen, help you feel safe and decide what to do. Depending on the case, this can go from a warning to removing someone from the event and excluding them from future Qubito events. In serious cases we will involve Politecnico di Torino and, where needed, the authorities.
+The organisers will listen, help you feel safe and decide what to do. Depending on the case, this can go from a warning to removing someone from the event and excluding them from future QubiTO events. In serious cases we will involve Politecnico di Torino and, where needed, the authorities.

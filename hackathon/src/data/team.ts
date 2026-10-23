@@ -1,11 +1,17 @@
 import type { L10n } from '../i18n';
 
-// Placeholder: replace with the real organisers. `photo` (optional) = path in public/, e.g. 'team/name.jpg'.
+// Board members. Placeholder until the real names arrive.
+// `photo` (optional) = square picture in public/team/, e.g. 'team/name-surname.jpg' (about 400x400 px).
+// Without a photo the initials are shown. The layout is tested for 9 people.
+const placeholder = (role: L10n) => ({ name: 'Name Surname', role });
 export const team: { name: string; role: L10n; photo?: string }[] = [
-  { name: 'Name Surname', role: { en: 'Coordination', it: 'Coordinamento' } },
-  { name: 'Name Surname', role: { en: 'Partners', it: 'Partner' } },
-  { name: 'Name Surname', role: { en: 'Logistics', it: 'Logistica' } },
-  { name: 'Name Surname', role: { en: 'Communication', it: 'Comunicazione' } },
-  { name: 'Name Surname', role: { en: 'Challenges', it: 'Sfide' } },
-  { name: 'Name Surname', role: { en: 'Website', it: 'Sito web' } },
+  placeholder({ en: 'Role', it: 'Ruolo' }),
+  placeholder({ en: 'Role', it: 'Ruolo' }),
+  placeholder({ en: 'Role', it: 'Ruolo' }),
+  placeholder({ en: 'Role', it: 'Ruolo' }),
+  placeholder({ en: 'Role', it: 'Ruolo' }),
+  placeholder({ en: 'Role', it: 'Ruolo' }),
+  placeholder({ en: 'Role', it: 'Ruolo' }),
+  placeholder({ en: 'Role', it: 'Ruolo' }),
+  placeholder({ en: 'Role', it: 'Ruolo' }),
 ];

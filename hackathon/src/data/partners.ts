@@ -9,7 +9,7 @@ export type Partner = {
 
 export const mainPartner: Partner = {
   name: 'IQM Quantum Computers', url: 'https://meetiqm.com', logo: 'logos/iqm.png', width: 720, height: 255,
-  label: { en: 'Main partner', it: 'Main partner' },
+  label: 'Partner', // shown big at the top; label kept equal to the others for now
   description: { en: 'Quantum computers for research and industry', it: "Computer quantistici per la ricerca e l'industria" },
 };
 

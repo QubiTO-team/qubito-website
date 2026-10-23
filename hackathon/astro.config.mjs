@@ -1,7 +1,7 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
 
-// Qubito Hackathon site, served at https://qubito.polito.it/hackathon/
+// QubiTO Hackathon site, served at https://qubito.polito.it/hackathon/
 //
 // `npm run build` (inside this folder) writes the finished static site into ../static/hackathon/.
 // Hugo copies static/ unchanged into the main site, so the page exists at /hackathon/ without any

@@ -36,10 +36,10 @@ const look = LOOK[slug] ?? { band: 'band-purple', ket: `|${slug}⟩` };
 const others = DOCS.filter(s => s !== slug).map(s => ({ slug: s, fm: get(s).frontmatter, ket: LOOK[s]?.ket ?? s }));
 const tocLabel = t({ en: 'On this page', it: 'In questa pagina' });
 ---
-<Base lang={lang} path={`${slug}/`} title={`${fm.title} · Qubito Hackathon 2026`} description={fm.description}>
+<Base lang={lang} path={`${slug}/`} title={`${fm.title} · QubiTO Hackathon 2026`} description={fm.description}>
   <header class={`doc-hero ${look.band}`}>
     <div class="doc-hero-inner">
-      <a class="doc-back" href={url(lang)}>← Qubito Hackathon 2026</a>
+      <a class="doc-back" href={url(lang)}>← QubiTO Hackathon 2026</a>
       <span class="doc-ket">{look.ket}</span>
       <h1>{fm.title}</h1>
       <p class="doc-lead">{fm.description}</p>
@@ -78,7 +78,7 @@ const tocLabel = t({ en: 'On this page', it: 'In questa pagina' });
   </section>
 
   <footer class="doc-foot">
-    <span>|qubito⟩ · Politecnico di Torino</span>
+    <span>|QubiTO⟩ · Politecnico di Torino</span>
     <a href={url(lang, 'info/')}>{t({ en: 'Practical info', it: 'Info pratiche' })}</a>
     <a href={url(lang, 'code-of-conduct/')}>{t({ en: 'Code of conduct', it: 'Codice di condotta' })}</a>
     <a href={url(lang, 'privacy/')}>Privacy</a>

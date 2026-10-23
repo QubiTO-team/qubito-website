@@ -50,7 +50,7 @@ Nice to have:
    duplicates are easy to spot in the Sheet by email).
 3. *Presentation* → **Confirmation message**, e.g.:
    > Thanks for applying to the QubiTO Quantum Hackathon! You'll receive a copy of your answers by email.
-   > We'll review all applications after 15 November and email you the result. Teams of 4 are formed on
+   > We'll review all applications after 15 November and email you the result by 18 November. Teams of 4 are formed on
    > site on 12 December. Questions: teamqubito@gmail.com
 4. *Presentation* → show progress bar: ON (two sections).
 
@@ -79,5 +79,4 @@ navbar "Apply", the hero "Apply now" and the card in the Apply section open it i
 
 ## F. Still to decide
 
-- **Date results are sent** (shown on the site and in the confirmation message).
 - The form says "Space is limited" (fine, the number of places stays undisclosed).

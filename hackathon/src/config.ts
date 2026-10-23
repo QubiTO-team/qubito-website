@@ -17,7 +17,7 @@ export const COUNTDOWN_TARGET = '2026-12-11T13:00:00+01:00';
 export const APPLICATIONS = {
   open: true,
   deadline: '2026-11-15T23:59:00+01:00' as string | null, // same as the Google Form
-  resultsBy: null as string | null,         // e.g. '2026-11-27'
+  resultsBy: '2026-11-18' as string | null,
 };
 
 export const SOCIAL = {

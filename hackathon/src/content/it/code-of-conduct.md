@@ -1,12 +1,12 @@
 ---
 title: "Codice di condotta"
-description: "Come ci aspettiamo che tutti si comportino al Qubito Hackathon, e come segnalare un problema."
+description: "Come ci aspettiamo che tutti si comportino al QubiTO Hackathon, e come segnalare un problema."
 draft: true
 ---
 
 *Ultimo aggiornamento: [data]*
 
-Il Qubito Hackathon è un luogo per imparare, costruire e conoscere persone. Vogliamo che tutti si sentano benvenuti e al sicuro, qualunque sia il loro background, il corso di studi o l'esperienza con il quantum computing. Questo codice vale per chiunque partecipi all'evento: partecipanti, mentor, speaker, partner, volontari e organizzatori. Si applica alla sede, alla cena dell'11 dicembre, ai canali online usati per l'evento e ai social legati all'evento.
+Il QubiTO Hackathon è un luogo per imparare, costruire e conoscere persone. Vogliamo che tutti si sentano benvenuti e al sicuro, qualunque sia il loro background, il corso di studi o l'esperienza con il quantum computing. Questo codice vale per chiunque partecipi all'evento: partecipanti, mentor, speaker, partner, volontari e organizzatori. Si applica alla sede, alla cena dell'11 dicembre, ai canali online usati per l'evento e ai social legati all'evento.
 
 ## Comportamenti attesi
 
@@ -36,7 +36,7 @@ Il Qubito Hackathon è un luogo per imparare, costruire e conoscere persone. Vog
 
 Se subisci o vedi un comportamento contrario a questo codice, o non ti senti al sicuro, diccelo il prima possibile:
 
-- parla con un organizzatore qualsiasi (riconoscibile da [maglietta / badge Qubito]) o direttamente con [nomi dei referenti in sede];
+- parla con un organizzatore qualsiasi (riconoscibile da [maglietta / badge QubiTO]) o direttamente con [nomi dei referenti in sede];
 - chiama o scrivi al [numero di telefono], attivo per tutta la durata dell'evento, notte compresa;
 - scrivi a teamqubito@gmail.com, anche dopo l'evento.
 
@@ -44,4 +44,4 @@ Le segnalazioni sono trattate in modo riservato. Non servono prove e non avrai p
 
 ## Cosa faremo
 
-Gli organizzatori ti ascolteranno, ti aiuteranno a sentirti al sicuro e decideranno come intervenire. A seconda dei casi si va da un richiamo all'allontanamento dall'evento e all'esclusione dai futuri eventi Qubito. Nei casi gravi coinvolgeremo il Politecnico di Torino e, se necessario, le autorità.
+Gli organizzatori ti ascolteranno, ti aiuteranno a sentirti al sicuro e decideranno come intervenire. A seconda dei casi si va da un richiamo all'allontanamento dall'evento e all'esclusione dai futuri eventi QubiTO. Nei casi gravi coinvolgeremo il Politecnico di Torino e, se necessario, le autorità.

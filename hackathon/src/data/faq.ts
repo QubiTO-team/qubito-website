@@ -18,8 +18,8 @@ export const faq: { q: L10n; a: L10n }[] = [
   {
     q: { en: 'Does it cost anything?', it: 'È a pagamento?' },
     a: {
-      en: 'Participation is free, and meals during the hackathon (lunch, dinner, breakfast) are included.',
-      it: "La partecipazione è gratuita e i pasti durante l'hackathon (pranzo, cena, colazione) sono inclusi.",
+      en: 'Participation is free, and all meals are included: dinner on 11 December, breakfast, lunch and dinner on 12 December, breakfast and lunch on 13 December.',
+      it: "La partecipazione è gratuita e tutti i pasti sono inclusi: cena l'11 dicembre, colazione, pranzo e cena il 12 dicembre, colazione e pranzo il 13 dicembre.",
     },
   },
   {

@@ -1,12 +1,12 @@
 ---
 title: "Privacy notice"
-description: "How the Qubito Hackathon handles the personal data of applicants and partners."
+description: "How the QubiTO Hackathon handles the personal data of applicants and partners."
 draft: true
 ---
 
 *Last updated: [date]*
 
-This notice explains how we handle your personal data when you apply to the Qubito Hackathon (11–13 December 2026, Torino) through our application form, or write to us as a potential partner, in line with the EU General Data Protection Regulation (GDPR, Regulation 2016/679).
+This notice explains how we handle your personal data when you apply to the QubiTO Hackathon (11–13 December 2026, Torino) through our application form, or write to us as a potential partner, in line with the EU General Data Protection Regulation (GDPR, Regulation 2016/679).
 
 ## 1. Who is responsible for your data
 

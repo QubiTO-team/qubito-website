@@ -1,4 +1,4 @@
-/* Qubito Hackathon. Flat UI, colour in big blocks (the qubit card, light and brand sections),
+/* QubiTO Hackathon. Flat UI, colour in big blocks (the qubit card, light and brand sections),
    sections separated by background colour instead of lines.
    Palette from the team site: qubito-website/assets/css/schemes/custom-colors.css
    Fonts are self-hosted (@fontsource, imported in layouts/Base.astro): no requests to Google. */
@@ -17,7 +17,7 @@
 }
 .s-alt   { --bgc: #120c12; --card: #1c141c; --line: #2f252f; }
 .s-light { --bgc: #f4eff3; --fg: #161116; --muted: #635a62; --line: #ddd2db; --card: #fff; }
-.s-brand { --bgc: #4661a0; --fg: #fff; --muted: #dbe3f3; --line: rgba(255,255,255,.25); --card: #3a5288; } /* Qubito accent blue, so it differs from the purple qubit card */
+.s-brand { --bgc: #4661a0; --fg: #fff; --muted: #dbe3f3; --line: rgba(255,255,255,.25); --card: #3a5288; } /* QubiTO accent blue, so it differs from the purple qubit card */
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
 [hidden] { display: none !important; }
@@ -90,7 +90,7 @@ h2 { font-size: clamp(2.4rem, 5vw, 4.4rem); font-weight: 600; line-height: 1; le
 }
 
 /* ---------- hero ---------- */
-.eyebrow { font-family: var(--mono); font-size: .78rem; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+.eyebrow { font-family: var(--mono); font-size: .8rem; letter-spacing: .1em; color: var(--muted); } /* no uppercase: keeps the QubiTO spelling */
 h1.title {
   font-size: clamp(3rem, 7vw, 7.5rem); font-weight: 700; line-height: .88; letter-spacing: -.045em;
   margin: 20px 0 28px; cursor: crosshair; user-select: none;
@@ -595,9 +595,22 @@ html.doc-page { scroll-padding-top: calc(var(--nav-h) + 24px); scroll-behavior: 
   .partner { padding: 18px 22px; gap: 12px; }
   .partner.main img { height: 64px; }
   /* team: all six on one row */
-  .team { grid-template-columns: repeat(6, 1fr); gap: 14px; margin-top: 24px; }
+  .team { grid-template-columns: repeat(5, 1fr); gap: 14px; margin-top: 24px; } /* 9 people: 5 + 4 */
   .avatar { border-radius: 14px; }
   .member strong { font-size: .9rem; }
   /* about */
   .stats { margin-top: 32px; }
+}
+
+/* team of 9: always 5 per row on desktop (5 + 4) */
+@media (min-width: 1000px) {
+  .team { grid-template-columns: repeat(5, 1fr); max-width: 860px; }
+}
+@media (min-width: 1000px) and (max-height: 800px) {
+  h2 { font-size: clamp(2rem, 3.8vw, 3.2rem); margin: 8px 0 12px; }
+  .wire li { padding: 2px 0; }
+  .days { margin-top: 18px; }
+}
+@media (max-width: 999px) and (max-height: 600px) {
+  .team { gap: 10px 10px; margin-top: 12px; }
 }
