@@ -24,7 +24,6 @@ export const schedule: Day[] = [
     ket: '|12.12⟩',
     title: { en: 'Hacking starts', it: "Inizia l'hacking" },
     items: [
-      { time: '09:00', title: { en: 'Breakfast', it: 'Colazione' } },
       { time: '10:00', title: { en: 'Challenges presented', it: 'Presentazione delle sfide' } },
       { time: '12:00', big: true, title: { en: 'Coding begins', it: 'Inizio coding' }, note: { en: '24 hours on the clock', it: 'Partono le 24 ore' } },
       { time: '13:00', title: { en: 'Lunch', it: 'Pranzo' } },
