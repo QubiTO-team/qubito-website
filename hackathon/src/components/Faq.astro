@@ -1,0 +1,22 @@
+---
+import { type Lang, pick, url } from '../i18n';
+import { faq } from '../data/faq';
+interface Props { lang: Lang; name: string }
+const { lang, name } = Astro.props;
+const t = pick(lang);
+---
+<section class="sec" id="faq" data-sec data-name={name}>
+  <span class="idx"></span>
+  <h2 class="q" data-scroll>FAQ</h2>
+  <div class="faq">
+    {faq.map(item => (
+      <details><summary>{t(item.q)}</summary><p>{t(item.a)}</p></details>
+    ))}
+  </div>
+  <p class="faq-more">
+    {t({ en: 'More details in the', it: 'Altri dettagli nelle' })}
+    <a href={url(lang, 'info/')}>{t({ en: 'practical info', it: 'informazioni pratiche' })}</a>
+    {t({ en: 'and the', it: 'e nel' })}
+    <a href={url(lang, 'code-of-conduct/')}>{t({ en: 'code of conduct', it: 'codice di condotta' })}</a>.
+  </p>
+</section>

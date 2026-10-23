@@ -1,0 +1,115 @@
+---
+// A text page written in Markdown: src/content/<lang>/<slug>.md
+import Base from '../layouts/Base.astro';
+import { type Lang, pick, url } from '../i18n';
+import { CONTACT_EMAIL, APPLICATION_FORM_URL, applicationsClosed } from '../config';
+import { DOCS } from '../data/docs';
+
+interface Props { lang: Lang; slug: string }
+const { lang, slug } = Astro.props;
+const t = pick(lang);
+
+type Doc = {
+  Content: any;
+  frontmatter: { title: string; description: string; draft?: boolean };
+  getHeadings: () => { depth: number; slug: string; text: string }[];
+  rawContent: () => string;
+};
+const files = import.meta.glob<Doc>('../content/*/*.md', { eager: true });
+const get = (s: string) => {
+  const d = files[`../content/${lang}/${s}.md`];
+  if (!d) throw new Error(`Missing src/content/${lang}/${s}.md`);
+  return d;
+};
+const doc = get(slug);
+const { Content, frontmatter: fm } = doc;
+const toc = doc.getHeadings().filter(h => h.depth === 2);
+const minutes = Math.max(1, Math.round(doc.rawContent().split(/\s+/).length / 200));
+
+// look of each page: header colour and the "ket" above the title
+const LOOK: Record<string, { band: string; ket: string }> = {
+  privacy: { band: 'band-blue', ket: '|privacy⟩' },
+  'code-of-conduct': { band: 'band-purple', ket: '|conduct⟩' },
+  info: { band: 'band-light', ket: '|info⟩' },
+};
+const look = LOOK[slug] ?? { band: 'band-purple', ket: `|${slug}⟩` };
+const others = DOCS.filter(s => s !== slug).map(s => ({ slug: s, fm: get(s).frontmatter, ket: LOOK[s]?.ket ?? s }));
+const tocLabel = t({ en: 'On this page', it: 'In questa pagina' });
+---
+<Base lang={lang} path={`${slug}/`} title={`${fm.title} · Qubito Hackathon 2026`} description={fm.description}>
+  <header class={`doc-hero ${look.band}`}>
+    <div class="doc-hero-inner">
+      <a class="doc-back" href={url(lang)}>← Qubito Hackathon 2026</a>
+      <span class="doc-ket">{look.ket}</span>
+      <h1>{fm.title}</h1>
+      <p class="doc-lead">{fm.description}</p>
+      <div class="doc-meta">
+        <span class="pill">{t({ en: `${minutes} min read`, it: `${minutes} min di lettura` })}</span>
+        {fm.draft && <span class="pill pill-draft">{t({ en: 'Draft: some details are still to be confirmed', it: 'Bozza: alcuni dettagli sono ancora da confermare' })}</span>}
+      </div>
+    </div>
+  </header>
+
+  <div class="doc-layout">
+    <aside class="doc-toc" aria-label={tocLabel}>
+      <p class="toc-title">{tocLabel}</p>
+      <ol>{toc.map(h => <li><a href={`#${h.slug}`} data-toc={h.slug}>{h.text}</a></li>)}</ol>
+    </aside>
+    <details class="doc-toc-mobile">
+      <summary>{tocLabel}</summary>
+      <ol>{toc.map(h => <li><a href={`#${h.slug}`}>{h.text}</a></li>)}</ol>
+    </details>
+    <article class:list={['doc-body', { 'is-draft': fm.draft }]}>
+      <Content />
+    </article>
+  </div>
+
+  <section class="doc-next" aria-label={t({ en: 'More', it: 'Altro' })}>
+    {others.map(o => (
+      <a class="next-card" href={url(lang, `${o.slug}/`)}>
+        <span class="doc-ket">{o.ket}</span>
+        <strong>{o.fm.title} →</strong>
+        <span>{o.fm.description}</span>
+      </a>
+    ))}
+    {applicationsClosed()
+      ? <a class="next-card next-apply" href={`${url(lang)}#apply`}><span class="doc-ket">|1⟩</span><strong>{t({ en: 'Applications', it: 'Candidature' })} →</strong><span>{t({ en: 'See the Apply section.', it: 'Vai alla sezione Candidati.' })}</span></a>
+      : <a class="next-card next-apply" href={APPLICATION_FORM_URL} target="_blank" rel="noopener"><span class="doc-ket">|1⟩</span><strong>{t({ en: 'Apply now ↗', it: 'Candidati ora ↗' })}</strong><span>{t({ en: 'About five minutes, on Google Forms.', it: 'Circa cinque minuti, su Google Forms.' })}</span></a>}
+  </section>
+
+  <footer class="doc-foot">
+    <span>|qubito⟩ · Politecnico di Torino</span>
+    <a href={url(lang, 'info/')}>{t({ en: 'Practical info', it: 'Info pratiche' })}</a>
+    <a href={url(lang, 'code-of-conduct/')}>{t({ en: 'Code of conduct', it: 'Codice di condotta' })}</a>
+    <a href={url(lang, 'privacy/')}>Privacy</a>
+    <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>
+  </footer>
+</Base>
+
+<script>
+  // highlight the section being read in the table of contents
+  const links = new Map([...document.querySelectorAll<HTMLAnchorElement>('[data-toc]')].map(a => [a.dataset.toc, a]));
+  const io = new IntersectionObserver(entries => {
+    for (const e of entries) if (e.isIntersecting) {
+      links.forEach(a => a.classList.remove('on'));
+      links.get(e.target.id)?.classList.add('on');
+    }
+  }, { rootMargin: '-20% 0px -70% 0px' });
+  document.querySelectorAll('.doc-body h2[id]').forEach(h => io.observe(h));
+
+  // drafts: make the [placeholders] easy to spot
+  const body = document.querySelector('.doc-body.is-draft');
+  if (body) {
+    const walker = document.createTreeWalker(body, NodeFilter.SHOW_TEXT);
+    const nodes: Text[] = [];
+    while (walker.nextNode()) if (/\[[^\]]+\]/.test(walker.currentNode.nodeValue || '')) nodes.push(walker.currentNode as Text);
+    for (const n of nodes) {
+      const frag = document.createDocumentFragment();
+      (n.nodeValue || '').split(/(\[[^\]]+\])/).forEach(part => {
+        if (/^\[[^\]]+\]$/.test(part)) { const m = document.createElement('mark'); m.textContent = part; frag.append(m); }
+        else if (part) frag.append(part);
+      });
+      n.replaceWith(frag);
+    }
+  }
+</script>

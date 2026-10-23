@@ -1,0 +1,49 @@
+---
+import { type Lang, pick, asset } from '../i18n';
+import { mainPartner as m, partners, partnershipKit } from '../data/partners';
+import { CONTACT_EMAIL } from '../config';
+interface Props { lang: Lang; name: string }
+const { lang, name } = Astro.props;
+const t = pick(lang);
+---
+<section class="sec s-light" id="partners" data-sec data-name={name}>
+  <span class="idx"></span>
+  <h2 class="q" data-scroll>{t({ en: 'Partners', it: 'Partner' })}</h2>
+  <p class="lead">{t({
+    en: 'The companies and institutions that make the hackathon possible.',
+    it: "Le aziende e le istituzioni che rendono possibile l'hackathon.",
+  })}</p>
+
+  <div class="tiers">
+    <a class="partner main" href={m.url} target="_blank" rel="noopener">
+      <span class="tier-label">{t(m.label)}</span>
+      <img src={asset(m.logo)} alt={m.name} width={m.width} height={m.height}>
+      {m.description && <span class="partner-desc">{t(m.description)}</span>}
+    </a>
+    <div class="partner-row">
+      {partners.map(p => (
+        <a class="partner" href={p.url} target="_blank" rel="noopener">
+          <span class="tier-label">{t(p.label)}</span>
+          <img class={p.wide ? 'wide' : undefined} src={asset(p.logo)} alt={p.name} width={p.width} height={p.height}>
+        </a>
+      ))}
+    </div>
+    <div class="become">
+      <p>
+        <strong>{t({ en: 'Want your company here?', it: 'Vuoi la tua azienda qui?' })}</strong>{' '}
+        {t({
+          en: 'Present a challenge, meet motivated quantum talent and support the student community.',
+          it: 'Proponi una sfida, incontra giovani talenti del quantum e sostieni la community studentesca.',
+        })}
+      </p>
+      <div class="cta">
+        <a class="btn btn-primary btn-sm" href={`mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent('Partnership - Qubito Hackathon 2026')}`}>{t({ en: 'Get in touch', it: 'Contattaci' })}</a>
+        {partnershipKit && (
+          <a class="btn btn-ghost btn-sm" href={asset(partnershipKit)} target="_blank" rel="noopener">
+            {t({ en: 'Partnership kit (PDF)', it: 'Kit partnership (PDF)' })}
+          </a>
+        )}
+      </div>
+    </div>
+  </div>
+</section>

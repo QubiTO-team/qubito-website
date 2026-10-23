@@ -1,0 +1,9 @@
+---
+// English text pages: /hackathon/privacy/, /hackathon/code-of-conduct/, /hackathon/info/
+import DocPage from '../components/DocPage.astro';
+import { DOCS } from '../data/docs';
+export function getStaticPaths() {
+  return DOCS.map(doc => ({ params: { doc } }));
+}
+---
+<DocPage lang="en" slug={Astro.params.doc} />

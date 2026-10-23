@@ -1,0 +1,31 @@
+---
+import { type Lang, pick } from '../i18n';
+import { COUNTDOWN_TARGET, APPLICATION_FORM_URL, applicationsClosed } from '../config';
+interface Props { lang: Lang; name: string }
+const { lang, name } = Astro.props;
+const t = pick(lang);
+---
+<section class="sec hero" id="hero" data-sec data-name={name}>
+  <!-- .q = "quantum" text: letters start in superposition and collapse (see scripts/home.js) -->
+  <p class="eyebrow q" data-observe>Qubito · Politecnico di Torino</p>
+  <h1 class="title q" data-observe>QUBITO HACKATHON</h1>
+  <p class="sub q" data-observe>{t({ en: '24 hours of quantum computing', it: '24 ore di calcolo quantistico' })}</p>
+  <p class="date q" data-observe>{t({ en: '11 — 13 December 2026 · Torino', it: '11 — 13 dicembre 2026 · Torino' })}</p>
+  <div class="countdown">
+    <span class="cd-ket" id="cd" data-target={COUNTDOWN_TARGET} aria-live="off"></span>
+    <span class="cd-label">{t({ en: 'until the opening talks', it: "all'inizio dei talk" })}</span>
+  </div>
+  <div class="controls">
+    {applicationsClosed()
+      ? <a class="btn btn-primary" href="#apply">{t({ en: 'Apply', it: 'Candidati' })}</a>
+      : <a class="btn btn-primary" href={APPLICATION_FORM_URL} target="_blank" rel="noopener" data-apply-link data-fallback="#apply">{t({ en: 'Apply now ↗', it: 'Candidati ora ↗' })}</a>}
+    <a class="btn btn-ghost" href="#programme">{t({ en: 'Programme', it: 'Programma' })}</a>
+  </div>
+  <p class="hint">
+    {t({
+      en: 'Hover the title to observe it. Every section is a state on the Bloch sphere: scroll and the qubit follows, apply a gate and it collapses onto the nearest section and takes you there. Try',
+      it: 'Passa sul titolo per osservarlo. Ogni sezione è uno stato sulla sfera di Bloch: scorri e il qubit ti segue, applica una porta e collassa sulla sezione più vicina portandoti lì. Prova',
+    })}
+    <kbd>X</kbd> <kbd>H</kbd> <kbd>Y</kbd> <kbd>√X</kbd>
+  </p>
+</section>

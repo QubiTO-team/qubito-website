@@ -1,0 +1,26 @@
+---
+import { type Lang, pick } from '../i18n';
+interface Props { lang: Lang }
+const t = pick(Astro.props.lang);
+---
+<aside class="dock stage" id="dock" aria-label={t({ en: 'Interactive qubit', it: 'Qubit interattivo' })}>
+  <canvas id="bloch" aria-hidden="true"></canvas>
+  <div class="panel">
+    <div class="panel-head"><span class="live"></span><span>{t({ en: 'live qubit', it: 'qubit live' })}</span><span class="mode" id="mode">scroll</span></div>
+    <div class="ketline"><span class="psi">|ψ⟩ =</span> <span id="ket"></span></div>
+    <div class="secline"><span id="secprob"></span></div>
+    <div class="gates">
+      <button data-gate="H" title="Hadamard">H</button>
+      <button data-gate="X" title="Pauli-X">X</button>
+      <button data-gate="Y" title="Pauli-Y">Y</button>
+      <button data-gate="Z" title="Pauli-Z">Z</button>
+      <button data-gate="S" title="Phase π/2">S</button>
+      <button data-gate="SX" title="Square root of X">√X</button>
+    </div>
+    <div class="result" id="result"></div>
+    <div class="dock-hint">{t({
+      en: 'Drag to rotate · click a dot to jump · keys H X Y Z S',
+      it: 'Trascina per ruotare · clicca un punto per saltare · tasti H X Y Z S',
+    })}</div>
+  </div>
+</aside>

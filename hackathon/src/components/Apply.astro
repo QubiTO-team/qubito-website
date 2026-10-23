@@ -1,0 +1,68 @@
+---
+import { type Lang, pick, url, formatDate } from '../i18n';
+import { APPLICATIONS, APPLICATION_FORM_URL, CONTACT_EMAIL, SOCIAL, applicationsClosed } from '../config';
+interface Props { lang: Lang; name: string }
+const { lang, name } = Astro.props;
+const t = pick(lang);
+const deadline = formatDate(lang, APPLICATIONS.deadline);
+const resultsBy = formatDate(lang, APPLICATIONS.resultsBy);
+// scripts/home.js also closes it live when the deadline passes after the build
+const closed = applicationsClosed();
+---
+<section class="sec s-brand" id="apply" data-sec data-name={name} data-deadline={APPLICATIONS.deadline ?? ''}>
+  <div class="apply-wrap">
+    <div>
+      <span class="idx"></span>
+      <h2 class="q" data-scroll>{t({ en: 'Apply', it: 'Candidati' })}</h2>
+      <p class="lead">{t({
+        en: `About five minutes. Applications close on ${deadline} at 23:59.`,
+        it: `Circa cinque minuti. Le candidature chiudono il ${deadline} alle 23:59.`,
+      })}</p>
+      <ol class="next-steps">
+        <li><b>1</b><span>{t({ en: 'You fill in the application form', it: 'Compili il modulo di candidatura' })}</span></li>
+        <li><b>2</b><span>{t({
+          en: `We review all applications and email you the result by ${resultsBy}`,
+          it: `Valutiamo tutte le candidature e ti mandiamo l'esito via email entro il ${resultsBy}`,
+        })}</span></li>
+        <li><b>3</b><span>{t({ en: 'On 12 December, teams of 4 are formed on site', it: 'Il 12 dicembre i team da 4 vengono formati in sede' })}</span></li>
+      </ol>
+    </div>
+
+    <div class="form-card closed-card" id="apply-closed" hidden={!closed}>
+      <h3>{t({ en: 'Applications are closed', it: 'Le candidature sono chiuse' })}</h3>
+      <p>{t({
+        en: 'Thanks to everyone who applied. We will email all applicants with the result.',
+        it: 'Grazie a tutti quelli che si sono candidati. Scriveremo a tutti con l\'esito.',
+      })}</p>
+      <p>{t({ en: 'Questions?', it: 'Domande?' })} <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a></p>
+    </div>
+
+    <!-- the application itself is a Google Form (APPLICATION_FORM_URL in src/config.ts) -->
+    <div class="form-card apply-card" id="apply-open-card" hidden={closed}>
+      <h3>{t({ en: 'Application form', it: 'Modulo di candidatura' })}</h3>
+      <ul class="apply-parts">
+        <li><b>|0⟩</b><span>{t({ en: 'About you: studies or work, university or organisation', it: 'Su di te: studi o lavoro, università o organizzazione' })}</span></li>
+        <li><b>|+⟩</b><span>{t({ en: 'Your knowledge, rated 1 to 5. There are no wrong answers: beginners are welcome.', it: 'Le tue conoscenze, da 1 a 5. Non ci sono risposte sbagliate: i principianti sono benvenuti.' })}</span></li>
+        <li><b>|1⟩</b><span>{t({ en: 'A few sentences on why you want to take part', it: 'Qualche frase sul perché vuoi partecipare' })}</span></li>
+      </ul>
+      <a class="btn btn-primary" href={APPLICATION_FORM_URL} target="_blank" rel="noopener" data-apply-link>
+        {t({ en: 'Open the application form ↗', it: 'Apri il modulo di candidatura ↗' })}
+      </a>
+      <p class="apply-note">{t({
+        en: 'Opens Google Forms in a new tab. You will receive a copy of your answers by email. The form is in English.',
+        it: 'Si apre Google Forms in una nuova scheda. Riceverai una copia delle tue risposte via email. Il modulo è in inglese.',
+      })}</p>
+    </div>
+  </div>
+
+  <footer class="site-foot">
+    <span>|qubito⟩ · Politecnico di Torino</span>
+    <a href={url(lang, 'info/')}>{t({ en: 'Practical info', it: 'Info pratiche' })}</a>
+    <a href={url(lang, 'code-of-conduct/')}>{t({ en: 'Code of conduct', it: 'Codice di condotta' })}</a>
+    <a href={url(lang, 'privacy/')}>{t({ en: 'Privacy', it: 'Privacy' })}</a>
+    <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>
+    <a href={SOCIAL.instagram} target="_blank" rel="noopener">Instagram</a>
+    <a href={SOCIAL.linkedin} target="_blank" rel="noopener">LinkedIn</a>
+    <a href={SOCIAL.website}>qubito.polito.it</a>
+  </footer>
+</section>

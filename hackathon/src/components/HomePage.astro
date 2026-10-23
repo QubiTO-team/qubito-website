@@ -1,0 +1,38 @@
+---
+import Base from '../layouts/Base.astro';
+import Hero from './Hero.astro';
+import About from './About.astro';
+import Programme from './Programme.astro';
+import Partners from './Partners.astro';
+import Faq from './Faq.astro';
+import Team from './Team.astro';
+import Apply from './Apply.astro';
+import Dock from './Dock.astro';
+import { type Lang, pick } from '../i18n';
+import { sections } from '../data/sections';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const t = pick(lang);
+// section name shown on the Bloch sphere, by id
+const n = (id: string) => t(sections.find(s => s.id === id)!.name);
+---
+<Base lang={lang} path="" home
+  title={t({ en: 'Qubito Hackathon 2026 · 24 hours of quantum computing', it: 'Qubito Hackathon 2026 · 24 ore di calcolo quantistico' })}
+  description={t({
+    en: 'Company talks and a 24-hour quantum computing hackathon, 11-13 December 2026, Torino. Organised by QubiTO, Politecnico di Torino.',
+    it: "Talk delle aziende e un hackathon di quantum computing di 24 ore, 11-13 dicembre 2026, Torino. Organizzato da QubiTO, Politecnico di Torino.",
+  })}>
+  <main>
+    <Hero lang={lang} name={n('hero')} />
+    <About lang={lang} name={n('about')} />
+    <Programme lang={lang} name={n('programme')} />
+    <Partners lang={lang} name={n('partners')} />
+    <Faq lang={lang} name={n('faq')} />
+    <Team lang={lang} name={n('team')} />
+    <Apply lang={lang} name={n('apply')} />
+  </main>
+  <Dock lang={lang} />
+  <div class="observer" aria-hidden="true"></div>
+  <script>import '../scripts/home.js';</script>
+</Base>

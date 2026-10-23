@@ -1,0 +1,9 @@
+---
+// Italian text pages: /hackathon/it/privacy/, ...
+import DocPage from '../../components/DocPage.astro';
+import { DOCS } from '../../data/docs';
+export function getStaticPaths() {
+  return DOCS.map(doc => ({ params: { doc } }));
+}
+---
+<DocPage lang="it" slug={Astro.params.doc} />

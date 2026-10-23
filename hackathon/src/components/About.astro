@@ -1,0 +1,23 @@
+---
+import { type Lang, pick } from '../i18n';
+interface Props { lang: Lang; name: string }
+const { lang, name } = Astro.props;
+const t = pick(lang);
+const stats = [
+  { value: '24h', label: { en: 'of non-stop hacking', it: 'di hacking non-stop' } },
+  { value: '3', label: { en: 'days, 11–13 December', it: 'giorni, 11–13 dicembre' } },
+  { value: '4', label: { en: 'people per team, formed on site', it: 'persone per team, formati in sede' } },
+  { value: '€ ?', label: { en: 'in prizes (TBA)', it: 'di premi (da annunciare)' } },
+];
+---
+<section class="sec s-alt" id="about" data-sec data-name={name}>
+  <span class="idx"></span>
+  <h2 class="q" data-scroll>{t({ en: 'A quantum hackathon', it: 'Un hackathon quantistico' })}</h2>
+  <p class="lead">{t({
+    en: 'Qubito, the quantum computing student team of Politecnico di Torino, brings together students, researchers and companies for three days. First, partner companies present real problems. Then teams have 24 hours to solve them with quantum algorithms, simulators and real hardware.',
+    it: 'Qubito, il team studentesco di quantum computing del Politecnico di Torino, riunisce studenti, ricercatori e aziende per tre giorni. Prima le aziende partner presentano problemi reali, poi i team hanno 24 ore per risolverli con algoritmi quantistici, simulatori e hardware reale.',
+  })}</p>
+  <div class="stats">
+    {stats.map(s => <div class="stat"><b>{s.value}</b><span>{t(s.label)}</span></div>)}
+  </div>
+</section>

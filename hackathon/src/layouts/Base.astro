@@ -1,0 +1,57 @@
+---
+import '@fontsource/space-grotesk/400.css';
+import '@fontsource/space-grotesk/500.css';
+import '@fontsource/space-grotesk/600.css';
+import '@fontsource/space-grotesk/700.css';
+import '@fontsource/jetbrains-mono/400.css';
+import '@fontsource/jetbrains-mono/600.css';
+import '../styles/global.css';
+import Nav from '../components/Nav.astro';
+import { type Lang, asset, url } from '../i18n';
+
+interface Props {
+  lang: Lang;
+  title: string;
+  description: string;
+  /** path of this page inside the site without language prefix, e.g. '' or 'privacy/' */
+  path: string;
+  home?: boolean;
+}
+const { lang, title, description, path, home = false } = Astro.props;
+const site = Astro.site!;
+const canonical = new URL(url(lang, path), site).href;
+const ogImage = new URL(asset('og-image.png'), site).href;
+---
+<!doctype html>
+<html lang={lang} class={home ? 'home' : 'doc-page'}>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{title}</title>
+  <meta name="description" content={description}>
+  <link rel="canonical" href={canonical}>
+  <link rel="alternate" hreflang="en" href={new URL(url('en', path), site).href}>
+  <link rel="alternate" hreflang="it" href={new URL(url('it', path), site).href}>
+  <link rel="icon" href={asset('favicon.ico')} sizes="any">
+  <link rel="icon" type="image/png" sizes="32x32" href={asset('favicon-32x32.png')}>
+  <link rel="apple-touch-icon" href={asset('apple-touch-icon.png')}>
+  <meta name="theme-color" content="#080808">
+  {__NOINDEX__ && <meta name="robots" content="noindex, nofollow">}
+  <!-- link preview (WhatsApp, LinkedIn, Telegram...) -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Qubito Hackathon">
+  <meta property="og:title" content={title}>
+  <meta property="og:description" content={description}>
+  <meta property="og:url" content={canonical}>
+  <meta property="og:image" content={ogImage}>
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Qubito Hackathon, 11-13 December 2026, Torino">
+  <meta property="og:locale" content={lang === 'it' ? 'it_IT' : 'en_GB'}>
+  <meta name="twitter:card" content="summary_large_image">
+</head>
+<body>
+  <Nav lang={lang} path={path} home={home} />
+  <slot />
+</body>
+</html>
