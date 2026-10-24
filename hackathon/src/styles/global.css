@@ -634,3 +634,7 @@ html.doc-page { scroll-padding-top: calc(var(--nav-h) + 24px); scroll-behavior: 
 /* About: 3 stats (prizes hidden until announced) */
 .stats { grid-template-columns: repeat(3, 1fr); max-width: 700px; }
 @media (max-width: 999px) { .stats { grid-template-columns: repeat(3, 1fr); } .stat { padding: 10px; } .stat b { font-size: 1.25rem; } .stat span { font-size: .72rem; } }
+
+/* Apply footer: |QubiTO> links to the team site */
+.site-foot a.foot-home { color: var(--fg); font-weight: 600; text-decoration: underline; text-underline-offset: 3px; }
+.site-foot a.foot-home:hover { color: #fff; }
