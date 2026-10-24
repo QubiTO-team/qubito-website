@@ -1,0 +1,41 @@
+---
+import { type Lang, pick } from '../i18n';
+import { schedule } from '../data/schedule';
+interface Props { lang: Lang; name: string }
+const { lang, name } = Astro.props;
+const t = pick(lang);
+---
+<section class="sec" id="programme" data-sec data-name={name}>
+  <span class="idx"></span>
+  <h2 class="q" data-scroll>{t({ en: 'Programme', it: 'Programma' })}</h2>
+  <p class="lead">
+    <span class="tag tag-warn">{t({ en: 'tentative', it: 'provvisorio' })}</span>
+    <span class="lead-text">{t({
+      en: 'Times may still change. We will confirm the final schedule closer to the event.',
+      it: "Gli orari possono ancora cambiare. Confermeremo il programma definitivo a ridosso dell'evento.",
+    })}</span>
+  </p>
+  <!-- phones only: one day at a time, with tabs and arrows (also swipeable) -->
+  <div class="day-tabs" role="tablist" aria-label={t({ en: 'Days', it: 'Giorni' })}>
+    <button class="day-arrow" type="button" data-dir="-1" aria-label={t({ en: 'Previous day', it: 'Giorno precedente' })}>←</button>
+    {schedule.map((day, i) => (
+      <button class="day-tab" type="button" role="tab" data-day={i} aria-selected={i === 0 ? 'true' : 'false'}>{day.ket}</button>
+    ))}
+    <button class="day-arrow" type="button" data-dir="1" aria-label={t({ en: 'Next day', it: 'Giorno successivo' })}>→</button>
+  </div>
+  <div class="days" id="days">
+    {schedule.map(day => (
+      <div class="day">
+        <div class="day-head"><span class="ket">{day.ket}</span><h3>{t(day.title)}</h3></div>
+        <ul class="wire">
+          {day.items.map(item => (
+            <li class={item.big ? 'big' : undefined}>
+              <time>{item.time}</time>
+              <div><strong>{t(item.title)}</strong>{item.note && <small>{t(item.note)}</small>}</div>
+            </li>
+          ))}
+        </ul>
+      </div>
+    ))}
+  </div>
+</section>

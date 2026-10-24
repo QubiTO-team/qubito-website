@@ -1,0 +1,36 @@
+---
+import { type Lang, pick, url, asset } from '../i18n';
+import { sections } from '../data/sections';
+import { APPLICATION_FORM_URL, applicationsClosed } from '../config';
+
+interface Props { lang: Lang; path: string; home: boolean }
+const { lang, path, home } = Astro.props;
+const t = pick(lang);
+// on the home page the links scroll; on other pages they go back to the home page section
+const href = (id: string) => (home ? '' : url(lang)) + '#' + id;
+---
+<nav class="top">
+  <a class="logo" href={home ? '#hero' : url(lang)}>
+    <img src={asset('logos/qubito.svg')} alt="QubiTO" width="46" height="32"><span class="logo-text">hackathon</span>
+  </a>
+  <div class="navlinks">
+    {sections.map((s, k) => s.nav !== false && (
+      <a href={href(s.id)} data-k={k}>{t(s.name)}</a>
+    ))}
+  </div>
+  <div class="nav-right">
+    {applicationsClosed()
+      ? <a class="btn btn-nav btn-sm" href={href('apply')}>{t({ en: 'Apply', it: 'Candidati' })}</a>
+      : <a class="btn btn-nav btn-sm" href={APPLICATION_FORM_URL} target="_blank" rel="noopener" data-apply-link data-fallback={href('apply')}>{t({ en: 'Apply', it: 'Candidati' })}</a>}
+    <div class="lang" role="group" aria-label={t({ en: 'Language', it: 'Lingua' })}>
+      <a href={url('en', path)} hreflang="en" lang="en" aria-current={lang === 'en' ? 'true' : undefined} data-lang-link>EN</a>
+      <a href={url('it', path)} hreflang="it" lang="it" aria-current={lang === 'it' ? 'true' : undefined} data-lang-link>IT</a>
+    </div>
+  </div>
+</nav>
+
+<script>
+  // keep the current section when switching language (e.g. /hackathon/#faq -> /hackathon/it/#faq)
+  document.querySelectorAll<HTMLAnchorElement>('[data-lang-link]').forEach(a =>
+    a.addEventListener('click', () => { if (location.hash) a.hash = location.hash; }));
+</script>
