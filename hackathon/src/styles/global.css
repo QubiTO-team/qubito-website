@@ -630,3 +630,7 @@ html.doc-page { scroll-padding-top: calc(var(--nav-h) + 24px); scroll-behavior: 
   .member .avatar { width: 54%; border-radius: 10px; }
   .member strong { font-size: .72rem; }
 }
+
+/* About: 3 stats (prizes hidden until announced) */
+.stats { grid-template-columns: repeat(3, 1fr); max-width: 700px; }
+@media (max-width: 999px) { .stats { grid-template-columns: repeat(3, 1fr); } .stat { padding: 10px; } .stat b { font-size: 1.25rem; } .stat span { font-size: .72rem; } }

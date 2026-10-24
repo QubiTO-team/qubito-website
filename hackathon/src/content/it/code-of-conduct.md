@@ -1,10 +1,10 @@
 ---
 title: "Codice di condotta"
 description: "Come ci aspettiamo che tutti si comportino al QubiTO Hackathon, e come segnalare un problema."
-draft: true
+draft: false
 ---
 
-*Ultimo aggiornamento: [data]*
+*Ultimo aggiornamento: 24 ottobre 2026*
 
 Il QubiTO Hackathon è un luogo per imparare, costruire e conoscere persone. Vogliamo che tutti si sentano benvenuti e al sicuro, qualunque sia il loro background, il corso di studi o l'esperienza con il quantum computing. Questo codice vale per chiunque partecipi all'evento: partecipanti, mentor, speaker, partner, volontari e organizzatori. Si applica alla sede, alla cena dell'11 dicembre, ai canali online usati per l'evento e ai social legati all'evento.
 
@@ -28,16 +28,15 @@ Il QubiTO Hackathon è un luogo per imparare, costruire e conoscere persone. Vog
 
 ## Sede e sicurezza
 
-- [Regole su alcol e fumo.]
-- [Dove si può riposare o dormire durante la notte, e se si può uscire e rientrare nell'edificio.]
+- Non è consentito fumare né bere alcolici.
+- In sede spiegheremo dove si può riposare durante la notte e le regole per uscire e rientrare nell'edificio.
 - Lascia libere le uscite di emergenza e i corridoi. In caso di emergenza segui il personale dell'edificio e gli organizzatori.
 
 ## Se succede qualcosa
 
 Se subisci o vedi un comportamento contrario a questo codice, o non ti senti al sicuro, diccelo il prima possibile:
 
-- parla con un organizzatore qualsiasi (riconoscibile da [maglietta / badge QubiTO]) o direttamente con [nomi dei referenti in sede];
-- chiama o scrivi al [numero di telefono], attivo per tutta la durata dell'evento, notte compresa;
+- parla con un organizzatore qualsiasi: in sede ti diremo come riconoscerci e a chi rivolgerti, anche durante la notte;
 - scrivi a teamqubito@gmail.com, anche dopo l'evento.
 
 Le segnalazioni sono trattate in modo riservato. Non servono prove e non avrai problemi per aver segnalato in buona fede.

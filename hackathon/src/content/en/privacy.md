@@ -1,10 +1,10 @@
 ---
 title: "Privacy notice"
 description: "How the QubiTO Hackathon handles the personal data of applicants and partners."
-draft: true
+draft: false
 ---
 
-*Last updated: [date]*
+*Last updated: 24 October 2026*
 
 This notice explains how we handle your personal data when you apply to the QubiTO Hackathon (11–13 December 2026, Torino) through our application form, or write to us as a potential partner, in line with the EU General Data Protection Regulation (GDPR, Regulation 2016/679).
 
@@ -57,9 +57,9 @@ During the event we may take photos and videos. We publish images in which you c
 
 ## 6. How long we keep it
 
-- Applications: until [31 March 2027], then deleted.
+- Applications: until 31 March 2027, then deleted.
 - Dietary information: deleted within one week after the event.
-- Partner requests: up to [2 years], so we can contact the company for future editions, unless you ask us to delete them earlier.
+- Partner requests (emails from companies): as long as needed to answer and to organise the event together, then deleted, unless you ask us to delete them earlier.
 - Published photos and videos: as long as they remain on our channels, unless you withdraw consent.
 
 ## 7. Your rights

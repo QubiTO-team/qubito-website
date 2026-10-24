@@ -1,10 +1,10 @@
 ---
 title: "Informativa privacy"
 description: "Come il QubiTO Hackathon tratta i dati personali di candidati e partner."
-draft: true
+draft: false
 ---
 
-*Ultimo aggiornamento: [data]*
+*Ultimo aggiornamento: 24 ottobre 2026*
 
 Questa informativa spiega come trattiamo i tuoi dati personali quando ti candidi al QubiTO Hackathon (11–13 dicembre 2026, Torino) tramite il nostro modulo di candidatura, o ci scrivi come potenziale partner, ai sensi del Regolamento generale sulla protezione dei dati (GDPR, Regolamento UE 2016/679).
 
@@ -57,9 +57,9 @@ Durante l'evento potremmo scattare foto e girare video. Pubblichiamo immagini in
 
 ## 6. Per quanto tempo li conserviamo
 
-- Candidature: fino al [31 marzo 2027], poi cancellate.
+- Candidature: fino al 31 marzo 2027, poi cancellate.
 - Informazioni alimentari: cancellate entro una settimana dalla fine dell'evento.
-- Richieste dei partner: fino a [2 anni], per poter ricontattare l'azienda per le edizioni future, salvo tua richiesta di cancellazione anticipata.
+- Richieste dei partner (email delle aziende): per il tempo necessario a rispondere e a organizzare l'evento insieme, poi cancellate, salvo tua richiesta di cancellazione anticipata.
 - Foto e video pubblicati: finché restano sui nostri canali, salvo revoca del consenso.
 
 ## 7. I tuoi diritti

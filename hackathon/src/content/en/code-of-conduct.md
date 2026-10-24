@@ -1,10 +1,10 @@
 ---
 title: "Code of conduct"
 description: "How we expect everyone to behave at the QubiTO Hackathon, and how to report a problem."
-draft: true
+draft: false
 ---
 
-*Last updated: [date]*
+*Last updated: 24 October 2026*
 
 The QubiTO Hackathon is a place to learn, build and meet people. We want everyone to feel welcome and safe, whatever their background, field of study or experience with quantum computing. This code applies to everyone at the event: participants, mentors, speakers, partners, volunteers and organisers. It covers the venue, the dinner on 11 December, online channels used for the event, and social media related to it.
 
@@ -28,16 +28,15 @@ The QubiTO Hackathon is a place to learn, build and meet people. We want everyon
 
 ## Venue and safety
 
-- [Rules on alcohol and smoking.]
-- [Where people can rest or sleep during the night, and whether people can leave and re-enter the building.]
+- Smoking and alcohol are not allowed.
+- We'll explain on site where you can rest during the night and the rules for leaving and re-entering the building.
 - Keep emergency exits and corridors free. In an emergency, follow the building staff and the organisers.
 
 ## If something happens
 
 If you experience or see behaviour that breaks this code, or you feel unsafe, please tell us as soon as possible:
 
-- talk to any organiser (wearing [QubiTO t-shirt / badge]), or directly to [names of the on-site contact people];
-- call or message [phone number], available for the whole event, including the night;
+- talk to any organiser: we'll tell you on site how to recognise us and who to contact, also during the night;
 - write to teamqubito@gmail.com, also after the event.
 
 Reports are handled confidentially. You don't need proof and you won't get in trouble for reporting in good faith.
