@@ -35,7 +35,8 @@ Non chiediamo documenti, CV, numeri di telefono o numeri di matricola.
 | Valutare le candidature, selezionare i partecipanti e comunicarti l'esito | La tua richiesta di partecipare (art. 6(1)(b) GDPR) |
 | Inviarti l'email automatica di conferma e informazioni pratiche sull'evento | La tua richiesta di partecipare (art. 6(1)(b)) |
 | Preparare pasti adatti a te | Il tuo consenso esplicito, dato compilando il campo facoltativo sulle restrizioni alimentari (art. 9(2)(a)) |
-| Pubblicare foto o video in cui compari sul nostro sito e sui social | Il tuo consenso, dato con la casella facoltativa sulle foto (art. 6(1)(a)) |
+| Pubblicare foto e video generali dell'evento (sale, gruppi, pubblico) in cui non sei il soggetto | Il nostro legittimo interesse a documentare e promuovere l'evento (art. 6(1)(f)); puoi opporti in qualsiasi momento |
+| Pubblicare foto o video in cui sei il soggetto (primi piani, ritratti, interviste) | Il tuo consenso, dato con la casella facoltativa sulle foto (art. 6(1)(a)) |
 | Rispondere alle richieste dei partner | Il nostro legittimo interesse a organizzare l'evento con i partner (art. 6(1)(f)) |
 
 I dati indicati come obbligatori sono necessari per candidarsi: senza di essi non possiamo valutare la candidatura. Le informazioni alimentari e il consenso alle foto sono facoltativi e non influiscono sulla selezione.
@@ -53,14 +54,19 @@ Non vendiamo i tuoi dati e non li condividiamo con sponsor o partner. I partner 
 
 ## 5. Foto e video
 
-Durante l'evento potremmo scattare foto e girare video. Pubblichiamo immagini in cui sei riconoscibile solo se hai spuntato la casella sulle foto. Puoi revocare il consenso in qualsiasi momento scrivendoci, e rimuoveremo le immagini dai nostri canali ove possibile. Se preferisci non comparire, dillo agli organizzatori durante l'evento.
+Durante l'evento scattiamo foto e facciamo registrazioni audio/video, che pubblichiamo per i recap dell'evento, la promozione e la comunicazione sul nostro sito, sui social e nei materiali promozionali.
+
+- **Le immagini generali** dell'evento (sale, gruppi, pubblico), in cui nessuno è il soggetto, possono includerti anche se non hai spuntato la casella sulle foto.
+- **Le foto e i video in cui sei il soggetto** (primi piani, ritratti, interviste) vengono pubblicati solo se hai spuntato la casella sulle foto.
+
+Se preferisci non comparire affatto, dillo agli organizzatori al check-in: faremo in modo che i nostri fotografi possano riconoscerti e non pubblicheremo immagini in cui sei identificabile. Puoi anche scrivere a teamqubito@gmail.com in qualsiasi momento, anche dopo l'evento, per revocare il consenso o chiederci di rimuovere un'immagine: la rimuoveremo dai nostri canali ove possibile.
 
 ## 6. Per quanto tempo li conserviamo
 
 - Candidature: fino al 31 marzo 2027, poi cancellate.
 - Informazioni alimentari: cancellate entro una settimana dalla fine dell'evento.
 - Richieste dei partner (email delle aziende): per il tempo necessario a rispondere e a organizzare l'evento insieme, poi cancellate, salvo tua richiesta di cancellazione anticipata.
-- Foto e video pubblicati: finché restano sui nostri canali, salvo revoca del consenso.
+- Foto e video pubblicati: finché restano sui nostri canali, salvo revoca del consenso o richiesta di rimozione.
 
 ## 7. I tuoi diritti
 

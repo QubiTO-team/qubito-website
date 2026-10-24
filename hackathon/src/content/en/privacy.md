@@ -35,7 +35,8 @@ We do not ask for documents, CVs, phone numbers or ID numbers.
 | Reviewing applications, selecting participants and telling you the result | Your request to take part (Art. 6(1)(b) GDPR) |
 | Sending you the automatic confirmation email and practical information about the event | Your request to take part (Art. 6(1)(b)) |
 | Preparing meals that are safe for you | Your explicit consent, given by filling in the optional dietary field (Art. 9(2)(a)) |
-| Publishing photos or videos in which you appear on our website and social media | Your consent, given with the optional photo box (Art. 6(1)(a)) |
+| Publishing general photos and videos of the event (rooms, groups, crowd) in which you are not the subject | Our legitimate interest in documenting and promoting the event (Art. 6(1)(f)); you can object at any time |
+| Publishing photos or videos in which you are the subject (close-ups, portraits, interviews) | Your consent, given with the optional photo box (Art. 6(1)(a)) |
 | Answering partner requests | Our legitimate interest in organising the event with partners (Art. 6(1)(f)) |
 
 Giving us the data marked as required is necessary to apply. Without it we cannot consider your application. Dietary information and photo consent are optional and do not affect selection.
@@ -53,14 +54,19 @@ We do not sell your data and we do not share it with sponsors or partners. Partn
 
 ## 5. Photos and videos
 
-During the event we may take photos and videos. We publish images in which you can be recognised only if you ticked the photo box. You can withdraw that consent at any time by writing to us, and we will remove the images from our channels where possible. If you prefer not to appear, tell the organisers on site.
+During the event we take photos and audio/video recordings, and publish them for event recaps, promotion and communication on our website, social media and promotional materials.
+
+- **General shots** of the event (rooms, groups, the crowd), where nobody is the subject, may include you even if you didn't tick the photo box.
+- **Photos and videos where you are the subject** (close-ups, portraits, interviews) are published only if you ticked the photo box.
+
+If you prefer not to appear at all, tell the organisers at check-in: we'll make sure you can be recognised by our photographers, and we won't publish images in which you can be identified. You can also write to teamqubito@gmail.com at any time, also after the event, to withdraw your consent or to ask us to remove an image: we'll remove it from our channels where possible.
 
 ## 6. How long we keep it
 
 - Applications: until 31 March 2027, then deleted.
 - Dietary information: deleted within one week after the event.
 - Partner requests (emails from companies): as long as needed to answer and to organise the event together, then deleted, unless you ask us to delete them earlier.
-- Published photos and videos: as long as they remain on our channels, unless you withdraw consent.
+- Published photos and videos: as long as they remain on our channels, unless you withdraw consent or ask us to remove them.
 
 ## 7. Your rights
 
