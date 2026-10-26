@@ -1,0 +1,88 @@
+---
+/* Typographic list of articles: publication date on the left, title and authors on the right. */
+import { articleUrl, type Article } from '../lib/content';
+import { formatDate, formatList, type Lang } from '../i18n/utils';
+
+interface Props {
+  articles: Article[];
+  lang: Lang;
+  /** Leaves the year out of the dates, for lists already grouped by year. */
+  withoutYear?: boolean;
+  class?: string;
+}
+
+const { articles, lang, withoutYear = false, class: className } = Astro.props;
+const dateOptions: Intl.DateTimeFormatOptions | undefined = withoutYear
+  ? { day: 'numeric', month: 'long' }
+  : undefined;
+---
+
+<ul class:list={['article-list', className]}>
+  {articles.map((article) => (
+    <li class="article">
+      <time class="article-date" datetime={article.data.date.toISOString().slice(0, 10)}>
+        {formatDate(article.data.date, lang, dateOptions)}
+      </time>
+      <div>
+        <h3 class="article-title">
+          <a href={articleUrl(article, lang)}>{article.data.title}</a>
+        </h3>
+        <p class="article-authors">{formatList(article.data.authors, lang)}</p>
+      </div>
+    </li>
+  ))}
+</ul>
+
+<style>
+  .article-list {
+    border-top: 1px solid color-mix(in oklab, var(--color-frost) 12%, transparent);
+  }
+
+  .article {
+    position: relative;
+    display: grid;
+    gap: 0.5rem 2rem;
+    padding-block: 1.75rem;
+    border-bottom: 1px solid color-mix(in oklab, var(--color-frost) 12%, transparent);
+  }
+
+  @media (min-width: 40rem) {
+    .article {
+      grid-template-columns: 10rem 1fr;
+      align-items: baseline;
+    }
+  }
+
+  .article-date {
+    color: var(--color-gold);
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    font-weight: 500;
+  }
+
+  .article-title {
+    font-size: var(--text-xl);
+    line-height: 1.2;
+  }
+
+  .article-title a {
+    text-decoration: none;
+    transition: color 200ms var(--ease-cryo);
+  }
+
+  /* The whole row is clickable, while the link text stays the title only. */
+  .article-title a::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+  }
+
+  .article:hover .article-title a {
+    color: var(--color-orchid);
+  }
+
+  .article-authors {
+    margin-top: 0.5rem;
+    color: var(--color-frost-muted);
+  }
+</style>

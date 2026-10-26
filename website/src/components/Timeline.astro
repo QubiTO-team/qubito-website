@@ -1,0 +1,171 @@
+---
+/*
+ * Activities on a vertical line, newest first: a gold dot on the line, then date, place, title,
+ * result and summary, and the first photo.
+ */
+import { Picture } from 'astro:assets';
+import { activityUrl, type Activity } from '../lib/content';
+import { widthsUpTo } from '../lib/images';
+import { formatDate, type Lang } from '../i18n/utils';
+
+interface Props {
+  activities: Activity[];
+  lang: Lang;
+}
+
+const { activities, lang } = Astro.props;
+---
+
+<ol class="timeline">
+  {activities.map((activity) => {
+    const { title, description, date, dateLabel, location, result, gallery } = activity.data;
+    const photo = gallery[0];
+    return (
+      <li class="entry">
+        <span class="marker" />
+        <div class="entry-body">
+          <p class="entry-meta">
+            <time datetime={date.toISOString().slice(0, 10)}>
+              {dateLabel ?? formatDate(date, lang)}
+            </time>
+            {location && <span>{location}</span>}
+          </p>
+          <h3 class="entry-title">
+            <a href={activityUrl(activity, lang)}>{title}</a>
+          </h3>
+          {result && <p class="entry-result">{result}</p>}
+          <p class="entry-description">{description}</p>
+        </div>
+        {photo && (
+          <Picture
+            src={photo.src}
+            alt=""
+            widths={widthsUpTo(photo.src, [240, 480])}
+            sizes="(min-width: 48rem) 11rem, 100vw"
+            formats={['avif', 'webp']}
+            class="entry-photo"
+            pictureAttributes={{ class: 'entry-picture' }}
+          />
+        )}
+      </li>
+    );
+  })}
+</ol>
+
+<style>
+  /* The line runs through the centre of the markers. */
+  .timeline {
+    --marker: 0.875rem;
+    position: relative;
+  }
+
+  .timeline::before {
+    content: '';
+    position: absolute;
+    top: 1.75rem;
+    bottom: 1.75rem;
+    left: calc(var(--marker) / 2);
+    width: 1px;
+    background: color-mix(in oklab, var(--color-gold) 35%, transparent);
+  }
+
+  .entry {
+    position: relative;
+    display: grid;
+    grid-template-columns: var(--marker) minmax(0, 1fr);
+    gap: 1.25rem 1.5rem;
+    padding-block: 1.75rem;
+  }
+
+  @media (min-width: 48rem) {
+    .entry {
+      grid-template-columns: var(--marker) minmax(0, 1fr) 11rem;
+      gap: 1.25rem 2rem;
+    }
+  }
+
+  .marker {
+    position: relative;
+    width: var(--marker);
+    height: var(--marker);
+    margin-top: 0.15rem;
+    border-radius: 50%;
+    background: var(--color-gold);
+    /* A ring of the page background cuts the line around the marker. */
+    box-shadow: 0 0 0 5px var(--color-mixing);
+  }
+
+  .entry-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem 1rem;
+    color: var(--color-frost-muted);
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    font-weight: 500;
+  }
+
+  .entry-meta time {
+    color: var(--color-gold);
+  }
+
+  .entry-title {
+    margin-top: 0.6rem;
+    font-size: var(--text-xl);
+    line-height: 1.2;
+  }
+
+  .entry-title a {
+    text-decoration: none;
+    transition: color 200ms var(--ease-cryo);
+  }
+
+  /* The whole row is clickable, while the link text stays the title only. */
+  .entry-title a::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+  }
+
+  .entry:hover .entry-title a {
+    color: var(--color-orchid);
+  }
+
+  .entry-result {
+    margin-top: 0.5rem;
+    color: var(--color-gold);
+  }
+
+  .entry-description {
+    max-width: 40rem;
+    margin-top: 0.6rem;
+    color: var(--color-frost-muted);
+  }
+
+  /* The picture is the root element of a child component: its own scope, hence :global. The
+     <picture> is the grid item, the <img> inside it the photo. */
+  .entry :global(.entry-picture) {
+    grid-column: 2;
+  }
+
+  .entry :global(.entry-photo) {
+    width: 100%;
+    max-width: 22rem;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    border-radius: 0.125rem;
+    filter: saturate(0.85);
+    transition: filter 300ms var(--ease-cryo);
+  }
+
+  @media (min-width: 48rem) {
+    .entry :global(.entry-picture) {
+      grid-column: 3;
+      grid-row: 1;
+    }
+  }
+
+  .entry:hover :global(.entry-photo) {
+    filter: saturate(1);
+  }
+</style>

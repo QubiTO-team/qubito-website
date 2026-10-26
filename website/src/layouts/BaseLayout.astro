@@ -1,0 +1,155 @@
+---
+import { Font, fontData } from 'astro:assets';
+import { PREVIEW } from 'astro:env/server';
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
+import ParticleField from '../components/ParticleField.astro';
+import { SITE } from '../config';
+import { articleFeedUrl } from '../lib/content';
+import { siteTagline } from '../lib/tagline';
+import { defaultLang, getAlternates, langs, useTranslations, type Lang } from '../i18n/utils';
+import '../styles/global.css';
+
+interface Props {
+  lang: Lang;
+  /** Page title; defaults to "QubiTO | tagline". */
+  title?: string;
+  description?: string;
+  /** Equivalent page in each language; defaults to the same path in the other language. */
+  alternates?: Record<Lang, string>;
+  /** Social preview image, as a path within the site. */
+  image?: string;
+  imageAlt?: string;
+  /** Hides the page from search engines (e.g. 404). */
+  noindex?: boolean;
+  /** Violet particles behind the page; the home page has its own 3D scene. */
+  particles?: boolean;
+  /** Without header and footer, for the Linktree page. */
+  minimal?: boolean;
+  /** The 10 mK plate above the footer: the bottom of the cryostat of the home page. */
+  footerStage?: boolean;
+}
+
+const {
+  lang,
+  title,
+  description,
+  alternates = getAlternates(Astro.url.pathname),
+  image = '/og-default.png',
+  imageAlt,
+  noindex = false,
+  particles = true,
+  minimal = false,
+  footerStage = false,
+} = Astro.props;
+
+const t = useTranslations(lang);
+const tagline = await siteTagline(lang);
+const pageTitle = title ? `${title} | ${SITE.name}` : `${SITE.name} | ${tagline}`;
+const pageDescription = description ?? t('site.description');
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const ogLocales: Record<Lang, string> = { it: 'it_IT', en: 'en_US' };
+
+// The latin file of the text font, which is its first variant (LATIN_SUBSETS in astro.config.mjs).
+const textFont = fontData['--font-space-grotesk'][0]?.src[0]?.url;
+---
+
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={pageDescription} />
+    {/* The staging preview (PREVIEW=true) stays out of search engines. */}
+    {(noindex || PREVIEW) && <meta name="robots" content="noindex" />}
+
+    {/* The main text font is loaded together with the page. Otherwise a long title could
+        first wrap differently with the fallback font, and the page would jump when the real
+        font arrives. (The preload option of <Font> would also load the latin-ext file.) */}
+    {textFont && <link rel="preload" href={textFont} as="font" type="font/woff2" crossorigin />}
+    <Font cssVariable="--font-space-grotesk" />
+    <Font cssVariable="--font-jetbrains-mono" />
+    <Font cssVariable="--font-anybody" />
+
+    <meta name="color-scheme" content="dark" />
+    <meta name="theme-color" content="#000000" />
+    <link rel="icon" href="/favicon.ico" sizes="32x32" />
+    <link rel="icon" type="image/png" href="/favicon-32x32.png" sizes="32x32" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <link
+      rel="alternate"
+      type="application/rss+xml"
+      title={t('articles.feed')}
+      href={articleFeedUrl(lang)}
+    />
+
+    {!noindex && (
+      <>
+        <link rel="canonical" href={canonical} />
+        {langs.map((code) => (
+          <link rel="alternate" hreflang={code} href={new URL(alternates[code], Astro.site)} />
+        ))}
+        <link
+          rel="alternate"
+          hreflang="x-default"
+          href={new URL(alternates[defaultLang], Astro.site)}
+        />
+      </>
+    )}
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={SITE.name} />
+    <meta property="og:title" content={title ?? SITE.name} />
+    <meta property="og:description" content={pageDescription} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:locale" content={ogLocales[lang]} />
+    {langs
+      .filter((code) => code !== lang)
+      .map((code) => (
+        <meta property="og:locale:alternate" content={ogLocales[code]} />
+      ))}
+    <meta property="og:image" content={new URL(image, Astro.site)} />
+    <meta property="og:image:alt" content={imageAlt ?? `${SITE.name}: ${tagline}`} />
+    <meta name="twitter:card" content="summary_large_image" />
+  </head>
+  <body id="top">
+    {particles && <ParticleField />}
+    <a href="#main" class="skip-link">
+      {t('a11y.skipToContent')}
+    </a>
+    {!minimal && <Header lang={lang} alternates={alternates} />}
+    <main id="main" tabindex="-1" class="flex-1 outline-none">
+      <slot />
+    </main>
+    {!minimal && <Footer lang={lang} alternates={alternates} stage={footerStage} />}
+    {/* Visit statistics without cookies (Simple Analytics, explained on the Privacy page).
+        It records nothing on localhost and is left out of the staging preview. */}
+    {!PREVIEW && (
+      <script is:inline async src="https://scripts.simpleanalyticscdn.com/latest.js"></script>
+    )}
+  </body>
+</html>
+
+<style>
+  .skip-link {
+    position: fixed;
+    top: 0.75rem;
+    left: 0.75rem;
+    z-index: 50;
+    padding: 0.75rem 1.1rem;
+    border-radius: 0.25rem;
+    background-color: var(--color-frost);
+    color: var(--color-mixing);
+    font-family: var(--font-display);
+    font-size: var(--text-sm);
+    font-weight: 600;
+    text-decoration: none;
+    translate: 0 -200%;
+  }
+
+  .skip-link:focus {
+    translate: 0 0;
+  }
+</style>

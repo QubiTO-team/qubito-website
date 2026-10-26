@@ -1,0 +1,59 @@
+---
+/* Language switch written as quantum states: |it⟩ |en⟩. */
+import Ket from './Ket.astro';
+import { langs, languages, useTranslations, type Lang } from '../i18n/utils';
+
+interface Props {
+  lang: Lang;
+  /** Equivalent page in each language. */
+  alternates: Record<Lang, string>;
+  class?: string;
+}
+
+const { lang, alternates, class: className } = Astro.props;
+const t = useTranslations(lang);
+---
+
+<ul class:list={['lang-switch', className]} aria-label={t('lang.label')}>
+  {langs.map((code) => (
+    <li>
+      {code === lang ? (
+        <span class="lang-option" aria-current="true">
+          <Ket>{code}</Ket>
+          <span class="sr-only">{languages[code]}</span>
+        </span>
+      ) : (
+        <a class="lang-option" href={alternates[code]} hreflang={code} lang={code}>
+          <Ket>{code}</Ket>
+          <span class="sr-only">{languages[code]}</span>
+        </a>
+      )}
+    </li>
+  ))}
+</ul>
+
+<style>
+  .lang-switch {
+    display: flex;
+    gap: 0.9rem;
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    font-weight: 500;
+  }
+
+  .lang-option {
+    display: inline-flex;
+    padding-block: 0.4rem;
+    color: var(--color-frost-muted);
+    text-decoration: none;
+    transition: color 200ms var(--ease-cryo);
+  }
+
+  .lang-option[aria-current] {
+    color: var(--color-frost);
+  }
+
+  a.lang-option:hover {
+    color: var(--color-orchid);
+  }
+</style>

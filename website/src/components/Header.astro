@@ -1,0 +1,221 @@
+---
+import logo from '../assets/logo-qubito.svg';
+import LangSwitch from './LangSwitch.astro';
+import { SITE, navItems } from '../config';
+import { applicationsOpen } from '../lib/applications';
+import { localizePath, stripLangPrefix, useTranslations, type Lang } from '../i18n/utils';
+
+interface Props {
+  lang: Lang;
+  alternates: Record<Lang, string>;
+}
+
+const { lang, alternates } = Astro.props;
+const t = useTranslations(lang);
+const currentPath = stripLangPrefix(Astro.url.pathname);
+
+const items = [
+  ...navItems(await applicationsOpen()).map((item) => ({
+    label: t(item.key),
+    href: localizePath(item.path, lang),
+    isCurrent: currentPath.startsWith(item.path),
+  })),
+  // The hackathon has a website of its own: it is linked only from here, the main menu.
+  { label: t('nav.hackathon'), href: SITE.hackathon[lang], isCurrent: false },
+];
+---
+
+<header class="site-header">
+  <div class="shell flex h-18 items-center justify-between gap-8">
+    <a href={localizePath('/', lang)} class="shrink-0" data-site-logo>
+      <img
+        src={logo.src}
+        width={logo.width}
+        height={logo.height}
+        alt={t('nav.homeLabel')}
+        class="h-11 w-auto"
+      />
+    </a>
+
+    <nav aria-label={t('nav.label')} class="ml-auto hidden md:block">
+      <ul class="flex items-center gap-7">
+        {items.map((item) => (
+          <li>
+            <a href={item.href} class="nav-link" aria-current={item.isCurrent ? 'page' : undefined}>
+              {item.label}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+
+    {/* Kept above the big logo of the home page while it shrinks into the header. */}
+    <div class="relative z-10 flex items-center gap-6">
+      <LangSwitch lang={lang} alternates={alternates} />
+      <button type="button" class="menu-button md:hidden" popovertarget="site-menu">
+        {t('nav.openMenu')}
+      </button>
+    </div>
+  </div>
+
+  <div id="site-menu" popover class="site-menu">
+    <div class="shell flex h-18 items-center justify-between gap-8">
+      <a href={localizePath('/', lang)}>
+        <img
+          src={logo.src}
+          width={logo.width}
+          height={logo.height}
+          alt={t('nav.homeLabel')}
+          class="h-11 w-auto"
+        />
+      </a>
+      <div class="flex items-center gap-6">
+        <LangSwitch lang={lang} alternates={alternates} />
+        <button
+          type="button"
+          class="menu-button"
+          popovertarget="site-menu"
+          popovertargetaction="hide"
+          autofocus
+        >
+          {t('nav.closeMenu')}
+        </button>
+      </div>
+    </div>
+    <nav aria-label={t('nav.label')} class="shell pt-[12vh]">
+      <ul class="flex flex-col gap-6">
+        {items.map((item) => (
+          <li>
+            <a
+              href={item.href}
+              class="menu-link"
+              aria-current={item.isCurrent ? 'page' : undefined}
+            >
+              {item.label}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 40;
+    border-bottom: 1px solid color-mix(in oklab, var(--color-gold) 18%, transparent);
+    background-color: color-mix(in oklab, var(--color-mixing) 90%, transparent);
+  }
+
+  /* Where supported, the background fades in only once the page scrolls. */
+  @supports (animation-timeline: scroll()) {
+    @media (prefers-reduced-motion: no-preference) {
+      .site-header {
+        border-bottom-color: transparent;
+        background-color: transparent;
+        animation: header-fill linear both;
+      }
+
+      /* Separate rule: within the same rule the CSS minifier merges the timeline
+         into the `animation` shorthand, and Chrome drops the declaration. */
+      header.site-header {
+        animation-timeline: scroll(root block);
+        animation-range: 0 6rem;
+      }
+    }
+  }
+
+  @keyframes header-fill {
+    to {
+      border-bottom-color: color-mix(in oklab, var(--color-gold) 18%, transparent);
+      background-color: color-mix(in oklab, var(--color-mixing) 90%, transparent);
+    }
+  }
+
+  .nav-link {
+    position: relative;
+    display: inline-block;
+    padding-block: 0.4rem;
+    color: var(--color-frost-muted);
+    font-family: var(--font-display);
+    font-size: var(--text-sm);
+    font-weight: 500;
+    text-decoration: none;
+    transition: color 200ms var(--ease-cryo);
+  }
+
+  .nav-link:hover,
+  .nav-link[aria-current='page'] {
+    color: var(--color-frost);
+  }
+
+  .nav-link[aria-current='page']::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    bottom: -0.15rem;
+    left: 0;
+    height: 1px;
+    background-color: var(--color-gold);
+  }
+
+  .menu-button {
+    padding: 0.4rem 0;
+    color: var(--color-frost);
+    font-family: var(--font-display);
+    font-size: var(--text-sm);
+    font-weight: 600;
+    cursor: pointer;
+  }
+
+  .site-menu {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    max-width: none;
+    height: 100dvh;
+    max-height: none;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    overflow-y: auto;
+    color: var(--color-frost);
+    background-color: var(--color-mixing);
+    opacity: 0;
+    translate: 0 -1rem;
+    transition:
+      opacity 280ms var(--ease-cryo),
+      translate 280ms var(--ease-cryo),
+      overlay 280ms allow-discrete,
+      display 280ms allow-discrete;
+  }
+
+  .site-menu:popover-open {
+    opacity: 1;
+    translate: 0 0;
+  }
+
+  @starting-style {
+    .site-menu:popover-open {
+      opacity: 0;
+      translate: 0 -1rem;
+    }
+  }
+
+  .menu-link {
+    display: inline-block;
+    color: var(--color-frost);
+    font-family: var(--font-display);
+    font-size: var(--text-2xl);
+    font-weight: 600;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    text-decoration: none;
+  }
+
+  .menu-link[aria-current='page'] {
+    color: var(--color-orchid);
+  }
+</style>

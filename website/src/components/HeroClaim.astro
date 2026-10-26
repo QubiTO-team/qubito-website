@@ -1,0 +1,254 @@
+---
+/*
+ * "Qubit" (top row) and "Torino" (bottom row) collapse vertically into "QubiTO", like a
+ * superposition being measured: the rows meet in the middle, the extra letters decohere and
+ * "TO" slides next to "Qubi". Hovering the title brings the superposition back.
+ * The h1 always takes two rows, so the page never moves. Screen readers get the plain text;
+ * with reduced motion the collapsed state appears directly.
+ *
+ * "QubiTO" then turns into the QubiTO logo, which scrolling hands over to the header
+ * (see claim-logo.ts). The header logo stays hidden until then.
+ */
+import ClaimLogo from './ClaimLogo.astro';
+import { useTranslations, type Lang } from '../i18n/utils';
+
+interface Props {
+  lang: Lang;
+  id?: string;
+  /** Milliseconds before the collapse starts. */
+  delay?: number;
+}
+
+const { lang, id, delay = 1800 } = Astro.props;
+const t = useTranslations(lang);
+---
+
+<h1 id={id} class="claim" data-claim data-delay={delay}>
+  <span class="sr-only">QubiTO: {t('home.claim')}</span>
+  <span class="claim-rows" aria-hidden="true">
+    <span class="claim-row claim-row--top">
+      <span data-piece="q">Q</span>
+      <span data-piece="u">u</span>
+      <span data-piece="bi">bi</span>
+      <span class="fold">
+        <span>t</span>
+      </span>
+      <span class="fold">
+        <span class="claim-plus">&nbsp;+</span>
+      </span>
+    </span>
+    <span class="claim-row claim-row--bottom">
+      <span class="spacer">
+        <span>
+          <span>Q</span>
+          <span>u</span>
+          <span>bi</span>
+        </span>
+      </span>
+      <span data-piece="T">T</span>
+      <span class="fold">
+        <span>o</span>
+      </span>
+      <span class="unfold" data-piece="O">
+        <span>O</span>
+      </span>
+      <span class="fold">
+        <span>rino</span>
+      </span>
+    </span>
+    <ClaimLogo />
+  </span>
+</h1>
+
+<script>
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  for (const claim of document.querySelectorAll<HTMLElement>('[data-claim]')) {
+    const delay = reduced ? 0 : Number(claim.dataset.delay ?? 1800);
+    window.setTimeout(() => claim.classList.add('is-collapsed'), delay);
+    if (!reduced) {
+      import('./claim-logo')
+        .then(({ animateClaimLogo }) => animateClaimLogo(claim))
+        .catch((error: unknown) => {
+          console.error('Claim logo unavailable:', error);
+          // Without the animation the header logo must not stay hidden.
+          document.documentElement.classList.add('site-logo-shown');
+        });
+    }
+  }
+</script>
+
+<style>
+  .claim {
+    /* --w: width of the collapsed word in em, used to fit it in the available width. */
+    --w: 4.4;
+    --move: 1.9s;
+    --move-delay: 0.35s;
+    --fade: 0.9s;
+    --fade-delay: 0s;
+    --squeeze: 1.4s;
+    --squeeze-delay: 0.5s;
+    --ease-quantum: cubic-bezier(0.65, 0, 0.35, 1);
+    width: fit-content;
+    font-size: clamp(2.6rem, calc(94cqi / var(--w)), 9.5rem);
+    /* The font of the logo, which the word turns into. */
+    font-family: var(--font-logo);
+    font-weight: 600;
+    font-stretch: 125%;
+    line-height: 0.95;
+    letter-spacing: -0.02em;
+  }
+
+  @media (min-width: 48rem) {
+    .claim {
+      font-size: min(9.5rem, calc(56cqi / var(--w)));
+    }
+  }
+
+  .claim-rows {
+    position: relative;
+    display: grid;
+  }
+
+  /* Flex rows: whitespace between the letter spans is ignored. */
+  .claim-row {
+    display: flex;
+    white-space: nowrap;
+    transition: transform var(--move) var(--ease-quantum) var(--move-delay);
+  }
+
+  .fold,
+  .unfold,
+  .spacer {
+    display: inline-grid;
+  }
+
+  .fold > *,
+  .unfold > *,
+  .spacer > * {
+    min-width: 0;
+    overflow: hidden;
+  }
+
+  /* An invisible "Qubi" that grows in the bottom row and pushes "TO" to its final place.
+     Split like the top row, so that both have exactly the same width. */
+  .spacer {
+    grid-template-columns: 0fr;
+    visibility: hidden;
+    transition: grid-template-columns var(--move) var(--ease-quantum) var(--move-delay);
+  }
+
+  .spacer > * {
+    display: flex;
+  }
+
+  .fold {
+    grid-template-columns: 1fr;
+    transition:
+      opacity var(--fade) ease var(--fade-delay),
+      filter var(--fade) ease var(--fade-delay),
+      grid-template-columns var(--squeeze) var(--ease-cryo) var(--squeeze-delay);
+  }
+
+  .unfold {
+    grid-template-columns: 0fr;
+    opacity: 0;
+    transition:
+      grid-template-columns var(--squeeze) var(--ease-cryo) var(--squeeze-delay),
+      opacity var(--fade) ease calc(var(--squeeze-delay) + 0.2s);
+  }
+
+  .claim-plus {
+    color: var(--color-frost-muted);
+  }
+
+  /* Collapsed: the rows meet in the middle and only "QubiTO" is left. */
+  .claim.is-collapsed .claim-row--top {
+    transform: translateY(0.475em);
+  }
+
+  .claim.is-collapsed .claim-row--bottom {
+    transform: translateY(-0.475em);
+  }
+
+  .claim.is-collapsed .spacer {
+    grid-template-columns: 1fr;
+  }
+
+  .claim.is-collapsed .fold {
+    grid-template-columns: 0fr;
+    opacity: 0;
+    filter: blur(0.06em);
+  }
+
+  .claim.is-collapsed .unfold {
+    grid-template-columns: 1fr;
+    opacity: 1;
+  }
+
+  /* Hover brings the superposition back (only where hovering exists, and not while the
+     title is turning into the logo). */
+  @media (hover: hover) {
+    .claim.is-collapsed:not(.is-morphing):hover .claim-row {
+      transform: none;
+    }
+
+    .claim.is-collapsed:not(.is-morphing):hover .spacer {
+      grid-template-columns: 0fr;
+    }
+
+    .claim.is-collapsed:not(.is-morphing):hover .fold {
+      grid-template-columns: 1fr;
+      opacity: 1;
+      filter: none;
+    }
+
+    .claim.is-collapsed:not(.is-morphing):hover .unfold {
+      grid-template-columns: 0fr;
+      opacity: 0;
+    }
+  }
+
+  /* The logo covers the two rows; its parts appear only while the title turns into it. */
+  .claim :global(.claim-logo) {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: auto;
+    height: 100%;
+    aspect-ratio: 3683.983 / 2559.438;
+    overflow: visible;
+    pointer-events: none;
+  }
+
+  .claim :global(.claim-logo [data-part]) {
+    opacity: 0;
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+
+  /* The state vector grows out of the centre of the sphere. */
+  .claim :global(.claim-logo [data-part='vector']) {
+    transform-box: view-box;
+    transform-origin: 1174.93px 789.72px;
+  }
+
+  /* The header logo waits for the hero logo to reach it (claim-logo.ts hands it over). */
+  @media (prefers-reduced-motion: no-preference) {
+    :global(body:has(.claim) [data-site-logo]) {
+      visibility: hidden;
+    }
+
+    :global(html.site-logo-shown body:has(.claim) [data-site-logo]) {
+      visibility: visible;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .claim *,
+    .claim *::before,
+    .claim *::after {
+      animation: none !important;
+      transition: none !important;
+    }
+  }
+</style>

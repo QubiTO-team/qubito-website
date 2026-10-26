@@ -1,0 +1,103 @@
+---
+/* List of all the articles in one language, newest first, grouped by year. */
+import ArticleList from '../components/ArticleList.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { articleFeedUrl, getArticles, type Article } from '../lib/content';
+import { useTranslations, type Lang } from '../i18n/utils';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+
+const years = new Map<number, Article[]>();
+for (const article of await getArticles(lang)) {
+  const year = article.data.date.getUTCFullYear();
+  years.set(year, [...(years.get(year) ?? []), article]);
+}
+---
+
+<BaseLayout lang={lang} title={t('nav.articles')} description={t('articles.description')}>
+  <div class="shell articles">
+    <header>
+      <h1 class="articles-title">{t('nav.articles')}</h1>
+      <p class="articles-intro">{t('articles.intro')}</p>
+      <a href={articleFeedUrl(lang)} class="articles-feed">
+        {t('articles.feed')}
+      </a>
+    </header>
+
+    {[...years].map(([year, articles]) => (
+      <section class="year" aria-labelledby={`year-${year}`}>
+        <h2 id={`year-${year}`} class="year-title">
+          {year}
+        </h2>
+        <ArticleList articles={articles} lang={lang} withoutYear />
+      </section>
+    ))}
+  </div>
+</BaseLayout>
+
+<style>
+  .articles {
+    padding-top: clamp(2.5rem, 7vw, 5rem);
+    padding-bottom: clamp(4rem, 9vw, 7rem);
+  }
+
+  .articles-title {
+    font-size: var(--text-4xl);
+    line-height: var(--text-4xl--line-height);
+  }
+
+  .articles-intro {
+    max-width: 46rem;
+    margin-top: 1.5rem;
+    color: var(--color-frost-muted);
+    font-size: var(--text-lg);
+    line-height: 1.5;
+  }
+
+  .articles-feed {
+    display: inline-block;
+    margin-top: 1.25rem;
+    color: var(--color-orchid);
+    font-family: var(--font-display);
+    font-size: var(--text-sm);
+    font-weight: 500;
+  }
+
+  .year {
+    display: grid;
+    gap: 1rem;
+    margin-top: clamp(3rem, 6vw, 4.5rem);
+  }
+
+  /* One rule between two years, not two. */
+  .year:not(:last-of-type) :global(.article:last-child) {
+    border-bottom: 0;
+  }
+
+  .year-title {
+    color: var(--color-gold);
+    font-size: var(--text-2xl);
+    font-weight: 500;
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* Large screens: the year on the left, its articles on the right. */
+  @media (min-width: 64rem) {
+    .year {
+      grid-template-columns: 10rem minmax(0, 56rem);
+      gap: 3rem;
+      align-items: start;
+    }
+
+    .year-title {
+      position: sticky;
+      top: 6.5rem;
+      padding-top: 1.5rem;
+    }
+  }
+</style>

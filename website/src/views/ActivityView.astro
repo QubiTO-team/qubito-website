@@ -1,0 +1,208 @@
+---
+/*
+ * Activity page: title, when, where and result, the text, external links (and the sign-up
+ * link while the activity is not over), the photos, then the activities before and after.
+ */
+import '../styles/article.css';
+import { getImage } from 'astro:assets';
+import { render } from 'astro:content';
+import Gallery from '../components/Gallery.astro';
+import PrevNextNav from '../components/PrevNextNav.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import {
+  activityAlternates,
+  activityUrl,
+  getActivities,
+  isUpcoming,
+  type Activity,
+} from '../lib/content';
+import { formatDate, localizePath, useTranslations, type Lang } from '../i18n/utils';
+
+interface Props {
+  lang: Lang;
+  activity: Activity;
+}
+
+const { lang, activity } = Astro.props;
+const t = useTranslations(lang);
+const { title, description, date, dateLabel, location, result, gallery, links, registration } =
+  activity.data;
+
+const { Content } = await render(activity);
+
+// Newest first: the newer activity comes before this one in the list.
+const activities = await getActivities(lang);
+const index = activities.findIndex((entry) => entry.id === activity.id);
+const link = (entry: Activity | undefined) =>
+  entry && { href: activityUrl(entry, lang), title: entry.data.title };
+const newer = link(activities[index - 1]);
+const older = link(activities[index + 1]);
+
+const alternates = await activityAlternates(activity);
+const photo = gallery[0];
+const socialImage =
+  photo &&
+  (await getImage({ src: photo.src, width: Math.min(1200, photo.src.width), format: 'jpg' }));
+const signUp = registration && isUpcoming(activity) ? registration : undefined;
+---
+
+<BaseLayout
+  lang={lang}
+  title={title}
+  description={description}
+  alternates={alternates}
+  image={socialImage?.src}
+  imageAlt={photo?.alt}
+>
+  <article class="shell activity">
+    <header class="activity-header">
+      <a href={localizePath('/activities/', lang)} class="activity-back">
+        {t('cta.allActivities')}
+      </a>
+      <h1 class="activity-title">{title}</h1>
+      <p class="activity-lead">{description}</p>
+
+      <dl class="activity-meta">
+        <div>
+          <dt>{t('activity.date')}</dt>
+          <dd>
+            <time datetime={date.toISOString().slice(0, 10)}>
+              {dateLabel ?? formatDate(date, lang)}
+            </time>
+          </dd>
+        </div>
+        {location && (
+          <div>
+            <dt>{t('activity.location')}</dt>
+            <dd>{location}</dd>
+          </div>
+        )}
+        {result && (
+          <div>
+            <dt>{t('activity.result')}</dt>
+            <dd class="activity-result">{result}</dd>
+          </div>
+        )}
+      </dl>
+
+      {(signUp || links.length > 0) && (
+        <p class="activity-links">
+          {signUp && (
+            <a href={signUp.url} class="btn btn-primary">
+              {signUp.text}
+            </a>
+          )}
+          {links.map((item) => (
+            <a href={item.url} class="btn btn-ghost">
+              {item.text}
+            </a>
+          ))}
+        </p>
+      )}
+    </header>
+
+    <div class="prose activity-body">
+      <Content />
+    </div>
+
+    {gallery.length > 0 && (
+      <div class="activity-gallery">
+        <Gallery photos={gallery} lang={lang} />
+      </div>
+    )}
+
+    <footer class="activity-footer">
+      <PrevNextNav
+        older={older}
+        newer={newer}
+        labels={{
+          older: t('activity.older'),
+          newer: t('activity.newer'),
+          nav: t('activity.moreActivities'),
+        }}
+      />
+    </footer>
+  </article>
+</BaseLayout>
+
+<style>
+  .activity {
+    padding-top: clamp(2.5rem, 7vw, 5rem);
+    padding-bottom: clamp(4rem, 9vw, 7rem);
+  }
+
+  .activity-header {
+    max-width: 52rem;
+  }
+
+  .activity-back {
+    color: var(--color-frost-muted);
+    font-family: var(--font-display);
+    font-size: var(--text-sm);
+    font-weight: 500;
+    text-decoration: none;
+    transition: color 200ms var(--ease-cryo);
+  }
+
+  .activity-back:hover {
+    color: var(--color-orchid);
+  }
+
+  .activity-title {
+    margin-top: 1.5rem;
+    font-size: var(--text-3xl);
+    line-height: var(--text-3xl--line-height);
+  }
+
+  .activity-lead {
+    max-width: 46rem;
+    margin-top: 1.5rem;
+    color: var(--color-frost-muted);
+    font-size: var(--text-lg);
+    line-height: 1.5;
+  }
+
+  .activity-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.25rem 2.75rem;
+    margin-top: 2.25rem;
+  }
+
+  .activity-meta dt {
+    color: var(--color-frost-muted);
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    font-weight: 500;
+  }
+
+  .activity-meta dd {
+    margin-top: 0.3rem;
+  }
+
+  .activity-result {
+    color: var(--color-gold);
+  }
+
+  .activity-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 2.25rem;
+  }
+
+  .activity-body {
+    max-width: 44rem;
+    margin-top: 4rem;
+  }
+
+  .activity-gallery {
+    max-width: 60rem;
+    margin-top: 4.5rem;
+  }
+
+  .activity-footer {
+    max-width: 44rem;
+    margin-top: 5rem;
+  }
+</style>

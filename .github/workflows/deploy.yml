@@ -7,7 +7,9 @@ on:
       - staging
 
 jobs:
+  # main: the Hugo site, as before. The staging branch has its own job below.
   build-and-deploy:
+    if: github.ref_name == 'main'
     runs-on: ubuntu-latest
 
     steps:
@@ -73,3 +75,61 @@ jobs:
 
       #     echo "Uploading via SFTP..."
       #     scp -r ../public/* ${{ secrets.SFTP_USER }}@${{ secrets.SFTP_HOST }}:/remote/path/
+
+  # staging: the new site (website/) with the hackathon site at /hackathon/, as a preview on
+  # https://qubito-team.github.io/. PREVIEW=true keeps it out of search engines and visit statistics.
+  staging-preview:
+    if: github.ref_name == 'staging'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read
+    # Two pushes close together: the second waits for the first, so the newest one is published last.
+    concurrency:
+      group: staging-preview
+      cancel-in-progress: false
+
+    steps:
+      - name: Checkout source repo
+        uses: actions/checkout@v7
+
+      - name: Setup Node
+        uses: actions/setup-node@v7
+        with:
+          node-version-file: website/.nvmrc
+          cache: npm
+          cache-dependency-path: website/package-lock.json
+
+      - name: Build the new site
+        working-directory: website
+        env:
+          PREVIEW: 'true'
+        run: |
+          npm ci
+          npx astro check
+          npm run build
+
+      # The hackathon site, already built in static/hackathon/ (see hackathon/README.md).
+      - name: Add the hackathon site
+        run: cp -r static/hackathon website/dist/hackathon
+
+      - name: Checkout GitHub Pages repository
+        uses: actions/checkout@v7
+        with:
+          repository: qubito-team/qubito-team.github.io
+          token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+          path: github-pages
+
+      # "dist/." also copies the files whose name starts with a dot, such as .well-known/.
+      - name: Sync built files to GitHub Pages repo
+        run: |
+          cd github-pages
+          git switch staging || git checkout -b staging
+          rm -rf ./*
+          cp -r ../website/dist/. ./
+          touch .nojekyll
+          git config user.name "${{ github.actor }}"
+          git config user.email "${{ github.actor }}@users.noreply.github.com"
+          git add -A
+          git commit -m "Deploy from qubito-website:staging" || true
+          git push --force origin staging

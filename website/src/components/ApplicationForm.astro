@@ -1,0 +1,418 @@
+---
+/*
+ * Application form of the Join us page, sent to the team's Google Apps Script
+ * (SITE.applicationsScript). Field names and values are those of the Hugo site's form, which the
+ * script expects: the labels are translated, the values stay in English. The technical questions
+ * or the social media ones appear after the answer about the social media role. Without
+ * JavaScript the form is posted to the script directly.
+ */
+import { SITE } from '../config';
+import type { UiKey } from '../i18n/ui';
+import { localizePath, useTranslations, type Lang } from '../i18n/utils';
+
+interface Props {
+  lang: Lang;
+  /** How the data is used (from the CMS), shown before the button. */
+  privacy?: string | undefined;
+}
+
+const { lang, privacy } = Astro.props;
+const t = useTranslations(lang);
+
+interface Choice {
+  value: string;
+  label?: UiKey;
+}
+
+type Field =
+  | {
+      kind: 'text' | 'email' | 'tel' | 'textarea';
+      name: string;
+      label: UiKey;
+      required?: boolean;
+      autocomplete?: string;
+    }
+  | { kind: 'choice'; name: string; label: UiKey; options: Choice[] }
+  | { kind: 'scale'; name: string; label: UiKey; max: 5 | 10 };
+
+const yesNo: Choice[] = [
+  { value: 'Yes', label: 'form.yes' },
+  { value: 'No', label: 'form.no' },
+];
+
+const common: Field[] = [
+  { kind: 'text', name: 'name_surname', label: 'form.name', required: true, autocomplete: 'name' },
+  { kind: 'text', name: 'id_number', label: 'form.idNumber', required: true },
+  { kind: 'email', name: 'email', label: 'form.email', required: true, autocomplete: 'email' },
+  { kind: 'tel', name: 'phone', label: 'form.phone', required: true, autocomplete: 'tel' },
+  { kind: 'text', name: 'major', label: 'form.major', required: true },
+  { kind: 'text', name: 'years_complete', label: 'form.yearsComplete', required: true },
+  {
+    kind: 'choice',
+    name: 'year_student',
+    label: 'form.year',
+    options: [
+      { value: '1st year of bachelors', label: 'form.year1b' },
+      { value: '2nd year of bachelors', label: 'form.year2b' },
+      { value: '3rd year of bachelors', label: 'form.year3b' },
+      { value: '1st year of masters', label: 'form.year1m' },
+      { value: '2nd year of masters', label: 'form.year2m' },
+    ],
+  },
+  { kind: 'scale', name: 'english_abilities', label: 'form.english', max: 5 },
+  {
+    kind: 'choice',
+    name: 'other_team',
+    label: 'form.otherTeam',
+    options: [
+      { value: 'Yes, more than one', label: 'form.yesMany' },
+      { value: 'Yes, one', label: 'form.yesOne' },
+      { value: 'No', label: 'form.no' },
+    ],
+  },
+  { kind: 'choice', name: 'social_media', label: 'form.socialRole', options: yesNo },
+];
+
+/** Questions shown by the answer to "social_media": No, the technical ones; Yes, the social ones. */
+const branches: { answer: string; title: UiKey; fields: Field[] }[] = [
+  {
+    answer: 'No',
+    title: 'form.technical',
+    fields: [
+      { kind: 'scale', name: 'rf_engineering', label: 'form.rf', max: 10 },
+      { kind: 'scale', name: 'fpga', label: 'form.fpga', max: 10 },
+      { kind: 'scale', name: 'python_coding', label: 'form.python', max: 10 },
+      { kind: 'scale', name: 'quantum_mechanics', label: 'form.quantum', max: 10 },
+      {
+        kind: 'choice',
+        name: 'qiskit',
+        label: 'form.qiskit',
+        options: [
+          { value: 'The squirrel sound?', label: 'form.qiskitNo' },
+          { value: 'A little bit', label: 'form.qiskitLittle' },
+          { value: 'For sure!', label: 'form.qiskitYes' },
+        ],
+      },
+      {
+        kind: 'choice',
+        name: 'studied_qc',
+        label: 'form.studiedQc',
+        options: [
+          { value: 'Yes, in an institution', label: 'form.studiedCourse' },
+          { value: 'Yes, by myself', label: 'form.studiedSelf' },
+          { value: 'No', label: 'form.no' },
+        ],
+      },
+      { kind: 'scale', name: 'web_development', label: 'form.web', max: 10 },
+      { kind: 'textarea', name: 'other_skills', label: 'form.otherSkills' },
+    ],
+  },
+  {
+    answer: 'Yes',
+    title: 'form.social',
+    fields: [
+      { kind: 'textarea', name: 'design_software', label: 'form.design', required: true },
+      { kind: 'textarea', name: 'social_other_skills', label: 'form.socialSkills' },
+    ],
+  },
+];
+
+const scale = (max: number): Choice[] =>
+  Array.from({ length: max }, (_, i) => ({ value: String(i + 1) }));
+---
+
+<form
+  class="apply"
+  action={SITE.applicationsScript}
+  method="post"
+  aria-label={t('form.label')}
+  data-application-form
+  data-sending={t('form.sending')}
+  data-sent={t('form.sent')}
+  data-error={t('form.error', { email: SITE.email })}
+>
+  <div class="apply-fields" data-form-fields>
+    <p class="apply-note">{t('form.requiredNote')}</p>
+    {[{ fields: common }, ...branches].map((group) => {
+      const fields = group.fields.map((field) => {
+        const id = `apply-${field.name}`;
+        if (field.kind === 'choice' || field.kind === 'scale') {
+          const options = field.kind === 'scale' ? scale(field.max) : field.options;
+          return (
+            <fieldset class="field">
+              <legend class="field-label">
+                {t(field.label)}
+                <span aria-hidden="true"> *</span>
+              </legend>
+              {field.kind === 'scale' && (
+                <p class="field-hint">{t(field.max === 5 ? 'form.scale5' : 'form.scale10')}</p>
+              )}
+              <div class:list={['choices', { scale: field.kind === 'scale' }]}>
+                {options.map((option) => (
+                  <label class="choice">
+                    <input type="radio" name={field.name} value={option.value} required />
+                    <span>{option.label ? t(option.label) : option.value}</span>
+                  </label>
+                ))}
+              </div>
+            </fieldset>
+          );
+        }
+        return (
+          <div class="field">
+            <label for={id} class="field-label">
+              {t(field.label)}
+              {field.required && <span aria-hidden="true"> *</span>}
+            </label>
+            {field.kind === 'textarea' ? (
+              <textarea id={id} name={field.name} rows="4" required={field.required} />
+            ) : (
+              <input
+                id={id}
+                type={field.kind}
+                name={field.name}
+                required={field.required}
+                autocomplete={field.autocomplete}
+              />
+            )}
+          </div>
+        );
+      });
+      // The questions of a role are off (not checked, not sent) until that role is chosen.
+      return 'answer' in group ? (
+        <fieldset class="branch" data-branch={group.answer} disabled>
+          <legend class="branch-title">{t(group.title)}</legend>
+          {fields}
+        </fieldset>
+      ) : (
+        fields
+      );
+    })}
+
+    <div class="apply-privacy">
+      {privacy && <p>{privacy}</p>}
+      <a href={localizePath('/privacy/', lang)} class="text-orchid underline">
+        {t('form.privacyPage')}
+      </a>
+      <label class="check">
+        <input type="checkbox" required />
+        <span>
+          {t('form.privacyCheck')}
+          <span aria-hidden="true"> *</span>
+        </span>
+      </label>
+    </div>
+
+    <button type="submit" class="btn btn-primary apply-submit">
+      {t('form.submit')}
+    </button>
+  </div>
+  <p class="apply-status" role="status" tabindex="-1" data-form-status hidden></p>
+</form>
+
+<script>
+  // Shows the questions of the chosen role, and sends the form in the background, so that the
+  // applicant stays on the page and reads the outcome here.
+  for (const form of document.querySelectorAll<HTMLFormElement>('[data-application-form]')) {
+    const branches = [...form.querySelectorAll<HTMLFieldSetElement>('[data-branch]')];
+    const fields = form.querySelector<HTMLElement>('[data-form-fields]');
+    const status = form.querySelector<HTMLElement>('[data-form-status]');
+    const submit = form.querySelector<HTMLButtonElement>('button[type="submit"]');
+
+    form.addEventListener('change', (event) => {
+      const input = event.target as HTMLInputElement;
+      if (input.name !== 'social_media') return;
+      for (const branch of branches) branch.disabled = branch.dataset.branch !== input.value;
+    });
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      if (!fields || !status || !submit) return;
+      const body = new URLSearchParams();
+      for (const [name, value] of new FormData(form)) {
+        if (typeof value === 'string') body.append(name, value);
+      }
+      submit.disabled = true;
+      status.hidden = false;
+      status.textContent = form.dataset.sending ?? '';
+      try {
+        // The script answers from another site: the reply cannot be read, only that it arrived.
+        await fetch(form.action, { method: 'POST', mode: 'no-cors', body });
+        fields.hidden = true;
+        status.textContent = form.dataset.sent ?? '';
+        status.focus();
+      } catch {
+        submit.disabled = false;
+        status.textContent = form.dataset.error ?? '';
+      }
+    });
+  }
+</script>
+
+<style>
+  .apply {
+    max-width: 44rem;
+    margin-top: 3.5rem;
+  }
+
+  .apply-fields {
+    display: grid;
+    gap: 2rem;
+  }
+
+  .apply-note,
+  .field-hint {
+    color: var(--color-frost-muted);
+    font-size: var(--text-sm);
+  }
+
+  .field {
+    min-width: 0;
+  }
+
+  .field-label {
+    display: block;
+    margin-bottom: 0.65rem;
+    color: var(--color-frost);
+    font-weight: 500;
+  }
+
+  .field-hint {
+    margin: -0.3rem 0 0.7rem;
+  }
+
+  .field input,
+  .field textarea {
+    width: 100%;
+    padding: 0.7rem 0.9rem;
+    border: 1px solid color-mix(in oklab, var(--color-frost) 22%, transparent);
+    border-radius: 0.25rem;
+    background-color: color-mix(in oklab, var(--color-frost) 4%, transparent);
+    color: var(--color-frost);
+    transition: border-color 200ms var(--ease-cryo);
+  }
+
+  .field input:hover,
+  .field textarea:hover {
+    border-color: color-mix(in oklab, var(--color-frost) 40%, transparent);
+  }
+
+  .field input:focus-visible,
+  .field textarea:focus-visible {
+    outline: 2px solid var(--color-orchid);
+    outline-offset: 2px;
+  }
+
+  .choices {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+  }
+
+  .choice {
+    position: relative;
+    display: inline-flex;
+  }
+
+  /* The radio button stays (for keyboards, screen readers and the browser's checks) under the pill. */
+  .choice input {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    cursor: pointer;
+  }
+
+  .choice span {
+    padding: 0.5rem 1rem;
+    border: 1px solid color-mix(in oklab, var(--color-frost) 22%, transparent);
+    border-radius: 999px;
+    color: var(--color-frost-muted);
+    font-size: var(--text-sm);
+    transition:
+      border-color 200ms var(--ease-cryo),
+      background-color 200ms var(--ease-cryo);
+  }
+
+  .scale .choice span {
+    min-width: 2.75rem;
+    padding-inline: 0.5rem;
+    font-family: var(--font-mono);
+    text-align: center;
+  }
+
+  .choice:hover span {
+    border-color: var(--color-frost-muted);
+  }
+
+  .choice input:checked + span {
+    border-color: var(--color-orchid);
+    background-color: var(--color-plum);
+    color: var(--color-frost);
+  }
+
+  .choice input:focus-visible + span {
+    outline: 2px solid var(--color-orchid);
+    outline-offset: 2px;
+  }
+
+  .branch {
+    display: none;
+    gap: 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid color-mix(in oklab, var(--color-frost) 12%, transparent);
+  }
+
+  .apply:has(input[name='social_media'][value='No']:checked) .branch[data-branch='No'],
+  .apply:has(input[name='social_media'][value='Yes']:checked) .branch[data-branch='Yes'] {
+    display: grid;
+  }
+
+  .branch-title {
+    float: left;
+    width: 100%;
+    font-family: var(--font-display);
+    font-size: var(--text-xl);
+    font-weight: 600;
+  }
+
+  .apply-privacy {
+    display: grid;
+    justify-items: start;
+    gap: 1rem;
+    padding-top: 2rem;
+    border-top: 1px solid color-mix(in oklab, var(--color-frost) 12%, transparent);
+    color: var(--color-frost-muted);
+    font-size: var(--text-sm);
+  }
+
+  .check {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    color: var(--color-frost);
+    font-size: var(--text-base);
+    cursor: pointer;
+  }
+
+  .check input {
+    width: 1.15rem;
+    height: 1.15rem;
+    accent-color: var(--color-plum);
+  }
+
+  .apply-submit {
+    justify-self: start;
+  }
+
+  .apply-submit:disabled {
+    opacity: 0.6;
+    cursor: progress;
+  }
+
+  .apply-status {
+    margin-top: 1.5rem;
+    color: var(--color-frost);
+    font-size: var(--text-lg);
+    outline: none;
+  }
+</style>

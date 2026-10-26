@@ -1,0 +1,23 @@
+---
+/*
+ * Buttons at the end of a section of the home page, from the CMS (a page of the site or another
+ * site); fixed buttons, like the email of the team, go in the slot before them.
+ */
+interface Props {
+  links: { label: string; url: string }[];
+}
+
+const { links } = Astro.props;
+const fixed = Astro.slots.has('default') ? await Astro.slots.render('default') : '';
+---
+
+{(links.length > 0 || fixed.trim()) && (
+  <div class="mt-10 flex flex-wrap gap-4">
+    <Fragment set:html={fixed} />
+    {links.map((link) => (
+      <a href={link.url} class="btn btn-ghost">
+        {link.label}
+      </a>
+    ))}
+  </div>
+)}

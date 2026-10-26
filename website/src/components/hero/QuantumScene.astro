@@ -1,0 +1,130 @@
+---
+/*
+ * Fixed 3D background of the home page: the cryostat model and the thermal particles.
+ * The 3D scene fades in once ready. A still render of the same model is used only as a
+ * fallback: reduced motion, no WebGL 2, data saver, or the scene failing to start.
+ * Three.js and GSAP are downloaded only when the scene can actually start.
+ */
+import { Picture } from 'astro:assets';
+import stillRender from '../../assets/hero/cryostat.png';
+---
+
+<div class="quantum-scene" data-quantum-scene aria-hidden="true">
+  <Picture
+    src={stillRender}
+    alt=""
+    widths={[260, 520, 780]}
+    sizes="(min-width: 48rem) 26vw, 60vw"
+    formats={['avif', 'webp']}
+    loading="lazy"
+    class="quantum-still"
+  />
+  <canvas class="quantum-canvas"></canvas>
+</div>
+
+<script>
+  const root = document.querySelector<HTMLElement>('[data-quantum-scene]');
+  const canvas = root?.querySelector('canvas');
+
+  function createContext(target: HTMLCanvasElement): WebGL2RenderingContext | null {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return null;
+    const connection = (navigator as Navigator & { connection?: { saveData?: boolean } })
+      .connection;
+    if (connection?.saveData) return null;
+    try {
+      return target.getContext('webgl2', {
+        alpha: true,
+        antialias: !window.matchMedia('(max-width: 47.99rem)').matches,
+      });
+    } catch {
+      return null;
+    }
+  }
+
+  if (root && canvas) {
+    const showStill = () => root.classList.add('is-still');
+    const context = createContext(canvas);
+    if (context) {
+      import('./scene')
+        .then(({ startScene }) => startScene(root, canvas, context))
+        .catch((error: unknown) => {
+          console.error('3D scene unavailable:', error);
+          showStill();
+        });
+    } else {
+      showStill();
+    }
+  }
+</script>
+
+<style>
+  /* Over the model, the cursor shows that it can be dragged to turn it (scene.ts). */
+  :global(html.can-turn-model) {
+    cursor: grab;
+  }
+
+  :global(html.is-turning-model) {
+    cursor: grabbing;
+    user-select: none;
+  }
+
+  .quantum-scene {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+  }
+
+  .quantum-canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transition: opacity 1.4s var(--ease-cryo);
+  }
+
+  .quantum-scene.is-ready .quantum-canvas {
+    opacity: 1;
+  }
+
+  .quantum-still {
+    display: none;
+    position: absolute;
+    top: 6rem;
+    right: 9vw;
+    width: auto;
+    height: calc(100% - 7rem);
+    max-width: 30vw;
+    object-fit: contain;
+    object-position: top center;
+  }
+
+  .quantum-scene.is-still .quantum-still {
+    display: block;
+  }
+
+  /* Without JavaScript, reduced motion still gets the image. */
+  @media (prefers-reduced-motion: reduce) {
+    .quantum-still {
+      display: block;
+    }
+
+    .quantum-canvas {
+      display: none;
+    }
+  }
+
+  /* On small screens the model sits behind the text: dimmed, so the text stays easy to read, but
+     not so much that it gets lost in the black. */
+  @media (max-width: 47.99rem) {
+    .quantum-scene {
+      opacity: 0.45;
+    }
+
+    .quantum-still {
+      right: 50%;
+      max-width: 70vw;
+      translate: 50% 0;
+    }
+  }
+</style>

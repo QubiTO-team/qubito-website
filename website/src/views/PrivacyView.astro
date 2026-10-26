@@ -1,0 +1,40 @@
+---
+/* Privacy: how the site treats the data of its visitors (statistics) and of applicants. */
+import '../styles/article.css';
+import { getEntry, render } from 'astro:content';
+import PageHeader from '../components/PageHeader.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import type { Lang } from '../i18n/utils';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+
+const page = await getEntry('pages', `${lang}/privacy`);
+if (!page) throw new Error(`Missing "privacy" page for "${lang}"`);
+const { title, description, lead } = page.data;
+const { Content } = await render(page);
+---
+
+<BaseLayout lang={lang} title={title} description={description}>
+  <div class="shell page">
+    <PageHeader title={title} lead={lead} />
+    <div class="prose page-body">
+      <Content />
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .page {
+    padding-top: clamp(2.5rem, 7vw, 5rem);
+    padding-bottom: clamp(4rem, 9vw, 7rem);
+  }
+
+  .page-body {
+    max-width: 44rem;
+    margin-top: 3rem;
+  }
+</style>

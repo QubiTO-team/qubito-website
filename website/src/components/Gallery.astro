@@ -1,0 +1,145 @@
+---
+/*
+ * Photos of an activity: a grid of thumbnails; each one opens the photo large in a popover,
+ * which closes with its button, Esc or a click outside it. No JavaScript: the popover API of
+ * the browser does it, like the mobile menu. The large photos are not downloaded until opened.
+ */
+import { Picture } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+import { widthsUpTo } from '../lib/images';
+import { useTranslations, type Lang } from '../i18n/utils';
+
+interface Props {
+  photos: { src: ImageMetadata; alt: string }[];
+  lang: Lang;
+}
+
+const { photos, lang } = Astro.props;
+const t = useTranslations(lang);
+---
+
+<section class="gallery" aria-labelledby="gallery-title">
+  <h2 id="gallery-title" class="gallery-title">
+    {t('activity.photos')}
+  </h2>
+  <ul class="gallery-grid">
+    {photos.map((photo, index) => {
+      const id = `photo-${index + 1}`;
+      return (
+        <li>
+          <button type="button" class="gallery-thumb" popovertarget={id}>
+            <span class="sr-only">
+              {t('activity.openPhoto', { number: index + 1, total: photos.length })}:
+            </span>
+            <Picture
+              src={photo.src}
+              alt={photo.alt}
+              widths={widthsUpTo(photo.src, [320, 640])}
+              sizes="(min-width: 48rem) 22rem, calc(100vw - 2.5rem)"
+              formats={['avif', 'webp']}
+              class="gallery-thumb-image"
+            />
+          </button>
+          <div id={id} popover class="lightbox">
+            <figure class="lightbox-figure">
+              <Picture
+                src={photo.src}
+                alt={photo.alt}
+                widths={widthsUpTo(photo.src, [960, 1600, 2400])}
+                sizes={`min(94vw, ${photo.src.width}px)`}
+                formats={['avif', 'webp']}
+                loading="lazy"
+                class="lightbox-image"
+              />
+              <figcaption class="lightbox-caption">{photo.alt}</figcaption>
+            </figure>
+            <button
+              type="button"
+              class="lightbox-close btn btn-ghost"
+              popovertarget={id}
+              popovertargetaction="hide"
+            >
+              {t('activity.closePhoto')}
+            </button>
+          </div>
+        </li>
+      );
+    })}
+  </ul>
+</section>
+
+<style>
+  .gallery-title {
+    font-size: var(--text-xl);
+  }
+
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 16rem), 1fr));
+    gap: 1rem;
+    margin-top: 1.5rem;
+  }
+
+  .gallery-thumb {
+    display: block;
+    width: 100%;
+    padding: 0;
+    border: 0;
+    background: none;
+    cursor: zoom-in;
+  }
+
+  /* The pictures are the root elements of a child component: their own scope, hence :global. */
+  .gallery-thumb :global(.gallery-thumb-image) {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    border-radius: 0.125rem;
+    filter: saturate(0.85);
+    transition: filter 300ms var(--ease-cryo);
+  }
+
+  .gallery-thumb:hover :global(.gallery-thumb-image) {
+    filter: saturate(1);
+  }
+
+  .lightbox {
+    width: min(94vw, 90rem);
+    max-height: 94svh;
+    margin: auto;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: var(--color-frost);
+  }
+
+  .lightbox::backdrop {
+    background: color-mix(in oklab, var(--color-mixing) 92%, transparent);
+  }
+
+  .lightbox-figure {
+    display: grid;
+    gap: 0.75rem;
+  }
+
+  /* Never larger than the photo itself; room left for the caption and the button, so the
+     popover does not scroll. */
+  .lightbox :global(.lightbox-image) {
+    display: block;
+    width: auto;
+    max-width: 100%;
+    max-height: calc(94svh - 9rem);
+    margin-inline: auto;
+  }
+
+  .lightbox-caption {
+    color: var(--color-frost-muted);
+    font-size: var(--text-sm);
+    text-align: center;
+  }
+
+  .lightbox-close {
+    display: block;
+    margin: 1rem auto 0;
+  }
+</style>

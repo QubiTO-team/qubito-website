@@ -1,0 +1,148 @@
+---
+import { Image } from 'astro:assets';
+import logo from '../assets/logo-qubito.svg';
+import politoLogo from '../assets/polito-logo-white.png';
+import Icon from './Icon.astro';
+import LangSwitch from './LangSwitch.astro';
+import StagePlate from './StagePlate.astro';
+import { SITE, SOCIAL, navItems } from '../config';
+import { applicationsOpen } from '../lib/applications';
+import { siteTagline } from '../lib/tagline';
+import { localizePath, useTranslations, type Lang } from '../i18n/utils';
+
+interface Props {
+  lang: Lang;
+  alternates: Record<Lang, string>;
+  /** Shows the 10 mK plate (home page only). */
+  stage?: boolean;
+}
+
+const { lang, alternates, stage = false } = Astro.props;
+const t = useTranslations(lang);
+const year = new Date().getFullYear();
+---
+
+<footer class="mt-auto">
+  <div class="shell pt-24 pb-10">
+    {/* On the home page, the bottom stage of the cryostat (10 mK). Elsewhere a thin line. */}
+    {stage && <StagePlate label="10 mK" />}
+
+    <div
+      class:list={[
+        'grid gap-12 pt-14 md:grid-cols-[1.5fr_1fr_1fr]',
+        { 'border-t border-frost/10': !stage },
+      ]}
+    >
+      <div>
+        <img
+          src={logo.src}
+          width={logo.width}
+          height={logo.height}
+          alt="QubiTO"
+          class="h-14 w-auto"
+        />
+        <p class="mt-6 max-w-xs text-frost-muted">{await siteTagline(lang)}</p>
+      </div>
+
+      <nav aria-label={t('footer.navLabel')}>
+        <ul class="flex flex-col gap-3">
+          {navItems(await applicationsOpen()).map((item) => (
+            <li>
+              <a href={localizePath(item.path, lang)} class="footer-link">
+                {t(item.key)}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+
+      <div>
+        <p class="footer-heading">{t('footer.writeUs')}</p>
+        <a href={`mailto:${SITE.email}`} class="mt-2 inline-block text-orchid underline">
+          {SITE.email}
+        </a>
+        <ul class="mt-8 flex gap-5" aria-label={t('footer.socialLabel')}>
+          {SOCIAL.map((social) => (
+            <li>
+              <a href={social.url} class="social-link">
+                <Icon name={social.icon} class="h-5 w-5" />
+                <span class="sr-only">{social.name}</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+
+    <div class="mt-20 flex flex-col gap-8 border-t border-frost/10 pt-8 md:flex-row md:items-center md:justify-between">
+      <a
+        href={SITE.polito}
+        class="inline-block shrink-0 opacity-85 transition-opacity hover:opacity-100"
+      >
+        <Image
+          src={politoLogo}
+          alt={t('footer.politoLabel')}
+          width={180}
+          densities={[1, 2]}
+          class="h-auto w-[180px]"
+        />
+      </a>
+      <div class="font-mono text-xs text-frost-muted md:text-right">
+        <p>{t('footer.copyright', { year })}</p>
+        <p>{t('footer.credits')}</p>
+        <p class="mt-2">
+          <a href={localizePath('/privacy/', lang)} class="underline hover:text-frost">
+            {t('footer.privacy')}
+          </a>
+        </p>
+      </div>
+      <div class="flex flex-wrap items-center gap-6">
+        <LangSwitch lang={lang} alternates={alternates} />
+        {/* A plain link to the top of the page; on the home page a small script makes it
+            scroll smoothly, so the cryostat rises with the page (HomeView). */}
+        <a href="#top" class="btn btn-ghost back-to-top">
+          <span aria-hidden="true">↑</span>
+          {t('footer.backToTop')}
+        </a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .footer-link {
+    color: var(--color-frost-muted);
+    font-family: var(--font-display);
+    font-size: var(--text-sm);
+    font-weight: 500;
+    text-decoration: none;
+    transition: color 200ms var(--ease-cryo);
+  }
+
+  .footer-link:hover {
+    color: var(--color-frost);
+  }
+
+  .footer-heading {
+    color: var(--color-frost);
+    font-family: var(--font-display);
+    font-size: var(--text-sm);
+    font-weight: 600;
+  }
+
+  .social-link {
+    display: inline-flex;
+    padding: 0.25rem;
+    margin: -0.25rem;
+    color: var(--color-frost-muted);
+    transition: color 200ms var(--ease-cryo);
+  }
+
+  .social-link:hover {
+    color: var(--color-orchid);
+  }
+
+  .back-to-top {
+    padding: 0.55rem 1.05rem;
+  }
+</style>

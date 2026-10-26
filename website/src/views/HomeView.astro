@@ -1,0 +1,211 @@
+---
+/*
+ * Home page as a descent into a dilution refrigerator: each section is a real stage,
+ * from room temperature (300 K) down to the mixing chamber (10 mK, in the footer).
+ */
+import { getEntry } from 'astro:content';
+import { Picture } from 'astro:assets';
+import chipStill from '../assets/home/chip.jpg';
+import ActivityList from '../components/ActivityList.astro';
+import ArticleList from '../components/ArticleList.astro';
+import HeroClaim from '../components/HeroClaim.astro';
+import HomeLinks from '../components/HomeLinks.astro';
+import HomeSection from '../components/HomeSection.astro';
+import StagePlate from '../components/StagePlate.astro';
+import QuantumScene from '../components/hero/QuantumScene.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { SITE } from '../config';
+import { applicationsOpen } from '../lib/applications';
+import { getActivities, getArticles } from '../lib/content';
+import { inlineLinks } from '../lib/inline-links';
+import { localizePath, useTranslations, type Lang } from '../i18n/utils';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const open = await applicationsOpen();
+
+const home = await getEntry('home', lang);
+if (!home) throw new Error(`Missing home content for "${lang}"`);
+const {
+  tagline,
+  whoWeAre,
+  activities: activitiesText,
+  articles: articlesText,
+  contact,
+  qubits,
+} = home.data;
+
+const latestActivities = (await getActivities(lang)).slice(0, 3);
+const latestArticles = (await getArticles(lang)).slice(0, 3);
+---
+
+<BaseLayout lang={lang} particles={false} footerStage>
+  <QuantumScene />
+  <section class="hero shell" aria-labelledby="hero-title">
+    <StagePlate label="300 K" />
+    <div class="hero-body">
+      <HeroClaim lang={lang} id="hero-title" />
+      <p class="mt-10 max-w-[30ch] text-xl text-frost-muted" data-claim-anchor>
+        {tagline}
+      </p>
+      {open && (
+        <div class="mt-12 flex flex-wrap gap-4">
+          <a href={localizePath('/join-us/', lang)} class="btn btn-primary">
+            {t('nav.joinUs')}
+          </a>
+        </div>
+      )}
+    </div>
+  </section>
+
+  <HomeSection id="about" stage="50 K" title={whoWeAre.title}>
+    <div class="mt-8 flex max-w-[62ch] flex-col gap-5">
+      {whoWeAre.body.map((paragraph) => (
+        <p>{paragraph}</p>
+      ))}
+    </div>
+    <Picture
+      src={whoWeAre.image.src}
+      alt={whoWeAre.image.alt}
+      widths={[480, 800, 1200]}
+      sizes="(min-width: 64rem) 44rem, calc(100vw - 2.5rem)"
+      formats={['avif', 'webp']}
+      class="mt-10 aspect-[16/9] w-full rounded-sm object-cover"
+    />
+    <HomeLinks links={whoWeAre.links} />
+  </HomeSection>
+
+  <HomeSection
+    id="activities"
+    stage="4 K"
+    title={activitiesText.title}
+    intro={activitiesText.intro}
+  >
+    <ActivityList activities={latestActivities} lang={lang} />
+    <HomeLinks links={activitiesText.links} />
+  </HomeSection>
+
+  <HomeSection id="articles" stage="800 mK" title={articlesText.title} intro={articlesText.intro}>
+    <ArticleList articles={latestArticles} lang={lang} class="mt-10" />
+    <HomeLinks links={articlesText.links} />
+  </HomeSection>
+
+  <HomeSection id="contact" stage="100 mK" title={contact.title}>
+    <div class="mt-8 flex max-w-[56ch] flex-col gap-5">
+      {contact.body.map((paragraph) => (
+        <p>{paragraph}</p>
+      ))}
+    </div>
+    <HomeLinks links={contact.links}>
+      <a href={`mailto:${SITE.email}`} class="btn btn-primary">
+        {t('cta.emailUs', { email: SITE.email })}
+      </a>
+      {open && (
+        <a href={localizePath('/join-us/', lang)} class="btn btn-ghost">
+          {t('nav.joinUs')}
+        </a>
+      )}
+    </HomeLinks>
+  </HomeSection>
+
+  <HomeSection id="qubits" stage="20 mK" title={qubits.title} tall>
+    <div class="mt-8 flex max-w-[56ch] flex-col gap-5">
+      {qubits.body.map((paragraph) => (
+        <p>{paragraph}</p>
+      ))}
+    </div>
+    <HomeLinks links={qubits.links} />
+    {/* A still picture of the chip, shown only when the 3D scene does not run. */}
+    <Picture
+      src={chipStill}
+      alt=""
+      widths={[480, 800, 1200]}
+      sizes="(min-width: 64rem) 44rem, calc(100vw - 2.5rem)"
+      formats={['avif', 'webp']}
+      loading="lazy"
+      class="chip-still mt-12 aspect-[16/10] w-full rounded-sm object-cover"
+    />
+    <p class="chip-credit mt-10 max-w-[48ch] text-sm text-frost-muted">
+      {inlineLinks(qubits.credit).map((part) =>
+        part.href ? (
+          <a href={part.href} class="text-orchid underline" set:text={part.text} />
+        ) : (
+          part.text
+        ),
+      )}
+    </p>
+  </HomeSection>
+</BaseLayout>
+
+<script>
+  // "Back to top" in the footer: on this page it scrolls smoothly up through the stages, so the
+  // 3D rises with the page instead of jumping from the chip straight back to 300 K.
+  const smooth = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  for (const link of document.querySelectorAll<HTMLAnchorElement>('a[href="#top"]')) {
+    link.addEventListener('click', (event) => {
+      if (!smooth) return;
+      event.preventDefault();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      document.getElementById('main')?.focus({ preventScroll: true });
+    });
+  }
+</script>
+
+<style>
+  .hero {
+    container-type: inline-size;
+    display: flex;
+    flex-direction: column;
+    min-height: calc(100svh - 4.5rem);
+    padding-block: clamp(2.5rem, 8vh, 6rem);
+  }
+
+  .hero-body {
+    margin-block: auto;
+    padding-block: 3rem;
+  }
+
+  /* On computers the page stops at one stage at a time, as on the hackathon site. Every stage
+     fills the screen (HomeSection), and a stage taller than the screen scrolls freely to its end.
+     Phones and tablets scroll normally. The 3D follows the stops (scroll.ts). */
+  @media (min-width: 62.5rem) and (min-height: 37.5rem) and (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+    :global(html) {
+      scroll-snap-type: y mandatory;
+    }
+
+    .hero {
+      scroll-snap-align: start;
+      scroll-margin-top: 4.5rem;
+    }
+
+    :global(body > footer) {
+      scroll-snap-align: end;
+    }
+  }
+
+  /* Small text over the gold board of the chip: a dark edge keeps it legible. */
+  .chip-credit {
+    text-shadow:
+      0 0 3px #000,
+      0 0 8px #000;
+  }
+
+  /* The chip is part of the 3D scene; the still shows only when the scene does not run. */
+  :global(.chip-still) {
+    display: none;
+  }
+
+  :global(html:has(.quantum-scene.is-still) .chip-still) {
+    display: block;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    :global(.chip-still) {
+      display: block;
+    }
+  }
+</style>

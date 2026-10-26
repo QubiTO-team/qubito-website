@@ -1,0 +1,219 @@
+---
+/*
+ * Background of every page except the home: violet particles drifting slowly on black, with
+ * the palette of the thermal particles of the home page; a few are larger and brighter. They
+ * stay fixed while the page scrolls. With a mouse or trackpad, the particles near the pointer
+ * light up. Drawn on a 2D canvas by a small script, no libraries: 30 fps, paused when the tab
+ * is hidden, a single still frame with reduced motion.
+ */
+---
+
+<div class="particle-field" aria-hidden="true">
+  <canvas data-particle-canvas></canvas>
+</div>
+
+<script>
+  const PALETTE = ['#751f72', '#b876b0', '#e891db'];
+  const FRAME_INTERVAL = 1000 / 30;
+  /** How much the pointer light adds to the opacity of a particle. */
+  const LIGHT_GAIN = 0.6;
+  /** Particles leave the screen by this fraction before coming back on the other side. */
+  const MARGIN = 0.02;
+
+  interface Particle {
+    x: number;
+    y: number;
+    vx: number;
+    vy: number;
+    size: number;
+    alpha: number;
+    color: number;
+    phase: [number, number];
+    frequency: [number, number];
+    amplitude: number;
+  }
+
+  const random = (min: number, max: number) => min + Math.random() * (max - min);
+
+  const wrap = (value: number) =>
+    value < -MARGIN ? value + 1 + 2 * MARGIN : value > 1 + MARGIN ? value - 1 - 2 * MARGIN : value;
+
+  /** Light reaching a point at (dx, dy) from a source of radius r: 1 at the source, 0 at r. */
+  const falloff = (dx: number, dy: number, r: number) => {
+    const k = 1 - (dx * dx + dy * dy) / (r * r);
+    return k > 0 ? k * k : 0;
+  };
+
+  /** Soft round glow of one colour, drawn once and stamped for every particle. */
+  function sprite(color: string): HTMLCanvasElement {
+    const size = 64;
+    const canvas = document.createElement('canvas');
+    canvas.width = canvas.height = size;
+    const context = canvas.getContext('2d');
+    if (!context) return canvas;
+    const gradient = context.createRadialGradient(
+      size / 2,
+      size / 2,
+      0,
+      size / 2,
+      size / 2,
+      size / 2,
+    );
+    gradient.addColorStop(0, color);
+    gradient.addColorStop(0.25, `${color}66`);
+    gradient.addColorStop(1, `${color}00`);
+    context.fillStyle = gradient;
+    context.fillRect(0, 0, size, size);
+    return canvas;
+  }
+
+  const canvas = document.querySelector<HTMLCanvasElement>('[data-particle-canvas]');
+  const context = canvas?.getContext('2d');
+
+  if (canvas && context) {
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const small = window.matchMedia('(max-width: 47.99rem)').matches;
+    const followPointer =
+      !reduced && window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+    const sprites = PALETTE.map(sprite);
+    const ratio = Math.min(window.devicePixelRatio, 2);
+    let width = 0;
+    let height = 0;
+    let reach = 0;
+    let particles: Particle[] = [];
+
+    // Positions are fractions of the screen, so they survive a resize.
+    const populate = () => {
+      const count = Math.round((width * height) / (small ? 3400 : 2600));
+      particles = Array.from({ length: count }, (_, i) => {
+        // A few particles are larger and brighter, scattered on their own.
+        const bright = Math.random() < 0.08;
+        const angle = random(0, 2 * Math.PI);
+        const speed = random(2, 7);
+        return {
+          x: Math.random(),
+          y: Math.random(),
+          vx: Math.cos(angle) * speed,
+          vy: Math.sin(angle) * speed,
+          size: bright ? random(10, 18) : random(5, 14),
+          alpha: bright ? random(0.85, 1) : random(0.3, 0.7),
+          color: i % PALETTE.length,
+          phase: [random(0, 6.28), random(0, 6.28)],
+          frequency: [random(0.3, 0.8), random(0.3, 0.8)],
+          amplitude: random(2, 5),
+        };
+      });
+    };
+
+    const resize = () => {
+      // On phones the height changes while scrolling (address bar): only a new width
+      // brings a new set of particles.
+      const widthChanged = window.innerWidth !== width;
+      width = window.innerWidth;
+      height = window.innerHeight;
+      reach = Math.min(240, Math.max(110, Math.min(width, height) * 0.26));
+      canvas.width = Math.round(width * ratio);
+      canvas.height = Math.round(height * ratio);
+      context.setTransform(ratio, 0, 0, ratio, 0, 0);
+      if (widthChanged) populate();
+    };
+
+    // The pointer light follows the pointer with a short delay and fades in and out.
+    const pointer = { x: 0, y: 0, targetX: 0, targetY: 0, inside: false, strength: 0 };
+    if (followPointer) {
+      window.addEventListener(
+        'pointermove',
+        (event) => {
+          if (pointer.strength === 0) {
+            pointer.x = event.clientX;
+            pointer.y = event.clientY;
+          }
+          pointer.targetX = event.clientX;
+          pointer.targetY = event.clientY;
+          pointer.inside = true;
+        },
+        { passive: true },
+      );
+      document.addEventListener('pointerout', (event) => {
+        if (!event.relatedTarget) pointer.inside = false;
+      });
+    }
+
+    let previous = 0;
+    const draw = (time: number) => {
+      const t = time / 1000;
+      const delta = previous ? Math.min(0.1, t - previous) : 0;
+      previous = t;
+
+      if (followPointer) {
+        const follow = Math.min(1, delta * 6);
+        pointer.x += (pointer.targetX - pointer.x) * follow;
+        pointer.y += (pointer.targetY - pointer.y) * follow;
+        pointer.strength += ((pointer.inside ? 1 : 0) - pointer.strength) * Math.min(1, delta * 3);
+        if (!pointer.inside && pointer.strength < 0.01) pointer.strength = 0;
+      }
+
+      context.clearRect(0, 0, width, height);
+      context.globalCompositeOperation = 'lighter';
+      for (const p of particles) {
+        p.x = wrap(p.x + (p.vx * delta) / width);
+        p.y = wrap(p.y + (p.vy * delta) / height);
+        const x = p.x * width + Math.sin(t * p.frequency[0] + p.phase[0]) * p.amplitude;
+        const y = p.y * height + Math.sin(t * p.frequency[1] + p.phase[1]) * p.amplitude;
+        const light =
+          pointer.strength > 0
+            ? pointer.strength * falloff(x - pointer.x, y - pointer.y, reach)
+            : 0;
+        const size = p.size * (1 + 0.6 * light);
+        context.globalAlpha = Math.min(1, p.alpha + light * LIGHT_GAIN);
+        context.drawImage(
+          sprites[p.color] as HTMLCanvasElement,
+          x - size / 2,
+          y - size / 2,
+          size,
+          size,
+        );
+      }
+    };
+
+    resize();
+    draw(0);
+
+    if (!reduced) {
+      let last = 0;
+      let frame = 0;
+      const loop = (time: number) => {
+        frame = requestAnimationFrame(loop);
+        if (time - last < FRAME_INTERVAL) return;
+        last = time;
+        draw(time);
+      };
+      frame = requestAnimationFrame(loop);
+      document.addEventListener('visibilitychange', () => {
+        cancelAnimationFrame(frame);
+        previous = 0;
+        if (!document.hidden) frame = requestAnimationFrame(loop);
+      });
+    }
+
+    window.addEventListener('resize', () => {
+      resize();
+      draw(reduced ? 0 : performance.now());
+    });
+  }
+</script>
+
+<style>
+  .particle-field {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+  }
+
+  .particle-field canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+</style>

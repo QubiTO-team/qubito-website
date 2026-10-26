@@ -1,0 +1,35 @@
+---
+/* Title and opening paragraph of a static page. */
+
+interface Props {
+  title: string;
+  lead?: string | undefined;
+}
+
+const { title, lead } = Astro.props;
+---
+
+<header class="page-header">
+  <h1 class="page-title">{title}</h1>
+  {lead && <p class="page-lead">{lead}</p>}
+  <slot />
+</header>
+
+<style>
+  .page-header {
+    max-width: 52rem;
+  }
+
+  .page-title {
+    font-size: var(--text-4xl);
+    line-height: var(--text-4xl--line-height);
+  }
+
+  .page-lead {
+    max-width: 46rem;
+    margin-top: 1.5rem;
+    color: var(--color-frost-muted);
+    font-size: var(--text-lg);
+    line-height: 1.5;
+  }
+</style>

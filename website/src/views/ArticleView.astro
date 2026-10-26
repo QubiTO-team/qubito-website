@@ -1,0 +1,234 @@
+---
+/*
+ * Article page: title, details, table of contents and text, then links to the articles
+ * published before and after. Formulas and code are rendered at build time.
+ */
+import 'katex/dist/katex.min.css';
+import '../styles/article.css';
+import { getImage, Picture } from 'astro:assets';
+import { render } from 'astro:content';
+import PrevNextNav from '../components/PrevNextNav.astro';
+import TableOfContents from '../components/TableOfContents.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { articleAlternates, articleUrl, getArticles, type Article } from '../lib/content';
+import { readingTime } from '../lib/reading-time';
+import { formatDate, formatList, localizePath, useTranslations, type Lang } from '../i18n/utils';
+
+interface Props {
+  lang: Lang;
+  article: Article;
+}
+
+const { lang, article } = Astro.props;
+const t = useTranslations(lang);
+const { title, description, date, authors, tags, cover } = article.data;
+
+const { Content, headings } = await render(article);
+const toc = headings.filter((heading) => heading.depth === 2 || heading.depth === 3);
+
+// Newest first: the newer article comes before this one in the list.
+const articles = await getArticles(lang);
+const index = articles.findIndex((entry) => entry.id === article.id);
+const link = (entry: Article | undefined) =>
+  entry && { href: articleUrl(entry, lang), title: entry.data.title };
+const newer = link(articles[index - 1]);
+const older = link(articles[index + 1]);
+
+const alternates = await articleAlternates(article);
+const minutes = readingTime(article.body ?? '');
+const socialImage = cover && (await getImage({ src: cover.src, width: 1200, format: 'jpg' }));
+
+// KaTeX and Shiki position and colour their output with inline style attributes.
+Astro.csp?.insertStyleResource({ resource: "'unsafe-inline'", kind: 'attribute' });
+---
+
+<BaseLayout
+  lang={lang}
+  title={title}
+  description={description}
+  alternates={alternates}
+  image={socialImage?.src}
+  imageAlt={cover?.alt}
+>
+  <article class="shell article">
+    <header class="article-header">
+      <a href={localizePath('/articles/', lang)} class="article-back">
+        {t('cta.allArticles')}
+      </a>
+      <h1 class="article-title">{title}</h1>
+      <p class="article-lead">{description}</p>
+
+      <dl class="article-meta">
+        <div>
+          <dt>{t('article.published')}</dt>
+          <dd>
+            <time datetime={date.toISOString().slice(0, 10)}>{formatDate(date, lang)}</time>
+          </dd>
+        </div>
+        <div>
+          <dt>{authors.length > 1 ? t('article.authors') : t('article.author')}</dt>
+          <dd>{formatList(authors, lang)}</dd>
+        </div>
+        <div>
+          <dt>{t('article.readingTime')}</dt>
+          <dd>{t('article.minutes', { minutes })}</dd>
+        </div>
+        {tags.length > 0 && (
+          <div>
+            <dt>{t('article.tags')}</dt>
+            <dd>
+              <ul class="article-tags">
+                {tags.map((tag) => (
+                  <li>{tag}</li>
+                ))}
+              </ul>
+            </dd>
+          </div>
+        )}
+      </dl>
+    </header>
+
+    {cover && (
+      <Picture
+        src={cover.src}
+        alt={cover.alt}
+        widths={[720, 1080, 1440]}
+        sizes="(min-width: 70rem) 44rem, calc(100vw - 2.5rem)"
+        formats={['avif', 'webp']}
+        loading="eager"
+        fetchpriority="high"
+        class="article-cover"
+      />
+    )}
+
+    <div class="article-body">
+      {toc.length > 1 && <TableOfContents headings={toc} lang={lang} />}
+      <div class="prose">
+        <Content />
+      </div>
+    </div>
+
+    <footer class="article-footer">
+      <PrevNextNav
+        older={older}
+        newer={newer}
+        labels={{
+          older: t('article.older'),
+          newer: t('article.newer'),
+          nav: t('article.moreArticles'),
+        }}
+      />
+    </footer>
+  </article>
+</BaseLayout>
+
+<style>
+  .article {
+    padding-top: clamp(2.5rem, 7vw, 5rem);
+    padding-bottom: clamp(4rem, 9vw, 7rem);
+  }
+
+  .article-header {
+    max-width: 52rem;
+  }
+
+  .article-back {
+    color: var(--color-frost-muted);
+    font-family: var(--font-display);
+    font-size: var(--text-sm);
+    font-weight: 500;
+    text-decoration: none;
+    transition: color 200ms var(--ease-cryo);
+  }
+
+  .article-back:hover {
+    color: var(--color-orchid);
+  }
+
+  .article-title {
+    margin-top: 1.5rem;
+    font-size: var(--text-3xl);
+    line-height: var(--text-3xl--line-height);
+  }
+
+  .article-lead {
+    max-width: 46rem;
+    margin-top: 1.5rem;
+    color: var(--color-frost-muted);
+    font-size: var(--text-lg);
+    line-height: 1.5;
+  }
+
+  .article-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.25rem 2.75rem;
+    margin-top: 2.25rem;
+  }
+
+  .article-meta dt {
+    color: var(--color-frost-muted);
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    font-weight: 500;
+  }
+
+  .article-meta dd {
+    margin-top: 0.3rem;
+  }
+
+  .article-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+
+  .article-tags li {
+    padding: 0.1rem 0.6rem;
+    border: 1px solid color-mix(in oklab, var(--color-frost) 22%, transparent);
+    border-radius: 0.25rem;
+    font-family: var(--font-display);
+    font-size: var(--text-xs);
+    font-weight: 500;
+  }
+
+  /* The picture is the root element of a child component: its own scope, hence :global. */
+  .article :global(.article-cover) {
+    width: 100%;
+    max-width: 44rem;
+    margin-top: 4rem;
+    border-radius: 0.375rem;
+  }
+
+  /* minmax(0, …): wide formulas and code scroll inside the column instead of widening it. */
+  .article-body {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 2.5rem;
+    margin-top: 4rem;
+  }
+
+  .prose {
+    max-width: 44rem;
+  }
+
+  @media (min-width: 70rem) {
+    .article-body {
+      grid-template-columns: minmax(0, 44rem) minmax(12rem, 17rem);
+      justify-content: space-between;
+      align-items: start;
+      gap: 4rem;
+    }
+
+    /* The table of contents comes first in the page, but sits on the right. */
+    .article-body > :global(.toc) {
+      grid-column: 2;
+      grid-row: 1;
+    }
+  }
+
+  .article-footer {
+    max-width: 44rem;
+    margin-top: 5rem;
+  }
+</style>

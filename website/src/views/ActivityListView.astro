@@ -1,0 +1,106 @@
+---
+/*
+ * All the activities in one language on a timeline: first the upcoming ones (decided when the
+ * site is built), then the others grouped by year, newest first.
+ */
+import Timeline from '../components/Timeline.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getActivities, isUpcoming, type Activity } from '../lib/content';
+import { useTranslations, type Lang } from '../i18n/utils';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+
+const activities = await getActivities(lang);
+// Soonest first among the upcoming ones.
+const upcoming = activities.filter((activity) => isUpcoming(activity)).reverse();
+const years = new Map<number, Activity[]>();
+for (const activity of activities.filter((activity) => !isUpcoming(activity))) {
+  const year = activity.data.date.getUTCFullYear();
+  years.set(year, [...(years.get(year) ?? []), activity]);
+}
+const groups = [
+  ...(upcoming.length > 0
+    ? [{ id: 'upcoming', title: t('activities.upcoming'), activities: upcoming }]
+    : []),
+  ...[...years].map(([year, activities]) => ({
+    id: `year-${year}`,
+    title: String(year),
+    activities,
+  })),
+];
+---
+
+<BaseLayout lang={lang} title={t('nav.activities')} description={t('activities.description')}>
+  <div class="shell activities">
+    <header>
+      <h1 class="activities-title">{t('nav.activities')}</h1>
+      <p class="activities-intro">{t('activities.intro')}</p>
+    </header>
+
+    {groups.map((group) => (
+      <section class="group" aria-labelledby={group.id}>
+        <h2 id={group.id} class:list={['group-title', { 'is-upcoming': group.id === 'upcoming' }]}>
+          {group.title}
+        </h2>
+        <Timeline activities={group.activities} lang={lang} />
+      </section>
+    ))}
+  </div>
+</BaseLayout>
+
+<style>
+  .activities {
+    padding-top: clamp(2.5rem, 7vw, 5rem);
+    padding-bottom: clamp(4rem, 9vw, 7rem);
+  }
+
+  .activities-title {
+    font-size: var(--text-4xl);
+    line-height: var(--text-4xl--line-height);
+  }
+
+  .activities-intro {
+    max-width: 46rem;
+    margin-top: 1.5rem;
+    color: var(--color-frost-muted);
+    font-size: var(--text-lg);
+    line-height: 1.5;
+  }
+
+  .group {
+    display: grid;
+    gap: 0.5rem;
+    margin-top: clamp(3rem, 6vw, 4.5rem);
+  }
+
+  .group-title {
+    color: var(--color-gold);
+    font-size: var(--text-2xl);
+    font-weight: 500;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .group-title.is-upcoming {
+    color: var(--color-orchid);
+  }
+
+  /* Large screens: the year on the left, its activities on the right. */
+  @media (min-width: 64rem) {
+    .group {
+      grid-template-columns: 10rem minmax(0, 60rem);
+      gap: 3rem;
+      align-items: start;
+    }
+
+    .group-title {
+      position: sticky;
+      top: 6.5rem;
+      padding-top: 1.5rem;
+    }
+  }
+</style>

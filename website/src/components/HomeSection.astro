@@ -1,0 +1,57 @@
+---
+/*
+ * One stage of the home page: cryostat plate, heading, optional intro and content.
+ * Content stays in the left columns on large screens; the right side is kept free
+ * for the 3D model behind the page.
+ */
+import StagePlate from './StagePlate.astro';
+
+interface Props {
+  id: string;
+  /** Stage temperature shown on the plate, e.g. "4 K". */
+  stage: string;
+  title: string;
+  intro?: string;
+  /** At least as tall as the screen, for a scene that plays out while it scrolls. */
+  tall?: boolean;
+}
+
+const { id, stage, title, intro, tall = false } = Astro.props;
+const headingId = `${id}-title`;
+---
+
+<section id={id} aria-labelledby={headingId} class:list={['home-section shell', { tall }]}>
+  <StagePlate label={stage} />
+  <div class="mt-7 lg:w-7/12">
+    <h2 id={headingId} class="text-3xl">
+      {title}
+    </h2>
+    {intro && <p class="mt-6 max-w-[52ch] text-lg text-frost-muted">{intro}</p>}
+    <slot />
+  </div>
+</section>
+
+<style>
+  .home-section {
+    padding-block: clamp(3rem, 6vw, 5.5rem);
+    scroll-margin-top: 4.5rem;
+  }
+
+  .home-section.tall {
+    min-height: 100svh;
+  }
+
+  /* On computers every stage fills the screen, below the header, with its content in the middle:
+     the page stops on one stage at a time (HomeView). */
+  @media (min-width: 62.5rem) and (min-height: 37.5rem) and (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+    .home-section,
+    .home-section.tall {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      min-height: calc(100svh - 4.5rem);
+      padding-block: clamp(1.5rem, 5svh, 3.5rem);
+      scroll-snap-align: start;
+    }
+  }
+</style>

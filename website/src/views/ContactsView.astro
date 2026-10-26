@@ -1,0 +1,124 @@
+---
+/* Contacts: the email address, the social profiles, the Politecnico as partner, a closing note. */
+import '../styles/article.css';
+import { Image } from 'astro:assets';
+import { getEntry, render } from 'astro:content';
+import politoLogo from '../assets/polito-logo-white.png';
+import PageHeader from '../components/PageHeader.astro';
+import SocialLinks from '../components/SocialLinks.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { SITE } from '../config';
+import { useTranslations, type Lang } from '../i18n/utils';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+
+const page = await getEntry('pages', `${lang}/contacts`);
+if (!page) throw new Error(`Missing "contacts" page for "${lang}"`);
+const { title, description, lead } = page.data;
+const { Content } = await render(page);
+---
+
+<BaseLayout lang={lang} title={title} description={description}>
+  <div class="shell page">
+    <PageHeader title={title} lead={lead}>
+      <a href={`mailto:${SITE.email}`} class="contact-email">
+        {SITE.email}
+      </a>
+    </PageHeader>
+
+    <section class="contact-section" aria-labelledby="follow-title">
+      <h2 id="follow-title" class="contact-title">
+        {t('contacts.follow')}
+      </h2>
+      <p class="contact-text">{t('contacts.followText')}</p>
+      <SocialLinks label={t('footer.socialLabel')} class="mt-6" />
+    </section>
+
+    <section class="contact-section" aria-labelledby="partners-title">
+      <h2 id="partners-title" class="contact-title">
+        {t('contacts.partners')}
+      </h2>
+      <p class="contact-label">{t('contacts.mainPartner')}</p>
+      <a href={SITE.polito} class="contact-partner">
+        <Image
+          src={politoLogo}
+          alt={t('footer.politoLabel')}
+          width={240}
+          densities={[1, 2]}
+          class="h-auto w-[240px]"
+        />
+      </a>
+    </section>
+
+    <div class="prose contact-closing">
+      <Content />
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .page {
+    padding-top: clamp(2.5rem, 7vw, 5rem);
+    padding-bottom: clamp(4rem, 9vw, 7rem);
+  }
+
+  .contact-email {
+    display: inline-block;
+    margin-top: 2.25rem;
+    color: var(--color-orchid);
+    font-family: var(--font-mono);
+    font-size: clamp(1.25rem, 0.9rem + 1.6vw, 2rem);
+    text-decoration: none;
+    overflow-wrap: anywhere;
+    transition: color 200ms var(--ease-cryo);
+  }
+
+  .contact-email:hover {
+    color: var(--color-frost);
+  }
+
+  .contact-section {
+    max-width: 44rem;
+    margin-top: 4rem;
+    padding-top: 2.5rem;
+    border-top: 1px solid color-mix(in oklab, var(--color-frost) 12%, transparent);
+  }
+
+  .contact-title {
+    font-size: var(--text-xl);
+  }
+
+  .contact-text {
+    margin-top: 0.75rem;
+    color: var(--color-frost-muted);
+  }
+
+  .contact-label {
+    margin-top: 1.25rem;
+    color: var(--color-gold);
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+  }
+
+  .contact-partner {
+    display: inline-block;
+    margin-top: 1rem;
+    opacity: 0.85;
+    transition: opacity 200ms var(--ease-cryo);
+  }
+
+  .contact-partner:hover {
+    opacity: 1;
+  }
+
+  .contact-closing {
+    max-width: 44rem;
+    margin-top: 4rem;
+    color: var(--color-frost-muted);
+  }
+</style>
