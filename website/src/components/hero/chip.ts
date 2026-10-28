@@ -80,8 +80,8 @@ export interface ChipView {
   /** turn: extra turn of the chip, in radians (dragging with the mouse). */
   update(delta: number, arrival: number, closeUp: number, turn: number): void;
   render(renderer: WebGLRenderer): void;
-  /** Prepares the shaders ahead of the first frame, in short steps. */
-  prepare(renderer: WebGLRenderer): Promise<void>;
+  /** Prepares the shaders ahead of the first frame, in short steps; each step waits for `pause`. */
+  prepare(renderer: WebGLRenderer, pause?: () => Promise<void>): Promise<void>;
   /** Size in CSS pixels; pixelRatio: pixels drawn per CSS pixel. */
   resize(width: number, height: number, small: boolean, pixelRatio: number): void;
   setPointer(x: number, y: number, active: boolean): void;
@@ -90,11 +90,19 @@ export interface ChipView {
   dispose(): void;
 }
 
+/** Downloads the model of the chip; loadChip() reads it, which can then wait for a better moment. */
+export async function downloadChip(): Promise<ArrayBuffer> {
+  const response = await fetch('/models/chip.glb');
+  if (!response.ok) throw new Error(`chip.glb: ${response.status}`);
+  return response.arrayBuffer();
+}
+
 export async function loadChip(
+  model: ArrayBuffer,
   environments: { chip: Texture; board: Texture },
   { mobile }: { mobile: boolean },
 ): Promise<ChipView> {
-  const gltf = await new GLTFLoader().loadAsync('/models/chip.glb');
+  const gltf = await new GLTFLoader().parseAsync(model, '');
   const scene = new Scene();
   scene.environment = environments.chip;
   scene.environmentIntensity = 1;
@@ -203,8 +211,8 @@ export async function loadChip(
     render(renderer) {
       renderer.render(scene, camera);
     },
-    prepare(renderer) {
-      return prepareShaders(renderer, scene, camera);
+    prepare(renderer, pause) {
+      return prepareShaders(renderer, scene, camera, pause);
     },
     resize(width, height, small, pixelRatio) {
       Object.assign(view, { width, height, small });

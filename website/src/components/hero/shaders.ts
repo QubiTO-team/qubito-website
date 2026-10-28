@@ -18,8 +18,15 @@ type Drawn = Object3D & { material: Material | Material[] };
  * material is drawn once on its own, giving the browser a turn in between, because some drivers
  * compile a shader (or finish compiling it) only when it is first drawn. The draws touch a single
  * pixel of the canvas, which the next frame covers.
+ * With `pause`, each of these steps waits for it instead (the chip waits for the page to be still).
  */
-export async function prepareShaders(renderer: WebGLRenderer, scene: Scene, camera: Camera) {
+export async function prepareShaders(
+  renderer: WebGLRenderer,
+  scene: Scene,
+  camera: Camera,
+  pause?: () => Promise<void>,
+) {
+  await pause?.();
   await renderer.compileAsync(scene, camera);
 
   const drawn: Drawn[] = [];
@@ -38,6 +45,7 @@ export async function prepareShaders(renderer: WebGLRenderer, scene: Scene, came
 
   let start = performance.now();
   for (const material of materials) {
+    await pause?.();
     const saved = [...drawn, ...lights].map((object) => [object.layers.mask, object.frustumCulled]);
     const cameraMask = camera.layers.mask;
     for (const object of drawn) {
@@ -59,7 +67,7 @@ export async function prepareShaders(renderer: WebGLRenderer, scene: Scene, came
       object.layers.mask = mask;
       object.frustumCulled = culled;
     });
-    if (performance.now() - start > STEP_BUDGET) {
+    if (!pause && performance.now() - start > STEP_BUDGET) {
       await nextTask();
       start = performance.now();
     }

@@ -15,7 +15,7 @@ import {
   type MeshStandardMaterial,
 } from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
-import { CHIP_SHIFT, loadChip, type ChipView } from './chip';
+import { CHIP_SHIFT, downloadChip, loadChip, type ChipView } from './chip';
 import {
   createChipEnvironment,
   createGoldEnvironment,
@@ -65,6 +65,14 @@ const FINALE = '20mK';
  * camera gets to its axis before the picture goes dark, in metres.
  */
 const CHIP_CAN = { x: 0.094, z: -0.004, height: 0.066, approach: 0.15 };
+/**
+ * The chip is set up during a pause in the scrolling, once the descent has begun (past this
+ * position, in stages from the top), and right away when it is this many stages from the finale.
+ */
+const CHIP_EARLIEST = 0.5;
+const CHIP_NEEDED = 3;
+/** A pause in the scrolling, in milliseconds. */
+const STILL_FOR = 250;
 /** Dragging with the mouse on the model (or the chip) turns it, radians per pixel. */
 const DRAG_TURN = (2 * Math.PI) / 900;
 /** After a drag the model keeps turning, slowing down by this rate per second. */
@@ -241,18 +249,41 @@ export async function startScene(
   }
   const tracker = createScrollTracker();
 
-  // The chip is downloaded only when the descent gets near it, and set up in short steps so
-  // that scrolling stays smooth; it is shown once its shaders are ready.
+  // The chip is set up in short steps, each one while the page is still (on slower computers a
+  // step makes the page stutter if it is moving), from the first pause after the descent has
+  // begun; once the chip is needed soon, without waiting. It is shown once its shaders are ready.
   let chip: ChipView | null = null;
   let chipRequested = false;
+  let chipNeeded = false;
+  let scrolledAt = performance.now();
+  const onScroll = () => {
+    scrolledAt = performance.now();
+  };
+  window.addEventListener('scroll', onScroll, { passive: true });
+  const still = () => !drag.active && performance.now() - scrolledAt >= STILL_FOR;
+  /**
+   * Waits for the next frame, so that no two steps share one, and then until the page is still,
+   * unless the chip is needed.
+   */
+  const whenStill = async () => {
+    await new Promise((resolve) => requestAnimationFrame(() => setTimeout(resolve, 0)));
+    while (!chipNeeded && !still()) await new Promise((resolve) => setTimeout(resolve, 50));
+  };
   const requestChip = async () => {
     chipRequested = true;
     try {
+      // The download doesn't make the page stutter, so it starts at once; if it fails, the
+      // error comes out below, where it is awaited.
+      const download = downloadChip();
+      download.catch(() => {});
+      await whenStill();
       const chipEnvironment = createChipEnvironment(pmrem);
-      await nextTask();
+      await whenStill();
       const board = createGoldEnvironment(pmrem);
-      const view = await loadChip({ chip: chipEnvironment, board }, { mobile });
-      await view.prepare(renderer);
+      const model = await download;
+      await whenStill();
+      const view = await loadChip(model, { chip: chipEnvironment, board }, { mobile });
+      await view.prepare(renderer, whenStill);
       view.resize(canvas.clientWidth, canvas.clientHeight, smallScreen.matches, pixelRatio);
       chip = view;
     } catch (error) {
@@ -318,7 +349,10 @@ export async function startScene(
     // Finale: dive into the gold can, then the chip (only once it has arrived). The chip
     // shows up as soon as the cryostat has gone dark, and going back up the cryostat comes
     // back only after the chip has gone.
-    if (finale > 0 && !chipRequested && position > finale - 3) requestChip();
+    chipNeeded = finale > 0 && position > finale - CHIP_NEEDED;
+    if (finale > 0 && !chipRequested && (chipNeeded || (position > CHIP_EARLIEST && still()))) {
+      requestChip();
+    }
     const ready = finale > 0 && chip !== null;
     dive = ready ? clamp01((position - (finale - 1.45)) / 0.85) : 0;
     reveal = ready ? clamp01((position - (finale - 0.6)) / 0.4) : 0;
@@ -442,6 +476,7 @@ export async function startScene(
   const dispose = () => {
     cancelAnimationFrame(frame);
     window.removeEventListener('resize', resize);
+    window.removeEventListener('scroll', onScroll);
     document.removeEventListener('visibilitychange', onVisibilityChange);
     window.removeEventListener('pointermove', onPointerMove);
     document.removeEventListener('pointerout', onPointerOut);
