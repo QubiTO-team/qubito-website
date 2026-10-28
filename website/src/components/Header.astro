@@ -14,15 +14,14 @@ const { lang, alternates } = Astro.props;
 const t = useTranslations(lang);
 const currentPath = stripLangPrefix(Astro.url.pathname);
 
-const items = [
-  ...navItems(await applicationsOpen()).map((item) => ({
-    label: t(item.key),
-    href: localizePath(item.path, lang),
-    isCurrent: currentPath.startsWith(item.path),
-  })),
-  // The hackathon has a website of its own: it is linked only from here, the main menu.
-  { label: t('nav.hackathon'), href: SITE.hackathon[lang], isCurrent: false },
-];
+const items = navItems(await applicationsOpen()).map((item) => ({
+  label: t(item.key),
+  href: localizePath(item.path, lang),
+  isCurrent: currentPath.startsWith(item.path),
+}));
+// The hackathon has a website of its own: it is linked only from here, the main menu, as a small
+// button with an arrow that says it leads out of this site.
+const hackathon = { label: t('nav.hackathon'), href: SITE.hackathon[lang] };
 ---
 
 <header class="site-header">
@@ -46,6 +45,12 @@ const items = [
             </a>
           </li>
         ))}
+        <li>
+          <a href={hackathon.href} class="nav-link hackathon-link">
+            {hackathon.label}
+            <span aria-hidden="true">↗</span>
+          </a>
+        </li>
       </ul>
     </nav>
 
@@ -95,6 +100,12 @@ const items = [
             </a>
           </li>
         ))}
+        <li>
+          <a href={hackathon.href} class="menu-link hackathon-link">
+            {hackathon.label}
+            <span aria-hidden="true">↗</span>
+          </a>
+        </li>
       </ul>
     </nav>
   </div>
@@ -217,5 +228,26 @@ const items = [
 
   .menu-link[aria-current='page'] {
     color: var(--color-orchid);
+  }
+
+  /* The hackathon link stands out: a small filled pill, like the main buttons of the site. */
+  .hackathon-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35em;
+    padding: 0.35rem 0.9rem;
+    border: 1px solid color-mix(in oklab, var(--color-orchid) 45%, transparent);
+    border-radius: 999px;
+    color: var(--color-frost);
+    background-color: var(--color-plum);
+    transition: border-color 200ms var(--ease-cryo);
+  }
+
+  .hackathon-link:hover {
+    border-color: var(--color-orchid);
+  }
+
+  .menu-link.hackathon-link {
+    padding: 0.5rem 1.2rem;
   }
 </style>
