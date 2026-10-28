@@ -70,7 +70,9 @@ const it = {
     'Hackathon internazionali, eventi e seminari che organizziamo al Politecnico, e le occasioni in cui raccontiamo il quantum computing a chi lo incontra per la prima volta.',
   'activities.description':
     'Le attività di QubiTO, il team studentesco di quantum computing del Politecnico di Torino: hackathon, eventi e divulgazione.',
-  'activities.upcoming': 'In programma',
+  'activities.upcoming': 'In arrivo',
+  'activities.noneUpcoming':
+    'Per ora niente in calendario: seguici sui social per sapere dei prossimi eventi.',
 
   'activity.date': 'Quando',
   'activity.location': 'Dove',
@@ -215,6 +217,8 @@ const en: Record<UiKey, string> = {
   'activities.description':
     'Activities of QubiTO, the quantum computing student team of Politecnico di Torino: hackathons, events and outreach.',
   'activities.upcoming': 'Upcoming',
+  'activities.noneUpcoming':
+    'Nothing on the calendar for now: follow us on social media to hear about the next events.',
 
   'activity.date': 'When',
   'activity.location': 'Where',

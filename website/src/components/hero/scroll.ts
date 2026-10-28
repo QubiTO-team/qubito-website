@@ -11,8 +11,6 @@ export interface StageAnchor {
   label: string;
   /** Page scroll progress (0–1) at which this stage is aligned. */
   progress: number;
-  /** Fraction of the viewport height where the page plate is at that progress. */
-  align: number;
 }
 
 /** Layout of the top of the page, as fractions of the viewport height. */
@@ -28,23 +26,18 @@ export interface ScrollTracker {
   readonly progress: number;
   readonly anchors: StageAnchor[];
   readonly top: PageTop;
-  /** Whether the page stops on one stage at a time (CSS scroll snap). */
-  readonly snapping: boolean;
   dispose(): void;
 }
 
 /*
  * Tracks the scroll of the whole page. Anchors come from the stage plates in the page
  * ([data-stage-plate], measured at the gold line in their middle) and are measured again on
- * every ScrollTrigger refresh (resize, fonts). When the page stops on each stage (CSS scroll
- * snap), a stage is aligned where the page stops on it, with its plate wherever it is on screen;
- * otherwise when its plate reaches ALIGN_AT.
+ * every ScrollTrigger refresh (resize, fonts). A stage is aligned when its plate reaches ALIGN_AT.
  */
 export function createScrollTracker(): ScrollTracker {
   const state = { progress: 0 };
   let anchors: StageAnchor[] = [];
   let top: PageTop = { plate: ALIGN_AT, ceiling: 0 };
-  let snapping = false;
 
   const tween = gsap.to(state, {
     progress: 1,
@@ -60,23 +53,11 @@ export function createScrollTracker(): ScrollTracker {
       const rect = element.getBoundingClientRect();
       return rect.top + (middle ? rect.height / 2 : 0) + window.scrollY;
     };
-    snapping = getComputedStyle(document.documentElement).scrollSnapType !== 'none';
-    // Where the page stops on the section of a plate, from its scroll-snap-align and margin.
-    const stop = (element: Element) => {
-      const area = element.closest('section, footer') ?? element;
-      const style = getComputedStyle(area);
-      return style.scrollSnapAlign.includes('end')
-        ? pageY(area) + area.getBoundingClientRect().height - viewport
-        : pageY(area) - parseFloat(style.scrollMarginTop);
-    };
     anchors = plates.map((element, index) => {
-      const plate = pageY(element, true);
-      const target = snapping ? stop(element) : plate - viewport * ALIGN_AT;
-      const scroll = index === 0 ? 0 : Math.min(max, Math.max(0, target));
+      const scroll = index === 0 ? 0 : pageY(element, true) - viewport * ALIGN_AT;
       return {
         label: element.dataset.stagePlate ?? '',
-        progress: scroll / max,
-        align: snapping ? (plate - scroll) / viewport : ALIGN_AT,
+        progress: Math.min(1, Math.max(0, scroll / max)),
       };
     });
     const first = plates[0];
@@ -98,9 +79,6 @@ export function createScrollTracker(): ScrollTracker {
     },
     get top() {
       return top;
-    },
-    get snapping() {
-      return snapping;
     },
     dispose() {
       ScrollTrigger.removeEventListener('refresh', measure);

@@ -40,18 +40,4 @@ const headingId = `${id}-title`;
   .home-section.tall {
     min-height: 100svh;
   }
-
-  /* On computers every stage fills the screen, below the header, with its content in the middle:
-     the page stops on one stage at a time (HomeView). */
-  @media (min-width: 62.5rem) and (min-height: 37.5rem) and (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
-    .home-section,
-    .home-section.tall {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      min-height: calc(100svh - 4.5rem);
-      padding-block: clamp(1.5rem, 5svh, 3.5rem);
-      scroll-snap-align: start;
-    }
-  }
 </style>

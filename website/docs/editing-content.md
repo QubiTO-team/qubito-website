@@ -93,22 +93,23 @@ don't appear on the site. Turn it off when the article is ready.
 
 ### Images inside the text
 
-The editor can upload the cover image, but it can't (yet) upload images *inside* the text. The image button in
-the text toolbar only types `![]()` for you. So for pictures inside an article:
+Pictures inside the text (diagrams, plots, circuits) are uploaded in the field **Images in the text**, just
+above the text:
 
-1. Save the article at least once, so that its folder exists on GitHub.
-2. On GitHub, open the repository, then `src/content/articles/` and the folder of your article (its name comes
-   from the Italian title).
-3. If there's already an `images` folder, open it and use **Add file → Upload files**. If there isn't, use
-   **Add file → Upload files** and drag in a *folder* called `images` with your pictures inside: GitHub keeps
-   the folder.
-4. Press **Commit changes**.
-5. In the text of the article, write `![What the image shows](./images/file-name.png "Caption|short-id")`.
+1. Click **Add Images in the text**, then **Browse** and **Upload**, and pick the picture from your computer.
+   Press **Insert**.
+2. Next to the picture, the editor shows its file name, for example `./images/bloch-sphere.webp`. Every picture
+   becomes a WebP, so the name always ends in `.webp`.
+3. In the text, where the picture should go, write
+   `![What the image shows](./images/bloch-sphere.webp "Caption|short-id")`.
+   The caption appears under the picture with its number ("Fig. 1"), and the short id lets you link to it
+   from the text with `[Fig. 1](#short-id)`.
 
-Use simple file names: lowercase, no spaces (for example `bloch-sphere.png`). Diagrams and screenshots are fine as
-they are. For photos taken with a phone, ask someone who works on the code to prepare them first, because phones
-store the place where the photo was taken inside the file. If all this feels like too much, just send the
-pictures to whoever maintains the site.
+Upload each picture once, even if the article has both languages: the Italian and English texts share the same
+pictures. Use simple file names: lowercase, no spaces. The upload also removes the place where a phone photo was
+taken.
+
+The **Image** button in the toolbar of the text only types `![]()`: use the field above instead.
 
 ## Adding an activity
 
@@ -227,11 +228,20 @@ formatting. You don't need to learn it all at once: these cover almost everythin
 | `$E = mc^2$` | a formula inside a sentence |
 | `$$` on a line, the formula, then `$$` on its own line | a formula on its own line |
 | `\ket{0}` inside a formula | the ket \|0⟩ |
-| `![What it shows](./images/file.png "Caption\|my-figure")` | a numbered figure with its caption |
+| `![What it shows](./images/file.webp "Caption\|my-figure")` | a numbered figure with its caption |
 | `[the figure above](#my-figure)` | a link to that figure |
 
 Formulas use LaTeX, as in a thesis. For code, put three backticks and the language name on the line before
 (for example ```` ```python ````) and three backticks on the line after.
+
+A table has `|` between the cells and a line of `---` under the first row, which becomes the header:
+
+```text
+| Gate | Before | After |
+|---|---|---|
+| CZ | 0 | 7 |
+| SWAP | 0 | 14 |
+```
 
 Leave an empty line between paragraphs. A single line break inside a paragraph is ignored.
 

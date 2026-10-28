@@ -26,8 +26,8 @@ import { prepareShaders } from './shaders';
  * The end of the descent: the quantum chip in its sample holder (scripts/blender/chip.py,
  * units are millimetres). The camera comes down from above ("arrival") and then gets closer
  * ("closeUp"), while a lattice of particles above the chip comes down onto the five qubits, which
- * light up as their particles land ("landing"). All go from 0 to 1, with the scroll or, for the
- * landing, in its own time. The camera slowly turns around the chip.
+ * light up as their particles land. Both go from 0 to 1 with the scroll. The camera slowly turns
+ * around the chip.
  */
 
 const SUBSTRATE = new Color('#0d0c12');
@@ -78,7 +78,7 @@ const CORNERS = [
 
 export interface ChipView {
   /** turn: extra turn of the chip, in radians (dragging with the mouse). */
-  update(delta: number, arrival: number, closeUp: number, landing: number, turn: number): void;
+  update(delta: number, arrival: number, closeUp: number, turn: number): void;
   render(renderer: WebGLRenderer): void;
   /** Prepares the shaders ahead of the first frame, in short steps. */
   prepare(renderer: WebGLRenderer): Promise<void>;
@@ -167,7 +167,7 @@ export async function loadChip(
   const view = { width: 1, height: 1, small: false };
 
   return {
-    update(delta, arrival, closeUp, landing, turn) {
+    update(delta, arrival, closeUp, turn) {
       time += delta;
       angle += delta * IDLE_SPEED;
       // The camera keeps coming down from the dive into the cryostat, slowing to an overview of
@@ -194,7 +194,7 @@ export async function loadChip(
         camera.setViewOffset(width, height, -width * shift, 0, width, height);
       }
 
-      const landed = particles.update(delta, landing);
+      const landed = particles.update(delta, closeUp);
       landed.forEach((share, i) => {
         glow[i] =
           GLOW_STRENGTH * smoothstep(0, 1, share) * (0.88 + 0.12 * Math.sin(time * 1.3 + i));

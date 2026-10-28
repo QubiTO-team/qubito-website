@@ -154,8 +154,6 @@ const { activities, lang } = Astro.props;
     aspect-ratio: 4 / 3;
     object-fit: cover;
     border-radius: 0.125rem;
-    filter: saturate(0.85);
-    transition: filter 300ms var(--ease-cryo);
   }
 
   @media (min-width: 48rem) {
@@ -163,9 +161,5 @@ const { activities, lang } = Astro.props;
       grid-column: 3;
       grid-row: 1;
     }
-  }
-
-  .entry:hover :global(.entry-photo) {
-    filter: saturate(1);
   }
 </style>

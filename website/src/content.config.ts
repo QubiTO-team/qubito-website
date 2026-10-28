@@ -34,6 +34,8 @@ const articles = defineCollection({
       slug: z.string().regex(/^[a-z0-9-]+$/),
       cover: z.object({ src: image(), alt: z.string().min(1) }).optional(),
       draft: z.boolean().default(false),
+      /** Pictures uploaded from the editor for use inside the text; the text shows them. */
+      images: z.array(z.string()).default([]),
     }),
 });
 

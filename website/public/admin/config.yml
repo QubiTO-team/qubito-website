@@ -93,9 +93,16 @@ collections:
           - { name: src, label: Image, widget: image, i18n: duplicate }
           - { name: alt, label: Alternative text, hint: "What the image shows, for people who cannot see it.", widget: string, i18n: true }
       - { name: draft, label: Draft (not published), widget: boolean, default: false, i18n: duplicate }
+      - name: images
+        label: Images in the text
+        hint: 'Upload here the pictures you use inside the text, then write them in the text with the file name shown here, for example `![alternative text](./images/file-name.webp "Caption|id")`.'
+        widget: list
+        required: false
+        i18n: duplicate
+        field: { name: src, label: Image, widget: image }
       - name: body
         label: Text
-        hint: 'Markdown. Formulas between `$…$` or `$$…$$`. A numbered figure: `![alternative text](./images/file.png "Caption|id")`.'
+        hint: 'Markdown. Formulas between `$…$` or `$$…$$`. A numbered figure: `![alternative text](./images/file-name.webp "Caption|id")`, with a picture uploaded in "Images in the text".'
         widget: richtext
         modes: [raw]
         i18n: true

@@ -24,6 +24,7 @@ import {
 } from './environment';
 import { ThermalParticles } from './particles';
 import { createModelPicker } from './pick';
+import { FramePacer, GpuTimer, QualityWatch, resolutionLevels } from './quality';
 import { ALIGN_AT, createScrollTracker, stagePosition, type PageTop } from './scroll';
 import { nextTask, prepareShaders } from './shaders';
 import { SURFACES, addRimGlow, addSurfaceDetail } from './surface';
@@ -35,24 +36,12 @@ import { SURFACES, addRimGlow, addSurfaceDetail } from './surface';
  * of the current stage lines up with the stage plate of the page, while the camera gets closer
  * towards the mixing chamber. Approaching the stage of the chip (FINALE) the camera dives into
  * the gold can at the bottom, the picture goes dark and the chip comes up (chip.ts).
- * The loop runs continuously: 30 fps on small screens, paused while the tab is hidden.
+ * The loop runs continuously, paced and at the resolution the device can keep up with (quality.ts),
+ * and pauses while the tab is hidden.
  * The start-up runs in short steps (the page keeps responding) while the canvas is still hidden.
  */
 
 const SMALL_SCREEN = '(max-width: 47.99rem)';
-/**
- * On large screens the scene is drawn with at least this many pixels per CSS pixel, and the
- * browser scales it down: thin cables, reflections and the drawing of the chip get smooth edges,
- * like the text around them. Denser screens get their full resolution. At most PIXEL_BUDGET
- * pixels per frame.
- */
-const SHARP_RATIO = 2;
-const PIXEL_BUDGET = 20e6;
-/**
- * A computer that cannot keep up goes back to the resolution of its screen for good: when the
- * median frame of about a second takes longer than this, in milliseconds.
- */
-const SLOW_FRAME = 1000 / 45;
 /** The model fades in during the collapse of the hero claim (which starts at 1.8 s). */
 const REVEAL_AT_MS = 2400;
 /** Idle rotation, radians per second: one turn in about 100 s. */
@@ -76,28 +65,6 @@ const FINALE = '20mK';
  * camera gets to its axis before the picture goes dark, in metres.
  */
 const CHIP_CAN = { x: 0.094, z: -0.004, height: 0.066, approach: 0.15 };
-/**
- * When the page stops on one stage at a time, the model follows it with a spring, so that it
- * starts and stops gently: its smoothing time in seconds, longer around the chip (from 800 mK to
- * 100 mK the camera dives towards the can; further down the chip appears and gets close).
- */
-const GLIDE = 0.45;
-const DIVE_GLIDE = 0.65;
-const FINALE_GLIDE = 0.9;
-/**
- * The dive into the can and the chip after it follow with a spring of their own, so the chip does
- * not appear all at once; going back up it is slower, so the chip is seen moving away before the
- * cryostat comes back.
- */
-const ENDING_GLIDE = 0.45;
-const ENDING_BACK_GLIDE = 0.8;
-/**
- * With those stops, the particles land on the qubits in their own time once the chip stage is
- * reached, and lift off again when the page goes back up, in seconds, instead of following the
- * scroll.
- */
-const LANDING_TIME = 4;
-const LIFT_TIME = 1.2;
 /** Dragging with the mouse on the model (or the chip) turns it, radians per pixel. */
 const DRAG_TURN = (2 * Math.PI) / 900;
 /** After a drag the model keeps turning, slowing down by this rate per second. */
@@ -116,15 +83,10 @@ export async function startScene(
   const mobile = smallScreen.matches;
 
   const renderer = new WebGLRenderer({ canvas, context });
-  // Pixels drawn per CSS pixel (see SHARP_RATIO); small screens keep a lighter resolution.
-  let sharp = !mobile;
-  const drawingRatio = () => {
-    const screen = Math.min(window.devicePixelRatio, mobile ? 1.5 : 2);
-    if (!sharp) return screen;
-    const area = Math.max(1, canvas.clientWidth * canvas.clientHeight);
-    const budget = Math.sqrt(PIXEL_BUDGET / area);
-    return Math.max(screen, Math.min(Math.max(window.devicePixelRatio, SHARP_RATIO), budget));
-  };
+  // Pixels drawn per CSS pixel: the sharpest level the device keeps up with (quality.ts).
+  const watch = new QualityWatch(mobile);
+  let ratios = resolutionLevels(canvas.clientWidth * canvas.clientHeight, mobile);
+  const drawingRatio = () => ratios[Math.min(watch.level, ratios.length - 1)] ?? 1;
   let pixelRatio = drawingRatio();
   renderer.setClearColor(0x000000, 0);
   renderer.outputColorSpace = SRGBColorSpace;
@@ -299,13 +261,11 @@ export async function startScene(
   };
   const can = new Vector3();
   const look = new Vector3();
+  const closeToCan = new Vector3();
+  const size = { width: 1, height: 1 };
   let dive = 0;
   let reveal = 0;
   let settle = 0;
-  let landing = 0;
-  const glide = { progress: 0, velocity: 0, started: false };
-  // Dive and chip as one value: from 0 to 1 the dive, from 1 to 2 the chip.
-  const ending = { progress: 0, velocity: 0 };
 
   let idleAngle = 0;
   const update = (delta: number) => {
@@ -313,21 +273,7 @@ export async function startScene(
     const anchors = tracker.anchors;
     const last = Math.max(1, anchors.length - 1);
     const finale = anchors.findIndex((anchor) => anchor.label === FINALE);
-    const target = tracker.progress;
-    if (tracker.snapping && glide.started) {
-      // The upper stage of the two the model is moving between.
-      const upper = Math.floor(
-        Math.min(stagePosition(anchors, glide.progress), stagePosition(anchors, target)) + 1e-3,
-      );
-      const smoothTime =
-        finale < 0 || upper < finale - 2 ? GLIDE : upper === finale - 2 ? DIVE_GLIDE : FINALE_GLIDE;
-      smoothDamp(glide, target, smoothTime, delta);
-    } else {
-      glide.progress = target;
-      glide.velocity = 0;
-    }
-    glide.started = true;
-    const progress = glide.progress;
+    const progress = tracker.progress;
     const position = Math.min(stagePosition(anchors, progress), last);
     const index = Math.min(Math.floor(position), last - 1);
     const t = position - index;
@@ -347,12 +293,7 @@ export async function startScene(
     });
     const intro = index === 0 ? 1 - t : 0;
     const distance = baseDistance(depth) + (opening.distance - baseDistance(0)) * intro;
-    const stageAlign = lerp(
-      anchors[index]?.align ?? ALIGN_AT,
-      anchors[index + 1]?.align ?? ALIGN_AT,
-      t,
-    );
-    const align = lerp(stageAlign, opening.align, intro);
+    const align = lerp(ALIGN_AT, opening.align, intro);
     const halfHeight = tanHalf * distance;
     const halfWidth = halfHeight * camera.aspect;
     const modelX = smallScreen.matches ? 0 : halfWidth * 0.42;
@@ -379,15 +320,8 @@ export async function startScene(
     // back only after the chip has gone.
     if (finale > 0 && !chipRequested && position > finale - 3) requestChip();
     const ready = finale > 0 && chip !== null;
-    const endingTarget = ready
-      ? clamp01((position - (finale - 1.45)) / 0.85) + clamp01((position - (finale - 0.6)) / 0.4)
-      : 0;
-    if (tracker.snapping) {
-      const back = endingTarget < ending.progress;
-      smoothDamp(ending, endingTarget, back ? ENDING_BACK_GLIDE : ENDING_GLIDE, delta);
-    } else Object.assign(ending, { progress: endingTarget, velocity: 0 });
-    dive = Math.min(1, ending.progress);
-    reveal = Math.max(0, ending.progress - 1);
+    dive = ready ? clamp01((position - (finale - 1.45)) / 0.85) : 0;
+    reveal = ready ? clamp01((position - (finale - 0.6)) / 0.4) : 0;
     settle = ready ? smoothstep((position - (finale + 0.65)) / 0.35) : 0;
     const approach = smoothstep(dive);
     look.set(0, 0, 0);
@@ -396,37 +330,29 @@ export async function startScene(
     if (approach > 0) {
       pivot.updateMatrixWorld();
       pivot.localToWorld(can.set(CHIP_CAN.x, bounds.min.y + CHIP_CAN.height / 2, CHIP_CAN.z));
-      const end = camera.position.clone().sub(can).setLength(CHIP_CAN.approach).add(can);
-      camera.position.lerp(end, approach);
+      closeToCan.copy(camera.position).sub(can).setLength(CHIP_CAN.approach).add(can);
+      camera.position.lerp(closeToCan, approach);
       look.lerp(can, approach);
       camera.near = lerp(0.05, 0.004, approach);
       // On large screens the can stays on the right, where the chip will appear.
       if (!smallScreen.matches) {
-        const { clientWidth: width, clientHeight: height } = canvas;
+        const { width, height } = size;
         camera.setViewOffset(width, height, -width * CHIP_SHIFT * approach, 0, width, height);
       }
     }
     camera.lookAt(look);
     camera.updateProjectionMatrix();
     particles.setFade(1 - smoothstep((dive - 0.25) / 0.55));
-    // From the chip stage to the footer the camera gets closer to the chip. When the page stops
-    // at each stage, the approach is spread over the whole way between the two.
-    const scrolled = clamp01((position - (finale - 0.5)) / 1.1);
-    const closeUp =
-      tracker.snapping && position > finale
-        ? lerp(0.5 / 1.1, 1, clamp01(position - finale))
-        : scrolled;
-    // The particles land on the qubits as the page scrolls. When the page stops at each stage,
-    // they land in their own time once the chip stage is reached, and lift off when going back.
-    if (!tracker.snapping) landing = scrolled;
-    else if (reveal === 0) landing = 0;
-    else if (position > finale - 0.15) landing = Math.min(1, landing + delta / LANDING_TIME);
-    else landing = Math.max(0, landing - delta / LIFT_TIME);
-    if (chip && reveal > 0) chip.update(delta, reveal, closeUp, landing, drag.angle);
+    // From the chip stage to the footer the camera gets closer to the chip and the particles land
+    // on the qubits.
+    const closeUp = clamp01((position - (finale - 0.5)) / 1.1);
+    if (chip && reveal > 0) chip.update(delta, reveal, closeUp, drag.angle);
   };
 
   const resize = () => {
     const { clientWidth: width, clientHeight: height } = canvas;
+    Object.assign(size, { width, height });
+    ratios = resolutionLevels(width * height, mobile);
     pixelRatio = drawingRatio();
     renderer.setDrawingBufferSize(width, height, pixelRatio);
     // The browser may give a smaller drawing than asked for: then draw at the size it gave.
@@ -447,36 +373,23 @@ export async function startScene(
   resize();
   window.addEventListener('resize', resize);
 
-  // The model is hidden until it fades in. Meanwhile frames are drawn only for a first, shorter
-  // speed check, so that the title animation has the graphics card to itself.
+  // The model is hidden until it fades in. Meanwhile, on large screens, frames are drawn only for
+  // a first, shorter speed check (repeated until the resolution settles), so that the title
+  // animation has the graphics card to itself. Small screens wait for the model.
   let shown = false;
-  let checked = false;
-  // While the drawing is sharp, frame times are checked in windows of about a second.
-  const frameTimes: number[] = [];
-  const checkFrame = (elapsed: number) => {
-    frameTimes.push(elapsed);
-    if (frameTimes.reduce((sum, time) => sum + time, 0) < (shown ? 1000 : 300)) return;
-    checked = true;
-    frameTimes.sort((a, b) => a - b);
-    const median = frameTimes[frameTimes.length >> 1] ?? 0;
-    frameTimes.length = 0;
-    if (median > SLOW_FRAME) {
-      sharp = false;
-      resize();
-    }
-  };
-
-  const frameInterval = mobile ? 1000 / 30 : 0;
+  let checked = mobile;
+  const pacer = new FramePacer(mobile);
+  const timer = new GpuTimer(context);
   let previous = performance.now();
   let frame = 0;
   const tick = (now: number) => {
     frame = requestAnimationFrame(tick);
+    if (!pacer.due(now)) return;
     const elapsed = now - previous;
-    if (elapsed < frameInterval - 1) return;
     previous = now;
-    if (!shown && (checked || !sharp)) return;
-    if (sharp) checkFrame(elapsed);
+    if (!shown && checked) return;
     update(Math.min(elapsed, 100) / 1000);
+    timer.begin();
     if (chip && reveal > 0) {
       // Bright early in the reveal; dimmer over the footer, where the links have to stay readable.
       renderer.toneMappingExposure = (1 - (1 - reveal) ** 2) * (1 - 0.45 * settle);
@@ -486,12 +399,26 @@ export async function startScene(
       renderer.toneMappingExposure = 1 - smoothstep((dive - 0.5) / 0.5);
       renderer.render(scene, camera);
     }
+    timer.end();
+    const result = watch.record(elapsed, pacer.interval, ratios, timer, {
+      span: shown ? 1000 : 300,
+      early: !shown,
+    });
+    if (result === 'down' || result === 'up') resize();
+    if (
+      !shown &&
+      (result === 'steady' || (result === 'down' && watch.level >= ratios.length - 1))
+    ) {
+      checked = true;
+    }
   };
 
   const onVisibilityChange = () => {
     cancelAnimationFrame(frame);
     if (!document.hidden) {
       previous = performance.now();
+      pacer.reset(previous);
+      watch.reset();
       frame = requestAnimationFrame(tick);
     }
   };
@@ -508,6 +435,7 @@ export async function startScene(
   );
   // Frame times start here: the time spent preparing is not a frame.
   previous = performance.now();
+  pacer.reset(previous);
   frame = requestAnimationFrame(tick);
   document.addEventListener('visibilitychange', onVisibilityChange);
 
@@ -523,6 +451,7 @@ export async function startScene(
     tracker.dispose();
     particles.dispose();
     chip?.dispose();
+    timer.dispose();
     model.traverse((object) => {
       const mesh = object as Mesh;
       if (!mesh.isMesh) return;
@@ -577,31 +506,6 @@ function lerp(a: number, b: number, t: number) {
 
 function clamp01(x: number) {
   return Math.min(1, Math.max(0, x));
-}
-
-/**
- * Moves `state.progress` towards `target` like a critically damped spring (the smoothDamp of Game
- * Programming Gems 4): it starts and stops gently, and covers about 90% of the way in twice
- * `smoothTime` seconds.
- */
-function smoothDamp(
-  state: { progress: number; velocity: number },
-  target: number,
-  smoothTime: number,
-  delta: number,
-) {
-  const omega = 2 / smoothTime;
-  const x = omega * delta;
-  const decay = 1 / (1 + x + 0.48 * x * x + 0.235 * x * x * x);
-  const change = state.progress - target;
-  const push = (state.velocity + omega * change) * delta;
-  state.velocity = (state.velocity - omega * push) * decay;
-  state.progress = target + (change + push) * decay;
-  // The spring only gets ever closer: once it is there, it stops exactly on the target.
-  if (Math.abs(state.progress - target) < 1e-5 && Math.abs(state.velocity) < 1e-4) {
-    state.progress = target;
-    state.velocity = 0;
-  }
 }
 
 /** Smoothstep from 0 to 1, with x clamped to that range. */

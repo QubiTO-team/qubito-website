@@ -169,22 +169,12 @@ const latestArticles = (await getArticles(lang)).slice(0, 3);
     padding-block: 3rem;
   }
 
-  /* On computers the page stops at one stage at a time, as on the hackathon site. Every stage
-     fills the screen (HomeSection), and a stage taller than the screen scrolls freely to its end.
-     Phones and tablets scroll normally. The 3D follows the stops (scroll.ts). */
-  @media (min-width: 62.5rem) and (min-height: 37.5rem) and (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
-    :global(html) {
-      scroll-snap-type: y mandatory;
-    }
-
-    .hero {
-      scroll-snap-align: start;
-      scroll-margin-top: 4.5rem;
-    }
-
-    :global(body > footer) {
-      scroll-snap-align: end;
-    }
+  /* The footer lies over the chip: a dark edge keeps its text legible. */
+  :global(body > footer :is(p, a, li, span)) {
+    text-shadow:
+      0 0 3px #000,
+      0 0 8px #000,
+      0 0 16px #000;
   }
 
   /* Small text over the gold board of the chip: a dark edge keeps it legible. */

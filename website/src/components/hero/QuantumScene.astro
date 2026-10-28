@@ -32,10 +32,7 @@ import stillRender from '../../assets/hero/cryostat.png';
       .connection;
     if (connection?.saveData) return null;
     try {
-      return target.getContext('webgl2', {
-        alpha: true,
-        antialias: !window.matchMedia('(max-width: 47.99rem)').matches,
-      });
+      return target.getContext('webgl2', { alpha: true, antialias: true });
     } catch {
       return null;
     }

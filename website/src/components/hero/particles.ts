@@ -113,6 +113,7 @@ export class ThermalParticles {
   private time = 0;
   private clock = 0;
   private readonly pointer = { target: new Vector2(), active: false };
+  private readonly lightPosition = new Vector3();
 
   constructor(scene: Scene, { count, lightCount, pixelRatio }: ParticleOptions) {
     this.base = new Float32Array(count * 3);
@@ -222,7 +223,7 @@ export class ThermalParticles {
 
     // Same motion as the vertex shader, on the CPU, for the lead particles that carry a light
     // (without the residual vibration, too small to matter).
-    const position = new Vector3();
+    const position = this.lightPosition;
     this.lights.forEach((light, i) => {
       const k = i * 3;
       for (let axis = 0; axis < 3; axis++) {

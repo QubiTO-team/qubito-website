@@ -187,14 +187,16 @@ same temperature lines up next to it.
 
 Some details that matter:
 
-- **On computers** (mouse or trackpad, a window at least 1000 × 600 px), the page stops at one stage at a time
-  and the model follows with a soft spring. **On phones and tablets** the page scrolls freely, and the 3D is
-  drawn at 45% opacity behind the text so that it doesn't get in the way of reading.
+- The model follows the scroll, slightly smoothed. **On phones and tablets** the 3D is drawn at 45% opacity
+  behind the text so that it doesn't get in the way of reading.
 - On computers you can **turn the model by dragging it** with the mouse (only over the model itself, not over
   text or buttons).
 - With "reduce motion" turned on, with "save data", or without WebGL 2, the page shows a still picture instead,
   and nothing heavy is downloaded.
 - The animation keeps running while the page is still (the particles move), but it stops when the tab is hidden.
+- To stay smooth, the 3D draws at most about 60 frames per second on computers and 30 on phones, and lowers its
+  resolution a step at a time on devices that can't keep up (it goes back up when there is room again). On fast
+  computers it is drawn at twice the screen resolution, so thin lines stay smooth; phones use antialiasing.
 
 The code is in `src/components/hero/`:
 
@@ -208,6 +210,7 @@ The code is in `src/components/hero/`:
 | `environment.ts`, `surface.ts` | reflections of the metals and the fine detail of their surfaces |
 | `shaders.ts` | prepares the materials before the first frame, so that the page doesn't freeze |
 | `pick.ts` | tells whether the mouse is over the model, for dragging |
+| `quality.ts` | how often the 3D is drawn and at which resolution, so that slower devices stay smooth |
 
 The timing of the movement (how quickly the model follows the page, how long the particles take to land on the
 qubits, and so on) is set by the constants at the top of `scene.ts`, each with a comment.

@@ -1,7 +1,8 @@
 ---
 /*
  * All the activities in one language on a timeline: first the upcoming ones (decided when the
- * site is built), then the others grouped by year, newest first.
+ * site is built, with a short note when there are none), then the others grouped by year, newest
+ * first.
  */
 import Timeline from '../components/Timeline.astro';
 import BaseLayout from '../layouts/BaseLayout.astro';
@@ -24,9 +25,7 @@ for (const activity of activities.filter((activity) => !isUpcoming(activity))) {
   years.set(year, [...(years.get(year) ?? []), activity]);
 }
 const groups = [
-  ...(upcoming.length > 0
-    ? [{ id: 'upcoming', title: t('activities.upcoming'), activities: upcoming }]
-    : []),
+  { id: 'upcoming', title: t('activities.upcoming'), activities: upcoming },
   ...[...years].map(([year, activities]) => ({
     id: `year-${year}`,
     title: String(year),
@@ -47,7 +46,11 @@ const groups = [
         <h2 id={group.id} class:list={['group-title', { 'is-upcoming': group.id === 'upcoming' }]}>
           {group.title}
         </h2>
-        <Timeline activities={group.activities} lang={lang} />
+        {group.activities.length > 0 ? (
+          <Timeline activities={group.activities} lang={lang} />
+        ) : (
+          <p class="none-upcoming">{t('activities.noneUpcoming')}</p>
+        )}
       </section>
     ))}
   </div>
@@ -89,6 +92,11 @@ const groups = [
     color: var(--color-orchid);
   }
 
+  .none-upcoming {
+    max-width: 40rem;
+    color: var(--color-frost-muted);
+  }
+
   /* Large screens: the year on the left, its activities on the right. */
   @media (min-width: 64rem) {
     .group {
@@ -101,6 +109,12 @@ const groups = [
       position: sticky;
       top: 6.5rem;
       padding-top: 1.5rem;
+    }
+
+    /* In line with the text of the timeline entries: marker plus gap (Timeline.astro). */
+    .none-upcoming {
+      padding-top: 1.75rem;
+      padding-left: 2.875rem;
     }
   }
 </style>
