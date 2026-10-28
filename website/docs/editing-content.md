@@ -9,35 +9,39 @@ can be undone.
 ## How it works, in one minute
 
 All the texts of the site (articles, activities, pages, the home page) are stored as small text files in the
-site's repository on GitHub. The content editor, at `/admin/`, is a friendlier way to change those files: you fill
-in a form, press **Save**, and the editor writes the files on GitHub for you.
+team's repository on GitHub, `QubiTO-team/qubito-website`. The content editor, at `/admin/`, is a friendlier way
+to change those files: you fill in a form, press **Save**, and the editor writes the files on GitHub for you.
 
-Saving does **not** change the public website right away. The site is rebuilt and uploaded to the server of the
-Politecnico by hand, from time to time, by someone in the team who has access to the server (the
+A couple of minutes after you save, your change shows up on the preview at https://qubito-team.github.io/, which
+only the team looks at. The public website does **not** change right away: it is rebuilt and uploaded to the
+server of the Politecnico by hand, from time to time, by someone in the team who has access to the server (the
 [Developer guide](developer-guide.md#publishing-the-site) explains how). So:
 
-- you can save as often as you like: visitors see your changes only after the next upload;
-- if you want something online quickly, tell the person who publishes the site.
+- you can save as often as you like, and check the result on the preview;
+- visitors see your changes only after the next upload: if you want something online quickly, tell the person
+  who publishes the site.
 
 ## Getting access (once)
 
-1. **A GitHub account.** If you don't have one, create it at https://github.com/signup. Then ask whoever
-   manages the repository to add you to it.
+1. **A GitHub account.** If you don't have one, create it at https://github.com/signup. Then ask an
+   administrator of the QubiTO-team organisation on GitHub to give you write access to the `qubito-website`
+   repository.
 2. **A personal access token.** This is a long password that lets the editor save to GitHub on your behalf,
    and nothing else.
    1. Open https://github.com/settings/personal-access-tokens/new (or: your picture at the top right →
       **Settings** → **Developer settings**, at the bottom of the left menu → **Personal access tokens** →
       **Fine-grained tokens** → **Generate new token**).
    2. Give it a name you will recognise, for example "QubiTO website", and choose an expiry date.
-   3. Under **Repository access** choose **Only select repositories** and pick the website repository.
+   3. Under **Resource owner** choose **QubiTO-team**. Then, under **Repository access**, choose **Only select
+      repositories** and pick `QubiTO-team/qubito-website`.
    4. Under **Permissions**, click **Add permissions**, look for **Contents** and set it to **Read and
       write**. Leave everything else as it is.
    5. Click **Generate token** and copy it. GitHub shows it only once.
-3. **Open the editor** and sign in.
-   - Once the new site is online, the editor is at https://qubito.polito.it/admin/.
-   - Until then, the editor works from a copy of the site running on your computer: follow the short
-     instructions in the [README](../README.md#try-it-on-your-computer-in-two-minutes), then open
-     http://localhost:4321/admin/index.html.
+
+   If QubiTO-team isn't in the **Resource owner** list, or GitHub says the token is waiting for approval, an
+   administrator of the organisation has to allow or approve it.
+3. **Open the editor** and sign in: https://qubito-team.github.io/admin/. Once the new site is online, the
+   editor will also be at https://qubito.polito.it/admin/.
 
    Click **Sign In Using Access Token** and paste your token. Your browser remembers it, so you only do this
    once per browser. ("Sign In with GitHub" doesn't work: it would need an extra sign-in service that we don't
@@ -247,12 +251,14 @@ Leave an empty line between paragraphs. A single line break inside a paragraph i
 
 ## When something goes wrong
 
-- **The editor won't save, or says that the token is not valid.** Your token has probably expired, or it lacks
-  the "Contents: Read and write" permission. Create a new one (see [Getting access](#getting-access-once)).
+- **The editor won't save, or says that the token is not valid.** Your token has probably expired, it lacks
+  the "Contents: Read and write" permission, or it was created for your own account instead of QubiTO-team.
+  Create a new one (see [Getting access](#getting-access-once)).
 - **The Address field is red.** Use only lowercase letters without accents, numbers and hyphens:
   `quantum-error-correction`, not `Quantum Error Correction`.
 - **I saved, but the website hasn't changed.** That's expected: changes go online with the next upload of the
-  site. Ask the person who publishes it.
+  site. Ask the person who publishes it. On the preview, https://qubito-team.github.io/, they appear after a
+  couple of minutes; reload the page if you don't see them.
 - **I deleted something by mistake, or broke a page.** Don't worry: GitHub keeps every version. Ask someone who
   works on the code to restore the previous one. To hide an article or an activity without deleting it, turn on
   **Draft** instead: deleting removes both languages and the photos.

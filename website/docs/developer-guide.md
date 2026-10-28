@@ -18,17 +18,21 @@ You don't need Blender or Python: the 3D models are already in the repository.
 To check your Node version, run `node -v`. If you use nvm or fnm, `nvm use` (or `fnm use`) in the project folder
 picks the right version from `.nvmrc`.
 
-The repository is private for now, on Filippo Barattero's GitHub account: to clone it, your account must have been
-added to it. The first `git clone` opens the browser to log in to GitHub.
+The site lives in the team's repository, `QubiTO-team/qubito-website`: it is the `website/` folder of the
+`staging` branch. The `main` branch still holds the old Hugo site, and `hackathon/` is the site of the QubiTO
+Hackathon. To push, your GitHub account needs write access to the repository; the first push opens the browser to
+log in to GitHub.
 
 ### Install and run
 
 ```powershell
-git clone https://github.com/FBarattero/qubito-website-v2.git
-cd qubito-website-v2
+git clone --branch staging https://github.com/QubiTO-team/qubito-website.git
+cd qubito-website/website
 npm ci
 npm run dev
 ```
+
+All the commands of this guide run inside `website/`.
 
 `npm ci` installs exactly the versions written in `package-lock.json` and takes about a minute. A few
 `npm warn deprecated` messages are normal: they come from indirect dependencies and don't matter.
@@ -67,7 +71,8 @@ The content editor can also work directly on the files on your computer, without
 **Chrome or Edge**.
 
 1. `npm run dev`, then open http://localhost:4321/admin/index.html.
-2. Click **Work with Local Repository** and pick the project folder.
+2. Click **Work with Local Repository** and pick the folder of the whole repository (`qubito-website`, the one
+   that contains `website/`), not `website/` itself.
 3. Edit and save: the editor writes straight into the files. It doesn't commit anything, so check the changes
    and commit them yourself.
 
@@ -269,8 +274,9 @@ The editor is [Sveltia CMS](https://sveltiacms.app). Instead of loading it from 
 and fonts from other websites, `scripts/cms/build.mjs` builds it from its npm package into `public/admin/cms/`.
 That folder isn't in Git: it's rebuilt automatically before `dev` and `build`, and only when the version changes.
 
-- Its settings are in `public/admin/config.yml`. When the repository moves to the QubiTO-team organisation, change
-  `repo` there.
+- Its settings are in `public/admin/config.yml`. At the top, `repo`, `branch` and `root_dir` say where it saves:
+  the `website/` folder of the `staging` branch of `QubiTO-team/qubito-website`. Every save is a commit there, so
+  the preview rebuilds itself. If the site moves to another branch or folder, change them there.
 - Online, people sign in with a GitHub personal access token (see [Editing the content](editing-content.md)).
   "Sign In with GitHub" would need an extra sign-in service, which we don't have.
 - Uploaded photos are converted to WebP, at most 2560 px, without the hidden data of the camera.
@@ -288,9 +294,9 @@ from `.gitignore` and the entry `public/admin/cms` from `exclude` in `tsconfig.j
 
 ## Before you publish
 
-1. `npm run check` and `npm run build` must finish without errors. GitHub runs the same two on every push and
-   pull request (`.github/workflows/build.yml`) and emails whoever pushed if they fail. Nothing runs on a
-   schedule and nothing is published from there.
+1. `npm run check` and `npm run build` must finish without errors. GitHub runs the same two on every push to
+   `staging` before it updates the preview (`.github/workflows/deploy.yml` of the repository), and emails whoever
+   pushed if they fail; the preview then stays as it was. Nothing runs on a schedule.
 2. `npm run preview`, then look at the pages you changed, in both languages, with the browser console open: no
    red errors, nothing blocked by the security policy.
 3. If you touched the home page, scroll it all the way down to the chip, on a computer and on a phone.
@@ -300,12 +306,13 @@ from `.gitignore` and the entry `public/admin/cms` from `exclude` in `tsconfig.j
 ## The staging preview
 
 Before a change goes on the real server, the team can look at it on https://qubito-team.github.io/. That page
-shows the `staging` branch of the team's repository, `QubiTO-team/qubito-website`: the code of this site sits in
-its `website/` folder. On every push to `staging`, GitHub builds it and adds the hackathon site at `/hackathon/`
-(`.github/workflows/deploy.yml` of that repository).
+shows the `staging` branch of the repository. On every push to `staging`, GitHub builds `website/` and adds the
+hackathon site at `/hackathon/` (`.github/workflows/deploy.yml`); after a couple of minutes the preview is up to
+date.
 
-To update the preview, copy the files of this repository into `website/` on the `staging` branch, then commit and
-push. Never reset or force-push `staging`: the other people of the team use it too.
+So to update the preview, commit and push to `staging`. The content editor saves there too: pull before you
+start working (`git pull`), so you have the latest texts. Never reset or force-push `staging`: the other people of
+the team and the content editor use it too. Merging `main` into it is fine.
 
 The preview is built with `PREVIEW=true`, which changes only two things: search engines are asked not to index
 the pages, and visit statistics are switched off. GitHub Pages isn't Apache, so `.htaccess` does nothing there:
@@ -364,16 +371,16 @@ example `/test/` and `/en/test/`, which must show the Italian and the English "n
   and security headers. Delete it with `rclone deletefile qubito:htdocs/.htaccess` and tell the IT of the
   Politecnico.
 
-Changes made with the content editor reach the site the same way: they're saved on GitHub, and someone with the
-VPN and the key runs `npm run deploy`. Remember that "Upcoming" activities are also decided at build time, so
-after an event ends, the site needs a new upload.
+Run it from `website/` on an up-to-date `staging` branch (`git pull` first). Changes made with the content editor
+reach the site the same way: they're saved on GitHub, and someone with the VPN and the key runs `npm run deploy`.
+Remember that "Upcoming" activities are also decided at build time, so after an event ends, the site needs a new
+upload.
 
 ### Before the very first upload
 
 - The team's go-ahead.
 - The team has read the Privacy page, especially how long applications are kept.
-- If the repository moves to the QubiTO-team organisation: update `repo` in `public/admin/config.yml` and the clone
-  address in the README, and give the people who edit content access to the new repository.
+- Give the people who edit content write access to the repository.
 
 ## Things we learned the hard way
 

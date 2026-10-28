@@ -5,7 +5,7 @@ Politecnico di Torino. It replaces the old Hugo site, keeps all of its addresses
 (at the root, `/`) and in English (under `/en/`).
 
 > **Not online yet.** The site you see at qubito.polito.it is still the old one. This one goes live only when the
-> team decides so.
+> team decides so. Meanwhile you can see it in the preview at https://qubito-team.github.io/.
 
 ## Which guide do I need?
 
@@ -20,8 +20,8 @@ Politecnico di Torino. It replaces the old Hugo site, keeps all of its addresses
 You need [Git](https://git-scm.com/downloads) and [Node.js 24](https://nodejs.org/). Then, in a terminal:
 
 ```powershell
-git clone https://github.com/FBarattero/qubito-website-v2.git
-cd qubito-website-v2
+git clone --branch staging https://github.com/QubiTO-team/qubito-website.git
+cd qubito-website/website
 npm ci
 npm run dev
 ```
@@ -29,9 +29,9 @@ npm run dev
 Open http://localhost:4321/ for the Italian site and http://localhost:4321/en/ for the English one. Press
 `Ctrl + C` in the terminal to stop it.
 
-The repository is private for now: to clone it, your GitHub account must have been added to it. The
-[Developer guide](docs/developer-guide.md#getting-started) explains every step in more detail and what to do if
-something goes wrong.
+The site is the `website/` folder of the `staging` branch of the team's repository (the `main` branch still holds
+the old Hugo site). The [Developer guide](docs/developer-guide.md#getting-started) explains every step in more
+detail and what to do if something goes wrong.
 
 ## In short, how the site is made
 

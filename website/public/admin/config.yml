@@ -6,9 +6,11 @@
 
 backend:
   name: github
-  # Where the content is saved. Change this when the repository moves to the QubiTO-team organisation.
-  repo: FBarattero/qubito-website-v2
-  branch: main
+  # Where the content is saved: the team's repository, where this site is the website/ folder of the
+  # staging branch. Every save is a commit there, and the preview at qubito-team.github.io rebuilds itself.
+  repo: QubiTO-team/qubito-website
+  branch: staging
+  root_dir: website
 
 site_url: https://qubito.polito.it
 
