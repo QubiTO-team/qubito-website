@@ -49,8 +49,6 @@ import { SURFACES, addRimGlow, addSurfaceDetail } from './surface';
  */
 
 const SMALL_SCREEN = '(max-width: 47.99rem)';
-/** The model fades in during the collapse of the hero claim (which starts at 1.8 s). */
-const REVEAL_AT_MS = 2400;
 /** Idle rotation, radians per second: one turn in about 100 s. */
 const IDLE_SPEED = (2 * Math.PI) / 100;
 /** Extra rotation over the whole page, radians. */
@@ -73,14 +71,10 @@ const FINALE = '20mK';
  */
 const CHIP_CAN = { x: 0.094, z: -0.004, height: 0.066, approach: 0.15 };
 /**
- * The chip is set up during the first pause in the scrolling once the title has become the logo
- * (this long after the page opened, in milliseconds), and right away if the descent gets this
- * many stages from the finale before that.
+ * The chip is prepared before the cryostat is shown (preparing it while the page moves makes the
+ * page stutter); the cryostat waits for its download at most this long, in milliseconds.
  */
-const CHIP_FROM_MS = 5000;
-const CHIP_NEEDED = 3;
-/** A pause in the scrolling, in milliseconds. */
-const STILL_FOR = 250;
+const CHIP_WAIT_MS = 1000;
 /** After the page or the model stops moving, the faster pace lasts this long, in milliseconds. */
 const MOVING_FOR = 500;
 /** A turning model counts as moving above this speed, in radians per second. */
@@ -142,6 +136,10 @@ export async function startScene(
   const gltf = await new GLTFLoader().loadAsync(
     `/models/cryostat-${mobile ? 'mobile' : 'desktop'}.glb`,
   );
+  // Then the chip of the finale, while the cryostat is prepared (after it, so that it doesn't
+  // slow the cryostat down on a slow connection). If it fails, the error comes out in setUpChip().
+  const chipDownload = downloadChip();
+  chipDownload.catch(() => {});
   const model = gltf.scene;
   const pivot = new Group();
   pivot.add(model);
@@ -266,43 +264,29 @@ export async function startScene(
   }
   const tracker = createScrollTracker();
 
-  // The chip is set up in short steps, each one while the page is still (a step makes a moving
-  // page stutter, on slower computers and on fast screens), usually before the descent begins;
-  // once the chip is needed soon, without waiting. It is shown once its shaders are ready.
+  // The chip, prepared in short steps at start-up (see CHIP_WAIT_MS); it is drawn once the camera
+  // has dived into the gold can.
   let chip: ChipView | null = null;
-  let chipRequested = false;
-  let chipNeeded = false;
-  let scrolledAt = performance.now();
-  const onScroll = () => {
-    scrolledAt = performance.now();
-  };
-  window.addEventListener('scroll', onScroll, { passive: true });
-  const still = () => !drag.active && performance.now() - scrolledAt >= STILL_FOR;
-  /**
-   * Waits for the next frame, so that no two steps share one, and then until the page is still,
-   * unless the chip is needed.
-   */
-  const whenStill = async () => {
-    await new Promise((resolve) => requestAnimationFrame(() => setTimeout(resolve, 0)));
-    while (!chipNeeded && !still()) await new Promise((resolve) => setTimeout(resolve, 50));
-  };
-  const requestChip = async () => {
-    chipRequested = true;
+  const setUpChip = async () => {
     try {
-      const model = await downloadChip();
-      await whenStill();
       const view = await loadChip(
-        model,
+        await chipDownload,
         { chip: chipEnvironment, board: boardEnvironment },
         { mobile },
       );
-      await view.prepare(renderer, whenStill);
+      await view.prepare(renderer);
       view.resize(canvas.clientWidth, canvas.clientHeight, smallScreen.matches, pixelRatio);
       chip = view;
     } catch (error) {
       console.error('Chip unavailable:', error);
     }
   };
+  // When the page last scrolled, for the pace of the frames.
+  let scrolledAt = performance.now();
+  const onScroll = () => {
+    scrolledAt = performance.now();
+  };
+  window.addEventListener('scroll', onScroll, { passive: true });
   const can = new Vector3();
   const look = new Vector3();
   const closeToCan = new Vector3();
@@ -362,11 +346,6 @@ export async function startScene(
     // Finale: dive into the gold can, then the chip (only once it has arrived). The chip
     // shows up as soon as the cryostat has gone dark, and going back up the cryostat comes
     // back only after the chip has gone.
-    chipNeeded = finale > 0 && position > finale - CHIP_NEEDED;
-    const chipTime = shown && performance.now() > CHIP_FROM_MS && still();
-    if (finale > 0 && !chipRequested && (chipNeeded || chipTime)) {
-      requestChip();
-    }
     const ready = finale > 0 && chip !== null;
     dive = ready ? clamp01((position - (finale - 1.45)) / 0.85) : 0;
     reveal = ready ? clamp01((position - (finale - 0.6)) / 0.4) : 0;
@@ -421,9 +400,9 @@ export async function startScene(
   resize();
   window.addEventListener('resize', resize);
 
-  // The model is hidden until it fades in. Meanwhile, on large screens, frames are drawn only for
-  // a first, shorter speed check (repeated until the resolution settles), so that the title
-  // animation has the graphics card to itself. Small screens wait for the model.
+  // The model fades in as soon as it is ready. On large screens, first, frames are drawn hidden
+  // for a short speed check (repeated until the resolution settles), so that its sharpness doesn't
+  // change once it is visible. Small screens show it at once.
   let shown = false;
   let checked = mobile;
   const pacer = new FramePacer(mobile ? STILL_FPS : MOVING_FPS);
@@ -442,7 +421,10 @@ export async function startScene(
     if (!pacer.due(now)) return;
     const elapsed = now - previous;
     previous = now;
-    if (!shown && checked) return;
+    if (!shown && checked) {
+      shown = true;
+      root.classList.add('is-ready');
+    }
     update(Math.min(elapsed, 100) / 1000);
     timer.begin();
     if (chip && reveal > 0) {
@@ -487,14 +469,8 @@ export async function startScene(
 
   update(0);
   await prepareShaders(renderer, scene, camera);
+  await Promise.race([setUpChip(), new Promise((resolve) => setTimeout(resolve, CHIP_WAIT_MS))]);
   renderer.render(scene, camera);
-  window.setTimeout(
-    () => {
-      shown = true;
-      root.classList.add('is-ready');
-    },
-    Math.max(0, REVEAL_AT_MS - performance.now()),
-  );
   // Frame times start here: the time spent preparing is not a frame.
   previous = performance.now();
   pacer.reset(previous);
