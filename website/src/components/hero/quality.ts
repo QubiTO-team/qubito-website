@@ -1,9 +1,10 @@
 /*
  * Keeps the 3D smooth without giving up quality where the device can afford it.
  *
- * Pace: the scene is drawn at most about 60 times per second on large screens (on a 120 Hz screen
- * every other refresh, on 144 Hz 72 times) and 30 on small screens. The page itself still scrolls
- * at the speed of the screen, and the graphics card keeps time for it.
+ * Pace: the scene is drawn about 30 times per second, enough for the slow turn and the particles.
+ * On large screens, while the page scrolls or the model turns, at most about 60 (on a 120 Hz
+ * screen every other refresh, on 144 Hz 72 times), so that it keeps up with the page. The page
+ * itself always scrolls at the speed of the screen, and the graphics card keeps time for it.
  *
  * Resolution: it goes down one level when frames come late, or when the graphics card is busy for
  * most of each frame (measured where the browser allows it, Chrome on computers). It goes back up
@@ -18,12 +19,14 @@
  */
 const SHARP_RATIO = 2;
 const PIXEL_BUDGET = 20e6;
-/** Frames per second drawn at most, on large and on small screens. */
-const LARGE_FPS = 60;
-const SMALL_FPS = 30;
-/** The resolution goes down when the median frame of a window takes longer than this, in ms. */
-const LARGE_SLOW_FRAME = 1000 / 50;
-const SMALL_SLOW_FRAME = 1000 / 25;
+/** Frames per second drawn at most: while the page moves on large screens, and otherwise. */
+export const MOVING_FPS = 60;
+export const STILL_FPS = 30;
+/**
+ * The resolution goes down when the median frame of a window takes longer than SLOW times the
+ * time a frame should take (20 ms at 60 frames per second, 40 ms at 30)...
+ */
+const SLOW = 1.2;
 /** ...or when more than LATE_SHARE of the frames take LATE times the usual interval or longer... */
 const LATE = 1.5;
 const LATE_SHARE = 0.25;
@@ -52,27 +55,40 @@ export function resolutionLevels(area: number, small: boolean): number[] {
   return levels;
 }
 
-/** Decides on which animation frames the scene is drawn. */
+/**
+ * Decides on which animation frames the scene is drawn: at most `fps` times per second, which can
+ * change, never more than `fastest`.
+ */
 export class FramePacer {
-  private readonly target: number;
+  /** Time a frame should take at the current pace, in milliseconds. */
+  target: number;
   private readonly deltas: number[] = [];
   /** Time between two refreshes of the screen: the median time between animation frames. */
   private refresh = 1000 / 60;
   private last = 0;
   private skipped = 0;
 
-  constructor(small: boolean) {
-    this.target = 1000 / (small ? SMALL_FPS : LARGE_FPS);
+  constructor(private readonly fastest: number) {
+    this.target = 1000 / fastest;
   }
 
-  /** Refreshes of the screen between two drawn frames. */
-  private get every() {
-    return Math.max(1, Math.floor((this.target + 1) / this.refresh));
+  set fps(fps: number) {
+    this.target = 1000 / Math.min(fps, this.fastest);
+  }
+
+  /** Refreshes of the screen between two drawn frames, for a frame that should take `target`. */
+  private every(target = this.target) {
+    return Math.max(1, Math.floor((target + 1) / this.refresh));
   }
 
   /** Usual time between two drawn frames, in milliseconds. */
   get interval() {
-    return this.every * this.refresh;
+    return this.every() * this.refresh;
+  }
+
+  /** The same at the fastest pace: the time the graphics card has when the page moves. */
+  get shortest() {
+    return this.every(1000 / this.fastest) * this.refresh;
   }
 
   /** Called on every animation frame: whether the scene is drawn on this one. */
@@ -87,7 +103,7 @@ export class FramePacer {
         this.deltas.length = 0;
       }
     }
-    if (++this.skipped < this.every) return false;
+    if (++this.skipped < this.every()) return false;
     this.skipped = 0;
     return true;
   }
@@ -158,44 +174,43 @@ export class QualityWatch {
   level = 0;
   /** The sharpest level it may go back to: a level where frames came late is not tried again. */
   private ceiling = 0;
-  private readonly slowFrame: number;
+  /** Each frame's time, as a share of the time it should have taken. */
   private readonly frames: number[] = [];
+  private lateFrames = 0;
   private readonly gpu: number[] = [];
   private elapsed = 0;
   private roomWindows = 0;
 
-  constructor(small: boolean) {
-    this.slowFrame = small ? SMALL_SLOW_FRAME : LARGE_SLOW_FRAME;
-  }
-
   /**
-   * Adds a drawn frame. At the end of a window of `span` milliseconds returns what happened:
-   * "down" or "up" when the level changed, "steady" otherwise; null in the middle of a window.
-   * Before the model is shown only the median frame and the graphics card count: the animation
-   * of the title can delay a few frames.
+   * Adds a drawn frame, with the pace it was drawn at. At the end of a window of `span`
+   * milliseconds returns what happened: "down" or "up" when the level changed, "steady"
+   * otherwise; null in the middle of a window. The graphics card is judged against the fastest
+   * pace, so that the page stays smooth when it moves. Before the model is shown only the median
+   * frame and the graphics card count: the animation of the title can delay a few frames.
    */
   record(
     frame: number,
-    interval: number,
+    pace: { target: number; interval: number; shortest: number },
     levels: number[],
     timer: GpuTimer,
     { span, early }: { span: number; early: boolean },
   ): 'down' | 'up' | 'steady' | null {
-    this.frames.push(frame);
+    this.frames.push(frame / pace.target);
+    if (frame >= pace.interval * LATE) this.lateFrames++;
     this.elapsed += frame;
     timer.collect(this.gpu);
     if (this.elapsed < span) return null;
 
     const median = medianOf(this.frames);
-    const late = this.frames.filter((time) => time >= interval * LATE).length / this.frames.length;
+    const late = this.lateFrames / this.frames.length;
     const gpu = this.gpu.length > 0 ? medianOf(this.gpu) : null;
-    const framesSlow = median > this.slowFrame || (!early && late > LATE_SHARE);
-    const gpuBusy = gpu !== null && gpu > interval * GPU_BUSY;
+    const framesSlow = median > SLOW || (!early && late > LATE_SHARE);
+    const gpuBusy = gpu !== null && gpu > pace.shortest * GPU_BUSY;
     this.reset();
 
     if ((framesSlow || gpuBusy) && this.level < levels.length - 1) {
       // Far too slow: straight to the lightest level.
-      const lowest = median > this.slowFrame * 2;
+      const lowest = median > SLOW * 2;
       this.level = lowest ? levels.length - 1 : this.level + 1;
       if (framesSlow) this.ceiling = this.level;
       this.roomWindows = 0;
@@ -203,7 +218,7 @@ export class QualityWatch {
     }
     // At the level above, the graphics card would draw (ratio above / ratio here)² as many pixels.
     const growth = ((levels[this.level - 1] ?? 0) / (levels[this.level] ?? 1)) ** 2;
-    if (gpu !== null && this.level > this.ceiling && gpu * growth < interval * GPU_ROOM) {
+    if (gpu !== null && this.level > this.ceiling && gpu * growth < pace.shortest * GPU_ROOM) {
       if (++this.roomWindows >= ROOM_WINDOWS) {
         this.level--;
         this.roomWindows = 0;
@@ -218,6 +233,7 @@ export class QualityWatch {
   /** Drops the current window, for example after the tab was hidden. */
   reset() {
     this.frames.length = 0;
+    this.lateFrames = 0;
     this.gpu.length = 0;
     this.elapsed = 0;
   }

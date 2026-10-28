@@ -24,7 +24,14 @@ import {
 } from './environment';
 import { ThermalParticles } from './particles';
 import { createModelPicker } from './pick';
-import { FramePacer, GpuTimer, QualityWatch, resolutionLevels } from './quality';
+import {
+  FramePacer,
+  GpuTimer,
+  MOVING_FPS,
+  QualityWatch,
+  STILL_FPS,
+  resolutionLevels,
+} from './quality';
 import { ALIGN_AT, createScrollTracker, stagePosition, type PageTop } from './scroll';
 import { nextTask, prepareShaders } from './shaders';
 import { SURFACES, addRimGlow, addSurfaceDetail } from './surface';
@@ -73,6 +80,10 @@ const CHIP_EARLIEST = 0.5;
 const CHIP_NEEDED = 3;
 /** A pause in the scrolling, in milliseconds. */
 const STILL_FOR = 250;
+/** After the page or the model stops moving, the faster pace lasts this long, in milliseconds. */
+const MOVING_FOR = 500;
+/** A turning model counts as moving above this speed, in radians per second. */
+const SPINNING = 0.1;
 /** Dragging with the mouse on the model (or the chip) turns it, radians per pixel. */
 const DRAG_TURN = (2 * Math.PI) / 900;
 /** After a drag the model keeps turning, slowing down by this rate per second. */
@@ -92,7 +103,7 @@ export async function startScene(
 
   const renderer = new WebGLRenderer({ canvas, context });
   // Pixels drawn per CSS pixel: the sharpest level the device keeps up with (quality.ts).
-  const watch = new QualityWatch(mobile);
+  const watch = new QualityWatch();
   let ratios = resolutionLevels(canvas.clientWidth * canvas.clientHeight, mobile);
   const drawingRatio = () => ratios[Math.min(watch.level, ratios.length - 1)] ?? 1;
   let pixelRatio = drawingRatio();
@@ -412,12 +423,19 @@ export async function startScene(
   // animation has the graphics card to itself. Small screens wait for the model.
   let shown = false;
   let checked = mobile;
-  const pacer = new FramePacer(mobile);
+  const pacer = new FramePacer(mobile ? STILL_FPS : MOVING_FPS);
   const timer = new GpuTimer(context);
   let previous = performance.now();
+  let lastPace = { target: pacer.target, interval: pacer.interval };
   let frame = 0;
   const tick = (now: number) => {
     frame = requestAnimationFrame(tick);
+    // On large screens the faster pace only while the page scrolls or the model turns.
+    if (!mobile) {
+      const moving =
+        now - scrolledAt < MOVING_FOR || drag.active || Math.abs(drag.velocity) > SPINNING;
+      pacer.fps = moving ? MOVING_FPS : STILL_FPS;
+    }
     if (!pacer.due(now)) return;
     const elapsed = now - previous;
     previous = now;
@@ -434,7 +452,14 @@ export async function startScene(
       renderer.render(scene, camera);
     }
     timer.end();
-    const result = watch.record(elapsed, pacer.interval, ratios, timer, {
+    // Right after a change of pace, this frame took as long as the slower pace.
+    const pace = {
+      target: Math.max(pacer.target, lastPace.target),
+      interval: Math.max(pacer.interval, lastPace.interval),
+      shortest: pacer.shortest,
+    };
+    lastPace = { target: pacer.target, interval: pacer.interval };
+    const result = watch.record(elapsed, pace, ratios, timer, {
       span: shown ? 1000 : 300,
       early: !shown,
     });
