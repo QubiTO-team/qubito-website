@@ -199,9 +199,10 @@ Some details that matter:
 - With "reduce motion" turned on, with "save data", or without WebGL 2, the page shows a still picture instead,
   and nothing heavy is downloaded.
 - The animation keeps running while the page is still (the particles move), but it stops when the tab is hidden.
-- The chip of the finale is downloaded and prepared only once you start scrolling down, and only while the page
-  is still, at the first pause: on slower computers, preparing it makes a moving page stutter for a moment. If you
-  scroll without stopping, it's prepared anyway when the descent gets close to it.
+- The chip of the finale is downloaded and prepared while the page is still, at the first pause after the title
+  has turned into the logo, usually before you start scrolling: preparing it makes a moving page stutter for a
+  moment (on slower computers, and on fast screens even on good ones). If you scroll without stopping, it's
+  prepared anyway when the descent gets close to it.
 - To stay smooth, the 3D draws 30 frames per second while the page is still, and on computers up to about 60
   while you scroll or turn the model, so that it keeps up with the page. It lowers its resolution a step at a
   time on devices that can't keep up (it goes back up when there is room again). On fast

@@ -73,10 +73,11 @@ const FINALE = '20mK';
  */
 const CHIP_CAN = { x: 0.094, z: -0.004, height: 0.066, approach: 0.15 };
 /**
- * The chip is set up during a pause in the scrolling, once the descent has begun (past this
- * position, in stages from the top), and right away when it is this many stages from the finale.
+ * The chip is set up during the first pause in the scrolling once the title has become the logo
+ * (this long after the page opened, in milliseconds), and right away if the descent gets this
+ * many stages from the finale before that.
  */
-const CHIP_EARLIEST = 0.5;
+const CHIP_FROM_MS = 5000;
 const CHIP_NEEDED = 3;
 /** A pause in the scrolling, in milliseconds. */
 const STILL_FOR = 250;
@@ -122,6 +123,11 @@ export async function startScene(
   scene.environmentIntensity = 0.85;
   await nextTask();
   const silverEnvironment = createLabEnvironment(pmrem, { violet: false });
+  await nextTask();
+  // The reflections of the chip and of the gold board around it: small, and nothing to download.
+  const chipEnvironment = createChipEnvironment(pmrem);
+  await nextTask();
+  const boardEnvironment = createGoldEnvironment(pmrem);
   await nextTask();
 
   const camera = new PerspectiveCamera(30, 1, 0.05, 40);
@@ -260,9 +266,9 @@ export async function startScene(
   }
   const tracker = createScrollTracker();
 
-  // The chip is set up in short steps, each one while the page is still (on slower computers a
-  // step makes the page stutter if it is moving), from the first pause after the descent has
-  // begun; once the chip is needed soon, without waiting. It is shown once its shaders are ready.
+  // The chip is set up in short steps, each one while the page is still (a step makes a moving
+  // page stutter, on slower computers and on fast screens), usually before the descent begins;
+  // once the chip is needed soon, without waiting. It is shown once its shaders are ready.
   let chip: ChipView | null = null;
   let chipRequested = false;
   let chipNeeded = false;
@@ -283,17 +289,13 @@ export async function startScene(
   const requestChip = async () => {
     chipRequested = true;
     try {
-      // The download doesn't make the page stutter, so it starts at once; if it fails, the
-      // error comes out below, where it is awaited.
-      const download = downloadChip();
-      download.catch(() => {});
+      const model = await downloadChip();
       await whenStill();
-      const chipEnvironment = createChipEnvironment(pmrem);
-      await whenStill();
-      const board = createGoldEnvironment(pmrem);
-      const model = await download;
-      await whenStill();
-      const view = await loadChip(model, { chip: chipEnvironment, board }, { mobile });
+      const view = await loadChip(
+        model,
+        { chip: chipEnvironment, board: boardEnvironment },
+        { mobile },
+      );
       await view.prepare(renderer, whenStill);
       view.resize(canvas.clientWidth, canvas.clientHeight, smallScreen.matches, pixelRatio);
       chip = view;
@@ -361,7 +363,8 @@ export async function startScene(
     // shows up as soon as the cryostat has gone dark, and going back up the cryostat comes
     // back only after the chip has gone.
     chipNeeded = finale > 0 && position > finale - CHIP_NEEDED;
-    if (finale > 0 && !chipRequested && (chipNeeded || (position > CHIP_EARLIEST && still()))) {
+    const chipTime = shown && performance.now() > CHIP_FROM_MS && still();
+    if (finale > 0 && !chipRequested && (chipNeeded || chipTime)) {
       requestChip();
     }
     const ready = finale > 0 && chip !== null;
@@ -510,7 +513,12 @@ export async function startScene(
     window.removeEventListener('pointercancel', onPointerUp);
     tracker.dispose();
     particles.dispose();
-    chip?.dispose();
+    // The chip disposes of its reflections; without it, they are disposed of here.
+    if (chip) chip.dispose();
+    else {
+      chipEnvironment.dispose();
+      boardEnvironment.dispose();
+    }
     timer.dispose();
     model.traverse((object) => {
       const mesh = object as Mesh;
