@@ -414,6 +414,9 @@ Small traps we've already fallen into. They're worth a look before you change th
   its own, but check that the start of the home page is still quick.
 - **Windows and shaders.** On Windows, `compileAsync` alone doesn't help: the browser compiles each shader at its
   first draw. That's why `shaders.ts` draws every material once on a single pixel before the model appears.
+- **Soft shadows on text.** Chrome prepares a drawing program for each blur size the first time it draws it,
+  and meanwhile the whole page stops. Three sizes on the footer of the home page (3, 8 and 16 px) made it stutter
+  for about 50 ms as the footer came near: use one blur size, repeated if it needs to be darker.
 
 ## Common problems
 

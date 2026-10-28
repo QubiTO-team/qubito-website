@@ -169,18 +169,21 @@ const latestArticles = (await getArticles(lang)).slice(0, 3);
     padding-block: 3rem;
   }
 
-  /* The footer lies over the chip: a dark edge keeps its text legible. */
+  /*
+   * The footer lies over the chip: a dark edge keeps its text legible. One blur size only, twice
+   * for depth: Chrome prepares a program for each size the first time it draws it, and with
+   * several sizes the page stuttered as the footer came near.
+   */
   :global(body > footer :is(p, a, li, span)) {
     text-shadow:
-      0 0 3px #000,
       0 0 8px #000,
-      0 0 16px #000;
+      0 0 8px #000;
   }
 
-  /* Small text over the gold board of the chip: a dark edge keeps it legible. */
+  /* Small text over the gold board of the chip: the same dark edge, for the same reason. */
   .chip-credit {
     text-shadow:
-      0 0 3px #000,
+      0 0 8px #000,
       0 0 8px #000;
   }
 
