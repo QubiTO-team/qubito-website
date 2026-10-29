@@ -638,3 +638,9 @@ html.doc-page { scroll-padding-top: calc(var(--nav-h) + 24px); scroll-behavior: 
 /* Apply footer: |QubiTO> links to the team site */
 .site-foot a.foot-home { color: var(--fg); font-weight: 600; text-decoration: underline; text-underline-offset: 3px; }
 .site-foot a.foot-home:hover { color: #fff; }
+
+/* logo: the QubiTO mark goes to the main site, "hackathon" to the top of the hackathon site */
+.logo-home { display: flex; border-radius: 6px; transition: opacity .15s; }
+.logo-home:hover { opacity: .75; }
+a.logo-text { text-decoration: none; }
+a.logo-text:hover { color: #fff; }

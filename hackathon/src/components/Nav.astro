@@ -8,11 +8,16 @@ const { lang, path, home } = Astro.props;
 const t = pick(lang);
 // on the home page the links scroll; on other pages they go back to the home page section
 const href = (id: string) => (home ? '' : url(lang)) + '#' + id;
+// main QubiTO site on the same domain (Italian at /, English at /en/): works on qubito.polito.it and on the preview
+const mainSite = lang === 'it' ? '/' : '/en/';
 ---
 <nav class="top">
-  <a class="logo" href={home ? '#hero' : url(lang)}>
-    <img src={asset('logos/qubito.svg')} alt="QubiTO" width="46" height="32"><span class="logo-text">hackathon</span>
-  </a>
+  <div class="logo">
+    <a class="logo-home" href={mainSite} title={t({ en: 'QubiTO website', it: 'Sito di QubiTO' })}>
+      <img src={asset('logos/qubito.svg')} alt={t({ en: 'QubiTO website', it: 'Sito di QubiTO' })} width="46" height="32">
+    </a>
+    <a class="logo-text" href={home ? '#hero' : url(lang)}>hackathon</a>
+  </div>
   <div class="navlinks">
     {sections.map((s, k) => s.nav !== false && (
       <a href={href(s.id)} data-k={k}>{t(s.name)}</a>
