@@ -1,82 +1,14 @@
-name: Build and Deploy Hugo to qubito-pages
+name: Staging preview
 
+# Only staging: main is the version online, moved forward by website/scripts/deploy.mjs when the site
+# is uploaded, and builds nothing here.
 on:
   push:
     branches:
-      - main
       - staging
 
 jobs:
-  # main: the Hugo site, as before. The staging branch has its own job below.
-  build-and-deploy:
-    if: github.ref_name == 'main'
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout source repo
-        uses: actions/checkout@v3
-
-      - name: Setup Hugo
-        uses: peaceiris/actions-hugo@v2
-        with:
-          hugo-version: '0.124.0' # or your version
-
-      - name: Init and update submodules
-        run: git submodule update --init --recursive
-
-      - name: Build site
-        run: |
-          if [[ "${{ github.ref_name }}" == "main" ]]; then
-            hugo --minify --baseURL "https://qubito.polito.it"
-          else
-            hugo --minify --baseURL "https://qubito-team.github.io"
-          fi
-
-      - name: Checkout GitHub Pages repository
-        uses: actions/checkout@v3
-        with:
-          repository: qubito-team/qubito-team.github.io
-          token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
-          path: github-pages
-
-      - name: Sync built files to GitHub Pages repo
-        run: |
-          cd github-pages
-          git switch ${{ github.ref_name }} || git checkout -b ${{ github.ref_name }}
-          rm -rf ./*
-          cp -r ../public/* ./
-          touch .nojekyll
-          git config user.name "${{ github.actor }}"
-          git config user.email "${{ github.actor }}@users.noreply.github.com"
-          git add -A
-          git commit -m "Deploy from qubito-website:${{ github.ref_name }}" || true
-          git push --force origin ${{ github.ref_name }}
-        
-      # - name: Upload with SSH key over SFTP (only on main)
-      #   if: github.ref_name == 'main'
-      #   run: |
-      #     echo "Starting VPN connection..."
-      #     echo "${{ secrets.VPN_CONFIG }}" > vpn.conf
-      #     echo "${{ secrets.VPN_CREDENTIALS }}" > vpn.auth
-
-      #     sudo apt-get update
-      #     sudo apt-get install -y openvpn openssh-client
-
-      #     sudo openvpn --config vpn.conf --auth-user-pass vpn.auth --daemon
-      #     sleep 15  # Wait for VPN connection
-
-      #     echo "Setting up SSH for SFTP..."
-      #     mkdir -p ~/.ssh
-      #     echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
-      #     chmod 600 ~/.ssh/id_rsa
-
-      #     # Optional: Disable strict host key checking
-      #     echo -e "Host *\n\tStrictHostKeyChecking no\n" > ~/.ssh/config
-
-      #     echo "Uploading via SFTP..."
-      #     scp -r ../public/* ${{ secrets.SFTP_USER }}@${{ secrets.SFTP_HOST }}:/remote/path/
-
-  # staging: the new site (website/) with the hackathon site at /hackathon/, as a preview on
+  # The new site (website/) with the hackathon site at /hackathon/, as a preview on
   # https://qubito-team.github.io/. PREVIEW=true keeps it out of search engines and visit statistics.
   staging-preview:
     if: github.ref_name == 'staging'
