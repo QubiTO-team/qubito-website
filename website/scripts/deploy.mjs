@@ -4,8 +4,8 @@
 // site (htdocs/) is touched. Setup and restore: docs/developer-guide.md, "Publishing the site".
 //
 //   npm run deploy                     build, back up, show the changes, ask, upload
-//   node scripts/deploy.mjs --dry-run  build and show the changes only (with npm, PowerShell
-//                                      may drop the "--" of "npm run deploy -- --dry-run")
+//   npm run deploy -- --dry-run        build and show the changes only
+//   node scripts/deploy.mjs --dry-run  the same
 //
 // Environment (optional):
 //   DEPLOY_TARGET   rclone remote and folder of the site, default "qubito:htdocs"
@@ -22,7 +22,9 @@ const root = fileURLToPath(new URL('../', import.meta.url));
 const dist = join(root, 'dist');
 const target = process.env.DEPLOY_TARGET || 'qubito:htdocs';
 const rclone = process.env.RCLONE || 'rclone';
-const dryRun = process.argv.includes('--dry-run');
+// PowerShell may drop the "--" of "npm run deploy -- --dry-run": npm then keeps --dry-run for
+// itself and passes it on only as npm_config_dry_run.
+const dryRun = process.argv.includes('--dry-run') || process.env.npm_config_dry_run === 'true';
 /** Space on the server. */
 const MAX_BYTES = 1024 ** 3;
 /** Files that a complete build always has. */

@@ -359,10 +359,9 @@ node scripts/deploy.mjs --dry-run   # builds the site and shows what would chang
 npm run deploy                      # the same, then asks for confirmation and uploads
 ```
 
-For the dry run, call the script with `node` as above. `npm run deploy -- --dry-run` works in Git Bash and on some
-computers, but in PowerShell the `--` sometimes gets lost on its way to npm: npm then keeps `--dry-run` for itself
-and the script runs a real upload. It still stops to ask for `yes` before uploading, so if you see that question
-when you wanted a dry run, just answer no.
+`npm run deploy -- --dry-run` does the same dry run. In PowerShell the `--` sometimes gets lost on its way to npm,
+and npm keeps `--dry-run` for itself; the script notices anyway and only shows the changes. In any case, it never
+uploads without asking: if you see the `yes` question when you wanted a dry run, just answer no.
 
 `npm run deploy` builds the site and checks that it's complete. Then it shows which files are new and which will
 be deleted, and asks you to type `yes`. Before uploading, it saves a copy of the site that is online in
