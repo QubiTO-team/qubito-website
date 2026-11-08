@@ -40,8 +40,8 @@ server of the Politecnico by hand, from time to time, by someone in the team who
 
    If QubiTO-team isn't in the **Resource owner** list, or GitHub says the token is waiting for approval, an
    administrator of the organisation has to allow or approve it.
-3. **Open the editor** and sign in: https://qubito-team.github.io/admin/. Once the new site is online, the
-   editor will also be at https://qubito.polito.it/admin/.
+3. **Open the editor** and sign in: https://qubito-team.github.io/admin/ or https://qubito.polito.it/admin/
+   (it's the same editor, and it saves in the same place).
 
    Click **Sign In Using Access Token** and paste your token. Your browser remembers it, so you only do this
    once per browser. ("Sign In with GitHub" doesn't work: it would need an extra sign-in service that we don't

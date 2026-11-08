@@ -3,8 +3,9 @@
 // deploy-backups/, shows what will change and asks before uploading. Only the folder of the
 // site (htdocs/) is touched. Setup and restore: docs/developer-guide.md, "Publishing the site".
 //
-//   npm run deploy                  build, back up, show the changes, ask, upload
-//   npm run deploy -- --dry-run     build and show the changes only
+//   npm run deploy                     build, back up, show the changes, ask, upload
+//   node scripts/deploy.mjs --dry-run  build and show the changes only (with npm, PowerShell
+//                                      may drop the "--" of "npm run deploy -- --dry-run")
 //
 // Environment (optional):
 //   DEPLOY_TARGET   rclone remote and folder of the site, default "qubito:htdocs"

@@ -4,8 +4,9 @@ This is the new website of [QubiTO](https://qubito.polito.it), the quantum compu
 Politecnico di Torino. It replaces the old Hugo site, keeps all of its addresses, and is available in Italian
 (at the root, `/`) and in English (under `/en/`).
 
-> **Not online yet.** The site you see at qubito.polito.it is still the old one. This one goes live only when the
-> team decides so. Meanwhile you can see it in the preview at https://qubito-team.github.io/.
+> **This is the site online at qubito.polito.it.** What you save with the content editor shows up first in the
+> preview at https://qubito-team.github.io/, and reaches qubito.polito.it only when someone uploads the site again
+> (see [Publishing the site](docs/developer-guide.md#publishing-the-site)).
 
 ## Which guide do I need?
 

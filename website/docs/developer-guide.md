@@ -324,7 +324,8 @@ old addresses like `/tags/qiskit/` and the English "not found" page work only on
 
 ## Publishing the site
 
-> **Only with the team's go-ahead.** Until the team decides otherwise, the site online is the old one.
+> **Saving is not publishing.** A save with the content editor, or a push to `staging`, updates only the preview.
+> qubito.polito.it changes only when someone runs `npm run deploy`.
 
 The site lives on an Apache server of the Politecnico. You can reach it **only via SFTP, with a key, and only from
 the Politecnico's VPN**. The site goes into the `htdocs/` folder (there are other files next to it: leave them
@@ -354,9 +355,14 @@ separately. The upload script never touches it.
 Connect to the VPN of the Politecnico, then:
 
 ```powershell
-npm run deploy -- --dry-run   # builds the site and shows what would change, without uploading
-npm run deploy                # the same, then asks for confirmation and uploads
+node scripts/deploy.mjs --dry-run   # builds the site and shows what would change, without uploading
+npm run deploy                      # the same, then asks for confirmation and uploads
 ```
+
+For the dry run, call the script with `node` as above. `npm run deploy -- --dry-run` works in Git Bash and on some
+computers, but in PowerShell the `--` sometimes gets lost on its way to npm: npm then keeps `--dry-run` for itself
+and the script runs a real upload. It still stops to ask for `yes` before uploading, so if you see that question
+when you wanted a dry run, just answer no.
 
 `npm run deploy` builds the site and checks that it's complete. Then it shows which files are new and which will
 be deleted, and asks you to type `yes`. Before uploading, it saves a copy of the site that is online in
@@ -379,12 +385,6 @@ Run it from `website/` on an up-to-date `staging` branch (`git pull` first). Cha
 reach the site the same way: they're saved on GitHub, and someone with the VPN and the key runs `npm run deploy`.
 Remember that "Upcoming" activities are also decided at build time, so after an event ends, the site needs a new
 upload.
-
-### Before the very first upload
-
-- The team's go-ahead.
-- The team has read the Privacy page, especially how long applications are kept.
-- Give the people who edit content write access to the repository.
 
 ## Things we learned the hard way
 
