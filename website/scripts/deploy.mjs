@@ -1,9 +1,11 @@
-// Uploads the site to the server of the Politecnico (Apache, SFTP only, from its VPN) with
-// rclone (https://rclone.org). Builds the site, saves a copy of what is online in
-// deploy-backups/, shows what will change and asks before uploading. Only the folder of the
-// site (htdocs/) is touched. Setup and restore: docs/developer-guide.md, "Publishing the site".
+// Puts the site online. It takes the staging branch as it is on GitHub, moves the main branch
+// forward to it (so main is always the version online) and uploads that version to the server
+// of the Politecnico (Apache, SFTP only, from its VPN) with rclone (https://rclone.org).
+// Builds the site, saves a copy of what is online in deploy-backups/, shows what will change and
+// asks before touching main or the server. Only the folder of the site (htdocs/) is touched.
+// Setup and restore: docs/developer-guide.md, "Publishing the site".
 //
-//   npm run deploy                     build, back up, show the changes, ask, upload
+//   npm run deploy                     build, show the changes, ask, move main, back up, upload
 //   npm run deploy -- --dry-run        build and show the changes only
 //   node scripts/deploy.mjs --dry-run  the same
 //
@@ -56,6 +58,13 @@ const run = (args, { capture = false } = {}) => {
   return result;
 };
 
+/** Runs git in the folder of the site and returns its output. */
+const git = (...args) => {
+  const result = spawnSync('git', args, { cwd: root, encoding: 'utf8' });
+  if (result.error) fail(`git not found (${result.error.message}).`);
+  return { ok: result.status === 0, out: result.stdout.trim(), err: result.stderr.trim() };
+};
+
 // The target must be the folder of the site: a sync deletes every file that is not in dist/.
 if (
   target
@@ -67,7 +76,56 @@ if (
 }
 run(['version'], { capture: true });
 
-console.log('Building the site...');
+// What goes online is the staging branch as it is on GitHub, the one the team has seen on the
+// preview: not a local copy with other changes.
+if (git('rev-parse', '--abbrev-ref', 'HEAD').out !== 'staging') {
+  fail('Run the upload from the staging branch: git switch staging, git pull, then run it again.');
+}
+console.log('Reading the staging and main branches from GitHub...');
+const fetched = git(
+  'fetch',
+  '--quiet',
+  'origin',
+  '+refs/heads/staging:refs/remotes/origin/staging',
+  '+refs/heads/main:refs/remotes/origin/main',
+);
+if (!fetched.ok) fail(`Cannot read the branches from GitHub:\n${fetched.err}`);
+if (git('status', '--porcelain', '--', '.').out !== '') {
+  fail(
+    'There are changes in website/ that are not committed. Commit and push them to staging and ' +
+      'check them on the preview, or set them aside; then run the upload again.',
+  );
+}
+const head = git('rev-parse', 'HEAD').out;
+if (head !== git('rev-parse', 'origin/staging').out) {
+  const [behind, ahead] = git('rev-list', '--left-right', '--count', 'origin/staging...HEAD')
+    .out.split(/\s+/)
+    .map(Number);
+  if (ahead === 0)
+    fail('Your staging branch is behind GitHub: run git pull, then the upload again.');
+  fail(
+    `Your staging branch has ${ahead} commit(s) that are not on GitHub` +
+      (behind > 0 ? ', and GitHub has others: run git pull, then push' : ': push them') +
+      ', check the preview, then run the upload again.',
+  );
+}
+// main already holds this version (for example after a pull request from staging), or it moves
+// forward to it. If main has something that staging doesn't, staging has to take it first.
+const moveMain = git('rev-parse', 'origin/main^{tree}').out !== git('rev-parse', 'HEAD^{tree}').out;
+if (moveMain) {
+  if (!git('merge-base', '--is-ancestor', 'origin/main', head).ok) {
+    fail(
+      "main has commits that staging doesn't have. Bring them into staging first " +
+        '(git merge origin/main, then push), check the preview, then run the upload again.',
+    );
+  }
+  const count = git('rev-list', '--count', `origin/main..${head}`).out;
+  console.log(`main will move forward to staging: ${count} new commit(s).`);
+} else {
+  console.log('main already holds this version of staging.');
+}
+
+console.log('\nBuilding the site...');
 if (spawnSync('npm run build', { cwd: root, stdio: 'inherit', shell: true }).status !== 0) {
   fail('The build failed: nothing was uploaded.');
 }
@@ -115,14 +173,32 @@ if (changes['-'].length > 0) {
   }
 }
 if (dryRun) {
-  console.log('\nDry run: nothing was uploaded.');
+  console.log('\nDry run: nothing was uploaded and main was not changed.');
   process.exit(0);
 }
 
 const reader = createInterface({ input: stdin, output: stdout });
-const answer = await reader.question(`\nUpload the site to ${target}? Type "yes" to continue: `);
+const answer = await reader.question(
+  `\n${moveMain ? 'Move main to staging and upload' : 'Upload'} the site to ${target}? ` +
+    'Type "yes" to continue: ',
+);
 reader.close();
-if (answer.trim().toLowerCase() !== 'yes') fail('Nothing was uploaded.');
+if (answer.trim().toLowerCase() !== 'yes') fail('Nothing was uploaded and main was not changed.');
+
+if (moveMain) {
+  console.log('\nMoving main to staging on GitHub...');
+  // Without --force, git and GitHub accept only a move forward: main can never lose commits.
+  if (
+    spawnSync('git', ['push', 'origin', `${head}:refs/heads/main`], { cwd: root, stdio: 'inherit' })
+      .status !== 0
+  ) {
+    fail(
+      'GitHub did not accept the update of main (see the message above): nothing was uploaded.\n' +
+        'If main is protected, ask an admin of the repository, or open a pull request from staging ' +
+        'to main on GitHub, merge it with "Create a merge commit", then run the upload again.',
+    );
+  }
+}
 
 // Local date and time, e.g. 2026-10-24-14-30-05 (the Swedish format is the ISO one).
 const stamp = new Date().toLocaleString('sv-SE').replace(/[: ]/g, '-');

@@ -30,9 +30,10 @@ npm run dev
 Open http://localhost:4321/ for the Italian site and http://localhost:4321/en/ for the English one. Press
 `Ctrl + C` in the terminal to stop it.
 
-The site is the `website/` folder of the `staging` branch of the team's repository (the `main` branch still holds
-the old Hugo site). The [Developer guide](docs/developer-guide.md#getting-started) explains every step in more
-detail and what to do if something goes wrong.
+The site is the `website/` folder of the team's repository. Changes go to the `staging` branch, which the team
+checks on the preview; the `main` branch is the version online, and the upload script moves it forward. The
+[Developer guide](docs/developer-guide.md#getting-started) explains every step in more detail and what to do if
+something goes wrong.
 
 ## In short, how the site is made
 

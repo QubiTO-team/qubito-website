@@ -18,10 +18,12 @@ You don't need Blender or Python: the 3D models are already in the repository.
 To check your Node version, run `node -v`. If you use nvm or fnm, `nvm use` (or `fnm use`) in the project folder
 picks the right version from `.nvmrc`.
 
-The site lives in the team's repository, `QubiTO-team/qubito-website`: it is the `website/` folder of the
-`staging` branch. The `main` branch still holds the old Hugo site, and `hackathon/` is the site of the QubiTO
-Hackathon. To push, your GitHub account needs write access to the repository; the first push opens the browser to
-log in to GitHub.
+The site lives in the team's repository, `QubiTO-team/qubito-website`: it is the `website/` folder. You work on
+the `staging` branch: every change goes there first, and the team checks it on the preview. The `main` branch is
+the version online: only the upload script moves it, never commit to it directly (see
+[Publishing the site](#publishing-the-site)). Next to `website/` there are still the files of the old Hugo site,
+and `hackathon/`, the site of the QubiTO Hackathon. To push, your GitHub account needs write access to
+the repository; the first push opens the browser to log in to GitHub.
 
 ### Install and run
 
@@ -316,7 +318,7 @@ date.
 
 So to update the preview, commit and push to `staging`. The content editor saves there too: pull before you
 start working (`git pull`), so you have the latest texts. Never reset or force-push `staging`: the other people of
-the team and the content editor use it too. Merging `main` into it is fine.
+the team and the content editor use it too. Merging `main` into it is fine. Nothing runs when `main` changes.
 
 The preview is built with `PREVIEW=true`, which changes only two things: search engines are asked not to index
 the pages, and visit statistics are switched off. GitHub Pages isn't Apache, so `.htaccess` does nothing there:
@@ -325,7 +327,9 @@ old addresses like `/tags/qiskit/` and the English "not found" page work only on
 ## Publishing the site
 
 > **Saving is not publishing.** A save with the content editor, or a push to `staging`, updates only the preview.
-> qubito.polito.it changes only when someone runs `npm run deploy`.
+> qubito.polito.it changes only when someone runs `npm run deploy`, once the team is happy with the preview. The
+> script takes `staging` as it is on GitHub, moves `main` forward to it and uploads that version, so `main` is
+> always what is online.
 
 The site lives on an Apache server of the Politecnico. You can reach it **only via SFTP, with a key, and only from
 the Politecnico's VPN**. The site goes into the `htdocs/` folder (there are other files next to it: leave them
@@ -363,11 +367,24 @@ npm run deploy                      # the same, then asks for confirmation and u
 and npm keeps `--dry-run` for itself; the script notices anyway and only shows the changes. In any case, it never
 uploads without asking: if you see the `yes` question when you wanted a dry run, just answer no.
 
-`npm run deploy` builds the site and checks that it's complete. Then it shows which files are new and which will
-be deleted, and asks you to type `yes`. Before uploading, it saves a copy of the site that is online in
-`deploy-backups/<date>/` (ignored by Git). Then it uploads in an order that keeps the site working during the
-upload: first the new files, then the pages, and at the end it deletes the old files. It refuses to work on any
-folder other than `htdocs/`.
+`npm run deploy` first checks that you are on `staging`, with nothing uncommitted in `website/`, and exactly as
+it is on GitHub: what goes online is what the team saw on the preview. It tells you how many new commits will
+reach `main`. Then it builds the site and checks that it's complete, shows which files are new and which will be
+deleted, and asks you to type `yes`. Only then does it move `main` forward to `staging` on GitHub. Before
+uploading, it saves a copy of the site that is online in `deploy-backups/<date>/` (ignored by Git). Then it
+uploads in an order that keeps the site working during the upload: first the new files, then the pages, and at
+the end it deletes the old files. It refuses to work on any folder other than `htdocs/`.
+
+- **"Your staging branch is behind GitHub"** or **"has commits that are not on GitHub"**: run `git pull` (and
+  `git push` for your own commits, then check the preview), then run it again.
+- **"main has commits that staging doesn't have"**: someone changed `main` directly. Run `git merge origin/main`
+  on `staging`, push, check the preview, then run it again.
+- **"GitHub did not accept the update of main"**: `main` is a protected branch, and your account may not be
+  allowed to push to it. Ask an admin of the repository to run the upload, or open a pull request from `staging`
+  to `main` on GitHub and merge it with "Create a merge commit": the script then sees that `main` already holds
+  that version and only uploads. Nothing is uploaded until `main` is updated.
+- If the upload stops halfway, `main` has already moved: just run it again. It finds `main` up to date and
+  uploads again.
 
 After the upload, open https://qubito.polito.it/ and check a few pages. Also try a page that doesn't exist (for
 example `/test/` and `/en/test/`, which must show the Italian and the English "not found" page) and an old address
@@ -380,8 +397,9 @@ example `/test/` and `/en/test/`, which must show the Italian and the English "n
   and security headers. Delete it with `rclone deletefile qubito:htdocs/.htaccess` and tell the IT of the
   Politecnico.
 
-Run it from `website/` on an up-to-date `staging` branch (`git pull` first). Changes made with the content editor
-reach the site the same way: they're saved on GitHub, and someone with the VPN and the key runs `npm run deploy`.
+Run it from `website/` on the `staging` branch, after `git pull`. Changes made with the content editor reach the
+site the same way: they're saved on `staging`, and once the team has checked them on the preview, someone with the
+VPN and the key runs `npm run deploy`.
 Remember that "Upcoming" activities are also decided at build time, so after an event ends, the site needs a new
 upload.
 
