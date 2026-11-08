@@ -15,13 +15,13 @@ location: Politecnico di Torino
 
 **19:00–19:45.** Opening by the QubiTO board with Prof. Bartolomeo Montrucchio (QubiTO Advisor).
 
-**19:45–20:30.** Prof. Riccardo Adami (DISMA, Politecnico di Torino), *Bohmian Rapsody*.
+**19:45–20:30.** Prof. Riccardo Adami (DISMA, Politecnico di Torino), *Bohmian Rhapsody*.
 
 Bohmian mechanics, also known as the de Broglie-Bohm pilot wave theory, is a hidden-variable theory whose predictions are those of quantum mechanics. The hidden variables are the positions of the particles, defined at every time, giving rise to trajectories. As a consequence, speed is defined too at every time, and so is momentum. The dynamics is deterministic and there is no collapse. What is uncertain is the initial distribution of the position of the particles. We illustrate the structure of the theory.
 
 ### Thursday 12 November
 
-**19:00–20:30.** Chiara Capecci, *Qubits at work: quantum solutions for hard problem*.
+**19:00–20:30.** Chiara Capecci, *Qubits at work: quantum solutions for hard problems*.
 
 Some problems are hard even for the best supercomputers: solving a scheduling problem with hundreds of constraints or finding the ground state of a molecule. Quantum computers could give us a new way to tackle them. We start from the basics — what a qubit is, how a quantum computer works, and which platforms are being built today. We then see how a hard problem can be written in the language of qubits. We present quantum algorithms, such as quantum annealing and variational approaches, that search for the best solution to these problems. Examples range from allocation problems to molecular chemistry.
 

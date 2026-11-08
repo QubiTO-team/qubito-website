@@ -15,13 +15,13 @@ Tornano i **QubiTO Quantum Days**, l'evento del team QubiTO del Politecnico di T
 
 **19:00–19:45.** Introduzione a cura del board di QubiTO, con l'intervento del prof. Bartolomeo Montrucchio (referente di QubiTO).
 
-**19:45–20:30.** Prof. Riccardo Adami (DISMA, Politecnico di Torino), *Bohmian Rapsody*.
+**19:45–20:30.** Prof. Riccardo Adami (DISMA, Politecnico di Torino), *Bohmian Rhapsody*.
 
 La meccanica bohmiana, nota anche come teoria dell'onda pilota di de Broglie-Bohm, è una teoria a variabili nascoste che fa le stesse previsioni della meccanica quantistica. Le variabili nascoste sono le posizioni delle particelle, definite in ogni istante, che danno luogo a traiettorie. Di conseguenza in ogni istante è definita anche la velocità, e così la quantità di moto. La dinamica è deterministica e non c'è collasso. Ciò che è incerto è la distribuzione iniziale delle posizioni delle particelle. Illustriamo la struttura della teoria.
 
 ### Giovedì 12 novembre
 
-**19:00–20:30.** Chiara Capecci, *Qubits at work: quantum solutions for hard problem*.
+**19:00–20:30.** Chiara Capecci, *Qubits at work: quantum solutions for hard problems*.
 
 Alcuni problemi sono difficili anche per i migliori supercomputer: risolvere un problema di pianificazione con centinaia di vincoli, o trovare lo stato fondamentale di una molecola. I computer quantistici potrebbero darci un nuovo modo per affrontarli. Partiamo dalle basi: cos'è un qubit, come funziona un computer quantistico e quali piattaforme si stanno costruendo oggi. Vediamo poi come un problema difficile può essere scritto nel linguaggio dei qubit. Presentiamo algoritmi quantistici, come il quantum annealing e gli approcci variazionali, che cercano la soluzione migliore a questi problemi. Gli esempi vanno dai problemi di allocazione alla chimica molecolare.
 
