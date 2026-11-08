@@ -1,0 +1,4 @@
+Contact: https://github.com/QubiTO-team/qubito-website/issues
+Expires: 2027-04-27T00:00:00.000Z
+Preferred-Languages: it, en
+Canonical: https://qubito.polito.it/.well-known/security.txt

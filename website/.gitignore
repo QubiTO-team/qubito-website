@@ -1,0 +1,37 @@
+# build output
+dist/
+
+# generated types
+.astro/
+
+# dependencies
+node_modules/
+
+# logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# environment variables
+.env
+.env.*
+!.env.example
+
+# Blender working files and preview renders
+scripts/blender/build/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.idea/
+
+# Keeps public/ also inside the team's repository, which ignores every public/ folder (the output
+# of its old Hugo site)
+!/public/
+
+# Sveltia CMS, built from node_modules by scripts/cms/build.mjs
+public/admin/cms/
+
+# Copies of the site online, saved by scripts/deploy.mjs before each upload
+deploy-backups/

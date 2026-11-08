@@ -1,0 +1,68 @@
+---
+/*
+ * Cryostat plate: a gold line labelled with the stage temperature.
+ * Decorative, so hidden from screen readers. On the home page the 3D model lines up its
+ * plates with these (data-stage-plate, e.g. "4K", matches the model's "plate-4K").
+ */
+interface Props {
+  /** Stage temperature, e.g. "300 K" or "10 mK". */
+  label: string;
+  class?: string;
+}
+
+const { label, class: className } = Astro.props;
+---
+
+<div
+  class:list={['stage-plate', className]}
+  aria-hidden="true"
+  data-stage-plate={label.replace(/\s+/g, '')}
+>
+  <span class="stage-plate-label">{label}</span>
+  <span class="stage-plate-line"></span>
+</div>
+
+<style>
+  .stage-plate {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .stage-plate-label {
+    flex: none;
+    color: var(--color-gold);
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    font-weight: 500;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.02em;
+    white-space: nowrap;
+  }
+
+  .stage-plate-line {
+    position: relative;
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      color-mix(in oklab, var(--color-gold) 75%, transparent),
+      color-mix(in oklab, var(--color-gold) 22%, transparent) 55%,
+      transparent
+    );
+  }
+
+  /* The bolt holding the plate */
+  .stage-plate-line::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 0.375rem;
+    height: 0.375rem;
+    border: 1px solid var(--color-gold);
+    border-radius: 50%;
+    background-color: var(--color-mixing);
+    translate: -50% -50%;
+  }
+</style>

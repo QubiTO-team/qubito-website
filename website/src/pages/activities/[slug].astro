@@ -1,0 +1,20 @@
+---
+import ActivityView from '../../views/ActivityView.astro';
+import { entryKey, getActivities, type Activity } from '../../lib/content';
+
+export async function getStaticPaths() {
+  const activities = await getActivities('it');
+  return activities.map((activity) => ({
+    params: { slug: activity.data.slug ?? entryKey(activity) },
+    props: { activity },
+  }));
+}
+
+interface Props {
+  activity: Activity;
+}
+
+const { activity } = Astro.props;
+---
+
+<ActivityView lang="it" activity={activity} />

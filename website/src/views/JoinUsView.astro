@@ -1,0 +1,63 @@
+---
+/*
+ * Join us: while applications are open (switch in the CMS, applicationsOpen()), the invitation
+ * and the application form; otherwise a note that they are closed and the social profiles.
+ */
+import '../styles/article.css';
+import { getEntry, render } from 'astro:content';
+import ApplicationForm from '../components/ApplicationForm.astro';
+import PageHeader from '../components/PageHeader.astro';
+import SocialLinks from '../components/SocialLinks.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { applicationsOpen } from '../lib/applications';
+import { useTranslations, type Lang } from '../i18n/utils';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+
+const page = await getEntry('pages', `${lang}/join-us`);
+if (!page) throw new Error(`Missing "join-us" page for "${lang}"`);
+const { title, description, lead, privacy } = page.data;
+const { Content } = await render(page);
+const open = await applicationsOpen();
+if (open) {
+  // The form goes to the team's Google Apps Script, which answers from googleusercontent.com.
+  Astro.csp?.insertDirective('form-action https://script.google.com');
+  Astro.csp?.insertDirective(
+    'connect-src https://script.google.com https://script.googleusercontent.com',
+  );
+}
+---
+
+<BaseLayout lang={lang} title={title} description={description}>
+  <div class="shell page">
+    <PageHeader title={title} lead={open ? lead : t('joinUs.closed')} />
+
+    {open ? (
+      <>
+        <div class="prose page-body">
+          <Content />
+        </div>
+        <ApplicationForm lang={lang} privacy={privacy} />
+      </>
+    ) : (
+      <SocialLinks label={t('footer.socialLabel')} class="mt-10" />
+    )}
+  </div>
+</BaseLayout>
+
+<style>
+  .page {
+    padding-top: clamp(2.5rem, 7vw, 5rem);
+    padding-bottom: clamp(4rem, 9vw, 7rem);
+  }
+
+  .page-body {
+    max-width: 44rem;
+    margin-top: 3rem;
+  }
+</style>

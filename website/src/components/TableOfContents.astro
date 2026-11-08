@@ -1,0 +1,147 @@
+---
+/*
+ * Table of contents of an article (h2 and h3), without JavaScript: a collapsible
+ * <details> above the text on small screens, a sticky list beside it on large ones.
+ */
+import type { MarkdownHeading } from 'astro';
+import { useTranslations, type Lang } from '../i18n/utils';
+
+interface Props {
+  headings: MarkdownHeading[];
+  lang: Lang;
+}
+
+const { headings, lang } = Astro.props;
+const t = useTranslations(lang);
+
+// h3 headings are nested under the h2 before them.
+const sections: { heading: MarkdownHeading; children: MarkdownHeading[] }[] = [];
+for (const heading of headings) {
+  if (heading.depth === 2 || sections.length === 0) sections.push({ heading, children: [] });
+  else if (heading.depth === 3) sections.at(-1)?.children.push(heading);
+}
+---
+
+<details class="toc toc--compact">
+  <summary class="toc-title">{t('article.toc')}</summary>
+  <ol class="toc-list">
+    {sections.map(({ heading, children }) => (
+      <li>
+        <a href={`#${heading.slug}`}>{heading.text}</a>
+        {children.length > 0 && (
+          <ol>
+            {children.map((child) => (
+              <li>
+                <a href={`#${child.slug}`}>{child.text}</a>
+              </li>
+            ))}
+          </ol>
+        )}
+      </li>
+    ))}
+  </ol>
+</details>
+
+<nav class="toc toc--aside" aria-labelledby="toc-title">
+  <h2 id="toc-title" class="toc-title">
+    {t('article.toc')}
+  </h2>
+  <ol class="toc-list">
+    {sections.map(({ heading, children }) => (
+      <li>
+        <a href={`#${heading.slug}`}>{heading.text}</a>
+        {children.length > 0 && (
+          <ol>
+            {children.map((child) => (
+              <li>
+                <a href={`#${child.slug}`}>{child.text}</a>
+              </li>
+            ))}
+          </ol>
+        )}
+      </li>
+    ))}
+  </ol>
+</nav>
+
+<style>
+  .toc-title {
+    color: var(--color-frost-muted);
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    font-weight: 600;
+    letter-spacing: 0;
+  }
+
+  .toc-list {
+    display: grid;
+    gap: 0.6rem;
+    font-family: var(--font-display);
+    font-size: var(--text-sm);
+    line-height: 1.35;
+  }
+
+  .toc-list ol {
+    display: grid;
+    gap: 0.45rem;
+    margin-top: 0.5rem;
+    padding-left: 0.9rem;
+    border-left: 1px solid color-mix(in oklab, var(--color-frost) 14%, transparent);
+    font-size: var(--text-xs);
+  }
+
+  .toc-list a {
+    color: var(--color-frost-muted);
+    text-decoration: none;
+    transition: color 200ms var(--ease-cryo);
+  }
+
+  .toc-list a:hover {
+    color: var(--color-orchid);
+  }
+
+  /* Small screens: collapsible block above the text. */
+  .toc--compact {
+    border-block: 1px solid color-mix(in oklab, var(--color-frost) 12%, transparent);
+  }
+
+  .toc--compact summary {
+    padding-block: 1rem;
+    cursor: pointer;
+  }
+
+  .toc--compact[open] summary {
+    color: var(--color-frost);
+  }
+
+  .toc--compact .toc-list {
+    padding-bottom: 1.25rem;
+  }
+
+  .toc--aside {
+    display: none;
+  }
+
+  /* Large screens: sticky list beside the text. */
+  @media (min-width: 70rem) {
+    .toc--compact {
+      display: none;
+    }
+
+    .toc--aside {
+      display: block;
+      position: sticky;
+      top: 6.5rem;
+      max-height: calc(100dvh - 8rem);
+      overflow-y: auto;
+      scrollbar-width: thin;
+      scrollbar-color: color-mix(in oklab, var(--color-frost) 25%, transparent) transparent;
+      padding-left: 1.5rem;
+      border-left: 1px solid color-mix(in oklab, var(--color-gold) 30%, transparent);
+    }
+
+    .toc--aside .toc-list {
+      margin-top: 1rem;
+    }
+  }
+</style>

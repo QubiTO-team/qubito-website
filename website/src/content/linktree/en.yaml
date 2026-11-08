@@ -1,0 +1,15 @@
+groups:
+  - title: On our site
+    links:
+      - label: Activities
+        url: /en/activities/
+      - label: Articles
+        url: /en/articles/
+      - label: About us
+        url: /en/team/
+      - label: Contacts
+        url: /en/contacts/
+  - title: Contact
+    links:
+      - label: Email us
+        url: mailto:teamqubito@gmail.com

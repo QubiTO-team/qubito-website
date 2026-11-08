@@ -1,0 +1,61 @@
+tagline: Il primo team studentesco di quantum computing in Italia.
+
+whoWeAre:
+  title: Chi siamo
+  body:
+    - >-
+      Fondato nel 2023 da studenti e professori del Politecnico di Torino, QubiTO è il primo
+      team studentesco di quantum computing in Italia. Esploriamo le frontiere teoriche e
+      pratiche delle tecnologie quantistiche, con un focus particolare sulla computazione
+      quantistica.
+    - >-
+      Siamo andati oltre la pura teoria. Con l'inaugurazione del primo computer quantistico
+      del Politecnico firmato IQM, «Lagrange», il nostro team sta attivamente testando
+      algoritmi e protocolli direttamente su hardware fisico.
+  image:
+    src: ../../assets/home/team-dinner.jpg
+    alt: I membri di QubiTO a cena insieme attorno a un lungo tavolo con le pizze.
+  links:
+    - { label: Conosci il team, url: /team/ }
+
+activities:
+  title: Cosa facciamo
+  intro: >-
+    Hackathon internazionali, seminari e incontri di divulgazione. Ecco le attività più
+    recenti del team.
+  links:
+    - { label: Tutte le attività, url: /activities/ }
+
+articles:
+  title: Articoli
+  intro: >-
+    Scritti dai gruppi di progetto del team, dalla correzione degli errori quantistici alla
+    crittografia.
+  links:
+    - { label: Tutti gli articoli, url: /articles/ }
+
+contact:
+  title: Mettiti in contatto con noi
+  body:
+    - >-
+      Se desideri supportarci nella nostra missione o unirti a noi nel nostro percorso, non
+      esitare a contattarci. Siamo sempre grati per l'aiuto e il sostegno della nostra
+      comunità.
+  links: []
+
+qubits:
+  title: Dove vivono i qubit
+  body:
+    - >-
+      In fondo al criostato, a circa 20 millikelvin, una temperatura oltre cento volte più
+      bassa di quella dello spazio profondo, si trova il processore: un chip con circuiti
+      superconduttori. Lagrange, il computer quantistico del PoliTo, ha 5 qubit disposti a
+      stella: uno al centro, collegato agli altri quattro.
+  links:
+    - { label: Come funziona un qubit superconduttivo, url: /articles/superconducting-qubits/ }
+  credit: >-
+    Lagrange è un [IQM Spark](https://iqm.tech/products/iqm-spark/). Disegno del chip adattato
+    dalla Fig. 1 di J. Rönkkö et al., [«On-premises superconducting quantum computer for
+    education and research»](https://doi.org/10.1140/epjqt/s40507-024-00243-z), EPJ Quantum
+    Technology 11, 32 (2024), licenza [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/deed.it).
+    Modifiche: ridisegnato in 3D e semplificato.

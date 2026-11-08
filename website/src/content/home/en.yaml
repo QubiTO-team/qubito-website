@@ -1,0 +1,59 @@
+tagline: Italy's first student team in quantum computing.
+
+whoWeAre:
+  title: About us
+  body:
+    - >-
+      Founded in 2023 by students and professors at Politecnico di Torino, QubiTO is Italy's
+      first quantum computing student team. We explore the theoretical and practical frontiers
+      of quantum technologies, with a particular focus on quantum computing.
+    - >-
+      We have moved beyond pure theory. With the inauguration of Politecnico's first quantum
+      computer from IQM, “Lagrange”, our team is actively testing algorithms and protocols
+      directly on physical hardware.
+  image:
+    src: ../../assets/home/team-dinner.jpg
+    alt: QubiTO members having dinner together around a long table of pizzas.
+  links:
+    - { label: Meet the team, url: /en/team/ }
+
+activities:
+  title: What we do
+  intro: >-
+    International hackathons, seminars and outreach events. Here are the team's most recent
+    activities.
+  links:
+    - { label: All activities, url: /en/activities/ }
+
+articles:
+  title: Articles
+  intro: >-
+    Written by the team's project groups, from quantum error correction to cryptography.
+  links:
+    - { label: All articles, url: /en/articles/ }
+
+contact:
+  title: Get in touch with us
+  body:
+    - >-
+      If you want to support us in our mission or join us on our journey, please don't
+      hesitate to reach out. We are always grateful for the help and encouragement from our
+      community.
+  links: []
+
+qubits:
+  title: Where the qubits live
+  body:
+    - >-
+      At the bottom of the cryostat, at about 20 millikelvin, a temperature over a hundred
+      times lower than that of deep space, sits the processor: a chip with superconducting
+      circuits. Lagrange, PoliTo's quantum computer, has 5 qubits arranged in a star: one in
+      the middle, coupled to the other four.
+  links:
+    - { label: How a superconducting qubit works, url: /en/articles/superconducting-qubits/ }
+  credit: >-
+    Lagrange is an [IQM Spark](https://iqm.tech/products/iqm-spark/). Chip design adapted from
+    Fig. 1 of J. Rönkkö et al., [“On-premises superconducting quantum computer for education and
+    research”](https://doi.org/10.1140/epjqt/s40507-024-00243-z), EPJ Quantum Technology 11, 32
+    (2024), licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). Changes:
+    redrawn in 3D and simplified.

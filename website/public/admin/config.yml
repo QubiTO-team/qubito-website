@@ -1,0 +1,398 @@
+# Settings of the content editor at /admin/ (Sveltia CMS, https://sveltiacms.app).
+#
+# Each collection below describes the fields of one kind of content. They must match the rules in
+# src/content.config.ts: if you add or rename a field there, do the same here, or the editor will
+# write files that the site refuses to build. How to use the editor: docs/editing-content.md.
+
+backend:
+  name: github
+  # Where the content is saved: the team's repository, where this site is the website/ folder of the
+  # staging branch. Every save is a commit there, and the preview at qubito-team.github.io rebuilds itself.
+  repo: QubiTO-team/qubito-website
+  branch: staging
+  root_dir: website
+
+site_url: https://qubito.polito.it
+
+# Uploads that do not belong to a single entry. Photos of articles, activities and pages are kept
+# next to their text instead.
+media_folder: /public/media
+public_folder: /media
+
+# Every uploaded photo becomes a WebP of at most 2560 px per side. The conversion also drops the
+# hidden data that phones add to photos (camera model, GPS position). The site then makes its own
+# smaller copies for each screen size.
+media_libraries:
+  all:
+    transformations:
+      raster_image:
+        format: webp
+        quality: 85
+        width: 2560
+        height: 2560
+
+# Optional fields left empty are not written to the file at all (the site expects them to be
+# missing, not empty).
+output:
+  omit_empty_optional_fields: true
+
+# Each entry has one file per language side by side, "index.it.md" and "index.en.md", and both
+# use the same "images" folder.
+i18n:
+  structure: multiple_files
+  locales: [it, en]
+  default_locale: it
+  initial_locales: all
+
+slug:
+  encoding: ascii
+  clean_accents: true
+
+collections:
+  - name: articles
+    label: Articles
+    label_singular: Article
+    folder: src/content/articles
+    path: '{{slug}}/index'
+    extension: md
+    format: frontmatter
+    media_folder: images
+    public_folder: ./images
+    i18n: true
+    slug: '{{title}}'
+    sortable_fields: [date, title]
+    fields:
+      - { name: title, label: Title, widget: string, i18n: true }
+      - name: description
+        label: Description
+        hint: One or two sentences, shown in the list of articles and in link previews on social media.
+        widget: text
+        i18n: true
+      - { name: date, label: Publication date, widget: datetime, type: date, i18n: duplicate }
+      - name: authors
+        label: Authors
+        widget: list
+        field: { name: author, label: Author, widget: string }
+        i18n: duplicate
+      - name: tags
+        label: Topics
+        widget: list
+        field: { name: tag, label: Topic, widget: string }
+        required: false
+        i18n: true
+      - name: slug
+        label: Address
+        hint: The last part of the page address, different in each language (for example quantum-error-correction).
+        widget: string
+        pattern: ['^[a-z0-9-]+$', 'Only lowercase letters without accents, numbers and hyphens']
+        i18n: true
+      - name: cover
+        label: Cover image
+        widget: object
+        required: false
+        i18n: true
+        fields:
+          - { name: src, label: Image, widget: image, i18n: duplicate }
+          - { name: alt, label: Alternative text, hint: "What the image shows, for people who cannot see it.", widget: string, i18n: true }
+      - { name: draft, label: Draft (not published), widget: boolean, default: false, i18n: duplicate }
+      - name: images
+        label: Images in the text
+        hint: 'Upload here the pictures you use inside the text, then write them in the text with the file name shown here, for example `![alternative text](./images/file-name.webp "Caption|id")`.'
+        widget: list
+        required: false
+        i18n: duplicate
+        field: { name: src, label: Image, widget: image }
+      - name: body
+        label: Text
+        hint: 'Markdown. Formulas between `$…$` or `$$…$$`. A numbered figure: `![alternative text](./images/file-name.webp "Caption|id")`, with a picture uploaded in "Images in the text".'
+        widget: richtext
+        modes: [raw]
+        i18n: true
+
+  - name: activities
+    label: Activities
+    label_singular: Activity
+    folder: src/content/activities
+    path: '{{slug}}/index'
+    extension: md
+    format: frontmatter
+    media_folder: images
+    public_folder: ./images
+    i18n: true
+    slug: '{{title}}'
+    sortable_fields: [date, title]
+    fields:
+      - { name: title, label: Title, widget: string, i18n: true }
+      - name: description
+        label: Description
+        hint: One sentence, shown in the timeline.
+        widget: text
+        i18n: true
+      - name: date
+        label: Start date
+        hint: Used to sort the activities. If you only know the month, pick the first day of the month.
+        widget: datetime
+        type: date
+        i18n: duplicate
+      - name: endDate
+        label: Last day
+        hint: Only for activities that last more than one day. Until this date the activity is listed as upcoming.
+        widget: datetime
+        type: date
+        required: false
+        i18n: duplicate
+      - name: dateLabel
+        label: Date as shown on the site
+        hint: For example "8–10 May 2026" or "Autumn 2024". If empty, the start date is shown.
+        widget: string
+        required: false
+        i18n: true
+      - { name: location, label: Place, widget: string, required: false, i18n: true }
+      - name: result
+        label: Result
+        hint: Award or placement, for example "2nd place in the Indra challenge".
+        widget: string
+        required: false
+        i18n: true
+      - name: gallery
+        label: Photos
+        hint: The first one is also shown in the timeline.
+        widget: list
+        required: false
+        i18n: true
+        fields:
+          - { name: src, label: Photo, widget: image, i18n: duplicate }
+          - { name: alt, label: Alternative text, hint: "What the photo shows, for people who cannot see it.", widget: string, i18n: true }
+      - name: links
+        label: External links
+        widget: list
+        required: false
+        i18n: true
+        fields:
+          - { name: url, label: Address, widget: string, i18n: true }
+          - { name: text, label: Button text, widget: string, i18n: true }
+      - name: registration
+        label: Sign-up
+        hint: A button shown only until the activity is over.
+        widget: object
+        required: false
+        i18n: true
+        fields:
+          - { name: url, label: Address, widget: string, i18n: true }
+          - { name: text, label: Button text, widget: string, i18n: true }
+      - name: slug
+        label: Address
+        hint: Optional. If empty, the name of the folder is used.
+        widget: string
+        required: false
+        pattern: ['^[a-z0-9-]+$', 'Only lowercase letters without accents, numbers and hyphens']
+        i18n: true
+      - { name: draft, label: Draft (not published), widget: boolean, default: false, i18n: duplicate }
+      - { name: body, label: Text, widget: richtext, modes: [raw], required: false, i18n: true }
+
+  - name: pages
+    label: Pages
+    i18n: true
+    files:
+      - name: team
+        label: About us
+        file: src/content/pages/team/index.{{locale}}.md
+        media_folder: /src/content/pages/team/images
+        public_folder: ./images
+        i18n: true
+        fields:
+          - { name: title, label: Title, widget: string, i18n: true }
+          - { name: description, label: Description for search engines, widget: text, i18n: true }
+          - { name: lead, label: Introduction, widget: text, i18n: true }
+          - name: image
+            label: Photo
+            widget: object
+            required: false
+            i18n: true
+            fields:
+              - { name: src, label: Photo, widget: image, i18n: duplicate }
+              - { name: alt, label: Alternative text, widget: string, i18n: true }
+          - { name: body, label: Text, widget: richtext, modes: [raw], i18n: true }
+      - name: contacts
+        label: Contacts
+        file: src/content/pages/contacts/index.{{locale}}.md
+        i18n: true
+        fields:
+          - { name: title, label: Title, widget: string, i18n: true }
+          - { name: description, label: Description for search engines, widget: text, i18n: true }
+          - { name: lead, label: Introduction, widget: text, i18n: true }
+          - { name: body, label: Closing message, widget: richtext, modes: [raw], i18n: true }
+      - name: join-us
+        label: Join us
+        file: src/content/pages/join-us/index.{{locale}}.md
+        i18n: true
+        fields:
+          - { name: open, label: "Applications open (shows the form, and \"Join us\" in the menu, on the home page and on About us)", widget: boolean, default: false, i18n: duplicate }
+          - { name: title, label: Title, widget: string, i18n: true }
+          - { name: description, label: Description for search engines, widget: text, i18n: true }
+          - { name: lead, label: Introduction (shown only while applications are open), widget: text, i18n: true }
+          - { name: body, label: Text (shown only while applications are open), widget: richtext, modes: [raw], i18n: true }
+          - { name: privacy, label: Privacy note shown above the button that sends the form, widget: text, required: false, i18n: true }
+      - name: privacy
+        label: Privacy
+        file: src/content/pages/privacy/index.{{locale}}.md
+        i18n: true
+        fields:
+          - { name: title, label: Title, widget: string, i18n: true }
+          - { name: description, label: Description for search engines, widget: text, i18n: true }
+          - { name: lead, label: Introduction, widget: text, i18n: true }
+          - { name: body, label: Text, widget: richtext, modes: [raw], i18n: true }
+
+  - name: home
+    label: Home
+    i18n: true
+    files:
+      - name: home
+        label: Home page texts
+        file: src/content/home/{{locale}}.yaml
+        format: yaml
+        i18n: true
+        fields:
+          - name: tagline
+            label: Sentence under the logo
+            hint: Also shown in the footer, on the Linktree page and in the title of the home page.
+            widget: string
+            i18n: true
+          - name: whoWeAre
+            label: About us
+            widget: object
+            i18n: true
+            fields:
+              - { name: title, label: Title, widget: string, i18n: true }
+              - name: body
+                label: Paragraphs
+                widget: list
+                field: { name: paragraph, label: Paragraph, widget: text }
+                i18n: true
+              - name: image
+                label: Photo
+                widget: object
+                i18n: true
+                fields:
+                  - name: src
+                    label: Photo
+                    widget: image
+                    media_folder: /src/assets/home
+                    public_folder: ../../assets/home
+                    i18n: duplicate
+                  - { name: alt, label: Alternative text, widget: string, i18n: true }
+              - name: links
+                label: Buttons
+                hint: "Address: a page of the site (for example /team/, in English /en/team/) or another website (https://...)."
+                widget: list
+                required: false
+                i18n: true
+                fields:
+                  - { name: label, label: Text, widget: string }
+                  - { name: url, label: Address, widget: string }
+          - name: activities
+            label: What we do
+            widget: object
+            i18n: true
+            fields:
+              - { name: title, label: Title, widget: string, i18n: true }
+              - { name: intro, label: Introduction, widget: text, i18n: true }
+              - name: links
+                label: Buttons
+                hint: "Address: a page of the site (for example /team/, in English /en/team/) or another website (https://...)."
+                widget: list
+                required: false
+                i18n: true
+                fields:
+                  - { name: label, label: Text, widget: string }
+                  - { name: url, label: Address, widget: string }
+          - name: articles
+            label: Articles
+            widget: object
+            i18n: true
+            fields:
+              - { name: title, label: Title, widget: string, i18n: true }
+              - { name: intro, label: Introduction, widget: text, i18n: true }
+              - name: links
+                label: Buttons
+                hint: "Address: a page of the site (for example /team/, in English /en/team/) or another website (https://...)."
+                widget: list
+                required: false
+                i18n: true
+                fields:
+                  - { name: label, label: Text, widget: string }
+                  - { name: url, label: Address, widget: string }
+          - name: contact
+            label: Get in touch
+            hint: The button with the team's email address is always there; add any other buttons here.
+            widget: object
+            i18n: true
+            fields:
+              - { name: title, label: Title, widget: string, i18n: true }
+              - name: body
+                label: Paragraphs
+                widget: list
+                field: { name: paragraph, label: Paragraph, widget: text }
+                i18n: true
+              - name: links
+                label: Buttons
+                hint: "Address: a page of the site (for example /team/, in English /en/team/) or another website (https://...)."
+                widget: list
+                required: false
+                i18n: true
+                fields:
+                  - { name: label, label: Text, widget: string }
+                  - { name: url, label: Address, widget: string }
+          - name: qubits
+            label: Where the qubits live
+            widget: object
+            i18n: true
+            fields:
+              - { name: title, label: Title, widget: string, i18n: true }
+              - name: body
+                label: Paragraphs
+                widget: list
+                field: { name: paragraph, label: Paragraph, widget: text }
+                i18n: true
+              - name: links
+                label: Buttons
+                hint: "Address: a page of the site (for example /team/, in English /en/team/) or another website (https://...)."
+                widget: list
+                required: false
+                i18n: true
+                fields:
+                  - { name: label, label: Text, widget: string }
+                  - { name: url, label: Address, widget: string }
+              - name: credit
+                label: Source of the chip design
+                hint: "Required: the CC BY licence asks us to name the authors, the source and the licence. Links are written as `[text](https://...)`."
+                widget: text
+                i18n: true
+
+  - name: linktree
+    label: Linktree
+    i18n: true
+    files:
+      - name: linktree
+        label: Linktree links
+        file: src/content/linktree/{{locale}}.yaml
+        format: yaml
+        i18n: true
+        fields:
+          - name: groups
+            label: Groups of links
+            widget: list
+            i18n: true
+            fields:
+              - { name: title, label: Group title, widget: string, i18n: true }
+              - name: links
+                label: Links
+                widget: list
+                i18n: true
+                fields:
+                  - { name: label, label: Text, widget: string, i18n: true }
+                  - name: url
+                    label: Address
+                    hint: A page of the site with its language (/activities/ or /en/activities/), or a full address.
+                    widget: string
+                    i18n: true

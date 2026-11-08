@@ -1,0 +1,105 @@
+---
+/*
+ * About us: presentation, a photo of the team and how the team works; the invitation to
+ * join only while applications are open. There is no list of members on purpose.
+ */
+import '../styles/article.css';
+import { getImage, Picture } from 'astro:assets';
+import { getEntry, render } from 'astro:content';
+import PageHeader from '../components/PageHeader.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { applicationsOpen } from '../lib/applications';
+import { widthsUpTo } from '../lib/images';
+import { localizePath, useTranslations, type Lang } from '../i18n/utils';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const open = await applicationsOpen();
+
+const page = await getEntry('pages', `${lang}/team`);
+if (!page) throw new Error(`Missing "team" page for "${lang}"`);
+const { title, description, lead, image } = page.data;
+const { Content } = await render(page);
+const socialImage =
+  image &&
+  (await getImage({ src: image.src, width: Math.min(1200, image.src.width), format: 'jpg' }));
+---
+
+<BaseLayout
+  lang={lang}
+  title={title}
+  description={description}
+  image={socialImage?.src}
+  imageAlt={image?.alt}
+>
+  <div class="shell page">
+    <PageHeader title={title} lead={lead} />
+
+    {image && (
+      <Picture
+        src={image.src}
+        alt={image.alt}
+        widths={widthsUpTo(image.src, [720, 1080, 1440])}
+        sizes="(min-width: 64rem) 52rem, calc(100vw - 2.5rem)"
+        formats={['avif', 'webp']}
+        loading="eager"
+        fetchpriority="high"
+        class="page-image"
+      />
+    )}
+
+    <div class="prose page-body">
+      <Content />
+    </div>
+
+    {open && (
+      <section class="page-join" aria-labelledby="join-title">
+        <h2 id="join-title" class="page-join-title">
+          {t('team.joinTitle')}
+        </h2>
+        <a href={localizePath('/join-us/', lang)} class="btn btn-primary">
+          {t('nav.joinUs')}
+        </a>
+      </section>
+    )}
+  </div>
+</BaseLayout>
+
+<style>
+  .page {
+    padding-top: clamp(2.5rem, 7vw, 5rem);
+    padding-bottom: clamp(4rem, 9vw, 7rem);
+  }
+
+  /* The picture is the root element of a child component: its own scope, hence :global. */
+  .page :global(.page-image) {
+    width: 100%;
+    max-width: 52rem;
+    margin-top: 3.5rem;
+    border-radius: 0.375rem;
+  }
+
+  .page-body {
+    max-width: 44rem;
+    margin-top: 3.5rem;
+  }
+
+  .page-join {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1.5rem 2.5rem;
+    max-width: 44rem;
+    margin-top: 4.5rem;
+    padding-top: 2.5rem;
+    border-top: 1px solid color-mix(in oklab, var(--color-frost) 12%, transparent);
+  }
+
+  .page-join-title {
+    font-size: var(--text-xl);
+  }
+</style>

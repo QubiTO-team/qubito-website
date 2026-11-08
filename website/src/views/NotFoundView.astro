@@ -1,0 +1,30 @@
+---
+import Ket from '../components/Ket.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { localizePath, useTranslations, type Lang } from '../i18n/utils';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const homes = { it: localizePath('/', 'it'), en: localizePath('/', 'en') };
+---
+
+<BaseLayout lang={lang} title={t('notFound.title')} alternates={homes} noindex>
+  <section class="shell pt-[12vh] pb-24">
+    <Ket class="font-display text-display font-semibold text-frost-muted/40">404</Ket>
+    <h1 class="mt-8 text-3xl">{t('notFound.title')}</h1>
+    <p class="mt-6 max-w-[48ch] text-lg text-orchid">{t('notFound.lead')}</p>
+    <p class="mt-4 max-w-[52ch] text-frost-muted">{t('notFound.body')}</p>
+    <div class="mt-10 flex flex-wrap gap-4">
+      <a href={homes[lang]} class="btn btn-primary">
+        {t('notFound.home')}
+      </a>
+      <a href={localizePath('/articles/', lang)} class="btn btn-ghost">
+        {t('cta.readArticles')}
+      </a>
+    </div>
+  </section>
+</BaseLayout>

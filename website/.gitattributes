@@ -1,0 +1,13 @@
+# LF line endings in the repository, also when working on Windows
+* text=auto eol=lf
+
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.webp binary
+*.avif binary
+*.gif binary
+*.ico binary
+*.glb binary
+*.woff binary
+*.woff2 binary

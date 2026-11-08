@@ -1,0 +1,41 @@
+---
+/*
+ * Ket notation |…⟩ as a decorative graphic, hidden from screen readers.
+ * The angle bracket is an SVG because the site fonts have no ⟩ glyph.
+ */
+interface Props {
+  class?: string;
+}
+
+const { class: className } = Astro.props;
+// Trim surrounding whitespace: Prettier may wrap the slot content on new lines.
+const content = (await Astro.slots.render('default')).trim();
+---
+
+<span class:list={['ket', className]} aria-hidden="true">
+  <span>|</span>
+  <span set:html={content} />
+  <svg viewBox="0 0 8 24" class="ket-angle">
+    <path d="M1.5 1.5 6.5 12l-5 10.5"></path>
+  </svg>
+</span>
+
+<style>
+  .ket {
+    display: inline-flex;
+    align-items: center;
+    white-space: nowrap;
+  }
+
+  .ket-angle {
+    width: 0.4em;
+    height: 1.15em;
+    margin-left: 0.08em;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.4;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    overflow: visible;
+  }
+</style>

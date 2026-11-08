@@ -1,0 +1,140 @@
+---
+/*
+ * Linktree: the page linked from the social profiles. No header and footer, a single column of
+ * links; external links are marked with an arrow.
+ */
+import { getEntry } from 'astro:content';
+import logo from '../assets/logo-qubito.svg';
+import Icon from '../components/Icon.astro';
+import LangSwitch from '../components/LangSwitch.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { SOCIAL } from '../config';
+import { siteTagline } from '../lib/tagline';
+import { getAlternates, localizePath, useTranslations, type Lang } from '../i18n/utils';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+
+const entry = await getEntry('linktree', lang);
+if (!entry) throw new Error(`Missing Linktree links for "${lang}"`);
+const isExternal = (url: string) => /^https?:\/\//.test(url);
+const alternates = getAlternates(Astro.url.pathname);
+---
+
+<BaseLayout
+  lang={lang}
+  title={t('linktree.title')}
+  description={t('linktree.description')}
+  alternates={alternates}
+  minimal
+>
+  <div class="linktree">
+    <a href={localizePath('/', lang)} class="linktree-logo">
+      <img src={logo.src} width={logo.width} height={logo.height} alt={t('nav.homeLabel')} />
+    </a>
+    <p class="linktree-tagline">{await siteTagline(lang)}</p>
+
+    <ul class="linktree-social" aria-label={t('footer.socialLabel')}>
+      {SOCIAL.map((social) => (
+        <li>
+          <a href={social.url} class="linktree-social-link">
+            <Icon name={social.icon} class="h-5 w-5" />
+            <span class="sr-only">{social.name}</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+
+    {entry.data.groups.map((group, index) => (
+      <section class="linktree-group" aria-labelledby={`group-${index}`}>
+        <h2 id={`group-${index}`} class="linktree-group-title">
+          {group.title}
+        </h2>
+        <ul class="linktree-links">
+          {group.links.map((link) => (
+            <li>
+              <a href={link.url} class="btn btn-ghost linktree-link">
+                {link.label}
+                {isExternal(link.url) && <span aria-hidden="true">↗</span>}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </section>
+    ))}
+
+    <div class="linktree-lang">
+      <LangSwitch lang={lang} alternates={alternates} />
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .linktree {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 28rem;
+    margin-inline: auto;
+    padding: clamp(3rem, 10vh, 6rem) 1.25rem 3rem;
+    text-align: center;
+  }
+
+  .linktree-logo img {
+    width: auto;
+    height: 4.5rem;
+  }
+
+  .linktree-tagline {
+    margin-top: 1.25rem;
+    color: var(--color-frost-muted);
+  }
+
+  .linktree-social {
+    display: flex;
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+  }
+
+  .linktree-social-link {
+    display: inline-flex;
+    color: var(--color-frost-muted);
+    transition: color 200ms var(--ease-cryo);
+  }
+
+  .linktree-social-link:hover {
+    color: var(--color-orchid);
+  }
+
+  .linktree-group {
+    width: 100%;
+    margin-top: 2.5rem;
+  }
+
+  .linktree-group-title {
+    color: var(--color-gold);
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    font-weight: 500;
+  }
+
+  .linktree-links {
+    display: grid;
+    gap: 0.75rem;
+    margin-top: 1rem;
+  }
+
+  .linktree-link {
+    justify-content: center;
+    width: 100%;
+  }
+
+  .linktree-lang {
+    margin-top: 3rem;
+  }
+</style>

@@ -1,0 +1,31 @@
+---
+/* The team's social profiles as buttons with icon and name. */
+import Icon from './Icon.astro';
+import { SOCIAL } from '../config';
+
+interface Props {
+  label: string;
+  class?: string;
+}
+
+const { label, class: className } = Astro.props;
+---
+
+<ul class:list={['social-links', className]} aria-label={label}>
+  {SOCIAL.map((social) => (
+    <li>
+      <a href={social.url} class="btn btn-ghost">
+        <Icon name={social.icon} class="h-4 w-4" />
+        {social.name}
+      </a>
+    </li>
+  ))}
+</ul>
+
+<style>
+  .social-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+</style>
