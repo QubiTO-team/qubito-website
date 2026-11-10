@@ -5,6 +5,9 @@ date: 2026-11-11
 endDate: 2026-11-13
 dateLabel: 11–13 November 2026
 location: Politecnico di Torino
+registration:
+  url: https://docs.google.com/forms/d/e/1FAIpQLSeePUH-dwDDEzblvtz-N4Blucor26Vi-7-3Pj-jTxouY0PCmw/viewform
+  text: Sign up
 ---
 
 **QubiTO Quantum Days** are back: the event of the QubiTO team of Politecnico di Torino on quantum mechanics and quantum computing. Three days that go from the foundations of the theory to algorithms for hard problems, and on to live experiments on Lagrange, the quantum computer of the Politecnico.

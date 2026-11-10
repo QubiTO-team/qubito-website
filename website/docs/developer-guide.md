@@ -327,9 +327,9 @@ old addresses like `/tags/qiskit/` and the English "not found" page work only on
 ## Publishing the site
 
 > **Saving is not publishing.** A save with the content editor, or a push to `staging`, updates only the preview.
-> qubito.polito.it changes only when someone runs `npm run deploy`, once the team is happy with the preview. The
-> script takes `staging` as it is on GitHub, moves `main` forward to it and uploads that version, so `main` is
-> always what is online.
+> qubito.polito.it changes only when someone publishes the site, once the team is happy with the preview: first a
+> pull request brings `staging` into `main`, then `npm run deploy` uploads that version. So `main` is always what
+> is online.
 
 The site lives on an Apache server of the Politecnico. You can reach it **only via SFTP, with a key, and only from
 the Politecnico's VPN**. The site goes into the `htdocs/` folder (there are other files next to it: leave them
@@ -356,35 +356,42 @@ separately. The upload script never touches it.
 
 ### Every time
 
-Connect to the VPN of the Politecnico, then:
+1. On GitHub, open a pull request from `staging` to `main` and merge it with **"Create a merge commit"**. `main` is
+   a protected branch: it accepts changes only through pull requests. Don't pick "Squash and merge": it puts on
+   `main` a new commit with the same files but a different history, so the next pull request runs into conflicts
+   and `main` has to be merged back into `staging` every time. After the merge, don't press "Delete branch": the
+   preview and the content editor use `staging`.
+2. Connect to the VPN of the Politecnico. Then, in `website/` on the `staging` branch, run `git pull` and:
 
-```powershell
-node scripts/deploy.mjs --dry-run   # builds the site and shows what would change, without uploading
-npm run deploy                      # the same, then asks for confirmation and uploads
-```
+   ```powershell
+   node scripts/deploy.mjs --dry-run   # builds the site and shows what would change, without uploading
+   npm run deploy                      # the same, then asks for confirmation and uploads
+   ```
 
 `npm run deploy -- --dry-run` does the same dry run. In PowerShell the `--` sometimes gets lost on its way to npm,
 and npm keeps `--dry-run` for itself; the script notices anyway and only shows the changes. In any case, it never
 uploads without asking: if you see the `yes` question when you wanted a dry run, just answer no.
 
 `npm run deploy` first checks that you are on `staging`, with nothing uncommitted in `website/`, and exactly as
-it is on GitHub: what goes online is what the team saw on the preview. It tells you how many new commits will
-reach `main`. Then it builds the site and checks that it's complete, shows which files are new and which will be
-deleted, and asks you to type `yes`. Only then does it move `main` forward to `staging` on GitHub. Before
-uploading, it saves a copy of the site that is online in `deploy-backups/<date>/` (ignored by Git). Then it
-uploads in an order that keeps the site working during the upload: first the new files, then the pages, and at
-the end it deletes the old files. It refuses to work on any folder other than `htdocs/`.
+it is on GitHub: what goes online is what the team saw on the preview. Then it looks at `main`: after the pull
+request it already holds the same files, and the script says "main already holds this version". It builds the
+site and checks that it's complete, shows which files are new and which will be deleted, and asks you to type
+`yes`. Before uploading, it saves a copy of the site that is online in `deploy-backups/<date>/` (ignored by Git).
+Then it uploads in an order that keeps the site working during the upload: first the new files, then the pages,
+and at the end it deletes the old files. It refuses to work on any folder other than `htdocs/`.
+
+If `main` is still behind `staging` (for example, you skipped the pull request), the script tells you how many
+commits are missing and, after the `yes`, tries to move `main` forward itself. That works only if an admin of the
+repository has allowed your account to push to `main`; otherwise GitHub refuses, and nothing is uploaded.
 
 - **"Your staging branch is behind GitHub"** or **"has commits that are not on GitHub"**: run `git pull` (and
   `git push` for your own commits, then check the preview), then run it again.
-- **"main has commits that staging doesn't have"**: someone changed `main` directly. Run `git merge origin/main`
-  on `staging`, push, check the preview, then run it again.
-- **"GitHub did not accept the update of main"**: `main` is a protected branch, and your account may not be
-  allowed to push to it. Ask an admin of the repository to run the upload, or open a pull request from `staging`
-  to `main` on GitHub and merge it with "Create a merge commit": the script then sees that `main` already holds
-  that version and only uploads. Nothing is uploaded until `main` is updated.
-- If the upload stops halfway, `main` has already moved: just run it again. It finds `main` up to date and
-  uploads again.
+- **"main has commits that staging doesn't have"**: someone changed `main` directly, or a pull request was merged
+  with "Squash and merge" and `staging` has moved on since. Run `git merge origin/main` on `staging`, push, check
+  the preview, then do the pull request again (step 1) and run it again.
+- **"GitHub did not accept the update of main"**: the pull request from `staging` to `main` is missing, or
+  `staging` got new commits after it. Do the pull request (step 1), then run it again.
+- If the upload stops halfway, just run it again: `main` is already up to date, so it only uploads.
 
 After the upload, open https://qubito.polito.it/ and check a few pages. Also try a page that doesn't exist (for
 example `/test/` and `/en/test/`, which must show the Italian and the English "not found" page) and an old address
@@ -397,9 +404,9 @@ example `/test/` and `/en/test/`, which must show the Italian and the English "n
   and security headers. Delete it with `rclone deletefile qubito:htdocs/.htaccess` and tell the IT of the
   Politecnico.
 
-Run it from `website/` on the `staging` branch, after `git pull`. Changes made with the content editor reach the
-site the same way: they're saved on `staging`, and once the team has checked them on the preview, someone with the
-VPN and the key runs `npm run deploy`.
+Changes made with the content editor reach the site the same way: they're saved on `staging`, and once the team
+has checked them on the preview, someone does the pull request and then, with the VPN and the key, runs
+`npm run deploy`.
 Remember that "Upcoming" activities are also decided at build time, so after an event ends, the site needs a new
 upload.
 

@@ -31,9 +31,9 @@ Open http://localhost:4321/ for the Italian site and http://localhost:4321/en/ f
 `Ctrl + C` in the terminal to stop it.
 
 The site is the `website/` folder of the team's repository. Changes go to the `staging` branch, which the team
-checks on the preview; the `main` branch is the version online, and the upload script moves it forward. The
-[Developer guide](docs/developer-guide.md#getting-started) explains every step in more detail and what to do if
-something goes wrong.
+checks on the preview; the `main` branch is the version online, and a pull request from `staging` brings it up to
+date before each upload. The [Developer guide](docs/developer-guide.md#getting-started) explains every step in
+more detail and what to do if something goes wrong.
 
 ## In short, how the site is made
 

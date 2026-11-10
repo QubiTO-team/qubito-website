@@ -5,6 +5,9 @@ date: 2026-11-11
 endDate: 2026-11-13
 dateLabel: 11–13 novembre 2026
 location: Politecnico di Torino
+registration:
+  url: https://docs.google.com/forms/d/e/1FAIpQLSeePUH-dwDDEzblvtz-N4Blucor26Vi-7-3Pj-jTxouY0PCmw/viewform
+  text: Iscriviti
 ---
 
 Tornano i **QubiTO Quantum Days**, l'evento del team QubiTO del Politecnico di Torino dedicato alla meccanica quantistica e al calcolo quantistico: tre giornate che vanno dai fondamenti della teoria agli algoritmi per i problemi difficili, fino agli esperimenti dal vivo su Lagrange, il computer quantistico del Politecnico.
