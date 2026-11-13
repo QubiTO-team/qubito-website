@@ -85,6 +85,7 @@ const it = {
   'activity.moreActivities': 'Altre attività',
 
   'team.joinTitle': 'Vuoi far parte del team?',
+  'team.years': 'Il team negli anni',
 
   'contacts.follow': 'Seguici',
   'contacts.followText':
@@ -231,6 +232,7 @@ const en: Record<UiKey, string> = {
   'activity.moreActivities': 'More activities',
 
   'team.joinTitle': 'Want to be part of our team?',
+  'team.years': 'The team over the years',
 
   'contacts.follow': 'Follow us',
   'contacts.followText':

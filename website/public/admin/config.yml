@@ -204,14 +204,17 @@ collections:
           - { name: title, label: Title, widget: string, i18n: true }
           - { name: description, label: Description for search engines, widget: text, i18n: true }
           - { name: lead, label: Introduction, widget: text, i18n: true }
-          - name: image
-            label: Photo
-            widget: object
+          - name: years
+            label: The team over the years
+            hint: One group photo per year, shown under the introduction with the newest year first (the order here does not matter). The newest one is also the picture shown when the page is shared.
+            widget: list
             required: false
             i18n: true
             fields:
+              - { name: year, label: Year, widget: number, value_type: int, i18n: duplicate }
+              - { name: caption, label: Caption, hint: "A few words under the photo, for example `Internal hackathon`.", widget: string, required: false, i18n: true }
               - { name: src, label: Photo, widget: image, i18n: duplicate }
-              - { name: alt, label: Alternative text, widget: string, i18n: true }
+              - { name: alt, label: Alternative text, hint: "What the photo shows, for people who cannot see it.", widget: string, i18n: true }
           - { name: body, label: Text, widget: richtext, modes: [raw], i18n: true }
       - name: contacts
         label: Contacts

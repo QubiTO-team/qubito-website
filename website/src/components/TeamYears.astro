@@ -1,0 +1,152 @@
+---
+/*
+ * The team over the years: one group photo per year on a vertical line, newest first, like the
+ * activities timeline: the year in gold, a gold dot on the line, then the photo and its caption.
+ * The first photo is near the top of the page, so it is loaded straight away. The photos are
+ * compressed less than usual: they are small and full of faces, which the default smooths away.
+ */
+import type { ImageMetadata } from 'astro';
+import { Picture } from 'astro:assets';
+import { widthsUpTo } from '../lib/images';
+
+interface Props {
+  title: string;
+  years: { year: number; caption?: string | undefined; src: ImageMetadata; alt: string }[];
+}
+
+const { title, years } = Astro.props;
+---
+
+<section class="years" aria-labelledby="years-title">
+  <h2 id="years-title" class="years-title">
+    {title}
+  </h2>
+  <ol class="years-list">
+    {years.map(({ year, caption, src, alt }, index) => (
+      <li class="year">
+        <span class="marker" />
+        <h3 class="year-label">{year}</h3>
+        <figure class="year-figure">
+          <Picture
+            src={src}
+            alt={alt}
+            widths={widthsUpTo(src, [720, 1080, 1440])}
+            sizes="(min-width: 64rem) 52rem, calc(100vw - 5rem)"
+            formats={['avif', 'webp']}
+            quality="high"
+            loading={index === 0 ? 'eager' : 'lazy'}
+            fetchpriority={index === 0 ? 'high' : 'auto'}
+            class="year-photo"
+          />
+          {caption && <figcaption class="year-caption">{caption}</figcaption>}
+        </figure>
+      </li>
+    ))}
+  </ol>
+</section>
+
+<style>
+  .years {
+    margin-top: 3.5rem;
+  }
+
+  .years-title {
+    font-size: var(--text-xl);
+  }
+
+  /* --rail is where the column of the markers starts; the line runs through their centres. */
+  .years-list {
+    --marker: 0.875rem;
+    --gap: 1.25rem;
+    --pad: 1.75rem;
+    --rail: 0rem;
+    position: relative;
+    margin-top: 0.5rem;
+  }
+
+  .years-list::before {
+    content: '';
+    position: absolute;
+    top: var(--pad);
+    bottom: var(--pad);
+    left: calc(var(--rail) + var(--marker) / 2);
+    width: 1px;
+    background: color-mix(in oklab, var(--color-gold) 35%, transparent);
+  }
+
+  /* Small screens: the year next to its marker, the photo under the year. */
+  .year {
+    position: relative;
+    display: grid;
+    grid-template-columns: var(--marker) minmax(0, 1fr);
+    gap: 0.75rem var(--gap);
+    padding-block: var(--pad);
+  }
+
+  .marker {
+    position: relative;
+    width: var(--marker);
+    height: var(--marker);
+    /* Centred on the first line of the year (line height 2rem). */
+    margin-top: calc((2rem - var(--marker)) / 2);
+    border-radius: 50%;
+    background: var(--color-gold);
+    /* A ring of the page background cuts the line around the marker. */
+    box-shadow: 0 0 0 5px var(--color-mixing);
+  }
+
+  .year-label {
+    color: var(--color-gold);
+    font-size: var(--text-2xl);
+    font-weight: 500;
+    font-variant-numeric: tabular-nums;
+    line-height: 2rem;
+  }
+
+  .year-figure {
+    grid-column: 2;
+    max-width: 52rem;
+  }
+
+  /* The picture is the root element of a child component: its own scope, hence :global. */
+  .year-figure :global(.year-photo) {
+    width: 100%;
+    border-radius: 0.375rem;
+  }
+
+  .year-caption {
+    margin-top: 0.75rem;
+    color: var(--color-frost-muted);
+    font-size: var(--text-sm);
+  }
+
+  /* Large screens: the year on the left of the line, as on the activities page. */
+  @media (min-width: 64rem) {
+    .years-list {
+      --year: 6rem;
+      --gap: 2rem;
+      --pad: 2rem;
+      --rail: calc(var(--year) + var(--gap));
+    }
+
+    .year {
+      grid-template-columns: var(--year) var(--marker) minmax(0, 1fr);
+      align-items: start;
+    }
+
+    .year-label {
+      grid-column: 1;
+      grid-row: 1;
+    }
+
+    .marker {
+      grid-column: 2;
+      grid-row: 1;
+    }
+
+    .year-figure {
+      grid-column: 3;
+      grid-row: 1;
+    }
+  }
+</style>

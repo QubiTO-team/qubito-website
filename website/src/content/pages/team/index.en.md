@@ -2,9 +2,19 @@
 title: About us
 description: QubiTO is Italy's first quantum computing student team, at Politecnico di Torino. Research projects, international hackathons and outreach.
 lead: Founded in 2023 by students and professors at Politecnico di Torino, QubiTO is Italy's first quantum computing student team. We explore the theoretical and practical frontiers of quantum technologies, with a particular focus on quantum computing.
-image:
-  src: ./images/group.jpg
-  alt: About thirty QubiTO members in a Politecnico lecture hall during the 2024 internal hackathon, in front of a screen with the QR codes of the team's LinkedIn and Instagram profiles.
+years:
+  - year: 2026
+    caption: Group photo
+    src: ./images/2026.jpg
+    alt: About thirty QubiTO members in a Politecnico lecture hall, many in the team's purple T-shirt, below a screen showing the QubiTO logo.
+  - year: 2024
+    caption: Internal hackathon
+    src: ./images/2024.jpg
+    alt: About thirty QubiTO members in a Politecnico lecture hall during the 2024 internal hackathon, in front of a screen with the QR codes of the team's LinkedIn and Instagram profiles.
+  - year: 2023
+    caption: Internal hackathon
+    src: ./images/2023.jpg
+    alt: About twenty QubiTO members in a classroom with blackboards during the 2023 internal hackathon; one holds a tablet showing a video call.
 ---
 
 We have moved beyond pure theory. With the inauguration of Politecnico's first quantum computer from IQM, "Lagrange", our team is actively testing algorithms and protocols directly on physical hardware. Furthermore, the use of RFSoC boards allows us to closely explore the electronics and control systems related to these technologies.
