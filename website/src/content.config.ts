@@ -110,7 +110,17 @@ const pages = defineCollection({
       description: z.string(),
       /** Opening paragraph, larger than the text. */
       lead: z.string(),
-      image: z.object({ src: image(), alt: z.string().min(1) }).optional(),
+      /** About us only: a group photo of the team for each year, in any order. */
+      years: z
+        .array(
+          z.object({
+            year: z.number().int(),
+            caption: z.string().optional(),
+            src: image(),
+            alt: z.string().min(1),
+          }),
+        )
+        .default([]),
       /** Join us only: applications open (the form, and "Join us" in the menu and on the home page). */
       open: z.boolean().optional(),
       /** Join us only: how the data of the form is used, shown before the button that sends it. */

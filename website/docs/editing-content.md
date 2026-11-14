@@ -156,7 +156,10 @@ Only upload photos that the team is allowed to publish, and that the people in t
 
 In **Pages** you can change the texts of four pages:
 
-- **About us**: introduction, photo and text.
+- **About us**: introduction, **The team over the years** and text. The team over the years is a group photo for
+  each year, shown under the introduction with the newest year first. To add a year, click **Add** in that list
+  and fill in the year, the photo, its alternative text and, if you like, a short caption. The newest photo is
+  also the picture shown when someone shares the page.
 - **Contacts**: introduction and the closing message. The email address and the social links are added by the
   site itself.
 - **Join us**: see [Opening applications](#opening-applications) below.

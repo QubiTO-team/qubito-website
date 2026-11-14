@@ -16,7 +16,7 @@ Tornano i **QubiTO Quantum Days**, l'evento del team QubiTO del Politecnico di T
 
 ### Mercoledì 11 novembre
 
-**19:00–19:45.** Introduzione a cura del board di QubiTO, con l'intervento del prof. Bartolomeo Montrucchio (referente di QubiTO).
+**19:00–19:45.** Introduzione a cura del board di QubiTO, con l'intervento del prof. Bartolomeo Montrucchio (DAUIN, Politecnico di Torino), referente di QubiTO.
 
 **19:45–20:30.** Prof. Riccardo Adami (DISMA, Politecnico di Torino), *Bohmian Rhapsody*.
 
@@ -24,12 +24,12 @@ La meccanica bohmiana, nota anche come teoria dell'onda pilota di de Broglie-Boh
 
 ### Giovedì 12 novembre
 
-**19:00–20:30.** Chiara Capecci, *Qubits at work: quantum solutions for hard problems*.
+**19:00–20:30.** Chiara Capecci (Università di Trento), *Qubits at work: quantum solutions for hard problems*.
 
 Alcuni problemi sono difficili anche per i migliori supercomputer: risolvere un problema di pianificazione con centinaia di vincoli, o trovare lo stato fondamentale di una molecola. I computer quantistici potrebbero darci un nuovo modo per affrontarli. Partiamo dalle basi: cos'è un qubit, come funziona un computer quantistico e quali piattaforme si stanno costruendo oggi. Vediamo poi come un problema difficile può essere scritto nel linguaggio dei qubit. Presentiamo algoritmi quantistici, come il quantum annealing e gli approcci variazionali, che cercano la soluzione migliore a questi problemi. Gli esempi vanno dai problemi di allocazione alla chimica molecolare.
 
 ### Venerdì 13 novembre
 
-**16:00–17:30.** Chiara Vercellino, *Introduction to Quantum Computing: Core Concepts and Live Experiments on Lagrange QPU*.
+**16:00–17:30.** Chiara Vercellino (Fondazione LINKS), *Introduction to Quantum Computing: Core Concepts and Live Experiments on Lagrange QPU*.
 
 I computer quantistici promettono di affrontare problemi fuori dalla portata delle macchine classiche, ma come funzionano davvero? Questo workshop introduttivo costruisce le idee chiave a partire dai principi primi, senza bisogno di conoscenze di fisica. Dal bit classico arriviamo al qubit e ai tre concetti alla base di ogni algoritmo quantistico (sovrapposizione, interferenza ed entanglement), con una valutazione onesta di capacità e limiti dei dispositivi rumorosi di oggi. Nella seconda parte passiamo dalla teoria alla pratica, eseguendo dal vivo semplici routine quantistiche su Lagrange, il computer quantistico superconduttivo a 5 qubit installato al Politecnico di Torino. I risultati ottenuti sull'hardware reale vengono confrontati con quelli di un simulatore ideale, per mettere in evidenza gli effetti del rumore nei processori quantistici attuali. I partecipanti usciranno con un'idea intuitiva di come funzionano i computer quantistici e con un notebook pronto da eseguire per continuare a sperimentare da soli.

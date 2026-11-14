@@ -2,9 +2,19 @@
 title: Chi siamo
 description: QubiTO è il primo team studentesco di quantum computing in Italia, al Politecnico di Torino. Progetti di ricerca, hackathon internazionali e divulgazione.
 lead: Fondato nel 2023 da studenti e professori del Politecnico di Torino, QubiTO è il primo team studentesco di quantum computing in Italia. Esploriamo le frontiere teoriche e pratiche delle tecnologie quantistiche, con un focus particolare sulla computazione quantistica.
-image:
-  src: ./images/group.jpg
-  alt: Una trentina di membri di QubiTO in un'aula del Politecnico durante l'hackathon interno del 2024, davanti allo schermo con i QR code dei profili LinkedIn e Instagram del team.
+years:
+  - year: 2026
+    caption: Foto di gruppo
+    src: ./images/2026.jpg
+    alt: Una trentina di membri di QubiTO in un'aula del Politecnico, molti con la maglietta viola del team, sotto lo schermo con il logo di QubiTO.
+  - year: 2024
+    caption: Hackathon interno
+    src: ./images/2024.jpg
+    alt: Una trentina di membri di QubiTO in un'aula del Politecnico durante l'hackathon interno del 2024, davanti allo schermo con i QR code dei profili LinkedIn e Instagram del team.
+  - year: 2023
+    caption: Hackathon interno
+    src: ./images/2023.jpg
+    alt: Una ventina di membri di QubiTO in un'aula con le lavagne durante l'hackathon interno del 2023; uno tiene un tablet con una videochiamata.
 ---
 
 Siamo andati oltre la pura teoria. Con l'inaugurazione del primo computer quantistico del Politecnico firmato IQM, «Lagrange», il nostro team sta attivamente testando algoritmi e protocolli direttamente su hardware fisico. Inoltre, l'utilizzo di schede RFSoC ci permette di esplorare da vicino anche l'elettronica e i sistemi di controllo legati a queste tecnologie.

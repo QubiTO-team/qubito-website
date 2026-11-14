@@ -96,7 +96,8 @@ h1.title {
   margin: 20px 0 28px; cursor: crosshair; user-select: none;
 }
 h1.title .qw { display: block; }
-h1.title .qw:nth-of-type(2) .ql { color: var(--accent); }
+/* QuTOHack: the letters T and O in pink (3rd and 4th letter) */
+h1.title .ql:nth-child(3), h1.title .ql:nth-child(4) { color: var(--accent); }
 .sub { font-size: clamp(1.15rem, 2vw, 1.6rem); }
 .date { font-family: var(--mono); font-size: clamp(.9rem, 1.3vw, 1.05rem); color: var(--muted); margin-top: 10px; }
 .countdown { display: inline-flex; flex-wrap: wrap; align-items: baseline; gap: 6px 14px; margin-top: 32px; font-family: var(--mono); }
