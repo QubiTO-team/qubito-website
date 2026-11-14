@@ -16,7 +16,7 @@ const mainSite = lang === 'it' ? '/' : '/en/';
     <a class="logo-home" href={mainSite} title={t({ en: 'QubiTO website', it: 'Sito di QubiTO' })}>
       <img src={asset('logos/qubito.svg')} alt={t({ en: 'QubiTO website', it: 'Sito di QubiTO' })} width="46" height="32">
     </a>
-    <a class="logo-text" href={home ? '#hero' : url(lang)}>hackathon</a>
+    <a class="logo-text" href={home ? '#hero' : url(lang)}>QuTOHack</a>
   </div>
   <div class="navlinks">
     {sections.map((s, k) => s.nav !== false && (
