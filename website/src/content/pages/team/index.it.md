@@ -8,9 +8,9 @@ years:
     src: ./images/2026.jpg
     alt: Una trentina di membri di QubiTO in un'aula del Politecnico, molti con la maglietta viola del team, sotto lo schermo con il logo di QubiTO.
   - year: 2024
-    caption: Hackathon interno
+    caption: Foto di gruppo
     src: ./images/2024.jpg
-    alt: Una trentina di membri di QubiTO in un'aula del Politecnico durante l'hackathon interno del 2024, davanti allo schermo con i QR code dei profili LinkedIn e Instagram del team.
+    alt: Una trentina di membri di QubiTO in un'aula del Politecnico, davanti allo schermo con i QR code dei profili LinkedIn e Instagram del team.
   - year: 2023
     caption: Hackathon interno
     src: ./images/2023.jpg
