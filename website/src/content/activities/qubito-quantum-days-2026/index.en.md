@@ -18,7 +18,7 @@ registration:
 
 **19:00–19:45.** Opening by the QubiTO board with Prof. Bartolomeo Montrucchio (DAUIN, Politecnico di Torino), QubiTO Advisor.
 
-**19:45–20:30.** Prof. Riccardo Adami (DISMA, Politecnico di Torino), *Bohmian Rhapsody*.
+**19:45–20:30.** Prof. Riccardo Adami (DISMA, Politecnico di Torino), *Bohmian Rapsody*.
 
 Bohmian mechanics, also known as the de Broglie-Bohm pilot wave theory, is a hidden-variable theory whose predictions are those of quantum mechanics. The hidden variables are the positions of the particles, defined at every time, giving rise to trajectories. As a consequence, speed is defined too at every time, and so is momentum. The dynamics is deterministic and there is no collapse. What is uncertain is the initial distribution of the position of the particles. We illustrate the structure of the theory.
 

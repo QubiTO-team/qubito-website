@@ -18,7 +18,7 @@ Tornano i **QubiTO Quantum Days**, l'evento del team QubiTO del Politecnico di T
 
 **19:00–19:45.** Introduzione a cura del board di QubiTO, con l'intervento del prof. Bartolomeo Montrucchio (DAUIN, Politecnico di Torino), referente di QubiTO.
 
-**19:45–20:30.** Prof. Riccardo Adami (DISMA, Politecnico di Torino), *Bohmian Rhapsody*.
+**19:45–20:30.** Prof. Riccardo Adami (DISMA, Politecnico di Torino), *Bohmian Rapsody*.
 
 La meccanica bohmiana, nota anche come teoria dell'onda pilota di de Broglie-Bohm, è una teoria a variabili nascoste che fa le stesse previsioni della meccanica quantistica. Le variabili nascoste sono le posizioni delle particelle, definite in ogni istante, che danno luogo a traiettorie. Di conseguenza in ogni istante è definita anche la velocità, e così la quantità di moto. La dinamica è deterministica e non c'è collasso. Ciò che è incerto è la distribuzione iniziale delle posizioni delle particelle. Illustriamo la struttura della teoria.
 
