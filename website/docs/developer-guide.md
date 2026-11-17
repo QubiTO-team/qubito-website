@@ -134,7 +134,8 @@ in Italy): at build time, and again in the browser by the small script in `src/c
 The build writes the first and last day of each activity in `data-start` and `data-end`, and on the Activities page
 it always writes the "Ongoing" and "Upcoming" sections and one section per year, hiding the empty ones. The script
 moves each activity to its section, removes the sign-up button after the last day (`data-sign-up-until`) and
-updates the "Ongoing" / "Upcoming" labels (`data-status-label`). When the build is up to date it changes nothing.
+updates the "Ongoing" / "Upcoming" labels of the home page list (`data-status-label`, in `ActivityList.astro`).
+When the build is up to date it changes nothing.
 Visitors without JavaScript see the state of the upload day.
 
 **Interface texts.** Buttons, menu items, labels and messages live in `src/i18n/ui.ts`, never directly in the
@@ -159,7 +160,7 @@ discuss them with the team before changing them.
    almost no JavaScript: the background particles (`ParticleField.astro`, about 1.4 KB compressed), Simple
    Analytics, on Join us while applications are open the application form, and the activity status
    (`ActivityStatus.astro`, about 0.6 KB compressed) on Activities and on the pages of activities with a sign-up
-   button.
+   button. The home page loads it too, for the labels of its activity list.
 5. **Don't break existing addresses.** People and search engines link to the old pages. If you rename a page or
    change a slug, add a redirect in `redirects` in `astro.config.mjs`. The build turns it into a real redirect for
    Apache too, in `.htaccess` (`src/lib/htaccess.ts`).

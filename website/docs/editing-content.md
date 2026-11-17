@@ -138,7 +138,8 @@ page and the latest ones on the home page.
 At the top of the page, activities taking place today appear under "Ongoing" and those that haven't started yet
 under "Upcoming", soonest first; each of the two sections shows only when it has something. The page looks at the
 date in Italy every time someone opens it, so when an event starts or ends it changes section by itself, and the
-sign-up button disappears the day after the last day. You don't need to upload the site again for that.
+sign-up button disappears the day after the last day. You don't need to upload the site again for that. On the home
+page, the same activities have an "Ongoing" or "Upcoming" label next to the date, which also updates by itself.
 
 ## Photos
 
