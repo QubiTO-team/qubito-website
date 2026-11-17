@@ -1,22 +1,31 @@
 ---
-/* Compact list of activities: date, place, title, result and summary, with the first photo. */
+/*
+ * Compact list of activities: date, place, title, result and summary, with the first photo.
+ * With `label`, activities not over yet get an "Ongoing" / "Upcoming" label after the place,
+ * kept up to date in the browser by ActivityStatus.astro (the page must include it).
+ */
 import { Picture } from 'astro:assets';
-import { activityUrl, type Activity } from '../lib/content';
+import { activityDays, activityStatus, activityUrl, type Activity } from '../lib/content';
 import { widthsUpTo } from '../lib/images';
-import { formatDate, type Lang } from '../i18n/utils';
+import { formatDate, useTranslations, type Lang } from '../i18n/utils';
 
 interface Props {
   activities: Activity[];
   lang: Lang;
+  /** Look of the label, temporary: two variants to choose from on /prove/etichetta-attivita/. */
+  label?: 'pill' | 'dot';
 }
 
-const { activities, lang } = Astro.props;
+const { activities, lang, label } = Astro.props;
+const t = useTranslations(lang);
 ---
 
 <ul class="activity-list">
   {activities.map((activity) => {
     const { title, description, date, dateLabel, location, result, gallery } = activity.data;
     const photo = gallery[0];
+    const status = activityStatus(activity);
+    const { start, end } = activityDays(activity);
     return (
       <li class="activity">
         {photo && (
@@ -35,6 +44,18 @@ const { activities, lang } = Astro.props;
               {dateLabel ?? formatDate(date, lang)}
             </time>
             {location && <span>{location}</span>}
+            {label && status !== 'past' && (
+              <span
+                class:list={['activity-status', `status-${label}`]}
+                data-status-label
+                data-start={start}
+                data-end={end}
+                data-ongoing={t('activities.ongoing')}
+                data-upcoming={t('activities.upcoming')}
+              >
+                {status === 'ongoing' ? t('activities.ongoing') : t('activities.upcoming')}
+              </span>
+            )}
           </p>
           <h3 class="activity-title">
             <a href={activityUrl(activity, lang)}>{title}</a>
@@ -90,6 +111,32 @@ const { activities, lang } = Astro.props;
 
   .activity-meta > span {
     color: var(--color-frost-muted);
+  }
+
+  .activity-meta > .activity-status {
+    color: var(--color-orchid);
+  }
+
+  /* Variant A: outlined pill. */
+  .status-pill {
+    padding-inline: 0.55rem;
+    border: 1px solid color-mix(in oklab, var(--color-orchid) 55%, transparent);
+    border-radius: 999px;
+  }
+
+  /* Variant B: a small dot before the text. */
+  .status-dot {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+  }
+
+  .status-dot::before {
+    content: '';
+    width: 0.4rem;
+    height: 0.4rem;
+    border-radius: 50%;
+    background: currentColor;
   }
 
   .activity-title {
