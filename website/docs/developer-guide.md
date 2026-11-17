@@ -407,8 +407,8 @@ example `/test/` and `/en/test/`, which must show the Italian and the English "n
 Changes made with the content editor reach the site the same way: they're saved on `staging`, and once the team
 has checked them on the preview, someone does the pull request and then, with the VPN and the key, runs
 `npm run deploy`.
-Remember that "Upcoming" activities are also decided at build time, so after an event ends, the site needs a new
-upload.
+Remember that "Ongoing" and "Upcoming" activities are also decided at build time, so when an event starts or ends,
+the site needs a new upload.
 
 ## Things we learned the hard way
 

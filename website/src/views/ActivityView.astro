@@ -11,9 +11,9 @@ import PrevNextNav from '../components/PrevNextNav.astro';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import {
   activityAlternates,
+  activityStatus,
   activityUrl,
   getActivities,
-  isUpcoming,
   type Activity,
 } from '../lib/content';
 import { formatDate, localizePath, useTranslations, type Lang } from '../i18n/utils';
@@ -43,7 +43,7 @@ const photo = gallery[0];
 const socialImage =
   photo &&
   (await getImage({ src: photo.src, width: Math.min(1200, photo.src.width), format: 'jpg' }));
-const signUp = registration && isUpcoming(activity) ? registration : undefined;
+const signUp = registration && activityStatus(activity) !== 'past' ? registration : undefined;
 ---
 
 <BaseLayout

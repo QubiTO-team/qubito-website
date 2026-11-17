@@ -55,11 +55,29 @@ export const activityUrl = (activity: Activity, lang: Lang) =>
 export const activityAlternates = (activity: Activity) =>
   alternates(activity, getActivities, activityUrl, '/activities/');
 
+export type ActivityStatus = 'ongoing' | 'upcoming' | 'past';
+
+/** A day as "YYYY-MM-DD" in Italy, whatever the time zone of the computer that builds the site. */
+function italianDay(now: Date): string {
+  const parts = new Intl.DateTimeFormat('en', {
+    timeZone: 'Europe/Rome',
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+  }).formatToParts(now);
+  const part = (type: Intl.DateTimeFormatPartTypes) =>
+    parts.find((item) => item.type === type)?.value;
+  return `${part('year')}-${part('month')}-${part('day')}`;
+}
+
 /**
- * Whether an activity is not over yet. Decided when the site is built: it stays "upcoming"
- * until the next build after its last day.
+ * Whether an activity is taking place today, hasn't started yet or is over. Decided when the
+ * site is built: an activity changes status only with the next build.
  */
-export function isUpcoming(activity: Activity, now = new Date()): boolean {
-  const today = Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate());
-  return (activity.data.endDate ?? activity.data.date).valueOf() >= today;
+export function activityStatus(activity: Activity, now = new Date()): ActivityStatus {
+  const today = italianDay(now);
+  // Dates in the front matter have no time: they are midnight UTC of that day.
+  const day = (date: Date) => date.toISOString().slice(0, 10);
+  if (day(activity.data.endDate ?? activity.data.date) < today) return 'past';
+  return day(activity.data.date) <= today ? 'ongoing' : 'upcoming';
 }
