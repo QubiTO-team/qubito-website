@@ -5,6 +5,13 @@ date: 2026-11-11
 endDate: 2026-11-13
 dateLabel: 11–13 November 2026
 location: Politecnico di Torino
+gallery:
+  - src: ./images/opening.jpg
+    alt: A QubiTO member in the purple team T-shirt presents the team's goals in a Politecnico lecture hall full of students.
+  - src: ./images/lagrange-talk.jpg
+    alt: A speaker in front of the slide with the features of Lagrange, the 5-qubit quantum computer of the Politecnico.
+  - src: ./images/lagrange-visit.jpg
+    alt: A group of participants in front of the glass wall behind which stands Lagrange, the IQM quantum computer of the Politecnico.
 registration:
   url: https://docs.google.com/forms/d/e/1FAIpQLSeePUH-dwDDEzblvtz-N4Blucor26Vi-7-3Pj-jTxouY0PCmw/viewform
   text: Sign up
