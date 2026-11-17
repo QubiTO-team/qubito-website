@@ -29,7 +29,7 @@
     "@tailwindcss/vite": "^4.3.3",
     "astro": "^7.4.12",
     "gsap": "^3.15.0",
-    "katex": "^0.16.47",
+    "katex": "^0.19.1",
     "rehype-katex": "^7.0.1",
     "remark-math": "^6.0.0",
     "tailwindcss": "^4.3.3",
@@ -45,5 +45,8 @@
     "prettier-plugin-tailwindcss": "^0.8.1",
     "sharp": "^0.35.5",
     "typescript": "^6.0.3"
+  },
+  "overrides": {
+    "katex": "$katex"
   }
 }

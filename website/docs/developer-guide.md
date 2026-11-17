@@ -415,7 +415,10 @@ the site needs a new upload.
 Small traps we've already fallen into. They're worth a look before you change the related code.
 
 - **Changing a Markdown plugin.** Astro keeps already-rendered Markdown in `node_modules/.astro/data-store.json`.
-  If you change a plugin without touching the texts, delete that file, or the pages won't change.
+  If you change a plugin without touching the texts, delete that file, or the pages won't change. The same goes
+  for updating a plugin or KaTeX with npm: build once with `npm run build -- --force`, which empties that cache (an
+  update of Astro itself empties it on its own). `overrides` in `package.json` makes `rehype-katex` and
+  `remark-math` use the same KaTeX as the site, so the formulas always match the KaTeX stylesheet.
 - **The home page shows a still cryostat in `npm run dev`**, and the console says
   `Failed to fetch dynamically imported module`. This happens after an `npm install` or a change to
   `astro.config.mjs`: Vite has rebuilt its copy of three.js and GSAP, but the running server still asks for the
