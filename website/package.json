@@ -47,6 +47,9 @@
     "typescript": "^6.0.3"
   },
   "overrides": {
-    "katex": "$katex"
+    "katex": "$katex",
+    "@donmccurdy/caporal": {
+      "glob": "^14.0.6"
+    }
   }
 }
