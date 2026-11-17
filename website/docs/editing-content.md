@@ -130,15 +130,15 @@ page and the latest ones on the home page.
    - **Place** and **Result** (an award or a placement), if there are any.
    - **Photos**: the first one is also shown in the timeline. For each photo, write a short description of what
      it shows.
-   - **External links** (for example the event's website) and **Sign-up**, a button that disappears when the
-     event is over.
+   - **External links** (for example the event's website) and **Sign-up**, a button that disappears by itself
+     when the event is over.
    - **Text**: what happened, in Markdown.
 3. Fill in the **English** tab, then **Save**.
 
 At the top of the page, activities taking place today appear under "Ongoing" and those that haven't started yet
-under "Upcoming", soonest first; each of the two sections shows only when it has something. The site decides this
-when it is built, by the date in Italy, so when an event starts or ends it changes section (and its sign-up button
-disappears) only with the next upload of the site.
+under "Upcoming", soonest first; each of the two sections shows only when it has something. The page looks at the
+date in Italy every time someone opens it, so when an event starts or ends it changes section by itself, and the
+sign-up button disappears the day after the last day. You don't need to upload the site again for that.
 
 ## Photos
 

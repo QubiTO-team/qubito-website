@@ -6,11 +6,13 @@
 import '../styles/article.css';
 import { getImage } from 'astro:assets';
 import { render } from 'astro:content';
+import ActivityStatus from '../components/ActivityStatus.astro';
 import Gallery from '../components/Gallery.astro';
 import PrevNextNav from '../components/PrevNextNav.astro';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import {
   activityAlternates,
+  activityDays,
   activityStatus,
   activityUrl,
   getActivities,
@@ -88,7 +90,11 @@ const signUp = registration && activityStatus(activity) !== 'past' ? registratio
       {(signUp || links.length > 0) && (
         <p class="activity-links">
           {signUp && (
-            <a href={signUp.url} class="btn btn-primary">
+            <a
+              href={signUp.url}
+              class="btn btn-primary"
+              data-sign-up-until={activityDays(activity).end}
+            >
               {signUp.text}
             </a>
           )}
@@ -123,6 +129,7 @@ const signUp = registration && activityStatus(activity) !== 'past' ? registratio
       />
     </footer>
   </article>
+  {signUp && <ActivityStatus />}
 </BaseLayout>
 
 <style>

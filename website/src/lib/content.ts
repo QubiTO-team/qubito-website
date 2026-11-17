@@ -1,5 +1,8 @@
 import { getCollection, type CollectionEntry } from 'astro:content';
 import { langs, localizePath, type Lang } from '../i18n/utils';
+import { italianDay, statusOn, type ActivityStatus } from './activity-dates';
+
+export type { ActivityStatus };
 
 export type Article = CollectionEntry<'articles'>;
 export type Activity = CollectionEntry<'activities'>;
@@ -55,29 +58,18 @@ export const activityUrl = (activity: Activity, lang: Lang) =>
 export const activityAlternates = (activity: Activity) =>
   alternates(activity, getActivities, activityUrl, '/activities/');
 
-export type ActivityStatus = 'ongoing' | 'upcoming' | 'past';
-
-/** A day as "YYYY-MM-DD" in Italy, whatever the time zone of the computer that builds the site. */
-function italianDay(now: Date): string {
-  const parts = new Intl.DateTimeFormat('en', {
-    timeZone: 'Europe/Rome',
-    year: 'numeric',
-    month: '2-digit',
-    day: '2-digit',
-  }).formatToParts(now);
-  const part = (type: Intl.DateTimeFormatPartTypes) =>
-    parts.find((item) => item.type === type)?.value;
-  return `${part('year')}-${part('month')}-${part('day')}`;
+/** First and last day of an activity as "YYYY-MM-DD", the format of the data-* attributes. */
+export function activityDays(activity: Activity): { start: string; end: string } {
+  // Dates in the front matter have no time: they are midnight UTC of that day.
+  const day = (date: Date) => date.toISOString().slice(0, 10);
+  return { start: day(activity.data.date), end: day(activity.data.endDate ?? activity.data.date) };
 }
 
 /**
- * Whether an activity is taking place today, hasn't started yet or is over. Decided when the
- * site is built: an activity changes status only with the next build.
+ * Whether an activity is taking place today, hasn't started yet or is over, when the site is
+ * built. ActivityStatus.astro corrects it in the browser if the site was built days ago.
  */
 export function activityStatus(activity: Activity, now = new Date()): ActivityStatus {
-  const today = italianDay(now);
-  // Dates in the front matter have no time: they are midnight UTC of that day.
-  const day = (date: Date) => date.toISOString().slice(0, 10);
-  if (day(activity.data.endDate ?? activity.data.date) < today) return 'past';
-  return day(activity.data.date) <= today ? 'ongoing' : 'upcoming';
+  const { start, end } = activityDays(activity);
+  return statusOn(start, end, italianDay(now));
 }

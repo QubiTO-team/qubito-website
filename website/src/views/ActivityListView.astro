@@ -1,12 +1,19 @@
 ---
 /*
  * All the activities in one language on a timeline: first the ongoing ones and the upcoming
- * ones, each section only when it has something (decided when the site is built), then the
- * others grouped by year, newest first.
+ * ones, then the others grouped by year, newest first. Sections without activities are hidden.
+ * The build decides where each activity goes; ActivityStatus.astro moves it in the browser when
+ * the site was built before the activity started or ended, so every section is always there.
  */
+import ActivityStatus from '../components/ActivityStatus.astro';
 import Timeline from '../components/Timeline.astro';
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { activityStatus, getActivities, type Activity, type ActivityStatus } from '../lib/content';
+import {
+  activityStatus,
+  getActivities,
+  type Activity,
+  type ActivityStatus as Status,
+} from '../lib/content';
 import { useTranslations, type Lang } from '../i18n/utils';
 
 interface Props {
@@ -17,34 +24,35 @@ const { lang } = Astro.props;
 const t = useTranslations(lang);
 
 const activities = await getActivities(lang);
-const withStatus = (status: ActivityStatus) =>
+const withStatus = (status: Status) =>
   activities.filter((activity) => activityStatus(activity) === status);
-const years = new Map<number, Activity[]>();
-for (const activity of withStatus('past')) {
-  const year = activity.data.date.getUTCFullYear();
-  years.set(year, [...(years.get(year) ?? []), activity]);
-}
+const yearOf = (activity: Activity) => activity.data.date.getUTCFullYear();
+// Newest first, like the activities.
+const years = [...new Set(activities.map(yearOf))];
 const groups = [
   // Ongoing and upcoming: soonest first, with the title in orchid instead of gold.
   {
+    key: 'ongoing',
     id: 'ongoing',
     title: t('activities.ongoing'),
     activities: withStatus('ongoing').reverse(),
     highlighted: true,
   },
   {
+    key: 'upcoming',
     id: 'upcoming',
     title: t('activities.upcoming'),
     activities: withStatus('upcoming').reverse(),
     highlighted: true,
   },
-  ...[...years].map(([year, activities]) => ({
+  ...years.map((year) => ({
+    key: String(year),
     id: `year-${year}`,
     title: String(year),
-    activities,
+    activities: withStatus('past').filter((activity) => yearOf(activity) === year),
     highlighted: false,
   })),
-].filter((group) => group.activities.length > 0);
+];
 ---
 
 <BaseLayout lang={lang} title={t('nav.activities')} description={t('activities.description')}>
@@ -55,7 +63,12 @@ const groups = [
     </header>
 
     {groups.map((group) => (
-      <section class="group" aria-labelledby={group.id}>
+      <section
+        class="group"
+        aria-labelledby={group.id}
+        data-section={group.key}
+        hidden={group.activities.length === 0}
+      >
         <h2 id={group.id} class:list={['group-title', { 'is-highlighted': group.highlighted }]}>
           {group.title}
         </h2>
@@ -63,6 +76,7 @@ const groups = [
       </section>
     ))}
   </div>
+  <ActivityStatus />
 </BaseLayout>
 
 <style>

@@ -1,10 +1,11 @@
 ---
 /*
- * Activities on a vertical line, newest first: a gold dot on the line, then date, place, title,
- * result and summary, and the first photo.
+ * Activities on a vertical line, in the given order: a gold dot on the line, then date, place,
+ * title, result and summary, and the first photo. The first and last day go in data-start and
+ * data-end for ActivityStatus.astro.
  */
 import { Picture } from 'astro:assets';
-import { activityUrl, type Activity } from '../lib/content';
+import { activityDays, activityUrl, type Activity } from '../lib/content';
 import { widthsUpTo } from '../lib/images';
 import { formatDate, type Lang } from '../i18n/utils';
 
@@ -20,8 +21,9 @@ const { activities, lang } = Astro.props;
   {activities.map((activity) => {
     const { title, description, date, dateLabel, location, result, gallery } = activity.data;
     const photo = gallery[0];
+    const { start, end } = activityDays(activity);
     return (
-      <li class="entry">
+      <li class="entry" data-start={start} data-end={end}>
         <span class="marker" />
         <div class="entry-body">
           <p class="entry-meta">
