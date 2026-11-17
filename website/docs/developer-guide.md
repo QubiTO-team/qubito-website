@@ -372,9 +372,11 @@ separately. The upload script never touches it.
    `main` a new commit with the same files but a different history, so the next pull request runs into conflicts
    and `main` has to be merged back into `staging` every time. After the merge, don't press "Delete branch": the
    preview and the content editor use `staging`.
-2. Connect to the VPN of the Politecnico. Then, in `website/` on the `staging` branch, run `git pull` and:
+2. Connect to the VPN of the Politecnico. Then, in `website/` on the `staging` branch, run:
 
    ```powershell
+   git pull
+   npm ci                              # the package versions of package-lock.json, in case someone updated them
    node scripts/deploy.mjs --dry-run   # builds the site and shows what would change, without uploading
    npm run deploy                      # the same, then asks for confirmation and uploads
    ```
