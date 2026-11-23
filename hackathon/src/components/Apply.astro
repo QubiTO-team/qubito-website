@@ -15,14 +15,14 @@ const closed = applicationsClosed();
       <span class="idx"></span>
       <h2 class="q" data-scroll>{t({ en: 'Apply', it: 'Candidati' })}</h2>
       <p class="lead">{t({
-        en: `About five minutes. Applications close on ${deadline} at 23:59.`,
-        it: `Circa cinque minuti. Le candidature chiudono il ${deadline} alle 23:59.`,
+        en: APPLICATIONS.deadline ? `About five minutes. Applications close on ${deadline} at 23:59.` : 'About five minutes. Applications are open.',
+        it: APPLICATIONS.deadline ? `Circa cinque minuti. Le candidature chiudono il ${deadline} alle 23:59.` : 'Circa cinque minuti. Le candidature sono aperte.',
       })}</p>
       <ol class="next-steps">
         <li><b>1</b><span>{t({ en: 'You fill in the application form', it: 'Compili il modulo di candidatura' })}</span></li>
         <li><b>2</b><span>{t({
-          en: `We review all applications and email you the result by ${resultsBy}`,
-          it: `Valutiamo tutte le candidature e ti mandiamo l'esito via email entro il ${resultsBy}`,
+          en: APPLICATIONS.resultsBy ? `We review all applications and email you the result by ${resultsBy}` : 'We review all applications and email you the result',
+          it: APPLICATIONS.resultsBy ? `Valutiamo tutte le candidature e ti mandiamo l'esito via email entro il ${resultsBy}` : "Valutiamo tutte le candidature e ti mandiamo l'esito via email",
         })}</span></li>
         <li><b>3</b><span>{t({ en: 'On 12 December, teams of 4 are formed on site', it: 'Il 12 dicembre i team da 4 vengono formati in sede' })}</span></li>
       </ol>
