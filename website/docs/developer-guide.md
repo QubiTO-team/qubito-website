@@ -128,6 +128,16 @@ are required) are in `src/content.config.ts`. The content editor has its own cop
 `public/admin/config.yml`: **whenever you change one, change the other**, or the editor will write files that the
 build refuses.
 
+**Ongoing, upcoming and past activities.** The site is built only when someone uploads it, which can be weeks
+apart. So the status of an activity is decided twice, with the same code (`src/lib/activity-dates.ts`, by the date
+in Italy): at build time, and again in the browser by the small script in `src/components/ActivityStatus.astro`.
+The build writes the first and last day of each activity in `data-start` and `data-end`, and on the Activities page
+it always writes the "Ongoing" and "Upcoming" sections and one section per year, hiding the empty ones. The script
+moves each activity to its section, removes the sign-up button after the last day (`data-sign-up-until`) and
+updates the "Ongoing" / "Upcoming" labels of the home page list (`data-status-label`, in `ActivityList.astro`).
+When the build is up to date it changes nothing.
+Visitors without JavaScript see the state of the upload day.
+
 **Interface texts.** Buttons, menu items, labels and messages live in `src/i18n/ui.ts`, never directly in the
 components. In a component, `const t = useTranslations(lang)` and then `t('nav.articles')` give you the text in
 the language of the page.
@@ -148,7 +158,9 @@ discuss them with the team before changing them.
    [Simple Analytics](https://www.simpleanalytics.com): it uses no cookies and is explained on the Privacy page.
 4. **JavaScript only where it's needed.** three.js and GSAP load on the home page only. The other pages ship
    almost no JavaScript: the background particles (`ParticleField.astro`, about 1.4 KB compressed), Simple
-   Analytics and, on Join us while applications are open, the application form.
+   Analytics, on Join us while applications are open the application form, and the activity status
+   (`ActivityStatus.astro`, about 0.6 KB compressed) on Activities and on the pages of activities with a sign-up
+   button. The home page loads it too, for the labels of its activity list.
 5. **Don't break existing addresses.** People and search engines link to the old pages. If you rename a page or
    change a slug, add a redirect in `redirects` in `astro.config.mjs`. The build turns it into a real redirect for
    Apache too, in `.htaccess` (`src/lib/htaccess.ts`).
@@ -361,9 +373,11 @@ separately. The upload script never touches it.
    `main` a new commit with the same files but a different history, so the next pull request runs into conflicts
    and `main` has to be merged back into `staging` every time. After the merge, don't press "Delete branch": the
    preview and the content editor use `staging`.
-2. Connect to the VPN of the Politecnico. Then, in `website/` on the `staging` branch, run `git pull` and:
+2. Connect to the VPN of the Politecnico. Then, in `website/` on the `staging` branch, run:
 
    ```powershell
+   git pull
+   npm ci                              # the package versions of package-lock.json, in case someone updated them
    node scripts/deploy.mjs --dry-run   # builds the site and shows what would change, without uploading
    npm run deploy                      # the same, then asks for confirmation and uploads
    ```
@@ -407,15 +421,18 @@ example `/test/` and `/en/test/`, which must show the Italian and the English "n
 Changes made with the content editor reach the site the same way: they're saved on `staging`, and once the team
 has checked them on the preview, someone does the pull request and then, with the VPN and the key, runs
 `npm run deploy`.
-Remember that "Upcoming" activities are also decided at build time, so after an event ends, the site needs a new
-upload.
+"Ongoing" and "Upcoming" activities are decided at build time and then corrected in the browser with the date of
+the day, so the site doesn't need a new upload when an event starts or ends (see below).
 
 ## Things we learned the hard way
 
 Small traps we've already fallen into. They're worth a look before you change the related code.
 
 - **Changing a Markdown plugin.** Astro keeps already-rendered Markdown in `node_modules/.astro/data-store.json`.
-  If you change a plugin without touching the texts, delete that file, or the pages won't change.
+  If you change a plugin without touching the texts, delete that file, or the pages won't change. The same goes
+  for updating a plugin or KaTeX with npm: build once with `npm run build -- --force`, which empties that cache (an
+  update of Astro itself empties it on its own). `overrides` in `package.json` makes `rehype-katex` and
+  `remark-math` use the same KaTeX as the site, so the formulas always match the KaTeX stylesheet.
 - **The home page shows a still cryostat in `npm run dev`**, and the console says
   `Failed to fetch dynamically imported module`. This happens after an `npm install` or a change to
   `astro.config.mjs`: Vite has rebuilt its copy of three.js and GSAP, but the running server still asks for the

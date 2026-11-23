@@ -22,5 +22,10 @@
     "concurrently": "^9.1.2",
     "tailwind-scrollbar": "^4.0.2",
     "tailwindcss": "^4.0.16"
+  },
+  "overrides": {
+    "@tailwindcss/typography": {
+      "postcss-selector-parser": "^6.1.5"
+    }
   }
 }

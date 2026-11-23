@@ -1,9 +1,13 @@
 ---
-/* Compact list of activities: date, place, title, result and summary, with the first photo. */
+/*
+ * Compact list of activities: date, place, title, result and summary, with the first photo.
+ * Activities not over yet get an "Ongoing" / "Upcoming" label after the place, kept up to date
+ * in the browser by ActivityStatus.astro (the page must include it).
+ */
 import { Picture } from 'astro:assets';
-import { activityUrl, type Activity } from '../lib/content';
+import { activityDays, activityStatus, activityUrl, type Activity } from '../lib/content';
 import { widthsUpTo } from '../lib/images';
-import { formatDate, type Lang } from '../i18n/utils';
+import { formatDate, useTranslations, type Lang } from '../i18n/utils';
 
 interface Props {
   activities: Activity[];
@@ -11,12 +15,15 @@ interface Props {
 }
 
 const { activities, lang } = Astro.props;
+const t = useTranslations(lang);
 ---
 
 <ul class="activity-list">
   {activities.map((activity) => {
     const { title, description, date, dateLabel, location, result, gallery } = activity.data;
     const photo = gallery[0];
+    const status = activityStatus(activity);
+    const { start, end } = activityDays(activity);
     return (
       <li class="activity">
         {photo && (
@@ -35,6 +42,18 @@ const { activities, lang } = Astro.props;
               {dateLabel ?? formatDate(date, lang)}
             </time>
             {location && <span>{location}</span>}
+            {status !== 'past' && (
+              <span
+                class="activity-status"
+                data-status-label
+                data-start={start}
+                data-end={end}
+                data-ongoing={t('activities.ongoing')}
+                data-upcoming={t('activities.upcoming')}
+              >
+                {status === 'ongoing' ? t('activities.ongoing') : t('activities.upcoming')}
+              </span>
+            )}
           </p>
           <h3 class="activity-title">
             <a href={activityUrl(activity, lang)}>{title}</a>
@@ -90,6 +109,22 @@ const { activities, lang } = Astro.props;
 
   .activity-meta > span {
     color: var(--color-frost-muted);
+  }
+
+  /* A small dot, then the word: not a pill, which on this site is the shape of buttons. */
+  .activity-meta > .activity-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    color: var(--color-orchid);
+  }
+
+  .activity-status::before {
+    content: '';
+    width: 0.4rem;
+    height: 0.4rem;
+    border-radius: 50%;
+    background: currentColor;
   }
 
   .activity-title {

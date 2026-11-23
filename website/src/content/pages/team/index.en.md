@@ -8,9 +8,9 @@ years:
     src: ./images/2026.jpg
     alt: About thirty QubiTO members in a Politecnico lecture hall, many in the team's purple T-shirt, below a screen showing the QubiTO logo.
   - year: 2024
-    caption: Internal hackathon
+    caption: Group photo
     src: ./images/2024.jpg
-    alt: About thirty QubiTO members in a Politecnico lecture hall during the 2024 internal hackathon, in front of a screen with the QR codes of the team's LinkedIn and Instagram profiles.
+    alt: About thirty QubiTO members in a Politecnico lecture hall, in front of a screen with the QR codes of the team's LinkedIn and Instagram profiles.
   - year: 2023
     caption: Internal hackathon
     src: ./images/2023.jpg

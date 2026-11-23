@@ -1,0 +1,55 @@
+---
+/*
+ * The site is built only when someone uploads it, so the state of the activities written at build
+ * time can be days old. This small script corrects it with today's date in Italy: on the
+ * activities page it moves each activity to "Ongoing", "Upcoming" or its year, it updates the
+ * "Ongoing" / "Upcoming" labels and it removes the sign-up button once the activity is over.
+ * It reads the data-* attributes written at build time; without JavaScript, visitors see the
+ * state of the day of the upload.
+ */
+---
+
+<script>
+  import { italianDay, statusOn } from '../lib/activity-dates';
+
+  const today = italianDay(new Date());
+
+  // Sign-up button, until the last day of the activity.
+  for (const button of document.querySelectorAll<HTMLElement>('[data-sign-up-until]')) {
+    if (button.dataset.signUpUntil! < today) {
+      const links = button.parentElement!;
+      button.remove();
+      if (!links.children.length) links.remove();
+    }
+  }
+
+  // "Ongoing" / "Upcoming" label next to the date, gone once the activity is over.
+  for (const label of document.querySelectorAll<HTMLElement>('[data-status-label]')) {
+    const status = statusOn(label.dataset.start!, label.dataset.end!, today);
+    if (status === 'past') label.remove();
+    else label.textContent = label.dataset[status]!;
+  }
+
+  // Activities page: sections "ongoing", "upcoming" and one per year, each a list of entries.
+  const sections = [...document.querySelectorAll<HTMLElement>('[data-section]')];
+  const entries = [...document.querySelectorAll<HTMLElement>('[data-section] [data-start]')];
+  const sectionOf = (entry: HTMLElement) => {
+    const status = statusOn(entry.dataset.start!, entry.dataset.end!, today);
+    return status === 'past' ? entry.dataset.start!.slice(0, 4) : status;
+  };
+  const moved = entries.some(
+    (entry) => entry.closest<HTMLElement>('[data-section]')!.dataset.section !== sectionOf(entry),
+  );
+  if (moved) {
+    for (const section of sections) {
+      const key = section.dataset.section!;
+      // Ongoing and upcoming soonest first, years newest first, as in the build.
+      const order = key === 'ongoing' || key === 'upcoming' ? 1 : -1;
+      const own = entries
+        .filter((entry) => sectionOf(entry) === key)
+        .sort((a, b) => order * a.dataset.start!.localeCompare(b.dataset.start!));
+      section.querySelector('ol')!.append(...own);
+      section.hidden = own.length === 0;
+    }
+  }
+</script>

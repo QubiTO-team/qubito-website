@@ -7,6 +7,7 @@ import { getEntry } from 'astro:content';
 import { Picture } from 'astro:assets';
 import chipStill from '../assets/home/chip.jpg';
 import ActivityList from '../components/ActivityList.astro';
+import ActivityStatus from '../components/ActivityStatus.astro';
 import ArticleList from '../components/ArticleList.astro';
 import HeroClaim from '../components/HeroClaim.astro';
 import HomeLinks from '../components/HomeLinks.astro';
@@ -86,6 +87,7 @@ const latestArticles = (await getArticles(lang)).slice(0, 3);
     intro={activitiesText.intro}
   >
     <ActivityList activities={latestActivities} lang={lang} />
+    <ActivityStatus />
     <HomeLinks links={activitiesText.links} />
   </HomeSection>
 

@@ -136,7 +136,7 @@ collections:
         i18n: duplicate
       - name: endDate
         label: Last day
-        hint: Only for activities that last more than one day. Until this date the activity is listed as upcoming.
+        hint: Only for activities that last more than one day. From the start date to this one, the activity is listed as ongoing.
         widget: datetime
         type: date
         required: false

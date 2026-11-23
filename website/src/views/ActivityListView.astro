@@ -1,12 +1,19 @@
 ---
 /*
- * All the activities in one language on a timeline: first the upcoming ones (decided when the
- * site is built, with a short note when there are none), then the others grouped by year, newest
- * first.
+ * All the activities in one language on a timeline: first the ongoing ones and the upcoming
+ * ones, then the others grouped by year, newest first. Sections without activities are hidden.
+ * The build decides where each activity goes; ActivityStatus.astro moves it in the browser when
+ * the site was built before the activity started or ended, so every section is always there.
  */
+import ActivityStatus from '../components/ActivityStatus.astro';
 import Timeline from '../components/Timeline.astro';
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { getActivities, isUpcoming, type Activity } from '../lib/content';
+import {
+  activityStatus,
+  getActivities,
+  type Activity,
+  type ActivityStatus as Status,
+} from '../lib/content';
 import { useTranslations, type Lang } from '../i18n/utils';
 
 interface Props {
@@ -17,19 +24,33 @@ const { lang } = Astro.props;
 const t = useTranslations(lang);
 
 const activities = await getActivities(lang);
-// Soonest first among the upcoming ones.
-const upcoming = activities.filter((activity) => isUpcoming(activity)).reverse();
-const years = new Map<number, Activity[]>();
-for (const activity of activities.filter((activity) => !isUpcoming(activity))) {
-  const year = activity.data.date.getUTCFullYear();
-  years.set(year, [...(years.get(year) ?? []), activity]);
-}
+const withStatus = (status: Status) =>
+  activities.filter((activity) => activityStatus(activity) === status);
+const yearOf = (activity: Activity) => activity.data.date.getUTCFullYear();
+// Newest first, like the activities.
+const years = [...new Set(activities.map(yearOf))];
 const groups = [
-  { id: 'upcoming', title: t('activities.upcoming'), activities: upcoming },
-  ...[...years].map(([year, activities]) => ({
+  // Ongoing and upcoming: soonest first, with the title in orchid instead of gold.
+  {
+    key: 'ongoing',
+    id: 'ongoing',
+    title: t('activities.ongoing'),
+    activities: withStatus('ongoing').reverse(),
+    highlighted: true,
+  },
+  {
+    key: 'upcoming',
+    id: 'upcoming',
+    title: t('activities.upcoming'),
+    activities: withStatus('upcoming').reverse(),
+    highlighted: true,
+  },
+  ...years.map((year) => ({
+    key: String(year),
     id: `year-${year}`,
     title: String(year),
-    activities,
+    activities: withStatus('past').filter((activity) => yearOf(activity) === year),
+    highlighted: false,
   })),
 ];
 ---
@@ -42,18 +63,20 @@ const groups = [
     </header>
 
     {groups.map((group) => (
-      <section class="group" aria-labelledby={group.id}>
-        <h2 id={group.id} class:list={['group-title', { 'is-upcoming': group.id === 'upcoming' }]}>
+      <section
+        class="group"
+        aria-labelledby={group.id}
+        data-section={group.key}
+        hidden={group.activities.length === 0}
+      >
+        <h2 id={group.id} class:list={['group-title', { 'is-highlighted': group.highlighted }]}>
           {group.title}
         </h2>
-        {group.activities.length > 0 ? (
-          <Timeline activities={group.activities} lang={lang} />
-        ) : (
-          <p class="none-upcoming">{t('activities.noneUpcoming')}</p>
-        )}
+        <Timeline activities={group.activities} lang={lang} />
       </section>
     ))}
   </div>
+  <ActivityStatus />
 </BaseLayout>
 
 <style>
@@ -88,13 +111,8 @@ const groups = [
     font-variant-numeric: tabular-nums;
   }
 
-  .group-title.is-upcoming {
+  .group-title.is-highlighted {
     color: var(--color-orchid);
-  }
-
-  .none-upcoming {
-    max-width: 40rem;
-    color: var(--color-frost-muted);
   }
 
   /* Large screens: the year on the left, its activities on the right. */
@@ -109,12 +127,6 @@ const groups = [
       position: sticky;
       top: 6.5rem;
       padding-top: 1.5rem;
-    }
-
-    /* In line with the text of the timeline entries: marker plus gap (Timeline.astro). */
-    .none-upcoming {
-      padding-top: 1.75rem;
-      padding-left: 2.875rem;
     }
   }
 </style>
